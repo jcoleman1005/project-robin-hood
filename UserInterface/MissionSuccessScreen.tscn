@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=3 uid="uid://df3an14v3tola"]
+
+[ext_resource type="Script" uid="uid://dp4ml20go70w6" path="res://UserInterface/MissionSuccessScreen.gd" id="1_k4fv8"]
+
+[node name="MissionSuccessScreen" type="CanvasLayer"]
+process_mode = 2
+script = ExtResource("1_k4fv8")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.18359, 0.18359, 0.18359, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Mission Complete!"
+
+[node name="GoldLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VillagersLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ReturnButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Return to Hideout"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]

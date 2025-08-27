@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://ehx0jbnrgn4p"]
+
+[ext_resource type="Texture2D" uid="uid://cdwov4b2l4s6i" path="res://assets/spikey stuff/spikeystuff/SteelspikeUp.png" id="1_cdj5a"]
+
+[node name="Spike" type="StaticBody2D"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." groups=["hazards"]]
+position = Vector2(0.427778, 0.0446167)
+scale = Vector2(0.986111, 0.999282)
+polygon = PackedVector2Array(2, -51, 20, 35, -16, 36)
+
+[node name="SteelspikeUp" type="Sprite2D" parent="."]
+position = Vector2(2, -7)
+texture = ExtResource("1_cdj5a")

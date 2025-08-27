@@ -1,0 +1,1384 @@
+Folder PATH listing for volume HDD Storage
+Volume serial number is 043B-EA72
+E:.
+|   .gitattributes
+|   .gitignore
+|   icon.svg
+|   icon.svg.import
+|   project_structure.txt
+|   
++---.godot
+|   |   .gdignore
+|   |   global_script_class_cache.cfg
+|   |   scene_groups_cache.cfg
+|   |   uid_cache.bin
+|   |   
+|   +---editor
+|   |        Pause Menue.tscn-editstate-fc189cd554ec54047f3c2d91de58939e.cfg
+|   |        Pause Menue.tscn-folding-fc189cd554ec54047f3c2d91de58939e.cfg
+|   |       after_image.gd-folding-4243d75352cf40ec37aa20b89ca4875e.cfg
+|   |       after_image.gd-folding-c009fc666030f6df09dd24abefa4b21f.cfg
+|   |       after_image.tscn-editstate-64deb294423c0b83986a5d5d39d0253c.cfg
+|   |       after_image.tscn-folding-64deb294423c0b83986a5d5d39d0253c.cfg
+|   |       animation_controller.gd-folding-b16d8d0639a20d2ace98902809569048.cfg
+|   |       animation_controller.gd-folding-db67773c06d2bfa48e29085172577e70.cfg
+|   |       chest.gd-folding-069843abc05bbf4345743482604b548d.cfg
+|   |       chest.gd-folding-c7884defac0c5880faa5684b1a0e6ca7.cfg
+|   |       chest.tscn-editstate-e30e10d751ba5c8c7c54b5d47a99e76f.cfg
+|   |       chest.tscn-folding-e30e10d751ba5c8c7c54b5d47a99e76f.cfg
+|   |       ComponentStateMachine.gd-folding-7b49075401c89c3611f2f908cbd1126f.cfg
+|   |       create_recent.Node
+|   |       create_recent.Object
+|   |       detection_meter.gd-folding-a7edb1f54bac48a8eab4e0a8302e9bd1.cfg
+|   |       detection_meter.tscn-editstate-8ba76c8eb9fa1e27526e7f84d615e868.cfg
+|   |       detection_meter.tscn-folding-8ba76c8eb9fa1e27526e7f84d615e868.cfg
+|   |       Dev_Worm_movement_tut.gd-folding-73a81f9c59a74e1677dd2041034f2031.cfg
+|   |       DialogueBox.tscn-editstate-74c158f3de991bdd937feaa172db32c8.cfg
+|   |       DialogueBox.tscn-editstate-f2f91cf5cc62fb840cebeef94abe7a79.cfg
+|   |       DialogueBox.tscn-folding-74c158f3de991bdd937feaa172db32c8.cfg
+|   |       DialogueBox.tscn-folding-f2f91cf5cc62fb840cebeef94abe7a79.cfg
+|   |       DialogueManager.gd-folding-793bb1fa3e33b206808cc6a378a45ce3.cfg
+|   |       dialogue_box.gd-folding-50ae9ce3b1b7bdc3ca6bc893496f7bda.cfg
+|   |       dialogue_box.gd-folding-7a731c8ecd68a6d821d1b504ee0dbf98.cfg
+|   |       dialogue_box.tscn-editstate-0c2755a98feec8185a274916ef03be58.cfg
+|   |       dialogue_box.tscn-folding-0c2755a98feec8185a274916ef03be58.cfg
+|   |       dialogue_box.tscn-folding-6415b46bfad70fe6f7d03a099a89fb95.cfg
+|   |       editor_layout.cfg
+|   |       Enumstatemachine.gd-folding-6bd1fecb5ca522f0779b3e5cb53ebe1b.cfg
+|   |       favorites
+|   |       favorites.Node
+|   |       favorites.Object
+|   |       favorite_properties
+|   |       filesystem_cache10
+|   |       GameManager.gd-folding-a44274c37445188b000ad48be05687cd.cfg
+|   |       grapple_controller.gd-folding-e8d55674945bd0a3bf319ca876f9d0d2.cfg
+|   |       grapple_controller.tscn-editstate-072e7eb726689e42fc43bb5748c7d9fb.cfg
+|   |       grapple_controller.tscn-folding-072e7eb726689e42fc43bb5748c7d9fb.cfg
+|   |       guard.gd-folding-90b2e303cee8f5d0cca3fd456df9710c.cfg
+|   |       Guard.tscn-editstate-245283a8644d046cc8e1d476f5bee4d1.cfg
+|   |       guard.tscn-editstate-6cf4084e46326fcf3477a062ff717f1d.cfg
+|   |       Guard.tscn-editstate-c1d86b45c4b401e5bf78355bec66283f.cfg
+|   |       Guard.tscn-folding-245283a8644d046cc8e1d476f5bee4d1.cfg
+|   |       Guard.tscn-folding-5665b73756de09918a208254dceb77cc.cfg
+|   |       guard.tscn-folding-6cf4084e46326fcf3477a062ff717f1d.cfg
+|   |       Guard.tscn-folding-c1d86b45c4b401e5bf78355bec66283f.cfg
+|   |       hideout.gd-folding-2850ff27ed2fbc4912934b4a7789d7f8.cfg
+|   |       Hideout.tscn-editstate-0ef8896003e7058cf84b0f5d7f357ec8.cfg
+|   |       hideout.tscn-editstate-40cf22c7b2f7abb53b868179afcb9a9c.cfg
+|   |       Hideout.tscn-editstate-53258b1cf36648fb50d214b9e4aca8a9.cfg
+|   |       Hideout.tscn-folding-0ef8896003e7058cf84b0f5d7f357ec8.cfg
+|   |       hideout.tscn-folding-40cf22c7b2f7abb53b868179afcb9a9c.cfg
+|   |       Hideout.tscn-folding-53258b1cf36648fb50d214b9e4aca8a9.cfg
+|   |       interaction_controller.gd-folding-0bd7b11aa3d75214d8f9227d5388d9c0.cfg
+|   |       interaction_controller.gd-folding-aa555d043379d4b95d22834bb3448292.cfg
+|   |       LedgeGrab.gd-folding-2f1fb0827d4a691e98ecb82364739a9e.cfg
+|   |       ledgegrab.gd-folding-d6b5db2ed131bb18d32710661f957d3f.cfg
+|   |       level.gd-folding-20c16f92f9ba42186f7fab0073f59436.cfg
+|   |       level_1.tscn-editstate-fa9c54ec1f9d41bf90d27046a9bac1a2.cfg
+|   |       level_1.tscn-folding-fa9c54ec1f9d41bf90d27046a9bac1a2.cfg
+|   |       Level_Templaet.tscn-folding-3dacd0a7b6b8ad0d6f20a86bdf0e4ab8.cfg
+|   |       Level_Template.tscn-editstate-4b476e77072a49a5b485a83a69aee2fe.cfg
+|   |       Level_Template.tscn-folding-4b476e77072a49a5b485a83a69aee2fe.cfg
+|   |       main.tscn-editstate-2ddd04d543d5858e7f20c9299a8b5096.cfg
+|   |       main.tscn-editstate-3070c538c03ee49b7677ff960a3f5195.cfg
+|   |       main.tscn-folding-2ddd04d543d5858e7f20c9299a8b5096.cfg
+|   |       main.tscn-folding-3070c538c03ee49b7677ff960a3f5195.cfg
+|   |       MissionFailedScreen.tscn-editstate-be01eda3b0301812ebd2ff9a5c5ee14a.cfg
+|   |       MissionFailedScreen.tscn-folding-be01eda3b0301812ebd2ff9a5c5ee14a.cfg
+|   |       MissionSuccessScreen.tscn-editstate-82e8102dab8d37080ba38710904081e3.cfg
+|   |       MissionSuccessScreen.tscn-folding-82e8102dab8d37080ba38710904081e3.cfg
+|   |       mission_failed_screen.gd-folding-b6edb98b2ae342ea02a2a9829a334798.cfg
+|   |       mission_failed_screen.tscn-editstate-c5ddcaf5f89ba354c728e62b9eb63ba4.cfg
+|   |       mission_failed_screen.tscn-folding-c5ddcaf5f89ba354c728e62b9eb63ba4.cfg
+|   |       mission_success_screen.gd-folding-74a5bd4da3af9aab7a749a65f77d2a97.cfg
+|   |       mission_success_screen.gd-folding-d12ce48443664ba505ad09c1e1e72c8e.cfg
+|   |       mission_success_screen.tscn-editstate-e91067e54b733c4777285bb76714ef44.cfg
+|   |       mission_success_screen.tscn-folding-e91067e54b733c4777285bb76714ef44.cfg
+|   |       new_script.gd-folding-6b50d911a09f9e0d116aaf810db1dcab.cfg
+|   |       node.gd-folding-f3afd848096e5269c87d6cf2c170156d.cfg
+|   |       PauseMenu.tscn-editstate-a439f5f570830b6d351ace83f4733528.cfg
+|   |       PauseMenu.tscn-editstate-b311f22059d5b0a49ddc6e607c1ed0d8.cfg
+|   |       PauseMenu.tscn-editstate-c4630e6c5ead5b7c398ed91dd21962ee.cfg
+|   |       PauseMenu.tscn-folding-a439f5f570830b6d351ace83f4733528.cfg
+|   |       PauseMenu.tscn-folding-b311f22059d5b0a49ddc6e607c1ed0d8.cfg
+|   |       PauseMenu.tscn-folding-c4630e6c5ead5b7c398ed91dd21962ee.cfg
+|   |       pause_menu.gd-folding-d77ff038cd805b2fbff9cebe5521d193.cfg
+|   |       player.gd-folding-13afcdfc58999db2631c2e4013a8288c.cfg
+|   |       player.gd-folding-37c9f666e3c0ec2c32be54b61af47c16.cfg
+|   |       Player.gd-folding-bd414024df1f21085880ce357114f0e7.cfg
+|   |       Player.gd-folding-df805ce9f387af723cae18bd62bb8b76.cfg
+|   |       player.tscn-editstate-1753c997600d68ab5d20ae99fddb15c6.cfg
+|   |       player.tscn-editstate-36a25e342948d0ceacc500772b5412b3.cfg
+|   |       player.tscn-folding-1753c997600d68ab5d20ae99fddb15c6.cfg
+|   |       player.tscn-folding-36a25e342948d0ceacc500772b5412b3.cfg
+|   |       PlayerClass.gd-folding-4418cd74d73de0ae014b620ed6e44f89.cfg
+|   |       PlayerScene.tscn-editstate-87661a6dbddd4eb890540af292e8d5b4.cfg
+|   |       PlayerScene.tscn-folding-87661a6dbddd4eb890540af292e8d5b4.cfg
+|   |       PlayerState.gd-folding-beb2bc93703675dc4bd4b5c232983c9d.cfg
+|   |       PlayerState.gd-folding-c4fb2b1ce708f65c711d0a1b04ee7fa8.cfg
+|   |       Player_node.gd-folding-5934f920a0931a543ab78706ffff7a14.cfg
+|   |       prisoner.gd-folding-247164c3acb6899fb6ee28990373d421.cfg
+|   |       prisoner.gd-folding-8b9e54ac1a0c6b35df200793167a2720.cfg
+|   |       prisoner.tscn-editstate-6e940050cff58138cf69ff3c93aefbcd.cfg
+|   |       prisoner.tscn-folding-6e940050cff58138cf69ff3c93aefbcd.cfg
+|   |       project_metadata.cfg
+|   |       quick_open_dialog_cache.cfg
+|   |       recent_dirs
+|   |       RescuedVillager.gd-folding-d7d033788f0b24b7221a0798bda40785.cfg
+|   |       RescuedVillager.tscn-editstate-537c80619a6f5299dc9f4bfb5c923f11.cfg
+|   |       RescuedVillager.tscn-editstate-73148517ae6cece83d2544de0bfb20d1.cfg
+|   |       RescuedVillager.tscn-folding-27874c8a246b499b6c689d4f0ba03b08.cfg
+|   |       RescuedVillager.tscn-folding-537c80619a6f5299dc9f4bfb5c923f11.cfg
+|   |       RescuedVillager.tscn-folding-73148517ae6cece83d2544de0bfb20d1.cfg
+|   |       script_editor_cache.cfg
+|   |       sm_player.tscn-editstate-00db7e57d8a7c6f1d876dd28a3724816.cfg
+|   |       sm_player.tscn-editstate-a71ad774137b6ecd95cf0e0a5870e5b0.cfg
+|   |       sm_player.tscn-folding-00db7e57d8a7c6f1d876dd28a3724816.cfg
+|   |       sm_player.tscn-folding-a71ad774137b6ecd95cf0e0a5870e5b0.cfg
+|   |       spike.tscn-editstate-ebf6953affce24099cd4556af3f414ba.cfg
+|   |       spike.tscn-folding-ebf6953affce24099cd4556af3f414ba.cfg
+|   |       StateMachine.gd-folding-a876d9c7616519fe26e2e02208403a7a.cfg
+|   |       StateMachine_template.tscn-editstate-ba66788c142fe1f7b9628343adc6eaea.cfg
+|   |       StateMachine_template.tscn-folding-ba66788c142fe1f7b9628343adc6eaea.cfg
+|   |       TestBox.tscn-editstate-c5f39800a0580601ccaf917f15269eb7.cfg
+|   |       TestBox.tscn-editstate-c88615a5955aa7db63cef6e45e67c827.cfg
+|   |       TestBox.tscn-folding-c5f39800a0580601ccaf917f15269eb7.cfg
+|   |       TestBox.tscn-folding-c88615a5955aa7db63cef6e45e67c827.cfg
+|   |       test_box.tscn-editstate-634844daedd45e2bdf43cf8f89ca557c.cfg
+|   |       test_box.tscn-folding-634844daedd45e2bdf43cf8f89ca557c.cfg
+|   |       title_screen.gd-folding-ffa42f9767463d70f0f5f304524f30f6.cfg
+|   |       title_screen.tscn-editstate-943bea3bfa5d9974424351a0a5431083.cfg
+|   |       title_screen.tscn-folding-943bea3bfa5d9974424351a0a5431083.cfg
+|   |       vfx.gd-folding-5006d59ae876d6319fc6a10e78dbb9b9.cfg
+|   |       vfx.gd-folding-eea3bca32f902f11dbd18d17a0d29ee0.cfg
+|   |       VillageOutskirts.tscn-editstate-082a0a6ece21f0ef3e609dbfd3c1eb68.cfg
+|   |       VillageOutskirts.tscn-editstate-1f70da9d417ee0568a25f2846b1e8893.cfg
+|   |       VillageOutskirts.tscn-folding-082a0a6ece21f0ef3e609dbfd3c1eb68.cfg
+|   |       VillageOutskirts.tscn-folding-1f70da9d417ee0568a25f2846b1e8893.cfg
+|   |       
+|   +---imported
+|   |       Ability_Use.png-82d2bb1111e4d7c1da1649c8453a204a.ctex
+|   |       Ability_Use.png-82d2bb1111e4d7c1da1649c8453a204a.md5
+|   |       Aiming.png-53899c8bdebbf10be8b9d759b77b1204.ctex
+|   |       Aiming.png-53899c8bdebbf10be8b9d759b77b1204.md5
+|   |       ATTACK 1.png-001db107c35c27e03ca527eee2adf723.ctex
+|   |       ATTACK 1.png-001db107c35c27e03ca527eee2adf723.md5
+|   |       ATTACK 1.png-aa3300e6d9d4901e567f68300bb3d2a3.ctex
+|   |       ATTACK 1.png-aa3300e6d9d4901e567f68300bb3d2a3.md5
+|   |       ATTACK 1.png-f4e91b86bff14bb946221889275cd50b.ctex
+|   |       ATTACK 1.png-f4e91b86bff14bb946221889275cd50b.md5
+|   |       Background_0.png-a254ae9fedf56587288ac0866aaccb1e.ctex
+|   |       Background_0.png-a254ae9fedf56587288ac0866aaccb1e.md5
+|   |       Background_0.png-ae4817515cc13aedabd75b1da3bcafce.ctex
+|   |       Background_0.png-ae4817515cc13aedabd75b1da3bcafce.md5
+|   |       Background_0.png-ccfa0f0d277c40143d1e8ec3db90eaee.ctex
+|   |       Background_0.png-ccfa0f0d277c40143d1e8ec3db90eaee.md5
+|   |       Background_1.png-2dba1b6a18ca04c8cd366425fce2eff9.ctex
+|   |       Background_1.png-2dba1b6a18ca04c8cd366425fce2eff9.md5
+|   |       background_2.png-e31b50c9338361043d783ce95dab1861.ctex
+|   |       background_2.png-e31b50c9338361043d783ce95dab1861.md5
+|   |       Background_3.png-49ce9f3c7a8b8dcd019b3cd40e58ef92.ctex
+|   |       Background_3.png-49ce9f3c7a8b8dcd019b3cd40e58ef92.md5
+|   |       Back_0.png-22e962862ce8f865c101a089b255364d.ctex
+|   |       Back_0.png-22e962862ce8f865c101a089b255364d.md5
+|   |       Back_1.png-c1f4cc0f628a88a940ff993b4e313971.ctex
+|   |       Back_1.png-c1f4cc0f628a88a940ff993b4e313971.md5
+|   |       Back_1_2.png-34be7837e3b118c2d15b45e680ac7323.ctex
+|   |       Back_1_2.png-34be7837e3b118c2d15b45e680ac7323.md5
+|   |       Carrying_Object.png-482e2a3b882e9dc2b6e55656e3af1ec2.ctex
+|   |       Carrying_Object.png-482e2a3b882e9dc2b6e55656e3af1ec2.md5
+|   |       Casting Spell.png-48328b1470eb5dfe044dcbafe432399c.ctex
+|   |       Casting Spell.png-48328b1470eb5dfe044dcbafe432399c.md5
+|   |       Chainlinklong.png-ac66930f2414d87b0b80af54dce18ceb.ctex
+|   |       Chainlinklong.png-ac66930f2414d87b0b80af54dce18ceb.md5
+|   |       Chainlinkshort.png-0a8f973043b01461e13475ce9dab3797.ctex
+|   |       Chainlinkshort.png-0a8f973043b01461e13475ce9dab3797.md5
+|   |       Climbing_Ladder.png-d9e47e0dc23a454e414138aa21dbe238.ctex
+|   |       Climbing_Ladder.png-d9e47e0dc23a454e414138aa21dbe238.md5
+|   |       Counterattack.png-61d59ec9d2ba21641122efee9981f8b9.ctex
+|   |       Counterattack.png-61d59ec9d2ba21641122efee9981f8b9.md5
+|   |       Crawl.png-497bdef21d9acb7609db5a0e16657f61.ctex
+|   |       Crawl.png-497bdef21d9acb7609db5a0e16657f61.md5
+|   |       Crouch.png-2a5f892519063ae7ee3bcc573b0f5c4c.ctex
+|   |       Crouch.png-2a5f892519063ae7ee3bcc573b0f5c4c.md5
+|   |       Defense attack.png-fce576c2cb6ccc44eb672f104b1eeea7.ctex
+|   |       Defense attack.png-fce576c2cb6ccc44eb672f104b1eeea7.md5
+|   |       Defensive_Stance.png-bff29f0d09e58cdd1fb5c6f3ab08746f.ctex
+|   |       Defensive_Stance.png-bff29f0d09e58cdd1fb5c6f3ab08746f.md5
+|   |       Descending_Ladder.png-0444cbc28a3bcb2af47c9369e72d2ae2.ctex
+|   |       Descending_Ladder.png-0444cbc28a3bcb2af47c9369e72d2ae2.md5
+|   |       Dodge.png-19b90c8a8cc3c1d90eea3b908972ff08.ctex
+|   |       Dodge.png-19b90c8a8cc3c1d90eea3b908972ff08.md5
+|   |       Double_Jump.png-7edf6e80bacc30beef24ceadca21a315.ctex
+|   |       Double_Jump.png-7edf6e80bacc30beef24ceadca21a315.md5
+|   |       Enchanced_Impact_1.png-76b4881b76d920dc094c9103902fd41e.ctex
+|   |       Enchanced_Impact_1.png-76b4881b76d920dc094c9103902fd41e.md5
+|   |       Enchanced_impact_2.png-1c5b8c848456e4272e56842b40e4a7df.ctex
+|   |       Enchanced_impact_2.png-1c5b8c848456e4272e56842b40e4a7df.md5
+|   |       Explosive_Strike.png-8f98d793116183c332d519ae122ad7e3.ctex
+|   |       Explosive_Strike.png-8f98d793116183c332d519ae122ad7e3.md5
+|   |       Falling.png-0149d79e180bcdac6df21c2dd8b1f07c.ctex
+|   |       Falling.png-0149d79e180bcdac6df21c2dd8b1f07c.md5
+|   |       Fire_Kick.png-ff91969253a1f1b3d54691981850fc6c.ctex
+|   |       Fire_Kick.png-ff91969253a1f1b3d54691981850fc6c.md5
+|   |       fourspikesSteel.png-326511cb8ac64fd749bf835a2df7620c.ctex
+|   |       fourspikesSteel.png-326511cb8ac64fd749bf835a2df7620c.md5
+|   |       FourspikesWood.png-72439c1d8a8665a55a110cbcc062a3c0.ctex
+|   |       FourspikesWood.png-72439c1d8a8665a55a110cbcc062a3c0.md5
+|   |       Gliding_Jump.png-5a2ab26677de59a70f33941287668e81.ctex
+|   |       Gliding_Jump.png-5a2ab26677de59a70f33941287668e81.md5
+|   |       Ground_Slam.png-d2662edbd0e402988094b4a007394e25.ctex
+|   |       Ground_Slam.png-d2662edbd0e402988094b4a007394e25.md5
+|   |       HURT.png-47f535c3d468587ffa581283fa76c731.ctex
+|   |       HURT.png-47f535c3d468587ffa581283fa76c731.md5
+|   |       HURT.png-514c2c3c7e5c689d170faa6b7fdadfb5.ctex
+|   |       HURT.png-514c2c3c7e5c689d170faa6b7fdadfb5.md5
+|   |       Hurt.png-5b47b88ad471c14f452871d5bb808b87.ctex
+|   |       Hurt.png-5b47b88ad471c14f452871d5bb808b87.md5
+|   |       HURT.png-84a0ed7b265c57711950fb7c4d1ca320.ctex
+|   |       HURT.png-84a0ed7b265c57711950fb7c4d1ca320.md5
+|   |       Ice_Charge.png-fe7f0086d5b6ab8e9523ca7c00dba8b3.ctex
+|   |       Ice_Charge.png-fe7f0086d5b6ab8e9523ca7c00dba8b3.md5
+|   |       icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex
+|   |       icon.svg-218a8f2b3041327d8a5756f3a245f83b.md5
+|   |       IDLE.png-272c1fae17e59ba1386d5349fb83ddc7.ctex
+|   |       IDLE.png-272c1fae17e59ba1386d5349fb83ddc7.md5
+|   |       IDLE.png-4c704b0a5e969b15f3c30683873bba22.ctex
+|   |       IDLE.png-4c704b0a5e969b15f3c30683873bba22.md5
+|   |       IDLE.png-6f39f0cb942f8e5a9c92973c579256cf.ctex
+|   |       IDLE.png-6f39f0cb942f8e5a9c92973c579256cf.md5
+|   |       Ise_Strice.png-a645b7a213592e3da7ee5b391cde196d.ctex
+|   |       Ise_Strice.png-a645b7a213592e3da7ee5b391cde196d.md5
+|   |       Jump witn Strike.png-1a4ddf39c2fe89efd942b1ed837c5d29.ctex
+|   |       Jump witn Strike.png-1a4ddf39c2fe89efd942b1ed837c5d29.md5
+|   |       Jumping.png-0002a611347bbb6b8cf40dbb81a12349.ctex
+|   |       Jumping.png-0002a611347bbb6b8cf40dbb81a12349.md5
+|   |       Jump_Kick.png-c133526862e582a757f9a2a8a134397d.ctex
+|   |       Jump_Kick.png-c133526862e582a757f9a2a8a134397d.md5
+|   |       Jump_Strike.png-cb70bf40c6dd65e3faf5dd9563123056.ctex
+|   |       Jump_Strike.png-cb70bf40c6dd65e3faf5dd9563123056.md5
+|   |       Kick.png-e11a896e61d71e26596ee148ab5bed1a.ctex
+|   |       Kick.png-e11a896e61d71e26596ee148ab5bed1a.md5
+|   |       Landing with Impact.png-7ccf3b958a90de0bd94e2f6cba210ded.ctex
+|   |       Landing with Impact.png-7ccf3b958a90de0bd94e2f6cba210ded.md5
+|   |       Landing.png-5fba4606677288bf7382ae37a8b7ff5b.ctex
+|   |       Landing.png-5fba4606677288bf7382ae37a8b7ff5b.md5
+|   |       Leap.png-27fd0c1cb178e0f149275da22e595fa4.ctex
+|   |       Leap.png-27fd0c1cb178e0f149275da22e595fa4.md5
+|   |       Obstacle Jump.png-457fb1fae67de30a8138312eed2c17fe.ctex
+|   |       Obstacle Jump.png-457fb1fae67de30a8138312eed2c17fe.md5
+|   |       particles-flipbook.png-5a0f2e64c0b2e8efa32a57f30e7f8adc.ctex
+|   |       particles-flipbook.png-5a0f2e64c0b2e8efa32a57f30e7f8adc.md5
+|   |       particles-flipbook.png-cc709db128fccab150fa3f663dbfa202.ctex
+|   |       particles-flipbook.png-cc709db128fccab150fa3f663dbfa202.md5
+|   |       Platform Jump.png-7a6336c6ed13be5ffd3a243feacf30d2.ctex
+|   |       Platform Jump.png-7a6336c6ed13be5ffd3a243feacf30d2.md5
+|   |       Power_Strike.png-8771f0eb11b6cdf5dda1e359d0d85867.ctex
+|   |       Power_Strike.png-8771f0eb11b6cdf5dda1e359d0d85867.md5
+|   |       Preview.png-df56b309c701bb649239831b266f447a.md5
+|   |       Protect.png-953b28ae9664e1e3da25bf4606e6403d.ctex
+|   |       Protect.png-953b28ae9664e1e3da25bf4606e6403d.md5
+|   |       Punch_1.png-2cfe831fdd1438780679257e7a33ad71.ctex
+|   |       Punch_1.png-2cfe831fdd1438780679257e7a33ad71.md5
+|   |       Punch_2.png-c151bb96a166ba95864b93308957a0d8.ctex
+|   |       Punch_2.png-c151bb96a166ba95864b93308957a0d8.md5
+|   |       Roll.png-e46321753beb8a1ca9bea840794cbd01.ctex
+|   |       Roll.png-e46321753beb8a1ca9bea840794cbd01.md5
+|   |       RUN.png-a02d2e19745350e12f1cbd038c10f8e6.ctex
+|   |       RUN.png-a02d2e19745350e12f1cbd038c10f8e6.md5
+|   |       RUN.png-b9e42ba8e9b41bdc7396b0aeef6ca9d2.ctex
+|   |       RUN.png-b9e42ba8e9b41bdc7396b0aeef6ca9d2.md5
+|   |       RUN.png-cbffcec3f4524607e27f663848b8d6bf.ctex
+|   |       RUN.png-cbffcec3f4524607e27f663848b8d6bf.md5
+|   |       Running.png-4c0496420d32251a85fdc3a8893414d6.ctex
+|   |       Running.png-4c0496420d32251a85fdc3a8893414d6.md5
+|   |       SawBig.png-e4200c604bcdad9699162e1bfdd33229.ctex
+|   |       SawBig.png-e4200c604bcdad9699162e1bfdd33229.md5
+|   |       SawSmall.png-a642aa7b5c7fe64eba7b7ef4f48891c9.ctex
+|   |       SawSmall.png-a642aa7b5c7fe64eba7b7ef4f48891c9.md5
+|   |       Side_Jump.png-1cdf1480e1efeaa48493256d82c1e4cc.ctex
+|   |       Side_Jump.png-1cdf1480e1efeaa48493256d82c1e4cc.md5
+|   |       Skill_Charging.png-85cfec090f5fa47718df1a5e3a623d1f.ctex
+|   |       Skill_Charging.png-85cfec090f5fa47718df1a5e3a623d1f.md5
+|   |       Slide_Attack.png-91f997fefe10c649a359ef6ed08ea4e1.ctex
+|   |       Slide_Attack.png-91f997fefe10c649a359ef6ed08ea4e1.md5
+|   |       Speed_Boost_Running.png-17ca7a8db633f600611dcbafc7ecb9d7.ctex
+|   |       Speed_Boost_Running.png-17ca7a8db633f600611dcbafc7ecb9d7.md5
+|   |       SpikeblockSteel.png-8543f83a4ad90733553838c3f7d7ec21.ctex
+|   |       SpikeblockSteel.png-8543f83a4ad90733553838c3f7d7ec21.md5
+|   |       SpikeblockWood.png-6aee337625b26e074550fb89e06b6c46.ctex
+|   |       SpikeblockWood.png-6aee337625b26e074550fb89e06b6c46.md5
+|   |       spikedball.png-280924b25150661eb4176a7f0d58f971.ctex
+|   |       spikedball.png-280924b25150661eb4176a7f0d58f971.md5
+|   |       SpikeGroundTrap.png-b19a64297973de8cae227b24c7625973.ctex
+|   |       SpikeGroundTrap.png-b19a64297973de8cae227b24c7625973.md5
+|   |       SteelspikeRight.png-3fb2b2523b66a1f2da11c12063aaa24d.ctex
+|   |       SteelspikeRight.png-3fb2b2523b66a1f2da11c12063aaa24d.md5
+|   |       SteelspikeUp.png-694e01d7b6a8e64dd375504ae107bb50.ctex
+|   |       SteelspikeUp.png-694e01d7b6a8e64dd375504ae107bb50.md5
+|   |       Stop_Running.png-5e246810dcdbef87b3df94df8342f716.ctex
+|   |       Stop_Running.png-5e246810dcdbef87b3df94df8342f716.md5
+|   |       Swimming.png-bb6e188c8545519060a660b780e31769.ctex
+|   |       Swimming.png-bb6e188c8545519060a660b780e31769.md5
+|   |       Swimming_Dive.png-a1543a272f9c17b31c10ac1b37914a1e.ctex
+|   |       Swimming_Dive.png-a1543a272f9c17b31c10ac1b37914a1e.md5
+|   |       Throwing.png-894dcfd97ab0fc3e633c9a5d8264ae53.ctex
+|   |       Throwing.png-894dcfd97ab0fc3e633c9a5d8264ae53.md5
+|   |       Tileset3.png-73fa6821573851849d8daba0dc5e2ba6.ctex
+|   |       Tileset3.png-73fa6821573851849d8daba0dc5e2ba6.md5
+|   |       Upward Jump.png-26a60000f00ca4515139f362773f802c.ctex
+|   |       Upward Jump.png-26a60000f00ca4515139f362773f802c.md5
+|   |       Walking.png-849e0078f557d727a6480a31c5b1b385.ctex
+|   |       Walking.png-849e0078f557d727a6480a31c5b1b385.md5
+|   |       Wall Jump.png-086f54435fb83d3cf8fd08c6fd4e5912.ctex
+|   |       Wall Jump.png-086f54435fb83d3cf8fd08c6fd4e5912.md5
+|   |       Wall_Climbing.png-28636609b30f68b75d8ab61fe6dcb286.ctex
+|   |       Wall_Climbing.png-28636609b30f68b75d8ab61fe6dcb286.md5
+|   |       WoodspikeRight.png-2b4a1687901ffe11fbb6093eb2670950.ctex
+|   |       WoodspikeRight.png-2b4a1687901ffe11fbb6093eb2670950.md5
+|   |       WoodspikeUp.png-e95e79cd05b4fa4e860859f1fed9f693.ctex
+|   |       WoodspikeUp.png-e95e79cd05b4fa4e860859f1fed9f693.md5
+|   |       world_tileset.png-43b294f106264424c84ae223dbce0789.ctex
+|   |       world_tileset.png-43b294f106264424c84ae223dbce0789.md5
+|   |       world_tileset.png-c128f259818bbfdb20f31708ed540745.ctex
+|   |       world_tileset.png-c128f259818bbfdb20f31708ed540745.md5
+|   |       _Attack.png-142d0bb08bb868c1b46ed995bf3bb1fe.ctex
+|   |       _Attack.png-142d0bb08bb868c1b46ed995bf3bb1fe.md5
+|   |       _Attack.png-2b7d03fb9df8ab1951f2b5273bafee44.ctex
+|   |       _Attack.png-2b7d03fb9df8ab1951f2b5273bafee44.md5
+|   |       _Attack.png-3e36e46635e4e0e238fba7f30ba88a0f.ctex
+|   |       _Attack.png-3e36e46635e4e0e238fba7f30ba88a0f.md5
+|   |       _Attack.png-8036901ce5d7b227741681890cdd18c4.ctex
+|   |       _Attack.png-8036901ce5d7b227741681890cdd18c4.md5
+|   |       _Attack.png-a77dc1d0d04e38855f3da3c1b5cbceaa.ctex
+|   |       _Attack.png-a77dc1d0d04e38855f3da3c1b5cbceaa.md5
+|   |       _Attack.png-d550e8874dbdf0a9f05a78e8adcef2fe.ctex
+|   |       _Attack.png-d550e8874dbdf0a9f05a78e8adcef2fe.md5
+|   |       _Attack2.png-0047f46739ebe4e141c59d530194f959.ctex
+|   |       _Attack2.png-0047f46739ebe4e141c59d530194f959.md5
+|   |       _Attack2.png-4058e1f67a35628de3766bf563acd7d8.ctex
+|   |       _Attack2.png-4058e1f67a35628de3766bf563acd7d8.md5
+|   |       _Attack2.png-4102114c576e27ec9177503451f78f20.ctex
+|   |       _Attack2.png-4102114c576e27ec9177503451f78f20.md5
+|   |       _Attack2.png-a94ff7ed7f033b0604210a72d3410229.ctex
+|   |       _Attack2.png-a94ff7ed7f033b0604210a72d3410229.md5
+|   |       _Attack2.png-d0542a1e6ece289d6ba9261eea27a791.ctex
+|   |       _Attack2.png-d0542a1e6ece289d6ba9261eea27a791.md5
+|   |       _Attack2.png-f672150078623cf598a858001e3ffbfa.ctex
+|   |       _Attack2.png-f672150078623cf598a858001e3ffbfa.md5
+|   |       _Attack2NoMovement.png-1e405823425fc59c0f098106b0f7fadc.ctex
+|   |       _Attack2NoMovement.png-1e405823425fc59c0f098106b0f7fadc.md5
+|   |       _Attack2NoMovement.png-28c61b77cfa9c2bf35dd028423a8c854.ctex
+|   |       _Attack2NoMovement.png-28c61b77cfa9c2bf35dd028423a8c854.md5
+|   |       _Attack2NoMovement.png-326af7231dfe7d7a3c0f250da12fa805.ctex
+|   |       _Attack2NoMovement.png-326af7231dfe7d7a3c0f250da12fa805.md5
+|   |       _Attack2NoMovement.png-4730f5206928cf89e0f8c7112663f866.ctex
+|   |       _Attack2NoMovement.png-4730f5206928cf89e0f8c7112663f866.md5
+|   |       _Attack2NoMovement.png-9fabf9462f307b188e5aa075cbeba1c8.ctex
+|   |       _Attack2NoMovement.png-9fabf9462f307b188e5aa075cbeba1c8.md5
+|   |       _Attack2NoMovement.png-e8a7db7c856b69c11e181189945c56e7.ctex
+|   |       _Attack2NoMovement.png-e8a7db7c856b69c11e181189945c56e7.md5
+|   |       _AttackCombo.png-06caf0903dffd2a5fc7e92e62e5f7e3c.ctex
+|   |       _AttackCombo.png-06caf0903dffd2a5fc7e92e62e5f7e3c.md5
+|   |       _AttackCombo.png-4421664e3b91c0425a740a24b49a8c04.ctex
+|   |       _AttackCombo.png-4421664e3b91c0425a740a24b49a8c04.md5
+|   |       _AttackCombo.png-80ca419de9c0e4d773c7601c463ae450.ctex
+|   |       _AttackCombo.png-80ca419de9c0e4d773c7601c463ae450.md5
+|   |       _AttackCombo.png-aa050039b0dc92d708407963cde0f80a.ctex
+|   |       _AttackCombo.png-aa050039b0dc92d708407963cde0f80a.md5
+|   |       _AttackCombo2hit.png-488e665d0c495edf4921e4ab90831086.ctex
+|   |       _AttackCombo2hit.png-488e665d0c495edf4921e4ab90831086.md5
+|   |       _AttackCombo2hit.png-a3771fae37284eebf7822941b7220b81.ctex
+|   |       _AttackCombo2hit.png-a3771fae37284eebf7822941b7220b81.md5
+|   |       _AttackComboNoMovement.png-0e089fbb2e863cc323f51d7a50f91784.ctex
+|   |       _AttackComboNoMovement.png-0e089fbb2e863cc323f51d7a50f91784.md5
+|   |       _AttackComboNoMovement.png-12c507db1ea89a57414dd867ff768d38.ctex
+|   |       _AttackComboNoMovement.png-12c507db1ea89a57414dd867ff768d38.md5
+|   |       _AttackComboNoMovement.png-3275d43049d8be33b2a87ab646e809a2.ctex
+|   |       _AttackComboNoMovement.png-3275d43049d8be33b2a87ab646e809a2.md5
+|   |       _AttackComboNoMovement.png-7aef766028c72b5e888ec9f9cf95e345.ctex
+|   |       _AttackComboNoMovement.png-7aef766028c72b5e888ec9f9cf95e345.md5
+|   |       _AttackComboNoMovement.png-7d5a74ee05387ab6e84cb18f2ea72cb9.ctex
+|   |       _AttackComboNoMovement.png-7d5a74ee05387ab6e84cb18f2ea72cb9.md5
+|   |       _AttackComboNoMovement.png-89fa56bcd4821ae39180d713ec217f10.ctex
+|   |       _AttackComboNoMovement.png-89fa56bcd4821ae39180d713ec217f10.md5
+|   |       _AttackNoMovement.png-788a522e7711458d902689765c0487cb.ctex
+|   |       _AttackNoMovement.png-788a522e7711458d902689765c0487cb.md5
+|   |       _AttackNoMovement.png-82481c493df954867928743158355346.ctex
+|   |       _AttackNoMovement.png-82481c493df954867928743158355346.md5
+|   |       _AttackNoMovement.png-b2ccae237d7862115b6234cd5e1f13ff.ctex
+|   |       _AttackNoMovement.png-b2ccae237d7862115b6234cd5e1f13ff.md5
+|   |       _AttackNoMovement.png-bfeb4326d2a876852b6a110c772c2096.ctex
+|   |       _AttackNoMovement.png-bfeb4326d2a876852b6a110c772c2096.md5
+|   |       _AttackNoMovement.png-d7741384d0e45acb3a9567a8d0aa4bfd.ctex
+|   |       _AttackNoMovement.png-d7741384d0e45acb3a9567a8d0aa4bfd.md5
+|   |       _AttackNoMovement.png-de3ccc7651736073e17103fff0371515.ctex
+|   |       _AttackNoMovement.png-de3ccc7651736073e17103fff0371515.md5
+|   |       _Crouch.png-06a4bf3fc744ebfb46d9a31ac5b269bb.ctex
+|   |       _Crouch.png-06a4bf3fc744ebfb46d9a31ac5b269bb.md5
+|   |       _Crouch.png-692efede6337d35caecabbd570b8f677.ctex
+|   |       _Crouch.png-692efede6337d35caecabbd570b8f677.md5
+|   |       _Crouch.png-69c15dc4e5f0d596d4063b23f16317c4.ctex
+|   |       _Crouch.png-69c15dc4e5f0d596d4063b23f16317c4.md5
+|   |       _Crouch.png-a14363c41d4e2f66aff1edc873aad7e9.ctex
+|   |       _Crouch.png-a14363c41d4e2f66aff1edc873aad7e9.md5
+|   |       _Crouch.png-be734dd7019577884cf36696af47f7a3.ctex
+|   |       _Crouch.png-be734dd7019577884cf36696af47f7a3.md5
+|   |       _Crouch.png-d2a746ff7910eb2b8dc4ebdc87331d97.ctex
+|   |       _Crouch.png-d2a746ff7910eb2b8dc4ebdc87331d97.md5
+|   |       _CrouchAll.png-672780d60eddc377310204a8566397fb.ctex
+|   |       _CrouchAll.png-672780d60eddc377310204a8566397fb.md5
+|   |       _CrouchAll.png-76715c37a6414ecd772fb7386789784a.ctex
+|   |       _CrouchAll.png-76715c37a6414ecd772fb7386789784a.md5
+|   |       _CrouchAttack.png-03b5b08185f4268a639d689f7ad79f21.ctex
+|   |       _CrouchAttack.png-03b5b08185f4268a639d689f7ad79f21.md5
+|   |       _CrouchAttack.png-4cd54d70929eacee45475a6e6e888a96.ctex
+|   |       _CrouchAttack.png-4cd54d70929eacee45475a6e6e888a96.md5
+|   |       _CrouchAttack.png-6a0939d090702956c38815cc4c8f6c2a.ctex
+|   |       _CrouchAttack.png-6a0939d090702956c38815cc4c8f6c2a.md5
+|   |       _CrouchAttack.png-d16bdedb6fc943d0218dfa7bf8aefb6f.ctex
+|   |       _CrouchAttack.png-d16bdedb6fc943d0218dfa7bf8aefb6f.md5
+|   |       _CrouchAttack.png-eca7e9a475716563b890afe7e33861f3.ctex
+|   |       _CrouchAttack.png-eca7e9a475716563b890afe7e33861f3.md5
+|   |       _CrouchAttack.png-ee39de5167adac9af1c5349d46c7ccc2.ctex
+|   |       _CrouchAttack.png-ee39de5167adac9af1c5349d46c7ccc2.md5
+|   |       _CrouchFull.png-011a9fe5a767faed6fc92853be5cd0b8.ctex
+|   |       _CrouchFull.png-011a9fe5a767faed6fc92853be5cd0b8.md5
+|   |       _CrouchFull.png-2341c1ed983d89b927801cbe2dbacf0d.ctex
+|   |       _CrouchFull.png-2341c1ed983d89b927801cbe2dbacf0d.md5
+|   |       _CrouchFull.png-74960ce42a9aa0aab2b815aa740395b9.ctex
+|   |       _CrouchFull.png-74960ce42a9aa0aab2b815aa740395b9.md5
+|   |       _CrouchFull.png-8102441f9a78a5bed0257fbb827ce9de.ctex
+|   |       _CrouchFull.png-8102441f9a78a5bed0257fbb827ce9de.md5
+|   |       _CrouchTransition.png-0e38645bfe56fa49230c624586cacfd3.ctex
+|   |       _CrouchTransition.png-0e38645bfe56fa49230c624586cacfd3.md5
+|   |       _CrouchTransition.png-4a30c3cc64a55ab20c805f6f549e6803.ctex
+|   |       _CrouchTransition.png-4a30c3cc64a55ab20c805f6f549e6803.md5
+|   |       _CrouchTransition.png-5e3e4ca600236a12d946ea99ac113093.ctex
+|   |       _CrouchTransition.png-5e3e4ca600236a12d946ea99ac113093.md5
+|   |       _CrouchTransition.png-99a5122ea2741dea32c4205814fce66a.ctex
+|   |       _CrouchTransition.png-99a5122ea2741dea32c4205814fce66a.md5
+|   |       _CrouchTransition.png-d956fd4ee0002e1435db5602333a9e92.ctex
+|   |       _CrouchTransition.png-d956fd4ee0002e1435db5602333a9e92.md5
+|   |       _CrouchTransition.png-df84a21ef263ab37da5ba7fc59d6a7ba.ctex
+|   |       _CrouchTransition.png-df84a21ef263ab37da5ba7fc59d6a7ba.md5
+|   |       _CrouchWalk.png-0fce9c63b58cde8af43e7c318a86edb9.ctex
+|   |       _CrouchWalk.png-0fce9c63b58cde8af43e7c318a86edb9.md5
+|   |       _CrouchWalk.png-5ad39c8b31aeda8543061a71ddf73c53.ctex
+|   |       _CrouchWalk.png-5ad39c8b31aeda8543061a71ddf73c53.md5
+|   |       _CrouchWalk.png-7e539ab25928179c7e2452dc9afda7d8.ctex
+|   |       _CrouchWalk.png-7e539ab25928179c7e2452dc9afda7d8.md5
+|   |       _CrouchWalk.png-9e5905762e6b3f3679c229a1640f9056.ctex
+|   |       _CrouchWalk.png-9e5905762e6b3f3679c229a1640f9056.md5
+|   |       _CrouchWalk.png-a822be3cba8b5ed0ad3b9dd23b0ea3ac.ctex
+|   |       _CrouchWalk.png-a822be3cba8b5ed0ad3b9dd23b0ea3ac.md5
+|   |       _CrouchWalk.png-f62b62ce5c3d930316d16b59955257f0.ctex
+|   |       _CrouchWalk.png-f62b62ce5c3d930316d16b59955257f0.md5
+|   |       _Dash.png-4d4938eacd96d50a86ba768fd8001f20.ctex
+|   |       _Dash.png-4d4938eacd96d50a86ba768fd8001f20.md5
+|   |       _Dash.png-7e43f618ace355cf167e19fc69097d39.ctex
+|   |       _Dash.png-7e43f618ace355cf167e19fc69097d39.md5
+|   |       _Dash.png-869475f4b93ce0f082523f7e9d27ca36.ctex
+|   |       _Dash.png-869475f4b93ce0f082523f7e9d27ca36.md5
+|   |       _Dash.png-aa9452cda1586b0778413e4ce75c2a2e.ctex
+|   |       _Dash.png-aa9452cda1586b0778413e4ce75c2a2e.md5
+|   |       _Dash.png-c6fa2962d4846f98f0da4390408041e2.ctex
+|   |       _Dash.png-c6fa2962d4846f98f0da4390408041e2.md5
+|   |       _Dash.png-e95797a316d9357d790fa41abe24d5c9.ctex
+|   |       _Dash.png-e95797a316d9357d790fa41abe24d5c9.md5
+|   |       _Death.png-5953e5d58358409d189947a0adf378c2.ctex
+|   |       _Death.png-5953e5d58358409d189947a0adf378c2.md5
+|   |       _Death.png-5f7d7dcad9f1097efd2cc7ff62ed7985.ctex
+|   |       _Death.png-5f7d7dcad9f1097efd2cc7ff62ed7985.md5
+|   |       _Death.png-74e2f069d58d05595fb46009156d9736.ctex
+|   |       _Death.png-74e2f069d58d05595fb46009156d9736.md5
+|   |       _Death.png-dc7470136cc7d940ef7d43d2b1d4f66e.ctex
+|   |       _Death.png-dc7470136cc7d940ef7d43d2b1d4f66e.md5
+|   |       _Death.png-f3288b3ee5648b686f0eb38cb2754c49.ctex
+|   |       _Death.png-f3288b3ee5648b686f0eb38cb2754c49.md5
+|   |       _Death.png-f978d9a4abcef1aef122ae3a23a00e16.ctex
+|   |       _Death.png-f978d9a4abcef1aef122ae3a23a00e16.md5
+|   |       _DeathNoMovement.png-263d5c92ebbeaabce2cde4c3b0bdf095.ctex
+|   |       _DeathNoMovement.png-263d5c92ebbeaabce2cde4c3b0bdf095.md5
+|   |       _DeathNoMovement.png-2f8a13aa70d371ff84b6634e26bd0eac.ctex
+|   |       _DeathNoMovement.png-2f8a13aa70d371ff84b6634e26bd0eac.md5
+|   |       _DeathNoMovement.png-37470cb358aa239eab3f6d34d4232f11.ctex
+|   |       _DeathNoMovement.png-37470cb358aa239eab3f6d34d4232f11.md5
+|   |       _DeathNoMovement.png-3a63a8159749f233a1218e179312a2a8.ctex
+|   |       _DeathNoMovement.png-3a63a8159749f233a1218e179312a2a8.md5
+|   |       _DeathNoMovement.png-d63223522d205c32b301edcf0c89cb62.ctex
+|   |       _DeathNoMovement.png-d63223522d205c32b301edcf0c89cb62.md5
+|   |       _DeathNoMovement.png-f19837eadbe6e68f896ec12e01e077f4.ctex
+|   |       _DeathNoMovement.png-f19837eadbe6e68f896ec12e01e077f4.md5
+|   |       _Fall.png-1af29f277d277e5909008ff686ac4fdf.ctex
+|   |       _Fall.png-1af29f277d277e5909008ff686ac4fdf.md5
+|   |       _Fall.png-1ddb39d6e6d1d108b90e0f5e18a16ea9.ctex
+|   |       _Fall.png-1ddb39d6e6d1d108b90e0f5e18a16ea9.md5
+|   |       _Fall.png-1ec9be89ba3ecb070b7fc3e40aee139b.ctex
+|   |       _Fall.png-1ec9be89ba3ecb070b7fc3e40aee139b.md5
+|   |       _Fall.png-6c653668185bac6c3f987026841a0645.ctex
+|   |       _Fall.png-6c653668185bac6c3f987026841a0645.md5
+|   |       _Fall.png-db61afb2ede377fc746ac122f7b38d2d.ctex
+|   |       _Fall.png-db61afb2ede377fc746ac122f7b38d2d.md5
+|   |       _Fall.png-f3afcba28c775525f2185a6b84125a64.ctex
+|   |       _Fall.png-f3afcba28c775525f2185a6b84125a64.md5
+|   |       _Hit.png-389b7c2df176e591cde96ce4ba7b7bb6.ctex
+|   |       _Hit.png-389b7c2df176e591cde96ce4ba7b7bb6.md5
+|   |       _Hit.png-4d28e44662e2846cc3cf883d61bf0e5b.ctex
+|   |       _Hit.png-4d28e44662e2846cc3cf883d61bf0e5b.md5
+|   |       _Hit.png-735a3c97b1291f6010d6f1ca8ce302f9.ctex
+|   |       _Hit.png-735a3c97b1291f6010d6f1ca8ce302f9.md5
+|   |       _Hit.png-91d4a614632b7e8b8c9645144f0a5965.ctex
+|   |       _Hit.png-91d4a614632b7e8b8c9645144f0a5965.md5
+|   |       _Hit.png-bbeec87fec17831603c1794b2ff7c1f3.ctex
+|   |       _Hit.png-bbeec87fec17831603c1794b2ff7c1f3.md5
+|   |       _Hit.png-d14505da8e31eee986256d538f01ee9c.ctex
+|   |       _Hit.png-d14505da8e31eee986256d538f01ee9c.md5
+|   |       _Idle.png-2bf5d6c61e3094e3dd0e94448ac3ae9c.ctex
+|   |       _Idle.png-2bf5d6c61e3094e3dd0e94448ac3ae9c.md5
+|   |       _Idle.png-3245ab56dd102f8e36174506cc1f624a.ctex
+|   |       _Idle.png-3245ab56dd102f8e36174506cc1f624a.md5
+|   |       _Idle.png-67d8aa4bf4222f3a5e55daf81613caa3.ctex
+|   |       _Idle.png-67d8aa4bf4222f3a5e55daf81613caa3.md5
+|   |       _Idle.png-9eaf4287015a4e15fcee713ccb9163b7.ctex
+|   |       _Idle.png-9eaf4287015a4e15fcee713ccb9163b7.md5
+|   |       _Idle.png-aebf1a95738c34139388c227aed85dc8.ctex
+|   |       _Idle.png-aebf1a95738c34139388c227aed85dc8.md5
+|   |       _Idle.png-e61c5d6daedbcca34525df449761bf30.ctex
+|   |       _Idle.png-e61c5d6daedbcca34525df449761bf30.md5
+|   |       _Jump.png-16f0cbdf21910d16967c6d1850f7edb8.ctex
+|   |       _Jump.png-16f0cbdf21910d16967c6d1850f7edb8.md5
+|   |       _Jump.png-1daaf1db045de5127105ac546543b004.ctex
+|   |       _Jump.png-1daaf1db045de5127105ac546543b004.md5
+|   |       _Jump.png-3bb557c96fe4f31e3bdd850ebef51675.ctex
+|   |       _Jump.png-3bb557c96fe4f31e3bdd850ebef51675.md5
+|   |       _Jump.png-3cef41f38dc94da97da9ec966dc23ac2.ctex
+|   |       _Jump.png-3cef41f38dc94da97da9ec966dc23ac2.md5
+|   |       _Jump.png-507c54738cc3ea8c30f0e3478984fb59.ctex
+|   |       _Jump.png-507c54738cc3ea8c30f0e3478984fb59.md5
+|   |       _Jump.png-e7aca5c40bc34ed52defe78baee10afc.ctex
+|   |       _Jump.png-e7aca5c40bc34ed52defe78baee10afc.md5
+|   |       _JumpFallInbetween.png-0fe8624aba91d234ef604b37af76b897.ctex
+|   |       _JumpFallInbetween.png-0fe8624aba91d234ef604b37af76b897.md5
+|   |       _JumpFallInbetween.png-3d847bf8b7f25597961d6a6a547a8602.ctex
+|   |       _JumpFallInbetween.png-3d847bf8b7f25597961d6a6a547a8602.md5
+|   |       _JumpFallInbetween.png-7c3275e57d7671793fd512a6af451a74.ctex
+|   |       _JumpFallInbetween.png-7c3275e57d7671793fd512a6af451a74.md5
+|   |       _JumpFallInbetween.png-8b6f0c6fb3ee9cf0bd74648502d72304.ctex
+|   |       _JumpFallInbetween.png-8b6f0c6fb3ee9cf0bd74648502d72304.md5
+|   |       _JumpFallInbetween.png-8e53e1987334811b2103661ba7db6e75.ctex
+|   |       _JumpFallInbetween.png-8e53e1987334811b2103661ba7db6e75.md5
+|   |       _JumpFallInbetween.png-d2fdccce7b706a6ba93f5e1d25342cba.ctex
+|   |       _JumpFallInbetween.png-d2fdccce7b706a6ba93f5e1d25342cba.md5
+|   |       _Roll.png-0a164a34454ef4e503d856301b690f4d.ctex
+|   |       _Roll.png-0a164a34454ef4e503d856301b690f4d.md5
+|   |       _Roll.png-2bb2507de0ff336464c7508e40a9f09b.ctex
+|   |       _Roll.png-2bb2507de0ff336464c7508e40a9f09b.md5
+|   |       _Roll.png-3946a8d1dbe448b28d27ac05800d8087.ctex
+|   |       _Roll.png-3946a8d1dbe448b28d27ac05800d8087.md5
+|   |       _Roll.png-6889d354cee8432719b5e2aecbdeb6e4.ctex
+|   |       _Roll.png-6889d354cee8432719b5e2aecbdeb6e4.md5
+|   |       _Roll.png-a5faaeb0d51e0f09c1b6bf4bda30c0ef.ctex
+|   |       _Roll.png-a5faaeb0d51e0f09c1b6bf4bda30c0ef.md5
+|   |       _Roll.png-a897837ada317a36a942b5a9ca93ce1f.ctex
+|   |       _Roll.png-a897837ada317a36a942b5a9ca93ce1f.md5
+|   |       _Run.png-16e76d011e321a813c2f0058b17fd918.ctex
+|   |       _Run.png-16e76d011e321a813c2f0058b17fd918.md5
+|   |       _Run.png-5005c26ed5bcfd23b1a4966253dfb77f.ctex
+|   |       _Run.png-5005c26ed5bcfd23b1a4966253dfb77f.md5
+|   |       _Run.png-5ea489dbd8e76446c0bb7cd1734d874f.ctex
+|   |       _Run.png-5ea489dbd8e76446c0bb7cd1734d874f.md5
+|   |       _Run.png-5f4c011ec800319f1150ba53c7dd01be.ctex
+|   |       _Run.png-5f4c011ec800319f1150ba53c7dd01be.md5
+|   |       _Run.png-74146f2ee717aab843191276b6fc379e.ctex
+|   |       _Run.png-74146f2ee717aab843191276b6fc379e.md5
+|   |       _Run.png-f4cb3e4ad99da61cbf1b65a1590386f9.ctex
+|   |       _Run.png-f4cb3e4ad99da61cbf1b65a1590386f9.md5
+|   |       _Slide.png-272423aff6ae63559f950815ba82ee61.ctex
+|   |       _Slide.png-272423aff6ae63559f950815ba82ee61.md5
+|   |       _Slide.png-52583c5eab0b05987ff523d7fb5b0567.ctex
+|   |       _Slide.png-52583c5eab0b05987ff523d7fb5b0567.md5
+|   |       _Slide.png-7be58ebb34807919dc242d954d1cbcc6.ctex
+|   |       _Slide.png-7be58ebb34807919dc242d954d1cbcc6.md5
+|   |       _Slide.png-977c8992f2f0ac2e62357b233012d1f2.ctex
+|   |       _Slide.png-977c8992f2f0ac2e62357b233012d1f2.md5
+|   |       _Slide.png-d6fea79dec602eb8693da72991a037d3.ctex
+|   |       _Slide.png-d6fea79dec602eb8693da72991a037d3.md5
+|   |       _Slide.png-dc2003c43ad7bed063d8efe36f905b84.ctex
+|   |       _Slide.png-dc2003c43ad7bed063d8efe36f905b84.md5
+|   |       _SlideAll.png-c9726e43a89f5a7d52b4c7da1bb87d89.ctex
+|   |       _SlideAll.png-c9726e43a89f5a7d52b4c7da1bb87d89.md5
+|   |       _SlideAll.png-e01f32524818d247b99d92d6b7c7f946.ctex
+|   |       _SlideAll.png-e01f32524818d247b99d92d6b7c7f946.md5
+|   |       _SlideFull.png-1d18da36887d3c7a55610f6bc49ae5e3.ctex
+|   |       _SlideFull.png-1d18da36887d3c7a55610f6bc49ae5e3.md5
+|   |       _SlideFull.png-5fa6598cd88e9a46c56920b7514c62da.ctex
+|   |       _SlideFull.png-5fa6598cd88e9a46c56920b7514c62da.md5
+|   |       _SlideFull.png-a8330eba81269b71c1352b7b5e19e11a.ctex
+|   |       _SlideFull.png-a8330eba81269b71c1352b7b5e19e11a.md5
+|   |       _SlideFull.png-fd21fe8e13ca9b09f29e81786b90054e.ctex
+|   |       _SlideFull.png-fd21fe8e13ca9b09f29e81786b90054e.md5
+|   |       _SlideTransitionEnd.png-01b4acf20d5a991cd4caf12b8fc5615b.ctex
+|   |       _SlideTransitionEnd.png-01b4acf20d5a991cd4caf12b8fc5615b.md5
+|   |       _SlideTransitionEnd.png-04b166d62ada968ad35ca0d5e4b9f91f.ctex
+|   |       _SlideTransitionEnd.png-04b166d62ada968ad35ca0d5e4b9f91f.md5
+|   |       _SlideTransitionEnd.png-6797c46d4ece6ee11a9d178fa25da42b.ctex
+|   |       _SlideTransitionEnd.png-6797c46d4ece6ee11a9d178fa25da42b.md5
+|   |       _SlideTransitionEnd.png-7906641fbc4387f7d8ba3f7a57885b3f.ctex
+|   |       _SlideTransitionEnd.png-7906641fbc4387f7d8ba3f7a57885b3f.md5
+|   |       _SlideTransitionEnd.png-bc7d20c3c30c2c30a08bc44962d255a6.ctex
+|   |       _SlideTransitionEnd.png-bc7d20c3c30c2c30a08bc44962d255a6.md5
+|   |       _SlideTransitionEnd.png-deaf59e13ad01afad0b9ea769e6fad3e.ctex
+|   |       _SlideTransitionEnd.png-deaf59e13ad01afad0b9ea769e6fad3e.md5
+|   |       _SlideTransitionStart.png-791b8340f495e6e72b57e5a316f5da54.ctex
+|   |       _SlideTransitionStart.png-791b8340f495e6e72b57e5a316f5da54.md5
+|   |       _SlideTransitionStart.png-81d4883e7ec2b156e2d8bc223b0096f9.ctex
+|   |       _SlideTransitionStart.png-81d4883e7ec2b156e2d8bc223b0096f9.md5
+|   |       _SlideTransitionStart.png-9207855c2120267c8d99f604eb694727.ctex
+|   |       _SlideTransitionStart.png-9207855c2120267c8d99f604eb694727.md5
+|   |       _SlideTransitionStart.png-9ca2d0fcfeba97f98c061cd3c8c6b3f2.ctex
+|   |       _SlideTransitionStart.png-9ca2d0fcfeba97f98c061cd3c8c6b3f2.md5
+|   |       _SlideTransitionStart.png-a42f912f7281d453ad5af6a79a564b0d.ctex
+|   |       _SlideTransitionStart.png-a42f912f7281d453ad5af6a79a564b0d.md5
+|   |       _SlideTransitionStart.png-e54da2d0a2918f916252f280e29f9ac7.ctex
+|   |       _SlideTransitionStart.png-e54da2d0a2918f916252f280e29f9ac7.md5
+|   |       _TurnAround.png-2cf0eed720b01e6e02b77d2f3e10bf69.ctex
+|   |       _TurnAround.png-2cf0eed720b01e6e02b77d2f3e10bf69.md5
+|   |       _TurnAround.png-4614cd75d106182499b6cda32a1a6ff4.ctex
+|   |       _TurnAround.png-4614cd75d106182499b6cda32a1a6ff4.md5
+|   |       _TurnAround.png-5c4db0a0419e0638a9866413460dda08.ctex
+|   |       _TurnAround.png-5c4db0a0419e0638a9866413460dda08.md5
+|   |       _TurnAround.png-6bbafe23e5edec24e83afa7d39790791.ctex
+|   |       _TurnAround.png-6bbafe23e5edec24e83afa7d39790791.md5
+|   |       _TurnAround.png-c7b8b550372ab3497160d34da2f378ab.ctex
+|   |       _TurnAround.png-c7b8b550372ab3497160d34da2f378ab.md5
+|   |       _TurnAround.png-e15c0cb9b8656c43a73588e378de09e9.ctex
+|   |       _TurnAround.png-e15c0cb9b8656c43a73588e378de09e9.md5
+|   |       _WallClimb.png-0c8a27730360ded3078adab570260666.ctex
+|   |       _WallClimb.png-0c8a27730360ded3078adab570260666.md5
+|   |       _WallClimb.png-145f7d935e654fcbdee7c9db5ff8e08e.ctex
+|   |       _WallClimb.png-145f7d935e654fcbdee7c9db5ff8e08e.md5
+|   |       _WallClimb.png-54c156672085252c43ccaf0fdbf3f65a.ctex
+|   |       _WallClimb.png-54c156672085252c43ccaf0fdbf3f65a.md5
+|   |       _WallClimb.png-8eed32c118470ca2ac20b8c79e377874.ctex
+|   |       _WallClimb.png-8eed32c118470ca2ac20b8c79e377874.md5
+|   |       _WallClimb.png-8f2e72622a15cb791bd4e7a0294fa77f.ctex
+|   |       _WallClimb.png-8f2e72622a15cb791bd4e7a0294fa77f.md5
+|   |       _WallClimb.png-dd25ccd5d5eb911ca83962d0d5d37b40.ctex
+|   |       _WallClimb.png-dd25ccd5d5eb911ca83962d0d5d37b40.md5
+|   |       _WallClimbNoMovement.png-15a411f8af846c4dd84b984442a221aa.ctex
+|   |       _WallClimbNoMovement.png-15a411f8af846c4dd84b984442a221aa.md5
+|   |       _WallClimbNoMovement.png-3ad5dd74196ca135c316d50974bc4d52.ctex
+|   |       _WallClimbNoMovement.png-3ad5dd74196ca135c316d50974bc4d52.md5
+|   |       _WallClimbNoMovement.png-540ef2edec50f21f4ab9c21e16c67745.ctex
+|   |       _WallClimbNoMovement.png-540ef2edec50f21f4ab9c21e16c67745.md5
+|   |       _WallClimbNoMovement.png-806da93a9739111a1137b71a7d564bef.ctex
+|   |       _WallClimbNoMovement.png-806da93a9739111a1137b71a7d564bef.md5
+|   |       _WallClimbNoMovement.png-ef9c751341b0f71daecfef862f22d36d.ctex
+|   |       _WallClimbNoMovement.png-ef9c751341b0f71daecfef862f22d36d.md5
+|   |       _WallClimbNoMovement.png-fe4a07afec843bab0e7dea144020752d.ctex
+|   |       _WallClimbNoMovement.png-fe4a07afec843bab0e7dea144020752d.md5
+|   |       _WallHang.png-0bb77026f1b7dae0d57c1219440dbac9.ctex
+|   |       _WallHang.png-0bb77026f1b7dae0d57c1219440dbac9.md5
+|   |       _WallHang.png-1b0f2593e2b7a8a304fee3a7cab2c773.ctex
+|   |       _WallHang.png-1b0f2593e2b7a8a304fee3a7cab2c773.md5
+|   |       _WallHang.png-421047b97b776e181314af62eb9f95ae.ctex
+|   |       _WallHang.png-421047b97b776e181314af62eb9f95ae.md5
+|   |       _WallHang.png-79f97b8fadd272675b20c9bdd8c75e83.ctex
+|   |       _WallHang.png-79f97b8fadd272675b20c9bdd8c75e83.md5
+|   |       _WallHang.png-7d8d2ea97c97837e6972c9e909b0ee66.ctex
+|   |       _WallHang.png-7d8d2ea97c97837e6972c9e909b0ee66.md5
+|   |       _WallHang.png-df669dc624d0672de7d44cdadf9f8fef.ctex
+|   |       _WallHang.png-df669dc624d0672de7d44cdadf9f8fef.md5
+|   |       _WallSlide.png-27698a6258a75d12ffe8336819749937.ctex
+|   |       _WallSlide.png-27698a6258a75d12ffe8336819749937.md5
+|   |       _WallSlide.png-5d0250a40daa86873aa29dd99b94923f.ctex
+|   |       _WallSlide.png-5d0250a40daa86873aa29dd99b94923f.md5
+|   |       _WallSlide.png-759c7cefaee162585b38dabb85d15cae.ctex
+|   |       _WallSlide.png-759c7cefaee162585b38dabb85d15cae.md5
+|   |       _WallSlide.png-9b2f0b22a67e9733f08ce305fb86c701.ctex
+|   |       _WallSlide.png-9b2f0b22a67e9733f08ce305fb86c701.md5
+|   |       _WallSlide.png-e020f6d7fb6f980976462a5d67ecd801.ctex
+|   |       _WallSlide.png-e020f6d7fb6f980976462a5d67ecd801.md5
+|   |       _WallSlide.png-ef8f09a31a71de96e2c42224623ea3be.ctex
+|   |       _WallSlide.png-ef8f09a31a71de96e2c42224623ea3be.md5
+|   |       
+|   \---shader_cache
+|       +---CanvasOcclusionShaderGLES3
+|       |   \---66807b23398c1754bfc42f799d2b0edea9b4b7ec16298c3d2f4d92e46fb2f461
+|       +---CanvasSdfShaderGLES3
+|       |   \---15b84e3194300ccad84d789b70932ea967bb54c0c478ac58bf2abf4b818cb599
+|       +---CanvasShaderGLES3
+|       |   \---20b5d4dfd72311ce37f2c20dfe3bee1ac2a7815016c595b471c923b5cd47ca83
+|       |           1975435a9f21605e984ea4e75fa9cba591aa0cb4.cache
+|       |           6bb7c9a2fd1c4a8fa77cb96555b9b4a720209981.cache
+|       |           b547968aa19902bd49de94fd81aaa8c91331c7dc.cache
+|       |           eebec22b01e5e0893076b11e9acf727d2ebedc3f.cache
+|       |           
+|       +---CopyShaderGLES3
+|       |   \---367f7a181d4d3813083f1f011a639b1f801f365666b824b622eea9f41ed815eb
+|       |           6bb7c9a2fd1c4a8fa77cb96555b9b4a720209981.cache
+|       |           
+|       +---CubemapFilterShaderGLES3
+|       |   \---1837e3c8eb966267985dc90f3b8f7719165d5bee6348b0931cd0867ac76c5ad4
+|       |           6bb7c9a2fd1c4a8fa77cb96555b9b4a720209981.cache
+|       |           
+|       +---FeedShaderGLES3
+|       |   \---3f5c710285525d2d0c21dcf7b97005f0dbfc9766b8c3f58766ec42db202f55b7
+|       |           6bb7c9a2fd1c4a8fa77cb96555b9b4a720209981.cache
+|       |           
+|       +---GlowShaderGLES3
+|       |   \---bbc534f2f0ba82fefca78e59edb801521a0a8d602beac3313d5de0445885fb01
+|       +---ParticlesCopyShaderGLES3
+|       |   \---4ecfdf1ba4a7315ca22ab442fc62d510583137d634b2037359404af2b9e6f2b5
+|       |           6bb7c9a2fd1c4a8fa77cb96555b9b4a720209981.cache
+|       |           
+|       +---ParticlesShaderGLES3
+|       |   \---eea0615ade3b767405b84b1392f183bc070cd07e03d6102ddbd328c4a6c3c0df
+|       |           0d23ca320a1242e412504da5f1a896df5878a83c.cache
+|       |           20579c663a37aa967d7aa026019034eaeb4e27d1.cache
+|       |           c396e13639d48a810db10c018ee3c58bd0eb0e3c.cache
+|       |           f5f9a4e80b4a0642c52e267789763f579d55f170.cache
+|       |           
+|       +---PostShaderGLES3
+|       |   \---442bf3b517a70ddc1924c566143d48f7200d0be4a8708d47dee4472d6f96557a
+|       |           6bb7c9a2fd1c4a8fa77cb96555b9b4a720209981.cache
+|       |           
+|       +---SceneShaderGLES3
+|       |   \---7321f476d1a4a61bd6c3bb824a591cebccf767d378c5410713b333d474e23cea
+|       |           0c9689a7dae2d011729a1e2cf29c71ecb4a7e8bb.cache
+|       |           6bb7c9a2fd1c4a8fa77cb96555b9b4a720209981.cache
+|       |           e4803059b59d245bee29da2f87c302ecb830c09e.cache
+|       |           
+|       +---SkeletonShaderGLES3
+|       |   \---bc54a870eebf9189577b200cfa55fba40c3023a89ff3d2c9e13a3b765bbbca2c
+|       \---SkyShaderGLES3
+|           \---b48d0c1271fd2f7bbcd2dde049fcc327691adcb946fa6ba56a7131d34325da3c
+|                   851ad615ab5772632d2dd49f5447ff21ea10b2fe.cache
+|                   
++---assets
+|   |   Background_0.png
+|   |   Background_0.png.import
+|   |   Background_1.png
+|   |   Background_1.png.import
+|   |   background_2.png
+|   |   background_2.png.import
+|   |   Background_3.png
+|   |   Background_3.png.import
+|   |   Back_0.png
+|   |   Back_0.png.import
+|   |   Back_1.png
+|   |   Back_1.png.import
+|   |   Back_1_2.png
+|   |   Back_1_2.png.import
+|   |   particles-flipbook.png
+|   |   particles-flipbook.png.import
+|   |   Tileset3.png
+|   |   Tileset3.png.import
+|   |   world_tileset.png
+|   |   world_tileset.png.import
+|   |   
+|   +---Colour2
+|   |   +---NoOutline
+|   |   |   +---120x80_gifs
+|   |   |   |       __Attack.gif
+|   |   |   |       __Attack2.gif
+|   |   |   |       __Attack2NoMovement.gif
+|   |   |   |       __AttackCombo2hit.gif
+|   |   |   |       __AttackComboNoMovement.gif
+|   |   |   |       __AttackNoMovement.gif
+|   |   |   |       __Crouch.gif
+|   |   |   |       __CrouchAll.gif
+|   |   |   |       __CrouchAttack.gif
+|   |   |   |       __CrouchTransition.gif
+|   |   |   |       __CrouchWalk.gif
+|   |   |   |       __Dash.gif
+|   |   |   |       __Death.gif
+|   |   |   |       __DeathNoMovement.gif
+|   |   |   |       __Fall.gif
+|   |   |   |       __Hit.gif
+|   |   |   |       __Idle.gif
+|   |   |   |       __Jump.gif
+|   |   |   |       __JumpFallInbetween.gif
+|   |   |   |       __Roll.gif
+|   |   |   |       __Run.gif
+|   |   |   |       __Slide.gif
+|   |   |   |       __SlideAll.gif
+|   |   |   |       __SlideTransitionEnd.gif
+|   |   |   |       __SlideTransitionStart.gif
+|   |   |   |       __TurnAround.gif
+|   |   |   |       __WallClimb.gif
+|   |   |   |       __WallClimbNoMovement.gif
+|   |   |   |       __WallHang.gif
+|   |   |   |       __WallSlide.gif
+|   |   |   |       
+|   |   |   \---120x80_PNGSheets
+|   |   |           _Attack.png
+|   |   |           _Attack.png.import
+|   |   |           _Attack2.png
+|   |   |           _Attack2.png.import
+|   |   |           _Attack2NoMovement.png
+|   |   |           _Attack2NoMovement.png.import
+|   |   |           _AttackCombo.png
+|   |   |           _AttackCombo.png.import
+|   |   |           _AttackComboNoMovement.png
+|   |   |           _AttackComboNoMovement.png.import
+|   |   |           _AttackNoMovement.png
+|   |   |           _AttackNoMovement.png.import
+|   |   |           _Crouch.png
+|   |   |           _Crouch.png.import
+|   |   |           _CrouchAll.png
+|   |   |           _CrouchAll.png.import
+|   |   |           _CrouchAttack.png
+|   |   |           _CrouchAttack.png.import
+|   |   |           _CrouchTransition.png
+|   |   |           _CrouchTransition.png.import
+|   |   |           _CrouchWalk.png
+|   |   |           _CrouchWalk.png.import
+|   |   |           _Dash.png
+|   |   |           _Dash.png.import
+|   |   |           _Death.png
+|   |   |           _Death.png.import
+|   |   |           _DeathNoMovement.png
+|   |   |           _DeathNoMovement.png.import
+|   |   |           _Fall.png
+|   |   |           _Fall.png.import
+|   |   |           _Hit.png
+|   |   |           _Hit.png.import
+|   |   |           _Idle.png
+|   |   |           _Idle.png.import
+|   |   |           _Jump.png
+|   |   |           _Jump.png.import
+|   |   |           _JumpFallInbetween.png
+|   |   |           _JumpFallInbetween.png.import
+|   |   |           _Roll.png
+|   |   |           _Roll.png.import
+|   |   |           _Run.png
+|   |   |           _Run.png.import
+|   |   |           _Slide.png
+|   |   |           _Slide.png.import
+|   |   |           _SlideAll.png
+|   |   |           _SlideAll.png.import
+|   |   |           _SlideTransitionEnd.png
+|   |   |           _SlideTransitionEnd.png.import
+|   |   |           _SlideTransitionStart.png
+|   |   |           _SlideTransitionStart.png.import
+|   |   |           _TurnAround.png
+|   |   |           _TurnAround.png.import
+|   |   |           _WallClimb.png
+|   |   |           _WallClimb.png.import
+|   |   |           _WallClimbNoMovement.png
+|   |   |           _WallClimbNoMovement.png.import
+|   |   |           _WallHang.png
+|   |   |           _WallHang.png.import
+|   |   |           _WallSlide.png
+|   |   |           _WallSlide.png.import
+|   |   |           
+|   |   \---Outline
+|   |       +---120x80_gifs
+|   |       |       __Attack.gif
+|   |       |       __Attack2.gif
+|   |       |       __Attack2NoMovement.gif
+|   |       |       __AttackCombo2hit.gif
+|   |       |       __AttackComboNoMovement.gif
+|   |       |       __AttackNoMovement.gif
+|   |       |       __Crouch.gif
+|   |       |       __CrouchAll.gif
+|   |       |       __CrouchAttack.gif
+|   |       |       __CrouchTransition.gif
+|   |       |       __CrouchWalk.gif
+|   |       |       __Dash.gif
+|   |       |       __Death.gif
+|   |       |       __DeathNoMovement.gif
+|   |       |       __Fall.gif
+|   |       |       __Hit.gif
+|   |       |       __Idle.gif
+|   |       |       __Jump.gif
+|   |       |       __JumpFallInbetween.gif
+|   |       |       __Roll.gif
+|   |       |       __Run.gif
+|   |       |       __Slide.gif
+|   |       |       __SlideAll.gif
+|   |       |       __SlideTransitionEnd.gif
+|   |       |       __SlideTransitionStart.gif
+|   |       |       __TurnAround.gif
+|   |       |       __WallClimb.gif
+|   |       |       __WallClimbNoMovement.gif
+|   |       |       __WallHang.gif
+|   |       |       __WallSlide.gif
+|   |       |       
+|   |       \---120x80_PNGSheets
+|   |               _Attack.png
+|   |               _Attack.png.import
+|   |               _Attack2.png
+|   |               _Attack2.png.import
+|   |               _Attack2NoMovement.png
+|   |               _Attack2NoMovement.png.import
+|   |               _AttackCombo.png
+|   |               _AttackCombo.png.import
+|   |               _AttackComboNoMovement.png
+|   |               _AttackComboNoMovement.png.import
+|   |               _AttackNoMovement.png
+|   |               _AttackNoMovement.png.import
+|   |               _Crouch.png
+|   |               _Crouch.png.import
+|   |               _CrouchAll.png
+|   |               _CrouchAll.png.import
+|   |               _CrouchAttack.png
+|   |               _CrouchAttack.png.import
+|   |               _CrouchTransition.png
+|   |               _CrouchTransition.png.import
+|   |               _CrouchWalk.png
+|   |               _CrouchWalk.png.import
+|   |               _Dash.png
+|   |               _Dash.png.import
+|   |               _Death.png
+|   |               _Death.png.import
+|   |               _DeathNoMovement.png
+|   |               _DeathNoMovement.png.import
+|   |               _Fall.png
+|   |               _Fall.png.import
+|   |               _Hit.png
+|   |               _Hit.png.import
+|   |               _Idle.png
+|   |               _Idle.png.import
+|   |               _Jump.png
+|   |               _Jump.png.import
+|   |               _JumpFallInbetween.png
+|   |               _JumpFallInbetween.png.import
+|   |               _Roll.png
+|   |               _Roll.png.import
+|   |               _Run.png
+|   |               _Run.png.import
+|   |               _Slide.png
+|   |               _Slide.png.import
+|   |               _SlideAll.png
+|   |               _SlideAll.png.import
+|   |               _SlideTransitionEnd.png
+|   |               _SlideTransitionEnd.png.import
+|   |               _SlideTransitionStart.png
+|   |               _SlideTransitionStart.png.import
+|   |               _TurnAround.png
+|   |               _TurnAround.png.import
+|   |               _WallClimb.png
+|   |               _WallClimb.png.import
+|   |               _WallClimbNoMovement.png
+|   |               _WallClimbNoMovement.png.import
+|   |               _WallHang.png
+|   |               _WallHang.png.import
+|   |               _WallSlide.png
+|   |               _WallSlide.png.import
+|   |               
+|   +---Knight_Colour1
+|   |   +---NoOutline
+|   |   |   +---120x80_gifs
+|   |   |   |       __Attack.gif
+|   |   |   |       __Attack2.gif
+|   |   |   |       __Attack2NoMovement.gif
+|   |   |   |       __AttackCombo2hit.gif
+|   |   |   |       __AttackComboNoMovement.gif
+|   |   |   |       __AttackNoMovement.gif
+|   |   |   |       __Crouch.gif
+|   |   |   |       __CrouchAll.gif
+|   |   |   |       __CrouchAttack.gif
+|   |   |   |       __CrouchTransition.gif
+|   |   |   |       __CrouchWalk.gif
+|   |   |   |       __Dash.gif
+|   |   |   |       __Death.gif
+|   |   |   |       __DeathNoMovement.gif
+|   |   |   |       __Fall.gif
+|   |   |   |       __Hit.gif
+|   |   |   |       __Idle.gif
+|   |   |   |       __Jump.gif
+|   |   |   |       __JumpFallInbetween.gif
+|   |   |   |       __Roll.gif
+|   |   |   |       __Run.gif
+|   |   |   |       __Slide.gif
+|   |   |   |       __SlideAll.gif
+|   |   |   |       __SlideTransitionEnd.gif
+|   |   |   |       __SlideTransitionStart.gif
+|   |   |   |       __TurnAround.gif
+|   |   |   |       __WallClimb.gif
+|   |   |   |       __WallClimbNoMovement.gif
+|   |   |   |       __WallHang.gif
+|   |   |   |       __WallSlide.gif
+|   |   |   |       
+|   |   |   \---120x80_PNGSheets
+|   |   |           _Attack.png
+|   |   |           _Attack.png.import
+|   |   |           _Attack2.png
+|   |   |           _Attack2.png.import
+|   |   |           _Attack2NoMovement.png
+|   |   |           _Attack2NoMovement.png.import
+|   |   |           _AttackCombo.png
+|   |   |           _AttackCombo.png.import
+|   |   |           _AttackComboNoMovement.png
+|   |   |           _AttackComboNoMovement.png.import
+|   |   |           _AttackNoMovement.png
+|   |   |           _AttackNoMovement.png.import
+|   |   |           _Crouch.png
+|   |   |           _Crouch.png.import
+|   |   |           _CrouchAttack.png
+|   |   |           _CrouchAttack.png.import
+|   |   |           _CrouchFull.png
+|   |   |           _CrouchFull.png.import
+|   |   |           _CrouchTransition.png
+|   |   |           _CrouchTransition.png.import
+|   |   |           _CrouchWalk.png
+|   |   |           _CrouchWalk.png.import
+|   |   |           _Dash.png
+|   |   |           _Dash.png.import
+|   |   |           _Death.png
+|   |   |           _Death.png.import
+|   |   |           _DeathNoMovement.png
+|   |   |           _DeathNoMovement.png.import
+|   |   |           _Fall.png
+|   |   |           _Fall.png.import
+|   |   |           _Hit.png
+|   |   |           _Hit.png.import
+|   |   |           _Idle.png
+|   |   |           _Idle.png.import
+|   |   |           _Jump.png
+|   |   |           _Jump.png.import
+|   |   |           _JumpFallInbetween.png
+|   |   |           _JumpFallInbetween.png.import
+|   |   |           _Roll.png
+|   |   |           _Roll.png.import
+|   |   |           _Run.png
+|   |   |           _Run.png.import
+|   |   |           _Slide.png
+|   |   |           _Slide.png.import
+|   |   |           _SlideFull.png
+|   |   |           _SlideFull.png.import
+|   |   |           _SlideTransitionEnd.png
+|   |   |           _SlideTransitionEnd.png.import
+|   |   |           _SlideTransitionStart.png
+|   |   |           _SlideTransitionStart.png.import
+|   |   |           _TurnAround.png
+|   |   |           _TurnAround.png.import
+|   |   |           _WallClimb.png
+|   |   |           _WallClimb.png.import
+|   |   |           _WallClimbNoMovement.png
+|   |   |           _WallClimbNoMovement.png.import
+|   |   |           _WallHang.png
+|   |   |           _WallHang.png.import
+|   |   |           _WallSlide.png
+|   |   |           _WallSlide.png.import
+|   |   |           
+|   |   \---Outline
+|   |       +---120x80_gifs
+|   |       |       __Attack.gif
+|   |       |       __Attack2.gif
+|   |       |       __Attack2NoMovement.gif
+|   |       |       __AttackCombo2hit.gif
+|   |       |       __AttackComboNoMovement.gif
+|   |       |       __AttackNoMovement.gif
+|   |       |       __Crouch.gif
+|   |       |       __CrouchAll.gif
+|   |       |       __CrouchAttack.gif
+|   |       |       __CrouchTransition.gif
+|   |       |       __CrouchWalk.gif
+|   |       |       __Dash.gif
+|   |       |       __Death.gif
+|   |       |       __DeathNoMovement.gif
+|   |       |       __Fall.gif
+|   |       |       __Hit.gif
+|   |       |       __Idle.gif
+|   |       |       __Jump.gif
+|   |       |       __JumpFallInbetween.gif
+|   |       |       __Roll.gif
+|   |       |       __Run.gif
+|   |       |       __Slide.gif
+|   |       |       __SlideAll.gif
+|   |       |       __SlideTransitionEnd.gif
+|   |       |       __SlideTransitionStart.gif
+|   |       |       __TurnAround.gif
+|   |       |       __WallClimb.gif
+|   |       |       __WallClimbNoMovement.gif
+|   |       |       __WallHang.gif
+|   |       |       __WallSlide.gif
+|   |       |       
+|   |       \---120x80_PNGSheets
+|   |               _Attack.png
+|   |               _Attack.png.import
+|   |               _Attack2.png
+|   |               _Attack2.png.import
+|   |               _Attack2NoMovement.png
+|   |               _Attack2NoMovement.png.import
+|   |               _AttackCombo2hit.png
+|   |               _AttackCombo2hit.png.import
+|   |               _AttackComboNoMovement.png
+|   |               _AttackComboNoMovement.png.import
+|   |               _AttackNoMovement.png
+|   |               _AttackNoMovement.png.import
+|   |               _Crouch.png
+|   |               _Crouch.png.import
+|   |               _CrouchAttack.png
+|   |               _CrouchAttack.png.import
+|   |               _CrouchFull.png
+|   |               _CrouchFull.png.import
+|   |               _CrouchTransition.png
+|   |               _CrouchTransition.png.import
+|   |               _CrouchWalk.png
+|   |               _CrouchWalk.png.import
+|   |               _Dash.png
+|   |               _Dash.png.import
+|   |               _Death.png
+|   |               _Death.png.import
+|   |               _DeathNoMovement.png
+|   |               _DeathNoMovement.png.import
+|   |               _Fall.png
+|   |               _Fall.png.import
+|   |               _Hit.png
+|   |               _Hit.png.import
+|   |               _Idle.png
+|   |               _Idle.png.import
+|   |               _Jump.png
+|   |               _Jump.png.import
+|   |               _JumpFallInbetween.png
+|   |               _JumpFallInbetween.png.import
+|   |               _Roll.png
+|   |               _Roll.png.import
+|   |               _Run.png
+|   |               _Run.png.import
+|   |               _Slide.png
+|   |               _Slide.png.import
+|   |               _SlideFull.png
+|   |               _SlideFull.png.import
+|   |               _SlideTransitionEnd.png
+|   |               _SlideTransitionEnd.png.import
+|   |               _SlideTransitionStart.png
+|   |               _SlideTransitionStart.png.import
+|   |               _TurnAround.png
+|   |               _TurnAround.png.import
+|   |               _WallClimb.png
+|   |               _WallClimb.png.import
+|   |               _WallClimbNoMovement.png
+|   |               _WallClimbNoMovement.png.import
+|   |               _WallHang.png
+|   |               _WallHang.png.import
+|   |               _WallSlide.png
+|   |               _WallSlide.png.import
+|   |               
+|   +---spikey stuff
+|   |   \---spikeystuff
+|   |           Chainlinklong.png
+|   |           Chainlinklong.png.import
+|   |           Chainlinkshort.png
+|   |           Chainlinkshort.png.import
+|   |           fourspikesSteel.png
+|   |           fourspikesSteel.png.import
+|   |           FourspikesWood.png
+|   |           FourspikesWood.png.import
+|   |           SawBig.png
+|   |           SawBig.png.import
+|   |           SawSmall.png
+|   |           SawSmall.png.import
+|   |           SpikeblockSteel.png
+|   |           SpikeblockSteel.png.import
+|   |           SpikeblockWood.png
+|   |           SpikeblockWood.png.import
+|   |           spikedball.png
+|   |           spikedball.png.import
+|   |           SpikeGroundTrap.png
+|   |           SpikeGroundTrap.png.import
+|   |           SteelspikeRight.png
+|   |           SteelspikeRight.png.import
+|   |           SteelspikeUp.png
+|   |           SteelspikeUp.png.import
+|   |           WoodspikeRight.png
+|   |           WoodspikeRight.png.import
+|   |           WoodspikeUp.png
+|   |           WoodspikeUp.png.import
+|   |           
+|   \---Sprites
+|       |   Background_0.png
+|       |   Background_0.png.import
+|       |   
+|       +---Prototype
+|       |       Ability_Use.png
+|       |       Ability_Use.png.import
+|       |       Aiming.png
+|       |       Aiming.png.import
+|       |       Carrying_Object.png
+|       |       Carrying_Object.png.import
+|       |       Casting Spell.png
+|       |       Casting Spell.png.import
+|       |       Climbing_Ladder.png
+|       |       Climbing_Ladder.png.import
+|       |       Counterattack.png
+|       |       Counterattack.png.import
+|       |       Crawl.png
+|       |       Crawl.png.import
+|       |       Crouch.png
+|       |       Crouch.png.import
+|       |       Defense attack.png
+|       |       Defense attack.png.import
+|       |       Defensive_Stance.png
+|       |       Defensive_Stance.png.import
+|       |       Descending_Ladder.png
+|       |       Descending_Ladder.png.import
+|       |       Dodge.png
+|       |       Dodge.png.import
+|       |       Double_Jump.png
+|       |       Double_Jump.png.import
+|       |       Enchanced_Impact_1.png
+|       |       Enchanced_Impact_1.png.import
+|       |       Enchanced_impact_2.png
+|       |       Enchanced_impact_2.png.import
+|       |       Explosive_Strike.png
+|       |       Explosive_Strike.png.import
+|       |       Falling.png
+|       |       Falling.png.import
+|       |       Fire_Kick.png
+|       |       Fire_Kick.png.import
+|       |       Gliding_Jump.png
+|       |       Gliding_Jump.png.import
+|       |       Ground_Slam.png
+|       |       Ground_Slam.png.import
+|       |       Hurt.png
+|       |       Hurt.png.import
+|       |       Ice_Charge.png
+|       |       Ice_Charge.png.import
+|       |       Ise_Strice.png
+|       |       Ise_Strice.png.import
+|       |       Jump witn Strike.png
+|       |       Jump witn Strike.png.import
+|       |       Jumping.png
+|       |       Jumping.png.import
+|       |       Jump_Kick.png
+|       |       Jump_Kick.png.import
+|       |       Jump_Strike.png
+|       |       Jump_Strike.png.import
+|       |       Kick.png
+|       |       Kick.png.import
+|       |       Landing with Impact.png
+|       |       Landing with Impact.png.import
+|       |       Landing.png
+|       |       Landing.png.import
+|       |       Leap.png
+|       |       Leap.png.import
+|       |       Obstacle Jump.png
+|       |       Obstacle Jump.png.import
+|       |       Platform Jump.png
+|       |       Platform Jump.png.import
+|       |       Power_Strike.png
+|       |       Power_Strike.png.import
+|       |       Protect.png
+|       |       Protect.png.import
+|       |       Punch_1.png
+|       |       Punch_1.png.import
+|       |       Punch_2.png
+|       |       Punch_2.png.import
+|       |       Roll.png
+|       |       Roll.png.import
+|       |       Running.png
+|       |       Running.png.import
+|       |       Side_Jump.png
+|       |       Side_Jump.png.import
+|       |       Skill_Charging.png
+|       |       Skill_Charging.png.import
+|       |       Slide_Attack.png
+|       |       Slide_Attack.png.import
+|       |       Speed_Boost_Running.png
+|       |       Speed_Boost_Running.png.import
+|       |       Stop_Running.png
+|       |       Stop_Running.png.import
+|       |       Swimming.png
+|       |       Swimming.png.import
+|       |       Swimming_Dive.png
+|       |       Swimming_Dive.png.import
+|       |       Throwing.png
+|       |       Throwing.png.import
+|       |       Upward Jump.png
+|       |       Upward Jump.png.import
+|       |       Walking.png
+|       |       Walking.png.import
+|       |       Wall Jump.png
+|       |       Wall Jump.png.import
+|       |       Wall_Climbing.png
+|       |       Wall_Climbing.png.import
+|       |       
+|       \---Samurai
+|               ATTACK 1.png
+|               ATTACK 1.png.import
+|               HURT.png
+|               HURT.png.import
+|               IDLE.png
+|               IDLE.png.import
+|               RUN.png
+|               RUN.png.import
+|               
++---Enemies
+|   \---Guard
+|           Guard.gd
+|           Guard.gd.uid
+|           Guard.tscn
+|           
++---Interactables
+|   |   Spike.tscn
+|   |   
+|   +---Chest
+|   |       Chest.gd
+|   |       Chest.gd.uid
+|   |       Chest.tscn
+|   |       
+|   +---Prisoner
+|   |       PrisonerScene.tscn
+|   |       PrisonerScript.gd
+|   |       PrisonerScript.gd.uid
+|   |       
+|   \---RescuedVillager
+|           RescuedVillager.gd
+|           RescuedVillager.gd.uid
+|           RescuedVillager.tscn
+|           
++---Levels
+|       Hideout.gd
+|       Hideout.gd.uid
+|       Hideout.tscn
+|       level.gd
+|       level.gd.uid
+|       level_1.tscn
+|       Level_Template.tscn
+|       TestBox.tscn
+|       VillageOutskirts.tscn
+|       
++---Player
+|       AnimationController.gd
+|       AnimationController.gd.uid
+|       PlayerScene.tscn
+|       PlayerScript.gd
+|       PlayerScript.gd.uid
+|       VFX.gd
+|       VFX.gd.uid
+|       
++---Scenes
++---Singletons
+|       Game Mechanic Ideas.txt
+|       GameManager.gd
+|       GameManager.gd.uid
+|       InteractionController.gd
+|       InteractionController.gd.uid
+|       
+\---UserInterface
+        detection_meter.gd
+        detection_meter.gd.uid
+        DialogueBox.gd
+        DialogueBox.gd.uid
+        DialogueBox.tscn
+        InteractionManager.gd
+        InteractionManager.gd.uid
+        MissionFailedScreen.gd
+        MissionFailedScreen.gd.uid
+        MissionFailedScreen.tscn
+        MissionSuccessScreen.gd
+        MissionSuccessScreen.gd.uid
+        MissionSuccessScreen.tscn
+        PauseMenu.gd
+        PauseMenu.gd.uid
+        PauseMenu.tscn
+        TitleScreen.gd
+        TitleScreen.gd.uid
+        TitleScreen.tscn
+        

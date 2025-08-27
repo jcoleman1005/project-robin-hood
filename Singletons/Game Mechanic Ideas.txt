@@ -1,0 +1,12 @@
+Done:
+Wall Jump/climb
+Double jump
+Wall Stick
+Dash
+
+Needs Improvement: 
+	Glide
+		animation?
+	
+Needs coded: 	
+Charge Jump

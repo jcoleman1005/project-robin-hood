@@ -1,0 +1,154 @@
+[gd_scene load_steps=18 format=3 uid="uid://dckw7xibjc4fi"]
+
+[ext_resource type="Texture2D" uid="uid://d3koe2gneclrr" path="res://assets/Sprites/Prototype/Walking.png" id="1_p570l"]
+[ext_resource type="Script" uid="uid://dt6uwq8dw5s7i" path="res://Enemies/Guard/Guard.gd" id="1_smm0d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cnet1"]
+size = Vector2(29, 68.6667)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_smm0d"]
+size = Vector2(38.3333, 72.6667)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cnet1"]
+atlas = ExtResource("1_p570l")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mk1iy"]
+atlas = ExtResource("1_p570l")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dmkvq"]
+atlas = ExtResource("1_p570l")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_36pg4"]
+atlas = ExtResource("1_p570l")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1rcvf"]
+atlas = ExtResource("1_p570l")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tyyvc"]
+atlas = ExtResource("1_p570l")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mibv0"]
+atlas = ExtResource("1_p570l")
+region = Rect2(768, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_huqfy"]
+atlas = ExtResource("1_p570l")
+region = Rect2(896, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xva2a"]
+atlas = ExtResource("1_p570l")
+region = Rect2(1024, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jmm34"]
+atlas = ExtResource("1_p570l")
+region = Rect2(1152, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qlg3a"]
+atlas = ExtResource("1_p570l")
+region = Rect2(1280, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dpysg"]
+atlas = ExtResource("1_p570l")
+region = Rect2(1408, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lvylo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cnet1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mk1iy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dmkvq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_36pg4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1rcvf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tyyvc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mibv0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_huqfy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xva2a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jmm34")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qlg3a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dpysg")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 12.0
+}]
+
+[node name="Guard" type="CharacterBody2D"]
+scale = Vector2(0.75, 0.75)
+script = ExtResource("1_smm0d")
+detection_time = 0.5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2.5, 24.3333)
+shape = SubResource("RectangleShape2D_cnet1")
+
+[node name="HitboxArea" type="Area2D" parent="."]
+position = Vector2(4, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxArea"]
+position = Vector2(-6.66667, 23.6667)
+shape = SubResource("RectangleShape2D_smm0d")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1.33333, -6.66667)
+sprite_frames = SubResource("SpriteFrames_lvylo")
+animation = &"walk"
+frame_progress = 0.229214
+
+[node name="Raycasts" type="Node2D" parent="."]
+
+[node name="LedgeCheckRay" type="RayCast2D" parent="Raycasts"]
+position = Vector2(12, 52)
+target_position = Vector2(0, 13.3333)
+
+[node name="WallCheckRay" type="RayCast2D" parent="Raycasts"]
+position = Vector2(0, 21.3333)
+target_position = Vector2(12, 3.24249e-05)
+
+[node name="TurnCooldownTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="VisionConeArea" type="Area2D" parent="."]
+position = Vector2(0, -4)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="VisionConeArea"]
+polygon = PackedVector2Array(201.333, -22.6667, 201.333, 64, 1.33333, 2.66667)
+
+[node name="VisionConePolygon" type="Polygon2D" parent="."]
+position = Vector2(0, -4)
+color = Color(1, 1, 0, 0.65098)
+polygon = PackedVector2Array(201.333, -22.6667, 201.333, 64, 1.333, 2.667)
+
+[node name="LineOfSightRay" type="RayCast2D" parent="."]
+position = Vector2(2.66667, -1.33333)
+target_position = Vector2(249.333, 4)
+
+[connection signal="area_entered" from="VisionConeArea" to="." method="_on_vision_cone_area_area_entered"]
