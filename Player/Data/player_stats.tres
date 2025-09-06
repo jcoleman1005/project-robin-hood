@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="PlayerStats" load_steps=2 format=3 uid="uid://st5loweg5geo"]
+
+[ext_resource type="Script" uid="uid://bx05fogp11uwl" path="res://Player/Data/PlayerStats.gd" id="1_byv2g"]
+
+[resource]
+script = ExtResource("1_byv2g")
+speed = 500.0
+air_control_acceleration = 250.0
+terminal_velocity = 750.0
+acceleration_smoothness = 0.1
+friction_smoothness = 0.3
+jump_height = 120.0
+time_to_apex = 0.5
+fall_gravity = 2400.0
+jump_cut_multiplier = 0.3
+glide_velocity = 300.0
+blink_dash_enabled = false
+slide_duration = 0.5
+slide_friction = 0.01
+skid_duration = 0.25
+skid_friction = 0.25
+wall_slip_duration = 0.08
+wall_slide_friction = 80.0
+crouch_speed_multiplier = 0.5
+wall_slide_jump_horizontal_velocity = 600.0
+wall_slide_jump_vertical_velocity = -600.0
+wall_stick_jump_horizontal_velocity = 900.0
+wall_stick_jump_vertical_velocity = -400.0
+dash_end_velocity_multiplier = 0.3
+invisibility_duration = 2.0
+invisibility_cooldown = 5.0
+coyote_time_duration = 0.2
+wall_coyote_time_duration = 0.18
+jump_buffer_duration = 0.1
+dash_freeze_duration = 0.08
+fall_zoom_delay = 0.3
+wall_detach_hang_time = 0.2
+wall_detach_gravity_scale = 0.5
+metadata/_custom_type_script = "uid://bx05fogp11uwl"

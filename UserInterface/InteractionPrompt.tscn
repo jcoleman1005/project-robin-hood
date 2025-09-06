@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://cds1bghdsycgl"]
+
+[ext_resource type="Script" uid="uid://c5iy4d55tjlpl" path="res://UserInterface/InteractionPrompt.gd" id="1_2fn7j"]
+
+[node name="InteractionPrompt" type="Node2D"]
+script = ExtResource("1_2fn7j")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 292.0
+offset_bottom = 108.0
+size_flags_vertical = 8
+text = "Filler Text"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="PromptPosition" type="Marker2D" parent="."]
+position = Vector2(5, -31)

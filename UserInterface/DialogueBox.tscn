@@ -1,37 +1,14 @@
 [gd_scene load_steps=2 format=3 uid="uid://gyisqiqdj8h6"]
 
-[sub_resource type="GDScript" id="GDScript_jp46j"]
-script/source = "# DialogueBox.gd
-extends Control
+[ext_resource type="Script" uid="uid://cikc2bl7xscml" path="res://UserInterface/DialogueBox.gd" id="1_ujxik"]
 
-## This is the fix! The path now includes the MarginContainer.
-@onready var label = $MarginContainer/Panel/Label
-
-func _ready():
-	# The dialogue box should be hidden when the game starts.
-	hide()
-
-# This is the public function that other nodes will call.
-# It now accepts a position to place the dialogue box.
-func show_message(message: String, target_position: Vector2):
-	label.text = message
-	global_position = target_position
-	show()
-
-# Hide the dialogue box if the player presses the interact button again.
-func _input(event):
-	if visible and Input.is_action_just_pressed(\"interact\"):
-		get_viewport().set_input_as_handled()
-		hide()"
-
-[node name="DialogueBox" type="Control" groups=["DialogueBox"]]
-layout_mode = 3
-anchors_preset = 0
-script = SubResource("GDScript_jp46j")
+[node name="DialogueBox" type="CanvasLayer" groups=["DialogueBox"]]
+process_mode = 3
+visible = false
+script = ExtResource("1_ujxik")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(100, 100)
-layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -48,6 +25,6 @@ layout_mode = 2
 layout_mode = 1
 offset_right = 130.0
 offset_bottom = 61.0
-horizontal_alignment = 3
-vertical_alignment = 3
+horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 3

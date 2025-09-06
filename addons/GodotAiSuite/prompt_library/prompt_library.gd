@@ -1,0 +1,136 @@
+@tool
+extends Window
+
+# --- Constants ---
+const PROMPT_LIBRARY_FILE_PATH: String = "res://addons/GodotAiSuite/prompt_library/prompts.json"
+
+# --- UI Node References ---
+@onready var _search_bar: LineEdit = $MarginContainer/HSplitContainer/VBoxContainer/SearchBar
+@onready var _prompt_tree: Tree = $MarginContainer/HSplitContainer/VBoxContainer/PromptTree
+@onready var _title_label: Label = $MarginContainer/HSplitContainer/VBoxContainer2/TitleLabel
+@onready var _description_label: Label = $MarginContainer/HSplitContainer/VBoxContainer2/DescriptionLabel
+@onready var _prompt_text: TextEdit = $MarginContainer/HSplitContainer/VBoxContainer2/PromptText
+@onready var _copy_button: Button = $MarginContainer/HSplitContainer/VBoxContainer2/HBoxContainer/CopyButton
+@onready var _copy_feedback_label: Label = $MarginContainer/HSplitContainer/VBoxContainer2/HBoxContainer/CopyFeedbackLabel
+
+# --- Internal State ---
+var _prompts_data: Array = []
+var _tree_category_items: Dictionary = {}
+
+
+func _ready() -> void:
+	# Connect signals via code, as per project standards
+	close_requested.connect(hide)
+	_search_bar.text_changed.connect(_on_search_changed)
+	_prompt_tree.item_selected.connect(_on_tree_selected)
+	_copy_button.pressed.connect(_on_copy_pressed)
+	
+	_load_and_populate_tree()
+
+
+# --- Public Methods ---
+func popup_library() -> void:
+	# This method is called from the main plugin script to show the window.
+	popup()
+
+
+# --- Signal Handlers ---
+func _on_search_changed(new_text: String) -> void:
+	_filter_tree(new_text)
+
+
+func _on_tree_selected() -> void:
+	var selected_item: TreeItem = _prompt_tree.get_selected()
+	if not selected_item:
+		return
+
+	# Check if the selected item is a prompt (has metadata) or a category (no metadata)
+	var prompt_index = selected_item.get_metadata(0)
+	if prompt_index is int:
+		var prompt_data: Dictionary = _prompts_data[prompt_index]
+		_title_label.text = prompt_data.get("title", "Untitled")
+		_description_label.text = prompt_data.get("description", "")
+
+		var prompt_path: String = prompt_data.get("prompt_file", "")
+		if not prompt_path.is_empty() and FileAccess.file_exists(prompt_path):
+			var file: FileAccess = FileAccess.open(prompt_path, FileAccess.READ)
+			_prompt_text.text = file.get_as_text()
+		else:
+			_prompt_text.text = "Error: Prompt file not found at path:\n" + prompt_path
+		
+		_copy_button.disabled = false
+	else:
+		# It's a category, clear the view
+		_title_label.text = "Select a prompt from the list"
+		_description_label.text = "Select a prompt to see its description."
+		_prompt_text.text = ""
+		_copy_button.disabled = true
+
+
+func _on_copy_pressed() -> void:
+	DisplayServer.clipboard_set(_prompt_text.text)
+	
+	# Show "Copied!" feedback
+	_copy_feedback_label.modulate.a = 1.0
+	var tween: Tween = create_tween()
+	tween.tween_property(_copy_feedback_label, "modulate:a", 0.0, 1.0).set_delay(1.5)
+
+
+# --- Internal Logic ---
+func _load_and_populate_tree() -> void:
+	if not FileAccess.file_exists(PROMPT_LIBRARY_FILE_PATH):
+		push_warning("Godot AI Suite: prompts.json not found.")
+		return
+
+	var file: FileAccess = FileAccess.open(PROMPT_LIBRARY_FILE_PATH, FileAccess.READ)
+	var content: String = file.get_as_text()
+	var json: JSON = JSON.new()
+	var error: Error = json.parse(content)
+	if error != OK:
+		push_error("Godot AI Suite: Failed to parse prompts.json. Error %s" % json.get_error_message())
+		return
+	
+	_prompts_data = json.data
+	
+	_prompt_tree.clear()
+	_tree_category_items.clear()
+	var root: TreeItem = _prompt_tree.create_item()
+
+	for i in range(_prompts_data.size()):
+		var prompt: Dictionary = _prompts_data[i]
+		var category_name: String = prompt.get("category", "Uncategorized")
+		var title: String = prompt.get("title", "Untitled Prompt")
+
+		var category_item: TreeItem
+		if not _tree_category_items.has(category_name):
+			category_item = _prompt_tree.create_item(root)
+			category_item.set_text(0, category_name)
+			_tree_category_items[category_name] = category_item
+		else:
+			category_item = _tree_category_items[category_name]
+
+		var prompt_item: TreeItem = _prompt_tree.create_item(category_item)
+		prompt_item.set_text(0, title)
+		prompt_item.set_metadata(0, i) # Store the index of the prompt in our data array
+
+
+func _filter_tree(query: String) -> void:
+	query = query.strip_edges().to_lower()
+	var root: TreeItem = _prompt_tree.get_root()
+	if not root:
+		return
+	
+	var category_item: TreeItem = root.get_first_child()
+	while category_item:
+		var category_visible: bool = false
+		var prompt_item: TreeItem = category_item.get_first_child()
+		while prompt_item:
+			var title: String = prompt_item.get_text(0).to_lower()
+			var prompt_visible: bool = query.is_empty() or title.contains(query)
+			prompt_item.set_visible(prompt_visible)
+			if prompt_visible:
+				category_visible = true
+			prompt_item = prompt_item.get_next()
+			
+		category_item.set_visible(category_visible)
+		category_item = category_item.get_next()

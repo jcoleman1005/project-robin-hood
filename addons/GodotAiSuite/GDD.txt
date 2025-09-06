@@ -1,0 +1,65 @@
+Game Design Document: Project Robin Hood
+Version: 2.0 Date: August 29, 2025
+1. Executive Summary
+Game Title: Project Robin Hood
+Genre: 2D Stealth/Infiltration Platformer
+Logline: A skilled knight must complete tense, non-combat stealth missions to rescue villagers and gather resources, using them to build a thriving hideout and reclaim the land from a corrupt regime.
+Core Question (Vertical Slice): "Is the core gameplay loop of completing a tense stealth/infiltration mission to strategically upgrade a home base a fun and repeatable experience?"
+2. Gameplay
+2.1. Core Gameplay Loop
+The gameplay is divided into two distinct phases: Missions and Hideout Management.
+Prepare: At the Hideout, the player views their resources and upgrades before choosing to embark on a mission.
+Infiltrate (The Mission): The player enters a non-linear 2D level with a primary objective (e.g., rescue prisoners, steal valuables). The focus is on stealth, evasion, and traversal, not combat.
+Return: Upon completing the objective, the player returns to the Hideout with acquired resources. If detected by a guard, a penalty is applied, reducing the resources gathered on that run.
+Upgrade (The Hideout): In the Hideout, the player spends resources at upgrade stations to unlock new abilities, improve existing ones, and expand the hideout.
+2.2. Player Experience & Game Feel
+Tension: During missions, the player should feel like a vulnerable but highly skilled infiltrator. Guards are a significant threat, and evasion is paramount.
+Empowerment: The player's movement controller is fluid and precise. Mastery of movement is the key to success and the primary source of player satisfaction.
+Reward: Returning to the Hideout and seeing it grow provides a powerful sense of accomplishment. Each new building or trained ally is a tangible result of the player's skill.
+3. Core Mechanics
+3.1. Player Controller
+The player character, "The Knight," is controlled by a node-based state machine for maximum scalability and organization.
+Core Abilities:
+Run: Standard left/right movement.
+Jump: Crisp, controllable jump with a double jump.
+Wall Slide/Jump: Ability to slide down vertical surfaces and jump off them.
+Dash: A high-speed horizontal burst of speed for evasion and traversal.
+Interact: A single-button, context-sensitive action for interacting with objects and NPCs.
+Advanced & Upgradable Abilities:
+Invisibility: A special ability on a cooldown that allows the player to temporarily bypass guards.
+Crouch & Slide: For navigating small spaces and maintaining momentum.
+Glide: For crossing wide gaps.
+3.2. Stealth System
+Guard AI: Guards patrol set paths and have a visible cone of vision. They are a hazard to be avoided, not a combatant to be fought. Contact with a guard triggers the mission failure state.
+Detection: A visible meter fills when the player is in a guard's line of sight. The invisibility skill prevents this.
+Interactable Objects: Levels contain objects like chests (providing Gold) and prisoners (providing Villagers) that the player can interact with.
+4. The Vertical Slice Scope
+This section defines the precise, limited scope required to answer the "Core Question" of the project.
+4.1. The Mission: "The Village Outskirts"
+Structure: A small, self-contained level with a clear start and end.
+Elements: Must contain simple platforms, at least one wall for wall-jumping, a single patrolling Guard, one Gold Chest, and one Caged Villager at the end.
+4.2. The Hideout
+Functionality: A hub scene that displays current resources (Gold, Villagers, Archers).
+Interactables:
+Start Mission Board: An object the player interacts with to begin the "Village Outskirts" mission.
+Upgrade Station: A single station where the player can spend resources.
+Upgrade: "Train Archer"
+Cost: 10 Gold and 1 Villager.
+Effect: Increases the "Archers" count on the UI. This serves as a simple proof-of-concept for the upgrade system.
+5. Art & Sound
+Art Style (Full Game Vision): A 2D pixel art style with a dark, moody atmosphere, contrasted with the warmth and growing life of the Hideout.
+Art Style (Vertical Slice Scope): All visuals will be simple placeholder shapes ("grey-boxing") to focus development time on mechanics and game feel.
+Sound (Full Game Vision): Atmospheric music and high-impact sound effects.
+Sound (Vertical Slice Scope): The game will be silent or use minimal, free placeholder sound effects.
+6. Technical Details
+Engine: Godot 4.2.2
+Architecture: A decoupled system using global singleton managers:
+GameManager: Manages persistent data (Gold, Villagers) and the save/load system. Emits global game state signals (mission_succeeded).
+SceneManager: Manages all scene transitions with a fade-to-black effect.
+UIManager: Manages the instancing and display of all UI scenes (PauseMenu, MissionSuccessScreen, etc.) on a dedicated CanvasLayer.
+Save/Load: Game state is saved to a JSON file upon acquiring resources or making purchases.
+7. Post-Vertical Slice Goals (Excluded Features)
+To maintain a tight focus, the following features are explicitly excluded from the vertical slice and will be considered for future development:
+NO combat system.
+NO additional levels, units, enemies, or upgrades.
+NO inventory, complex dialogue, or story elements.

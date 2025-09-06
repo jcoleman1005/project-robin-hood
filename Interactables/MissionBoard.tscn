@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://c88qa042w3di6"]
+
+[ext_resource type="Script" uid="uid://boij6uod5wat6" path="res://MissionBoard.gd" id="1_t2oxa"]
+[ext_resource type="Texture2D" uid="uid://b7b83g4xexe8q" path="res://assets/signpost32px.png" id="2_fi8tn"]
+[ext_resource type="PackedScene" uid="uid://coh7uki86a3k8" path="res://Interactables/Interactable.tscn" id="3_htoau"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0ghu3"]
+size = Vector2(20, 24)
+
+[node name="MissionBoard" type="StaticBody2D"]
+script = ExtResource("1_t2oxa")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_fi8tn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0ghu3")
+
+[node name="Interactable" parent="." instance=ExtResource("3_htoau")]
+prompt_message = "Start Mission"

@@ -1,31 +1,27 @@
+# res://UserInterface/TitleScreen.gd
 extends Control
 
-# --- Node References ---
-# We'll connect these in the editor.
-@onready var new_game_button = $NewGameButton
-@onready var continue_button = $ContinueButton
+@onready var _new_game_button: Button = $CenterContainer/VBoxContainer/NewGameButton
+@onready var _continue_button: Button = $CenterContainer/VBoxContainer/ContinueButton
 
-func _ready():
-	# When the title screen loads, check if a save file exists.
-	if FileAccess.file_exists(GameManager.SAVE_FILE_PATH):
-		# If it exists, enable the "Continue" button.
-		continue_button.disabled = false
-	else:
-		# If it doesn't exist, disable the "Continue" button.
-		continue_button.disabled = true
-
-## This function is called when the "New Game" button is pressed.
-func _on_new_game_button_pressed():
-	# Reset the GameManager to its default state for a new game.
-	GameManager.gold = 0
-	GameManager.villagers = 0
-	GameManager.archers = 0
+func _ready() -> void:
+	_new_game_button.pressed.connect(_on_new_game_button_pressed)
+	_continue_button.pressed.connect(_on_continue_button_pressed)
 	
-	# Go to the Hideout scene to start the game.
-	get_tree().change_scene_to_file("res://Scenes/hideout.tscn")
+	if FileAccess.file_exists(GameManager.SAVE_FILE_PATH):
+		_continue_button.disabled = false
+		# If the continue button is available, make it the default.
+		_continue_button.grab_focus()
+	else:
+		_continue_button.disabled = true
+		# Otherwise, make the New Game button the default.
+		_new_game_button.grab_focus()
+		
+func _on_new_game_button_pressed() -> void:
+	GameManager.reset_game_data()
+	# CORRECTED: Announce the user's intent on the EventBus.
+	EventBus.new_game_requested.emit()
 
-## This function is called when the "Continue" button is pressed.
-func _on_continue_button_pressed():
-	# The GameManager automatically loads the save file when the game starts,
-	# so we don't need to call load_game() here. We can just go to the Hideout.
-	get_tree().change_scene_to_file("res://Scenes/hideout.tscn")
+func _on_continue_button_pressed() -> void:
+	# CORRECTED: Announce the user's intent on the EventBus.
+	EventBus.continue_game_requested.emit()

@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://dk4o3f64bpeaj"]
+[gd_scene load_steps=17 format=3 uid="uid://dk4o3f64bpeaj"]
 
 [ext_resource type="Script" uid="uid://uimcqfum31bo" path="res://Interactables/RescuedVillager/RescuedVillager.gd" id="1_3pwis"]
-[ext_resource type="Texture2D" uid="uid://c2t0lai1nkuc5" path="res://assets/Sprites/Samurai/IDLE.png" id="2_tumfl"]
+[ext_resource type="Script" uid="uid://bsqq5lbd0k33k" path="res://Interactables/Interactable.gd" id="2_ashbp"]
+[ext_resource type="Texture2D" uid="uid://c2t0lai1nkuc5" path="res://assets/CharacterSprites/Samurai/IDLE.png" id="2_tumfl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mdajx"]
 size = Vector2(20, 35)
@@ -89,14 +90,13 @@ animations = [{
 
 [node name="RescuedVillager" type="StaticBody2D"]
 script = ExtResource("1_3pwis")
-prompt_message = null
-dialogue_message = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 14.5)
 shape = SubResource("RectangleShape2D_mdajx")
 
 [node name="InteractionArea" type="Area2D" parent="."]
+script = ExtResource("2_ashbp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
 position = Vector2(-1, 15.5)

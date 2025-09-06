@@ -1,0 +1,103 @@
+[gd_scene load_steps=16 format=3 uid="uid://c408hin1nld2m"]
+
+[ext_resource type="Script" uid="uid://7fbblhvw23re" path="res://Interactables/Prisoner/Prisoner.gd" id="1_mdajx"]
+[ext_resource type="Texture2D" uid="uid://c2t0lai1nkuc5" path="res://assets/CharacterSprites/Samurai/IDLE.png" id="1_slvsn"]
+[ext_resource type="PackedScene" uid="uid://coh7uki86a3k8" path="res://Interactables/Interactable.tscn" id="3_cccd3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mdajx"]
+size = Vector2(20, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6c6iy"]
+atlas = ExtResource("1_slvsn")
+region = Rect2(0, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_td4pl"]
+atlas = ExtResource("1_slvsn")
+region = Rect2(96, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j14ve"]
+atlas = ExtResource("1_slvsn")
+region = Rect2(192, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w0any"]
+atlas = ExtResource("1_slvsn")
+region = Rect2(288, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iv1ne"]
+atlas = ExtResource("1_slvsn")
+region = Rect2(384, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i1r8f"]
+atlas = ExtResource("1_slvsn")
+region = Rect2(480, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6upvi"]
+atlas = ExtResource("1_slvsn")
+region = Rect2(576, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5nfad"]
+atlas = ExtResource("1_slvsn")
+region = Rect2(672, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tpkd4"]
+atlas = ExtResource("1_slvsn")
+region = Rect2(768, 0, 96, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rc750"]
+atlas = ExtResource("1_slvsn")
+region = Rect2(864, 0, 96, 96)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b8v8i"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6c6iy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_td4pl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j14ve")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w0any")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iv1ne")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i1r8f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6upvi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5nfad")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tpkd4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rc750")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="prisoner" type="StaticBody2D"]
+script = ExtResource("1_mdajx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 15)
+shape = SubResource("RectangleShape2D_mdajx")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_b8v8i")
+frame_progress = 0.383016
+
+[node name="Interactable" parent="." instance=ExtResource("3_cccd3")]
+position = Vector2(0, 11)
+prompt_message = "Press E to rescue"
+
+[editable path="Interactable"]

@@ -1,43 +1,51 @@
-[gd_scene load_steps=2 format=3 uid="uid://c8yq465fd8xvt"]
+[gd_scene load_steps=3 format=3 uid="uid://c8yq465fd8xvt"]
 
+[ext_resource type="Theme" uid="uid://bgx3prsgldcw2" path="res://pixel_theme.tres" id="1_76dv7"]
 [ext_resource type="Script" uid="uid://ctj6jb31kxst2" path="res://UserInterface/TitleScreen.gd" id="1_klylv"]
 
-[node name="Title Screen" type="Control"]
-layout_mode = 3
+[node name="Title Screen" type="ColorRect"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -1152.0
-offset_bottom = -648.0
-size_flags_horizontal = 4
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme = ExtResource("1_76dv7")
+color = Color(0, 0, 0, 1)
 script = ExtResource("1_klylv")
 
-[node name="Label" type="Label" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
-offset_left = 152.0
-offset_top = 120.0
-offset_right = 1008.0
-offset_bottom = 256.0
-theme_override_font_sizes/font_size = 40
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 25
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 45
 text = "Project: Robin Hood"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="NewGameButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 512.0
-offset_top = 432.0
-offset_right = 672.0
-offset_bottom = 520.0
-text = "New Game"
+[node name="ContinueButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 35
+text = "Continue
+"
 
-[node name="ContinueButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 480.0
-offset_top = 280.0
-offset_right = 696.0
-offset_bottom = 408.0
-text = "Continue"
-
-[connection signal="pressed" from="NewGameButton" to="." method="_on_new_game_button_pressed"]
-[connection signal="pressed" from="ContinueButton" to="." method="_on_continue_button_pressed"]
+[node name="NewGameButton" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 35
+text = "New Game
+"

@@ -1,58 +1,104 @@
 extends Node
-
-# These variables will be accessible from anywhere in your game.
+signal resources_updated
 var gold: int = 0
 var villagers: int = 0
 var archers: int = 0
+var is_gameplay_active: bool = true
 
-# The path to our save file.
+var mission_objective_complete: bool = false
+
 const SAVE_FILE_PATH = "user://savegame.json"
 
-func _ready():
-	# When the game starts, automatically load any saved progress.
+func _ready() -> void:
 	load_game()
+	# The GameManager now subscribes to events it cares about.
+	EventBus.gold_collected.connect(_on_gold_collected)
+	EventBus.villager_rescued.connect(_on_villager_rescued)
+	EventBus.train_archer_requested.connect(_on_train_archer_requested)
+	EventBus.mission_started.connect(_on_mission_started)
+	EventBus.mission_objective_completed.connect(_on_mission_objective_completed)
+	EventBus.player_detected.connect(_on_player_detected)
+	EventBus.pause_toggled.connect(_on_pause_toggled)
+	EventBus.player_died.connect(_on_player_died)
+# --- Event Handlers ---
 
-## This function saves the current game state to a file.
+func _on_gold_collected(amount: int) -> void:
+	gold += amount
+	print("Player received " + str(amount) + " gold. Total gold: " + str(gold))
+	save_game()
+
+func _on_villager_rescued() -> void:
+	villagers += 1
+	mission_objective_complete = true # Set the objective flag
+	print("Villager rescued! Total villagers: " + str(villagers))
+	save_game()
+
+func _on_train_archer_requested() -> void:
+	if gold >= 10 and villagers > 0:
+		gold -= 10
+		villagers -= 1
+		archers += 1
+		save_game()
+		print("Archer trained!")
+	else:
+		print("Cannot train archer. Not enough resources.")
+
+func _on_mission_started() -> void:
+	mission_objective_complete = false
+
+func _on_mission_objective_completed() -> void:
+	# When the player exits a level, we confirm the mission is a success.
+	# The UIManager will listen for this to show the success screen.
+	EventBus.mission_succeeded.emit()
+
+func _on_player_detected() -> void:
+	# When the player is detected, we confirm the mission has failed.
+	# The UIManager will listen for this to show the failure screen.
+	EventBus.mission_failed.emit()
+
+func _on_pause_toggled(is_paused: bool) -> void:
+	get_tree().paused = is_paused
+	is_gameplay_active = not is_paused
+	print("Game Paused: ", is_paused)
+
+func reset_game_data() -> void:
+	gold = 0
+	villagers = 0
+	archers = 0
+	if FileAccess.file_exists(SAVE_FILE_PATH):
+		DirAccess.remove_absolute(SAVE_FILE_PATH)
+	resources_updated.emit()
+
+# --- Save/Load System ---
+
 func save_game():
-	# Create a dictionary to hold all the data we want to save.
 	var save_data = {
 		"gold": gold,
 		"villagers": villagers,
 		"archers": archers
 	}
-	
-	# Open the save file in write mode.
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
-	
-	# Convert the dictionary to a JSON string.
-	var json_string = JSON.stringify(save_data)
-	
-	# Write the JSON string to the file.
-	file.store_string(json_string)
-	
+	file.store_string(JSON.stringify(save_data))
 	print("Game saved!")
 
-## This function loads the game state from a file.
 func load_game():
-	# First, check if the save file actually exists.
 	if not FileAccess.file_exists(SAVE_FILE_PATH):
-		return # Do nothing if there's no save file.
+		print("DEBUG: GameManager - No save file found.") #<-- ADD THIS
+		return
 		
-	# Open the save file in read mode.
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.READ)
-	
-	# Read the entire file as text.
 	var content = file.get_as_text()
-	
-	# Parse the JSON string back into a Godot dictionary.
 	var data = JSON.parse_string(content)
 	
-	# Check if the data is valid.
 	if data:
-		# Update our variables with the loaded data.
 		gold = data.get("gold", 0)
 		villagers = data.get("villagers", 0)
 		archers = data.get("archers", 0)
-		print("Game loaded successfully!")
+		print("DEBUG: GameManager - load_game() called. Villagers loaded as ", villagers) #<-- ADD THIS
+		resources_updated.emit()
 	else:
-		print("Error loading save file. Data might be corrupted.")
+		print("DEBUG: GameManager - Error loading save file.") #<-- ADD THIS
+func _on_player_died() -> void:
+	# For now, we'll just reload the current scene.
+	# This effectively respawns the player at the start of the level.
+	get_tree().reload_current_scene()

@@ -1,0 +1,26 @@
+
+[Refactor] Unified RescuedVillager to use the standard Interactable component, fixing a crash.
+[Refactor] Unified Chest to use the standard Interactable component.
+[Refactor] Moved pause input handling from PauseMenu to PlayerScript.
+
+[Feature] Implemented QuitButton functionality in the PauseMenu.
+[Refactor] Moved PlayerCamera into PlayerScene to create a self-contained prefab.
+
+[Refactor] Removed hard-coded PauseMenu from level scene to rely on UIManager.
+[Refactor] Simplified the interaction system to use direct calls to InteractionManager.
+
+[Bugfix] Connected interaction signal in Prisoner script.
+[Refactor] Converted all remaining gameplay and UI calls to use the EventBus.
+
+[Architecture] Completed implementation of the global Event Bus system.
+[Refactor] Decoupled PlayerCamera from the player's state machine using signals.
+[Refactor] Replaced all hard-coded scene paths with exported PackedScene variables in the SceneManager.
+[Refactor] Removed obsolete signals and constants to resolve script warnings.
+[Refactor] Updated all player state scripts to use the PlayerStats resource.
+[Feature] Implemented a global, event-based dialogue system.
+
+[Refactor] Updated RescuedVillager to use the new dialogue system.
+[Refactor] Centralized interaction prompt management under the UIManager.
+
+[Bugfix] Fixed interaction prompt not appearing by connecting it to the InteractionManager's signals.
+[Refactor] Updated mission end screens to use the EventBus for unpausing.

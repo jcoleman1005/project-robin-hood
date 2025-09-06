@@ -1,0 +1,38 @@
+[
+  {
+	"category": "Idea generation",
+	"title": "Evaluate game idea",
+	"description":"The prompt evaluates your game idea.",
+	"prompt_file": "res://addons/GodotAiSuite/prompt_library/prompts/idea_evaluation.md"
+  },
+  {
+	"category": "Idea generation",
+	"title": "Generate GDD from a concrete game idea",
+	"description":"The prompt takes your concrete game idea and turns it into a Game Design Document, sticking as close to your input as possible. It will ask questions to clarify or fill gaps.",
+	"prompt_file": "res://addons/GodotAiSuite/prompt_library/prompts/concrete_idea_to_GDD.md"
+  },
+{
+	"category": "Idea generation",
+	"title": "Generate GDD from a rough idea",
+	"description":"The prompt takes your rough idea (eg. 'Tetris meets tower defense') and turns it into a full Game Design Document.",
+	"prompt_file": "res://addons/GodotAiSuite/prompt_library/prompts/rough_idea_to_GDD.md"
+  },
+{
+	"category": "Housekeeping",
+	"title": "Check naming conventions and file structure",
+	"description":"Attach Masterprompt.txt. \nThe prompt will analyze the adherence to Godot naming- and file structure conventions",
+	"prompt_file": "res://addons/GodotAiSuite/prompt_library/prompts/check_naming_conventions_and_file_structure.md"
+  },
+{
+	"category": "Housekeeping",
+	"title": "Analyze software architecture",
+	"description":"Attach Masterprompt.txt. \nThe prompt will conduct an in depth software architectural analysis and provide actionable recommendations how to fix the most critical flaws in the current project architecture.",
+	"prompt_file": "res://addons/GodotAiSuite/prompt_library/prompts/analyze_software_architecture.md"
+  },
+{
+	"category": "Housekeeping",
+	"title": "Performance Optimization",
+	"description":"Attach Masterprompt.txt. \nThe prompt will conduct an in dept analysis of possible performance bottlenecks and provide optimization recommendations",
+	"prompt_file": "res://addons/GodotAiSuite/prompt_library/prompts/performace_optimization.md"
+  },
+]

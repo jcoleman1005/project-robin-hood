@@ -1,0 +1,76 @@
+[gd_scene load_steps=11 format=3 uid="uid://dvmt8xfeyo1mq"]
+
+[ext_resource type="Texture2D" uid="uid://ceeqx8n62ovjo" path="res://assets/CharacterSprites/ArcherSprite/spr_ArcherIdle_strip_NoBkg.png" id="1_21cfi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_juuqe"]
+atlas = ExtResource("1_21cfi")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m2qfw"]
+atlas = ExtResource("1_21cfi")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lef87"]
+atlas = ExtResource("1_21cfi")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xeq1y"]
+atlas = ExtResource("1_21cfi")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t7nqi"]
+atlas = ExtResource("1_21cfi")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0etkv"]
+atlas = ExtResource("1_21cfi")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dwb8m"]
+atlas = ExtResource("1_21cfi")
+region = Rect2(768, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sm5gj"]
+atlas = ExtResource("1_21cfi")
+region = Rect2(896, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_enote"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_juuqe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m2qfw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lef87")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xeq1y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t7nqi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0etkv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dwb8m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sm5gj")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 12.0
+}]
+
+[node name="ArcherPlaceHolder" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.20313, 1.21094)
+sprite_frames = SubResource("SpriteFrames_enote")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.554703

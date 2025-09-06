@@ -1,9 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://cu82njq2q4b2r"]
+[gd_scene load_steps=3 format=3 uid="uid://cu82njq2q4b2r"]
 
 [ext_resource type="Script" uid="uid://bfde50vo2vc7x" path="res://UserInterface/MissionFailedScreen.gd" id="1_srgml"]
+[ext_resource type="Theme" uid="uid://bgx3prsgldcw2" path="res://pixel_theme.tres" id="2_toef0"]
 
 [node name="MissionFailedScreen" type="CanvasLayer"]
-process_mode = 2
+process_mode = 3
 script = ExtResource("1_srgml")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -15,15 +16,24 @@ grow_vertical = 2
 color = Color(0.18359, 0.18359, 0.18359, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.5
+offset_top = -29.0
+offset_right = 74.5
+offset_bottom = 29.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_toef0")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 4
+focus_mode = 2
+theme_override_constants/separation = 25
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -32,9 +42,8 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ReturnButton" type="Button" parent="MarginContainer/VBoxContainer"]
+process_mode = 3
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Return to Hideout"
-
-[connection signal="pressed" from="MarginContainer/VBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]

@@ -1,0 +1,93 @@
+[gd_scene load_steps=12 format=3 uid="uid://mbeklaojkxji"]
+
+[ext_resource type="Script" uid="uid://bmq17m7pgtfx1" path="res://Singletons/SceneManager.gd" id="1_m4iqe"]
+[ext_resource type="PackedScene" uid="uid://bqep4lh77amxw" path="res://Player/PlayerScene.tscn" id="2_b4mtc"]
+[ext_resource type="Script" uid="uid://dcp858y2mh4my" path="res://Singletons/SceneEntry.gd" id="2_oxstb"]
+[ext_resource type="PackedScene" uid="uid://mel3m8hxjkn7" path="res://Levels/Hideout/Hideout.tscn" id="3_x16ul"]
+[ext_resource type="PackedScene" uid="uid://btfq0patronhu" path="res://Levels/VillageOutskirts.tscn" id="4_707tl"]
+
+[sub_resource type="Resource" id="Resource_x16ul"]
+script = ExtResource("2_oxstb")
+key = "hideout"
+scene = ExtResource("3_x16ul")
+metadata/_custom_type_script = "uid://dcp858y2mh4my"
+
+[sub_resource type="Resource" id="Resource_707tl"]
+script = ExtResource("2_oxstb")
+key = "village_outskirts"
+scene = ExtResource("4_707tl")
+metadata/_custom_type_script = "uid://dcp858y2mh4my"
+
+[sub_resource type="Animation" id="Animation_byyba"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_xdnmq"]
+resource_name = "fade_to_normal"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_vlc1c"]
+resource_name = "FadeToBlack"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lwb1c"]
+_data = {
+&"RESET": SubResource("Animation_byyba"),
+&"fade_from_black": SubResource("Animation_xdnmq"),
+&"fade_to_black": SubResource("Animation_vlc1c")
+}
+
+[node name="SceneManager" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_m4iqe")
+scene_entries = Array[ExtResource("2_oxstb")]([SubResource("Resource_x16ul"), SubResource("Resource_707tl")])
+player_scene = ExtResource("2_b4mtc")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_lwb1c")
+}

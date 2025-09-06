@@ -1,0 +1,9 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cindktpnsryh8"]
+
+[ext_resource type="FontFile" uid="uid://dpa56w0q32n41" path="res://UserInterface/8bitlimr.ttf" id="1_xj80g"]
+
+[resource]
+default_font = ExtResource("1_xj80g")
+Button/fonts/font = ExtResource("1_xj80g")
+Label/font_sizes/font_size = 25
+Label/fonts/font = ExtResource("1_xj80g")

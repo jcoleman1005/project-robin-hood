@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b20vxhd2moenc"]
+
+[ext_resource type="Theme" uid="uid://bgx3prsgldcw2" path="res://pixel_theme.tres" id="1_1tbdl"]
+[ext_resource type="Script" uid="uid://ca8amae4da1p7" path="res://UserInterface/FloatingText.gd" id="2_n20vu"]
+
+[node name="FloatingText" type="Label"]
+offset_right = 40.0
+offset_bottom = 23.0
+theme = ExtResource("1_1tbdl")
+script = ExtResource("2_n20vu")

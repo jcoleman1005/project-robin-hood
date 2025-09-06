@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://d1vfdxyl0atfj"]
+
+[ext_resource type="Texture2D" uid="uid://dkv12hms3cynh" path="res://assets/dustparticles/dust1.png" id="1_ftofd"]
+
+[sub_resource type="Curve" id="Curve_ftofd"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.992958, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_mv4qd"]
+curve = SubResource("Curve_ftofd")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fydcl"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 50.0
+initial_velocity_max = 80.0
+gravity = Vector3(0, 300, 0)
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_mv4qd")
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+
+[node name="DustPuff" type="GPUParticles2D"]
+emitting = false
+amount = 16
+texture = ExtResource("1_ftofd")
+lifetime = 0.3
+one_shot = true
+explosiveness = 0.9
+process_material = SubResource("ParticleProcessMaterial_fydcl")

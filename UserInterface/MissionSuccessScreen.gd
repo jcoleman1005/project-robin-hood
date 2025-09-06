@@ -1,27 +1,17 @@
+# res://UserInterface/MissionSuccessScreen.gd
 extends CanvasLayer
 
-# --- Node References ---
-@onready var gold_label = $MarginContainer/VBoxContainer/GoldLabel
-@onready var villagers_label = $MarginContainer/VBoxContainer/VillagersLabel
-@onready var return_button = $MarginContainer/VBoxContainer/ReturnButton
+@onready var _return_button: Button = $MarginContainer/VBoxContainer/ReturnButton
 
-func _ready():
-	# The screen should be hidden when the level starts.
-	hide()
+func _ready() -> void:
+	_return_button.pressed.connect(_on_return_button_pressed)
+	_return_button.grab_focus()
 
-# This is a public function that the level script will call.
-# It takes the rewards as arguments so it can display them.
-func show_success_screen(gold_earned: int, villagers_rescued: int):
-	# Update the labels with the rewards from the mission.
-	gold_label.text = "Gold Earned: %d" % gold_earned
-	villagers_label.text = "Villagers Rescued: %d" % villagers_rescued
-	
-	# Show the UI and pause the game.
-	show()
-	get_tree().paused = true
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_accept"):
+		_on_return_button_pressed()
 
-# This function is called when the "Return to Hideout" button is pressed.
-func _on_return_button_pressed():
-	# It's important to unpause the game *before* changing scenes.
-	get_tree().paused = false
-	get_tree().change_scene_to_file("res://Scenes/hideout.tscn")
+
+func _on_return_button_pressed() -> void:
+	# No longer calls UIManager. It just announces what the user wants
+	EventBus.return_to_hideout_requested.emit()

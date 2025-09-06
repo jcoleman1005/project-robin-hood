@@ -1,57 +1,37 @@
+# res://Interactables/Chest/Chest.gd
 extends StaticBody2D
 
-# A signal to announce when the chest has been opened.
-signal opened
+@export var gold_amount: int = 10
+@export var floating_text_scene: PackedScene
+# ADD THIS NEW VARIABLE. A default of 20px up is a good start.
+@export var text_spawn_offset: Vector2 = Vector2(0, -20)
 
-@export var prompt_message: String = "Press A to open"
+var _is_opened := false
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var _interactable: Interactable = $InteractionArea
 
-# A flag to prevent the chest from being opened more than once.
-var is_open: bool = false
-var player_in_area = null
 
-# A reference to the Area2D node that detects the player.
-@onready var interaction_area = $InteractionArea
-# A reference to the sprite for the chest (so we can change its appearance).
-@onready var sprite = $Sprite2D
+func _ready() -> void:
+	_interactable.interacted.connect(_on_interacted)
 
-func _ready():
-	# Connect the signals from the Area2D to our script's functions.
-	interaction_area.body_entered.connect(_on_body_entered)
-	interaction_area.body_exited.connect(_on_body_exited)
 
-# This is the public function that our player controller will call.
-func interact():
-	# If the chest is already open, do nothing.
-	if is_open:
+func _on_interacted() -> void:
+	if _is_opened:
 		return
+	_is_opened = true
 	
-	# Mark the chest as open and update its appearance.
-	is_open = true
+	animated_sprite.play("open")
+	await animated_sprite.animation_finished
 	
-	if is_instance_valid(sprite):
-		sprite.modulate = Color.GRAY
+	EventBus.gold_collected.emit(gold_amount)
 	
-	# Announce that the chest has been opened.
-	emit_signal("opened")
-	
-	if is_instance_valid(player_in_area):
-		player_in_area.interaction_controller.unregister_interactable(self)
-
-
-# This function is called when a body (like the player) enters our interaction area.
-func _on_body_entered(body):
-	# First, check if the body is the player and if the chest isn't already open.
-	if body.is_in_group("player") and not is_open:
-		player_in_area = body
-		## The chest's only job is to tell the controller it's here.
-		InteractionManager.register_interactable(self, prompt_message)
-
-# This function is called when a body leaves our interaction area.
-func _on_body_exited(body):
-	# Check if the body is the player.
-	if body.is_in_group("player"):
-		## The chest's only job is to tell the controller it's gone.
-		InteractionManager.unregister_interactable(self)
+	if floating_text_scene:
+		var floating_text_instance = floating_text_scene.instantiate()
+		get_tree().current_scene.add_child(floating_text_instance)
 		
-		if body == player_in_area:
-			player_in_area = null
+		# UPDATE THIS LINE to add the offset.
+		floating_text_instance.global_position = self.global_position + text_spawn_offset
+		
+		floating_text_instance.show_text("+%d Gold" % gold_amount)
+	
+	queue_free()

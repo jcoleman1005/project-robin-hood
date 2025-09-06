@@ -1,0 +1,8 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bgx3prsgldcw2"]
+
+[ext_resource type="FontFile" uid="uid://dpa56w0q32n41" path="res://UserInterface/8bitlimr.ttf" id="1_ghajk"]
+
+[resource]
+default_font = ExtResource("1_ghajk")
+Button/fonts/font = ExtResource("1_ghajk")
+Label/fonts/font = ExtResource("1_ghajk")

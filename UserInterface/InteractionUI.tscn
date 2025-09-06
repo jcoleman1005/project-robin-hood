@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://ckeu537xfsm8n"]
+
+[ext_resource type="Script" uid="uid://bxslb7tjrxafu" path="res://UserInterface/InteractionUI.gd" id="1_p7br5"]
+[ext_resource type="Theme" uid="uid://bgx3prsgldcw2" path="res://pixel_theme.tres" id="2_cyofe"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kegi0"]
+bg_color = Color(0, 0, 0, 0.4)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 0.4)
+
+[node name="InteractionUI" type="CanvasLayer"]
+script = ExtResource("1_p7br5")
+
+[node name="Panel" type="PanelContainer" parent="."]
+offset_left = 282.5
+offset_top = 171.0
+offset_right = 357.5
+offset_bottom = 189.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kegi0")
+metadata/_edit_group_ = true
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 2
+theme = ExtResource("2_cyofe")
+text = "Filler Text"

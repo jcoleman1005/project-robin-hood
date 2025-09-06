@@ -1,0 +1,4170 @@
+### **1. Project Context Specification**
+
+You will be provided with a comprehensive dump of the Godot project context, structured as follows. You must parse, understand, and use this context to inform all your responses.
+
+*   **`2. GDD`**: The Game Design Document.
+*   **`3. DevLog`**: A log of implemented features and changes.
+*   **`4. Project Context`**: The technical project dump, including:
+    *   `4.1. Project Settings`
+    *   `4.2. Resource Files`
+    *   `4.3. Scene Structures`
+    *   `4.4. Codebase`
+
+---
+### **2. GDD**
+
+Game Design Document: Project Robin Hood
+Version: 2.0 Date: August 29, 2025
+1. Executive Summary
+Game Title: Project Robin Hood
+Genre: 2D Stealth/Infiltration Platformer
+Logline: A skilled knight must complete tense, non-combat stealth missions to rescue villagers and gather resources, using them to build a thriving hideout and reclaim the land from a corrupt regime.
+Core Question (Vertical Slice): "Is the core gameplay loop of completing a tense stealth/infiltration mission to strategically upgrade a home base a fun and repeatable experience?"
+2. Gameplay
+2.1. Core Gameplay Loop
+The gameplay is divided into two distinct phases: Missions and Hideout Management.
+Prepare: At the Hideout, the player views their resources and upgrades before choosing to embark on a mission.
+Infiltrate (The Mission): The player enters a non-linear 2D level with a primary objective (e.g., rescue prisoners, steal valuables). The focus is on stealth, evasion, and traversal, not combat.
+Return: Upon completing the objective, the player returns to the Hideout with acquired resources. If detected by a guard, a penalty is applied, reducing the resources gathered on that run.
+Upgrade (The Hideout): In the Hideout, the player spends resources at upgrade stations to unlock new abilities, improve existing ones, and expand the hideout.
+2.2. Player Experience & Game Feel
+Tension: During missions, the player should feel like a vulnerable but highly skilled infiltrator. Guards are a significant threat, and evasion is paramount.
+Empowerment: The player's movement controller is fluid and precise. Mastery of movement is the key to success and the primary source of player satisfaction.
+Reward: Returning to the Hideout and seeing it grow provides a powerful sense of accomplishment. Each new building or trained ally is a tangible result of the player's skill.
+3. Core Mechanics
+3.1. Player Controller
+The player character, "The Knight," is controlled by a node-based state machine for maximum scalability and organization.
+Core Abilities:
+Run: Standard left/right movement.
+Jump: Crisp, controllable jump with a double jump.
+Wall Slide/Jump: Ability to slide down vertical surfaces and jump off them.
+Dash: A high-speed horizontal burst of speed for evasion and traversal.
+Interact: A single-button, context-sensitive action for interacting with objects and NPCs.
+Advanced & Upgradable Abilities:
+Invisibility: A special ability on a cooldown that allows the player to temporarily bypass guards.
+Crouch & Slide: For navigating small spaces and maintaining momentum.
+Glide: For crossing wide gaps.
+3.2. Stealth System
+Guard AI: Guards patrol set paths and have a visible cone of vision. They are a hazard to be avoided, not a combatant to be fought. Contact with a guard triggers the mission failure state.
+Detection: A visible meter fills when the player is in a guard's line of sight. The invisibility skill prevents this.
+Interactable Objects: Levels contain objects like chests (providing Gold) and prisoners (providing Villagers) that the player can interact with.
+4. The Vertical Slice Scope
+This section defines the precise, limited scope required to answer the "Core Question" of the project.
+4.1. The Mission: "The Village Outskirts"
+Structure: A small, self-contained level with a clear start and end.
+Elements: Must contain simple platforms, at least one wall for wall-jumping, a single patrolling Guard, one Gold Chest, and one Caged Villager at the end.
+4.2. The Hideout
+Functionality: A hub scene that displays current resources (Gold, Villagers, Archers).
+Interactables:
+Start Mission Board: An object the player interacts with to begin the "Village Outskirts" mission.
+Upgrade Station: A single station where the player can spend resources.
+Upgrade: "Train Archer"
+Cost: 10 Gold and 1 Villager.
+Effect: Increases the "Archers" count on the UI. This serves as a simple proof-of-concept for the upgrade system.
+5. Art & Sound
+Art Style (Full Game Vision): A 2D pixel art style with a dark, moody atmosphere, contrasted with the warmth and growing life of the Hideout.
+Art Style (Vertical Slice Scope): All visuals will be simple placeholder shapes ("grey-boxing") to focus development time on mechanics and game feel.
+Sound (Full Game Vision): Atmospheric music and high-impact sound effects.
+Sound (Vertical Slice Scope): The game will be silent or use minimal, free placeholder sound effects.
+6. Technical Details
+Engine: Godot 4.2.2
+Architecture: A decoupled system using global singleton managers:
+GameManager: Manages persistent data (Gold, Villagers) and the save/load system. Emits global game state signals (mission_succeeded).
+SceneManager: Manages all scene transitions with a fade-to-black effect.
+UIManager: Manages the instancing and display of all UI scenes (PauseMenu, MissionSuccessScreen, etc.) on a dedicated CanvasLayer.
+Save/Load: Game state is saved to a JSON file upon acquiring resources or making purchases.
+7. Post-Vertical Slice Goals (Excluded Features)
+To maintain a tight focus, the following features are explicitly excluded from the vertical slice and will be considered for future development:
+NO combat system.
+NO additional levels, units, enemies, or upgrades.
+NO inventory, complex dialogue, or story elements.
+
+---
+### **3. DevLog**
+
+
+[Refactor] Unified RescuedVillager to use the standard Interactable component, fixing a crash.
+[Refactor] Unified Chest to use the standard Interactable component.
+[Refactor] Moved pause input handling from PauseMenu to PlayerScript.
+
+[Feature] Implemented QuitButton functionality in the PauseMenu.
+[Refactor] Moved PlayerCamera into PlayerScene to create a self-contained prefab.
+
+[Refactor] Removed hard-coded PauseMenu from level scene to rely on UIManager.
+[Refactor] Simplified the interaction system to use direct calls to InteractionManager.
+
+[Bugfix] Connected interaction signal in Prisoner script.
+[Refactor] Converted all remaining gameplay and UI calls to use the EventBus.
+
+[Architecture] Completed implementation of the global Event Bus system.
+[Refactor] Decoupled PlayerCamera from the player's state machine using signals.
+[Refactor] Replaced all hard-coded scene paths with exported PackedScene variables in the SceneManager.
+[Refactor] Removed obsolete signals and constants to resolve script warnings.
+[Refactor] Updated all player state scripts to use the PlayerStats resource.
+[Feature] Implemented a global, event-based dialogue system.
+
+[Refactor] Updated RescuedVillager to use the new dialogue system.
+[Refactor] Centralized interaction prompt management under the UIManager.
+
+[Bugfix] Fixed interaction prompt not appearing by connecting it to the InteractionManager's signals.
+[Refactor] Updated mission end screens to use the EventBus for unpausing.
+
+---
+### **4. Project Context**
+
+#### **4.1. Project Settings**
+
+--- START OF PROJECT SETTINGS ---
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Project Robin Hood"
+run/main_scene="uid://c8yq465fd8xvt"
+config/features=PackedStringArray("4.4", "GL Compatibility")
+config/icon="res://icon.svg"
+
+[autoload]
+
+EventBus="*res://Singletons/EventBus.gd"
+GameManager="*res://Singletons/GameManager.gd"
+InteractionManager="*res://Singletons/InteractionManager.gd"
+UIManager="*res://UserInterface/UIManager.gd"
+SceneManager="*res://Singletons/SceneManager.tscn"
+
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/GodotAiSuite/plugin.cfg", "res://addons/godot-vision-cone-main/addons/vision_cone_2d/plugin.cfg")
+
+[global_group]
+
+hazards=""
+player=""
+PlayerCamera=""
+DialogueBox=""
+camera_boundary=""
+
+[input]
+
+ui_accept={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194309,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194310,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":32,"physical_keycode":0,"key_label":0,"unicode":32,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":1,"pressure":0.0,"pressed":true,"script":null)
+]
+}
+ui_cancel={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194305,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":0,"pressure":0.0,"pressed":true,"script":null)
+]
+}
+jump={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
+]
+}
+left={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":65,"key_label":0,"unicode":97,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194319,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":-1.0,"script":null)
+]
+}
+right={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":68,"key_label":0,"unicode":100,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194321,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":1.0,"script":null)
+]
+}
+up={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":87,"key_label":0,"unicode":119,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194320,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":3,"pressure":0.0,"pressed":false,"script":null)
+]
+}
+down={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":83,"key_label":0,"unicode":115,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194322,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":1,"axis_value":1.0,"script":null)
+]
+}
+shift={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194325,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":5,"axis_value":1.0,"script":null)
+]
+}
+dash={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":70,"key_label":0,"unicode":102,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":2,"pressure":0.0,"pressed":true,"script":null)
+]
+}
+esc={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":4,"pressure":0.0,"pressed":true,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194305,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+left_bumper={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":9,"pressure":0.0,"pressed":true,"script":null)
+]
+}
+slide={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":10,"pressure":0.0,"pressed":true,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194325,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+interact={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":1,"pressure":0.0,"pressed":true,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":101,"location":0,"echo":false,"script":null)
+]
+}
+pause={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":6,"pressure":0.0,"pressed":true,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194305,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+invisibility={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":9,"pressure":0.0,"pressed":true,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":67,"key_label":0,"unicode":99,"location":0,"echo":false,"script":null)
+]
+}
+interact_world={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":101,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":1,"pressure":0.0,"pressed":true,"script":null)
+]
+}
+right_bumper={
+"deadzone": 0.2,
+"events": [Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":10,"pressure":0.0,"pressed":true,"script":null)
+]
+}
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+--- END OF PROJECT SETTINGS ---
+
+#### **4.2. Resource Files**
+
+--- START OF RESOURCE FILES ---
+--- RESOURCE: res://Levels/Hideout/hideout_theme.tres ---
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cindktpnsryh8"]
+
+[ext_resource type="FontFile" uid="uid://dpa56w0q32n41" path="res://UserInterface/8bitlimr.ttf" id="1_xj80g"]
+
+[resource]
+default_font = ExtResource("1_xj80g")
+Button/fonts/font = ExtResource("1_xj80g")
+Label/font_sizes/font_size = 25
+Label/fonts/font = ExtResource("1_xj80g")
+
+--- RESOURCE: res://pixel_theme.tres ---
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bgx3prsgldcw2"]
+
+[ext_resource type="FontFile" uid="uid://dpa56w0q32n41" path="res://UserInterface/8bitlimr.ttf" id="1_ghajk"]
+
+[resource]
+default_font = ExtResource("1_ghajk")
+Button/fonts/font = ExtResource("1_ghajk")
+Label/fonts/font = ExtResource("1_ghajk")
+
+--- RESOURCE: res://Player/Data/player_stats.tres ---
+[gd_resource type="Resource" script_class="PlayerStats" load_steps=2 format=3 uid="uid://st5loweg5geo"]
+
+[ext_resource type="Script" uid="uid://bx05fogp11uwl" path="res://Player/Data/PlayerStats.gd" id="1_byv2g"]
+
+[resource]
+script = ExtResource("1_byv2g")
+speed = 500.0
+air_control_acceleration = 250.0
+terminal_velocity = 750.0
+acceleration_smoothness = 0.1
+friction_smoothness = 0.3
+jump_height = 120.0
+time_to_apex = 0.5
+fall_gravity = 2400.0
+jump_cut_multiplier = 0.3
+glide_velocity = 300.0
+blink_dash_enabled = false
+slide_duration = 0.5
+slide_friction = 0.01
+skid_duration = 0.25
+skid_friction = 0.25
+wall_slip_duration = 0.08
+wall_slide_friction = 80.0
+crouch_speed_multiplier = 0.5
+wall_slide_jump_horizontal_velocity = 600.0
+wall_slide_jump_vertical_velocity = -600.0
+wall_stick_jump_horizontal_velocity = 900.0
+wall_stick_jump_vertical_velocity = -400.0
+dash_end_velocity_multiplier = 0.3
+invisibility_duration = 2.0
+invisibility_cooldown = 5.0
+coyote_time_duration = 0.2
+wall_coyote_time_duration = 0.18
+jump_buffer_duration = 0.1
+dash_freeze_duration = 0.08
+fall_zoom_delay = 0.3
+wall_detach_hang_time = 0.2
+wall_detach_gravity_scale = 0.5
+metadata/_custom_type_script = "uid://bx05fogp11uwl"
+--- END OF RESOURCE FILES ---
+
+#### **4.3. Scene Structures**
+
+--- START OF SCENE STRUCTURES ---
+--- SCENE: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn ---
+Enemy (CharacterBody2D)
+> script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.gd
+> scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
+> vision_renderer = VisionConeRenderer:<Polygon2D#88553233168211>
+> alert_color = (0.6, 0.2706, 0.2471, 0.3686)
+> is_rotating = false
+> rotation_speed = 0.1
+> rotation_angle = 90
+> movement_speed = 0.1
+> CharacterRenderer (Polygon2D)
+> > rotation = -1.57079994678497
+> > scale = (2.0, 2.0)
+> > color = (0.902, 0.1412, 0.1882, 1.0)
+> > polygon = [(-10.0, -10.0), (10.0, -10.0), (0.0, 10.0)]
+> VisionCone2D (Node2D)
+>   script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/vision_cone_2d.gd
+>   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/vision_cone_2d_template.tscn
+> > rotation = -1.57079994678497
+> > angle_deg = 360
+> > ray_count = 100
+> > max_distance = 500.0
+> > collision_layer_mask = 2
+> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#88553266706705>
+> > write_polygon2d = VisionConeRenderer:<Polygon2D#88553233168211>
+> > debug_lines = false
+> > debug_shape = false
+> > minimum_recalculate_time_msec = 0
+> > recalculate_if_static = false
+> > static_threshold = 2.0
+> > min_distance_sqr = 16.0
+>   VisionConeRenderer (Polygon2D)
+>   > color = (0.4314, 0.9294, 0.2784, 0.2863)
+>   VisionConeArea (Area2D)
+>   > collision_layer = 0
+>   > monitorable = false
+>     VisionConeCollider (CollisionPolygon2D)
+>   DebugDraw (Node2D)
+>     script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/cone_editor_helper.gd
+>   > is_visible = true
+>   > color = (1.0, 0.0, 0.0, 1.0)
+
+--- SCENE: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/example.tscn ---
+example (Node2D)
+> scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/example.tscn
+> PatrolPath (Path2D)
+> > curve = res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/example.tscn::Curve2D_kvoug
+>   PathFollow2D (PathFollow2D)
+>   > position = (81.0, 129.0)
+>   > rotation = -0.46364799141884
+> Enemy (CharacterBody2D)
+>   script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.gd
+>   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
+> > position = (1055.0, 97.0)
+> > vision_renderer = VisionConeRenderer:<Polygon2D#88553870718454>
+> > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
+> > is_rotating = false
+> > rotation_speed = 0.1
+> > rotation_angle = 90
+> > movement_speed = 0.1
+>   CharacterRenderer (Polygon2D)
+>   > rotation = -1.57079994678497
+>   > scale = (2.0, 2.0)
+>   > color = (0.902, 0.1412, 0.1882, 1.0)
+>   > polygon = [(-10.0, -10.0), (10.0, -10.0), (0.0, 10.0)]
+>   VisionCone2D (Node2D)
+>     script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/vision_cone_2d.gd
+>     scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/vision_cone_2d_template.tscn
+>   > rotation = -1.57079994678497
+>   > angle_deg = 360
+>   > ray_count = 100
+>   > max_distance = 500.0
+>   > collision_layer_mask = 2
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#88553904276407>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#88553870718454>
+>   > debug_lines = false
+>   > debug_shape = false
+>   > minimum_recalculate_time_msec = 0
+>   > recalculate_if_static = false
+>   > static_threshold = 2.0
+>   > min_distance_sqr = 16.0
+>     VisionConeRenderer (Polygon2D)
+>     > color = (0.4314, 0.9294, 0.2784, 0.2863)
+>     VisionConeArea (Area2D)
+>     > collision_layer = 0
+>     > monitorable = false
+>       VisionConeCollider (CollisionPolygon2D)
+>     DebugDraw (Node2D)
+>       script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/cone_editor_helper.gd
+>     > is_visible = true
+>     > color = (1.0, 0.0, 0.0, 1.0)
+>   Explanation (Label)
+>   > visible = false
+>   > offset_left = 18.0
+>   > offset_top = 13.0
+>   > offset_right = 260.0
+>   > offset_bottom = 65.0
+>   > text = "Full 360 vision cone\nwith static optimization: will not recalculate vision cone if delta movement < static_threshold. Since the target is not rotating this is useful for performance"
+>   Explanation2 (Label)
+>   > visible = false
+>   > offset_left = 36.0
+>   > offset_top = 26.0
+>   > offset_right = 1227.0
+>   > offset_bottom = 78.0
+>   > text = "The signal from the vision cone area is connected to the enemy script, which will trigger custom behavior for when the player is visible"
+> Enemy2 (CharacterBody2D)
+>   script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.gd
+>   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
+> > position = (301.0, 705.0)
+> > rotation = -1.57079994678497
+> > vision_renderer = VisionConeRenderer:<Polygon2D#88554055258744>
+> > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
+> > is_rotating = true
+> > rotation_speed = 1.0
+> > rotation_angle = 90
+> > movement_speed = 0.1
+>   CharacterRenderer (Polygon2D)
+>   > rotation = -1.57079994678497
+>   > scale = (2.0, 2.0)
+>   > color = (0.902, 0.1412, 0.1882, 1.0)
+>   > polygon = [(-10.0, -10.0), (10.0, -10.0), (0.0, 10.0)]
+>   VisionCone2D (Node2D)
+>     script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/vision_cone_2d.gd
+>     scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/vision_cone_2d_template.tscn
+>   > rotation = -1.57079994678497
+>   > angle_deg = 45
+>   > ray_count = 50
+>   > max_distance = 700
+>   > collision_layer_mask = 2
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#88554088823850>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#88554055258744>
+>   > debug_lines = false
+>   > debug_shape = false
+>   > minimum_recalculate_time_msec = 0
+>   > recalculate_if_static = true
+>   > static_threshold = 2.0
+>   > min_distance_sqr = 16.0
+>     VisionConeRenderer (Polygon2D)
+>     > color = (0.4314, 0.9294, 0.2784, 0.2863)
+>     VisionConeArea (Area2D)
+>     > collision_layer = 0
+>     > monitorable = false
+>       VisionConeCollider (CollisionPolygon2D)
+>     DebugDraw (Node2D)
+>       script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/cone_editor_helper.gd
+>     > is_visible = true
+>     > color = (1.0, 0.0, 0.0, 1.0)
+>   Explanation (Label)
+>   > visible = false
+>   > offset_left = 18.0
+>   > offset_top = 13.0
+>   > offset_right = 260.0
+>   > offset_bottom = 39.0
+>   > text = "Narrow vision cone (<360 deg)\nThe target is rotating so the vision cone has to be recalculated even if the character is static\nSince the vision cone is smaller than the one with 360 vision, we can use less rays and save on performance"
+> Enemy3 (CharacterBody2D)
+>   script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.gd
+>   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
+> > position = (211.0, 130.0)
+> > rotation = -0.48296800255775
+> > vision_renderer = VisionConeRenderer:<Polygon2D#88554206252976>
+> > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
+> > is_rotating = false
+> > rotation_speed = 1.0
+> > rotation_angle = 90
+> > move_on_path = PathFollow2D:<PathFollow2D#88553803612267>
+> > movement_speed = 3.0
+>   CharacterRenderer (Polygon2D)
+>   > rotation = -1.57079994678497
+>   > scale = (2.0, 2.0)
+>   > color = (0.902, 0.1412, 0.1882, 1.0)
+>   > polygon = [(-10.0, -10.0), (10.0, -10.0), (0.0, 10.0)]
+>   VisionCone2D (Node2D)
+>     script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/vision_cone_2d.gd
+>     scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/vision_cone_2d_template.tscn
+>   > rotation = -1.57079994678497
+>   > angle_deg = 45
+>   > ray_count = 10
+>   > max_distance = 700
+>   > collision_layer_mask = 2
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#88554239821914>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#88554206252976>
+>   > debug_lines = true
+>   > debug_shape = true
+>   > minimum_recalculate_time_msec = 250
+>   > recalculate_if_static = false
+>   > static_threshold = 2.0
+>   > min_distance_sqr = 16.0
+>     VisionConeRenderer (Polygon2D)
+>     > color = (0.4314, 0.9294, 0.2784, 0.2863)
+>     VisionConeArea (Area2D)
+>     > collision_layer = 0
+>     > monitorable = false
+>       VisionConeCollider (CollisionPolygon2D)
+>     DebugDraw (Node2D)
+>       script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/cone_editor_helper.gd
+>     > is_visible = true
+>     > color = (1.0, 0.0, 0.0, 1.0)
+>   Explanation (Label)
+>   > visible = false
+>   > offset_left = 18.0
+>   > offset_top = 13.0
+>   > offset_right = 260.0
+>   > offset_bottom = 39.0
+>   > text = "This enemy has a vision cone, but it is not rendering it to a polygon 2d as the write_polygon2d is null. It is still being written to a collider so it can act on it. This is useful if you want to use it for AI, but don\'t want to show the cone to the player. You can still use the debug mode to display an outline while working on it"
+>   Explanation2 (Label)
+>   > visible = false
+>   > offset_left = 36.0
+>   > offset_top = 26.0
+>   > offset_right = 2460.0
+>   > offset_bottom = 52.0
+>   > text = "Notice that since this cone is not visualized by the player, the minimum_recalculate_time_msec can be set to a higher value to improve performance, since this can be slightly more approximate than a cone that is visible"
+> Player (CharacterBody2D)
+>   script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/player_movement.gd
+> > position = (600.0, 404.0)
+> > speed = 1.0
+> > distance = 500.0
+>   CharacterRenderer (Polygon2D)
+>   > scale = (2.0, 2.0)
+>   > color = (0.1333, 0.5059, 0.8431, 1.0)
+>   > polygon = [(-10.0, -10.0), (10.0, -10.0), (10.0, 10.0), (-10.0, 10.0)]
+>   CharacterCollider (CollisionShape2D)
+>   > visible = false
+>   > shape = res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/example.tscn::RectangleShape2D_olhq2
+> Level (Node2D)
+>   Wall (StaticBody2D)
+>     scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/wall.tscn
+>   > position = (622.0, 279.0)
+>   > scale = (8.88, 1.0)
+>   > collision_layer = 2
+>     WallRenderer (Polygon2D)
+>     > scale = (2.0, 2.0)
+>     > color = (0.8, 0.7059, 0.9412, 1.0)
+>     > polygon = [(-10.0, -10.0), (10.0, -10.0), (10.0, 10.0), (-10.0, 10.0)]
+>     CollisionShape2D (CollisionShape2D)
+>     > visible = false
+>     > shape = res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/wall.tscn::RectangleShape2D_yia6m
+>     Explanation (Label)
+>     > visible = false
+>     > offset_left = 18.0
+>     > offset_top = 13.0
+>     > offset_right = 260.0
+>     > offset_bottom = 39.0
+>     > text = "Walls have collision layer 2, and vision cone has collision_layer_mask to include layer 2, so the vision will not pass through them"
+>   Wall4 (StaticBody2D)
+>     scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/wall.tscn
+>   > position = (768.0, 133.0)
+>   > scale = (1.0, 2.76)
+>   > collision_layer = 2
+>     WallRenderer (Polygon2D)
+>     > scale = (2.0, 2.0)
+>     > color = (0.8, 0.7059, 0.9412, 1.0)
+>     > polygon = [(-10.0, -10.0), (10.0, -10.0), (10.0, 10.0), (-10.0, 10.0)]
+>     CollisionShape2D (CollisionShape2D)
+>     > visible = false
+>     > shape = res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/wall.tscn::RectangleShape2D_yia6m
+>   Wall3 (StaticBody2D)
+>     scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/wall.tscn
+>   > position = (1147.0, 279.0)
+>   > scale = (8.88, 1.0)
+>   > collision_layer = 2
+>     WallRenderer (Polygon2D)
+>     > scale = (2.0, 2.0)
+>     > color = (0.8, 0.7059, 0.9412, 1.0)
+>     > polygon = [(-10.0, -10.0), (10.0, -10.0), (10.0, 10.0), (-10.0, 10.0)]
+>     CollisionShape2D (CollisionShape2D)
+>     > visible = false
+>     > shape = res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/wall.tscn::RectangleShape2D_yia6m
+>   Window (StaticBody2D)
+>     scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/wall.tscn
+>   > position = (885.0, 279.0)
+>   > scale = (4.08, 1.0)
+>   > collision_layer = 4
+>     WallRenderer (Polygon2D)
+>     > scale = (2.0, 2.0)
+>     > color = (0.5451, 0.8039, 0.8824, 0.5725)
+>     > polygon = [(-10.0, -10.0), (10.0, -10.0), (10.0, 10.0), (-10.0, 10.0)]
+>     CollisionShape2D (CollisionShape2D)
+>     > visible = false
+>     > shape = res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/wall.tscn::RectangleShape2D_yia6m
+>     Explanation (Label)
+>     > visible = false
+>     > offset_left = 18.0
+>     > offset_top = 13.0
+>     > offset_right = 260.0
+>     > offset_bottom = 39.0
+>     > text = "This acts as a window, as its collision layer is 3, so the vision rays will not collide with it, but characters will not be able to pass through"
+>   Wall2 (StaticBody2D)
+>     scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/wall.tscn
+>   > position = (618.0, 559.0)
+>   > scale = (8.88, 1.0)
+>   > collision_layer = 2
+>     WallRenderer (Polygon2D)
+>     > scale = (2.0, 2.0)
+>     > color = (0.8, 0.7059, 0.9412, 1.0)
+>     > polygon = [(-10.0, -10.0), (10.0, -10.0), (10.0, 10.0), (-10.0, 10.0)]
+>     CollisionShape2D (CollisionShape2D)
+>     > visible = false
+>     > shape = res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/wall.tscn::RectangleShape2D_yia6m
+
+--- SCENE: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/wall.tscn ---
+Wall (StaticBody2D)
+> scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/wall.tscn
+> collision_layer = 2
+> WallRenderer (Polygon2D)
+> > scale = (2.0, 2.0)
+> > color = (0.8, 0.7059, 0.9412, 1.0)
+> > polygon = [(-10.0, -10.0), (10.0, -10.0), (10.0, 10.0), (-10.0, 10.0)]
+> CollisionShape2D (CollisionShape2D)
+> > visible = false
+> > shape = res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/wall.tscn::RectangleShape2D_yia6m
+
+--- SCENE: res://addons/godot-vision-cone-main/addons/vision_cone_2d/vision_cone_2d_template.tscn ---
+VisionCone2D (Node2D)
+> script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/vision_cone_2d.gd
+> scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/vision_cone_2d_template.tscn
+> angle_deg = 360
+> ray_count = 100
+> max_distance = 500.0
+> collision_layer_mask = 2
+> write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#88556018206300>
+> write_polygon2d = VisionConeRenderer:<Polygon2D#88555984615694>
+> debug_lines = false
+> debug_shape = false
+> minimum_recalculate_time_msec = 0
+> recalculate_if_static = true
+> static_threshold = 2.0
+> min_distance_sqr = 16.0
+> VisionConeRenderer (Polygon2D)
+> > color = (0.4314, 0.9294, 0.2784, 0.2863)
+> VisionConeArea (Area2D)
+> > collision_layer = 0
+> > monitorable = false
+>   VisionConeCollider (CollisionPolygon2D)
+> DebugDraw (Node2D)
+>   script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/cone_editor_helper.gd
+> > is_visible = true
+> > color = (1.0, 0.0, 0.0, 1.0)
+
+--- SCENE: res://Enemies/Guard/Guard.tscn ---
+Guard (CharacterBody2D)
+> script: res://Enemies/Guard/Guard.gd
+> scene: res://Enemies/Guard/Guard.tscn
+> scale = (0.75, 0.75)
+> speed = 50.0
+> detection_time = 1.5
+> hearing_range = 300.0
+> vision_cone_normal_color = (1.0, 1.0, 0.0, 0.2)
+> vision_cone_alert_color = (1.0, 0.0, 0.0, 0.3)
+> CollisionShape2D (CollisionShape2D)
+> > position = (-2.5, 31.3333)
+> > shape = res://Enemies/Guard/Guard.tscn::RectangleShape2D_gyn35
+> AnimatedSprite2D (AnimatedSprite2D)
+> > sprite_frames = res://Enemies/Guard/Guard.tscn::SpriteFrames_a34ki
+> > animation = idle
+> HitboxArea (Area2D)
+> > position = (4.0, 0.0)
+>   CollisionShape2D (CollisionShape2D)
+>   > position = (-6.66667, 31.3333)
+>   > shape = res://Enemies/Guard/Guard.tscn::RectangleShape2D_lvm1q
+> Raycasts (Node2D)
+>   LedgeCheckRay (RayCast2D)
+>   > position = (12.0, 52.0)
+>   > target_position = (0.0, 17.3333)
+>   WallCheckRay (RayCast2D)
+>   > position = (0.0, 21.33)
+>   > target_position = (17.3333, 0.003334)
+>   RayCast2D3 (RayCast2D)
+> TurnCooldownTimer (Timer)
+> > one_shot = true
+> VisionConeArea (Area2D)
+> > scale = (0.5, 0.5)
+>   CollisionPolygon2D (CollisionPolygon2D)
+>   > polygon = [(201.3, -22.6), (201.3, 64.0), (1.3, 2.6)]
+>   VisionConePolygon (Polygon2D)
+>   > color = (0.3922, 0.3922, 0.0, 0.6196)
+>   > polygon = [(201.3, -22.6), (201.3, 64.0), (1.3, 2.6)]
+>   LineOfSightRay (RayCast2D)
+>   > position = (2.6, -1.3)
+>   > target_position = (250.0, 4.0)
+>   WallDetectionRay (RayCast2D)
+>   > target_position = (250.0, 4.0)
+> StateMachine (Node)
+>   script: res://Enemies/Guard/States/guard_state_machine.gd
+> > initial_state = PatrolState:<Node#88556437632502>
+>   PatrolState (Node)
+>     script: res://Enemies/Guard/States/patrol_state.gd
+>   SuspiciousState (Node)
+>     script: res://Enemies/Guard/States/suspicious_state.gd
+>   AlertState (Node)
+>     script: res://Enemies/Guard/States/alert_state.gd
+> SuspicionTimer (Timer)
+> > wait_time = 3.0
+> > one_shot = true
+
+--- SCENE: res://Enemies/vision_cone_area.tscn ---
+VisionConeArea (Area2D)
+> scene: res://Enemies/vision_cone_area.tscn
+> scale = (0.5, 0.5)
+> CollisionPolygon2D (CollisionPolygon2D)
+> > polygon = [(201.3, -22.6), (201.3, 64.0), (1.3, 2.6)]
+> VisionConePolygon (Polygon2D)
+> > color = (0.3922, 0.3922, 0.0, 0.6196)
+> > polygon = [(201.3, -22.6), (201.3, 64.0), (1.3, 2.6)]
+> LineOfSightRay (RayCast2D)
+> > position = (2.6, -1.3)
+> > target_position = (250.0, 4.0)
+> WallDetectionRay (RayCast2D)
+> > target_position = (250.0, 4.0)
+
+--- SCENE: res://Interactables/ArcherPlaceholder.tscn ---
+ArcherPlaceHolder (Node2D)
+> scene: res://Interactables/ArcherPlaceholder.tscn
+> AnimatedSprite2D (AnimatedSprite2D)
+> > scale = (1.20313, 1.21094)
+> > sprite_frames = res://Interactables/ArcherPlaceholder.tscn::SpriteFrames_enote
+> > animation = idle
+> > autoplay = "idle"
+> > frame_progress = 0.55470299720764
+
+--- SCENE: res://Interactables/Chest/Chest.tscn ---
+Chest (StaticBody2D)
+> script: res://Interactables/Chest/Chest.gd
+> scene: res://Interactables/Chest/Chest.tscn
+> gold_amount = 10
+> floating_text_scene = res://UserInterface/FloatingText.tscn
+> text_spawn_offset = (0.0, -20.0)
+> AnimatedSprite2D (AnimatedSprite2D)
+> > sprite_frames = res://Interactables/Chest/Chest.tscn::SpriteFrames_jv5ma
+> > animation = open
+> CollisionShape2D (CollisionShape2D)
+> > shape = res://Interactables/Chest/Chest.tscn::RectangleShape2D_pmguq
+> InteractionArea (Area2D)
+>   script: res://Interactables/Interactable.gd
+> > prompt_message = "Press E to Interact"
+>   CollisionShape2D (CollisionShape2D)
+>   > shape = res://Interactables/Chest/Chest.tscn::CircleShape2D_i7tb8
+
+--- SCENE: res://Interactables/Interactable.tscn ---
+Interactable (Area2D)
+> script: res://Interactables/Interactable.gd
+> scene: res://Interactables/Interactable.tscn
+> prompt_message = "Interact"
+> CollisionShape2D (CollisionShape2D)
+> > shape = res://Interactables/Interactable.tscn::CircleShape2D_nuwr0
+
+--- SCENE: res://Interactables/MissionBoard.tscn ---
+MissionBoard (StaticBody2D)
+> script: res://MissionBoard.gd
+> scene: res://Interactables/MissionBoard.tscn
+> Sprite2D (Sprite2D)
+> > texture = res://assets/signpost32px.png
+> CollisionShape2D (CollisionShape2D)
+> > shape = res://Interactables/MissionBoard.tscn::RectangleShape2D_0ghu3
+> Interactable (Area2D)
+>   script: res://Interactables/Interactable.gd
+>   scene: res://Interactables/Interactable.tscn
+> > prompt_message = "Start Mission"
+>   CollisionShape2D (CollisionShape2D)
+>   > shape = res://Interactables/Interactable.tscn::CircleShape2D_nuwr0
+
+--- SCENE: res://Interactables/Prisoner/Prisoner.tscn ---
+prisoner (StaticBody2D)
+> script: res://Interactables/Prisoner/Prisoner.gd
+> scene: res://Interactables/Prisoner/Prisoner.tscn
+> CollisionShape2D (CollisionShape2D)
+> > position = (0.0, 15.0)
+> > shape = res://Interactables/Prisoner/Prisoner.tscn::RectangleShape2D_mdajx
+> AnimatedSprite2D (AnimatedSprite2D)
+> > sprite_frames = res://Interactables/Prisoner/Prisoner.tscn::SpriteFrames_b8v8i
+> > frame_progress = 0.38301599025726
+> Interactable (Area2D)
+>   script: res://Interactables/Interactable.gd
+>   scene: res://Interactables/Interactable.tscn
+> > position = (0.0, 11.0)
+> > prompt_message = "Press E to rescue"
+>   CollisionShape2D (CollisionShape2D)
+>   > shape = res://Interactables/Interactable.tscn::CircleShape2D_nuwr0
+
+--- SCENE: res://Interactables/RescuedVillager/RescuedVillager.tscn ---
+RescuedVillager (StaticBody2D)
+> script: res://Interactables/RescuedVillager/RescuedVillager.gd
+> scene: res://Interactables/RescuedVillager/RescuedVillager.tscn
+> dialogue_message = "Thank you!"
+> CollisionShape2D (CollisionShape2D)
+> > position = (0.0, 14.5)
+> > shape = res://Interactables/RescuedVillager/RescuedVillager.tscn::RectangleShape2D_mdajx
+> InteractionArea (Area2D)
+>   script: res://Interactables/Interactable.gd
+> > prompt_message = "Interact"
+>   CollisionShape2D (CollisionShape2D)
+>   > position = (-1.0, 15.5)
+>   > shape = res://Interactables/RescuedVillager/RescuedVillager.tscn::CircleShape2D_3pwis
+> AnimatedSprite2D (AnimatedSprite2D)
+> > sprite_frames = res://Interactables/RescuedVillager/RescuedVillager.tscn::SpriteFrames_b8v8i
+> > frame_progress = 0.38301599025726
+
+--- SCENE: res://Interactables/Spike.tscn ---
+Spike (StaticBody2D)
+> scene: res://Interactables/Spike.tscn
+> CollisionPolygon2D (CollisionPolygon2D)
+>   groups = [&"hazards"]
+> > position = (0.427778, 0.044617)
+> > scale = (0.986111, 0.999282)
+> > polygon = [(2.0, -51.0), (20.0, 35.0), (-16.0, 36.0)]
+> SteelspikeUp (Sprite2D)
+> > position = (2.0, -7.0)
+> > texture = res://assets/spikey stuff/spikeystuff/SteelspikeUp.png
+
+--- SCENE: res://Levels/CameraBoundary.tscn ---
+CameraBoundary (Area2D)
+> scene: res://Levels/CameraBoundary.tscn
+> groups = [&"camera_boundary"]
+> CollisionShape2D (CollisionShape2D)
+> > shape = res://Levels/CameraBoundary.tscn::RectangleShape2D_r8dwf
+
+--- SCENE: res://Levels/Hideout/Hideout.tscn ---
+Hideout (Node2D)
+> scene: res://Levels/Hideout/Hideout.tscn
+> position = (56.0, -17.0)
+> ParallaxBackground (ParallaxBackground)
+> > scale = (1.2, 1.2)
+> > transform = [X: (1.2, 0.0), Y: (0.0, 1.2), O: (0.0, 0.0)]
+>   CloudsBack (ParallaxLayer)
+>   > motion_scale = (0.01, 1.0)
+>   > motion_mirroring = (640.0, 360.0)
+>     TextureRect (TextureRect)
+>     > offset_right = 640.0
+>     > offset_bottom = 360.0
+>     > texture = res://assets/Backgrounds/Background/CloudsBack.png
+>     > expand_mode = 1
+>     > stretch_mode = 6
+>   CoudsFront (ParallaxLayer)
+>   > motion_scale = (0.05, 1.0)
+>   > motion_mirroring = (640.0, 360.0)
+>     TextureRect (TextureRect)
+>     > offset_right = 640.0
+>     > offset_bottom = 360.0
+>     > texture = res://assets/Backgrounds/Background/CloudsFront.png
+>     > expand_mode = 1
+>     > stretch_mode = 6
+>   BGBack (ParallaxLayer)
+>   > motion_scale = (0.075, 1.0)
+>   > motion_mirroring = (640.0, 360.0)
+>     TextureRect (TextureRect)
+>     > offset_right = 640.0
+>     > offset_bottom = 360.0
+>     > texture = res://assets/Backgrounds/Background/BGBack.png
+>     > expand_mode = 1
+>     > stretch_mode = 6
+>   BGFront (ParallaxLayer)
+>   > motion_scale = (0.1, 1.0)
+>   > motion_mirroring = (640.0, 360.0)
+>     TextureRect (TextureRect)
+>     > offset_right = 640.0
+>     > offset_bottom = 360.0
+>     > texture = res://assets/Backgrounds/Background/BGFront.png
+>     > expand_mode = 1
+>     > stretch_mode = 6
+> CanvasLayer (CanvasLayer)
+>   GUI (Control)
+>     script: res://Levels/Hideout/Hideout.gd
+>   > anchors_preset = 15
+>   > anchor_right = 1.0
+>   > anchor_bottom = 1.0
+>   > grow_horizontal = 2
+>   > grow_vertical = 2
+>   > theme = res://Levels/Hideout/hideout_theme.tres
+>   > archer_placeholder_scene = res://Interactables/ArcherPlaceholder.tscn
+>     ResourceDisplay (MarginContainer)
+>     > layout_mode = 1
+>     > anchors_preset = 5
+>     > anchor_left = 0.5
+>     > anchor_right = 0.5
+>     > offset_left = -20.0
+>     > offset_right = 20.0
+>     > offset_bottom = 62.0
+>     > grow_horizontal = 2
+>       PanelContainer (PanelContainer)
+>       > layout_mode = 2
+>         HBoxContainer (HBoxContainer)
+>         > layout_mode = 2
+>           VillagerLabel (Label)
+>           > layout_mode = 2
+>           GoldLabel (Label)
+>           > layout_mode = 2
+>           ArcherLabel (Label)
+>           > layout_mode = 2
+>     TrainArcherButton (Button)
+>     > layout_mode = 1
+>     > anchors_preset = 3
+>     > anchor_left = 1.0
+>     > anchor_top = 1.0
+>     > anchor_right = 1.0
+>     > anchor_bottom = 1.0
+>     > offset_left = -110.0
+>     > offset_top = -36.0
+>     > offset_right = -6.0
+>     > offset_bottom = -5.0
+>     > grow_horizontal = 0
+>     > grow_vertical = 0
+>     > text = "Train Archer"
+> TileMapLayer (TileMapLayer)
+> > position = (-26.0, 129.0)
+> > tile_set = res://Levels/Hideout/Hideout.tscn::TileSet_0vrxt
+> RescuedVillager (StaticBody2D)
+>   script: res://Interactables/RescuedVillager/RescuedVillager.gd
+>   scene: res://Interactables/RescuedVillager/RescuedVillager.tscn
+> > position = (494.0, 720.0)
+> > dialogue_message = "Thank you!"
+>   CollisionShape2D (CollisionShape2D)
+>   > position = (0.0, 14.5)
+>   > shape = res://Interactables/RescuedVillager/RescuedVillager.tscn::RectangleShape2D_mdajx
+>   InteractionArea (Area2D)
+>     script: res://Interactables/Interactable.gd
+>   > prompt_message = "Interact"
+>     CollisionShape2D (CollisionShape2D)
+>     > position = (-1.0, 15.5)
+>     > shape = res://Interactables/RescuedVillager/RescuedVillager.tscn::CircleShape2D_3pwis
+>   AnimatedSprite2D (AnimatedSprite2D)
+>   > sprite_frames = res://Interactables/RescuedVillager/RescuedVillager.tscn::SpriteFrames_b8v8i
+>   > frame_progress = 0.38301599025726
+> PlayerSpawnPoint (Marker2D)
+> > position = (52.0, 720.0)
+> DialogueBox (CanvasLayer)
+>   script: res://UserInterface/DialogueBox.gd
+>   scene: res://UserInterface/DialogueBox.tscn
+>   groups = [&"DialogueBox"]
+> > process_mode = 3
+> > visible = false
+>   MarginContainer (MarginContainer)
+>   > custom_minimum_size = (100.0, 100.0)
+>   > anchors_preset = 12
+>   > anchor_top = 1.0
+>   > anchor_right = 1.0
+>   > anchor_bottom = 1.0
+>   > offset_top = -75.0
+>   > grow_horizontal = 2
+>   > grow_vertical = 0
+>     Panel (Panel)
+>     > custom_minimum_size = (150.0, 75.0)
+>     > layout_mode = 2
+>       Label (Label)
+>       > layout_mode = 1
+>       > offset_right = 130.0
+>       > offset_bottom = 61.0
+>       > horizontal_alignment = 1
+>       > vertical_alignment = 1
+>       > autowrap_mode = 3
+> ArcheryRange (Node2D)
+> > position = (722.0, 742.0)
+> CameraBoundary (Area2D)
+>   scene: res://Levels/CameraBoundary.tscn
+>   groups = [&"camera_boundary"]
+> > visible = false
+>   CollisionShape2D (CollisionShape2D)
+>   > position = (523.5, 519.5)
+>   > shape = res://Levels/Hideout/Hideout.tscn::RectangleShape2D_df04x
+> MissionBoard (StaticBody2D)
+>   script: res://MissionBoard.gd
+>   scene: res://Interactables/MissionBoard.tscn
+> > position = (1002.0, 742.0)
+>   Sprite2D (Sprite2D)
+>   > texture = res://assets/signpost32px.png
+>   CollisionShape2D (CollisionShape2D)
+>   > shape = res://Interactables/MissionBoard.tscn::RectangleShape2D_0ghu3
+>   Interactable (Area2D)
+>     script: res://Interactables/Interactable.gd
+>     scene: res://Interactables/Interactable.tscn
+>   > prompt_message = "Start Mission"
+>     CollisionShape2D (CollisionShape2D)
+>     > shape = res://Interactables/Interactable.tscn::CircleShape2D_nuwr0
+
+--- SCENE: res://Levels/level_1.tscn ---
+Level 1 (TileMapLayer)
+> scene: res://Levels/level_1.tscn
+> position = (84.0, -74.0)
+> tile_set = res://Levels/level_1.tscn::TileSet_congi
+
+--- SCENE: res://Levels/Level_Template.tscn ---
+Test Box (Node2D)
+> scene: res://Levels/Level_Template.tscn
+> TileMapLayer (TileMapLayer)
+>   scene: res://Levels/TestBox.tscn
+> > tile_set = res://Levels/TestBox.tscn::TileSet_congi
+> Level 1 (TileMapLayer)
+>   scene: res://Levels/level_1.tscn
+> > position = (17.0, 653.0)
+> > tile_set = res://Levels/Level_Template.tscn::TileSet_3mhv4
+> > collision_visibility_mode = 1
+
+--- SCENE: res://Levels/TestBox.tscn ---
+TileMapLayer (TileMapLayer)
+> scene: res://Levels/TestBox.tscn
+> tile_set = res://Levels/TestBox.tscn::TileSet_congi
+
+--- SCENE: res://Levels/VillageOutskirts.tscn ---
+VillageOutskirts (Node2D)
+> scene: res://Levels/VillageOutskirts.tscn
+> TileMapLayer (TileMapLayer)
+>   scene: res://Levels/TestBox.tscn
+> > position = (-16.0, 166.0)
+> > tile_set = res://Levels/VillageOutskirts.tscn::TileSet_5qn1e
+> PlayerSpawnPoint (Marker2D)
+> > position = (33.0, 522.0)
+> ExitZone (Area2D)
+>   script: res://World/ExitZone.gd
+>   scene: res://World/ExitZone.tscn
+> > position = (0.0, 230.0)
+>   CollisionShape2D (CollisionShape2D)
+>   > position = (-6.0, 171.0)
+>   > shape = res://World/ExitZone.tscn::RectangleShape2D_febds
+> Chest (StaticBody2D)
+>   script: res://Interactables/Chest/Chest.gd
+>   scene: res://Interactables/Chest/Chest.tscn
+> > position = (2006.0, 183.0)
+> > gold_amount = 10
+> > floating_text_scene = res://UserInterface/FloatingText.tscn
+> > text_spawn_offset = (0.0, -20.0)
+>   AnimatedSprite2D (AnimatedSprite2D)
+>   > sprite_frames = res://Interactables/Chest/Chest.tscn::SpriteFrames_jv5ma
+>   > animation = open
+>   CollisionShape2D (CollisionShape2D)
+>   > shape = res://Interactables/Chest/Chest.tscn::RectangleShape2D_pmguq
+>   InteractionArea (Area2D)
+>     script: res://Interactables/Interactable.gd
+>   > prompt_message = "Press E to Interact"
+>     CollisionShape2D (CollisionShape2D)
+>     > shape = res://Interactables/Chest/Chest.tscn::CircleShape2D_i7tb8
+> prisoner (StaticBody2D)
+>   script: res://Interactables/Prisoner/Prisoner.gd
+>   scene: res://Interactables/Prisoner/Prisoner.tscn
+> > position = (1964.0, 522.0)
+>   CollisionShape2D (CollisionShape2D)
+>   > position = (0.0, 15.0)
+>   > shape = res://Interactables/Prisoner/Prisoner.tscn::RectangleShape2D_mdajx
+>   AnimatedSprite2D (AnimatedSprite2D)
+>   > sprite_frames = res://Interactables/Prisoner/Prisoner.tscn::SpriteFrames_b8v8i
+>   > frame_progress = 0.38301599025726
+>   Interactable (Area2D)
+>     script: res://Interactables/Interactable.gd
+>     scene: res://Interactables/Interactable.tscn
+>   > position = (0.0, 11.0)
+>   > prompt_message = "Press E to rescue"
+>     CollisionShape2D (CollisionShape2D)
+>     > shape = res://Interactables/Interactable.tscn::CircleShape2D_nuwr0
+> Guard (CharacterBody2D)
+>   script: res://Enemies/Guard/Guard.gd
+>   scene: res://Enemies/Guard/Guard.tscn
+> > position = (1916.0, 353.0)
+> > scale = (0.75, 0.75)
+> > speed = 50.0
+> > detection_time = 1.5
+> > hearing_range = 300.0
+> > vision_cone_normal_color = (1.0, 1.0, 0.0, 0.2)
+> > vision_cone_alert_color = (1.0, 0.0, 0.0, 0.3)
+>   CollisionShape2D (CollisionShape2D)
+>   > position = (-2.5, 31.3333)
+>   > shape = res://Enemies/Guard/Guard.tscn::RectangleShape2D_gyn35
+>   AnimatedSprite2D (AnimatedSprite2D)
+>   > sprite_frames = res://Enemies/Guard/Guard.tscn::SpriteFrames_a34ki
+>   > animation = idle
+>   HitboxArea (Area2D)
+>   > position = (4.0, 0.0)
+>     CollisionShape2D (CollisionShape2D)
+>     > position = (-6.66667, 31.3333)
+>     > shape = res://Enemies/Guard/Guard.tscn::RectangleShape2D_lvm1q
+>   Raycasts (Node2D)
+>     LedgeCheckRay (RayCast2D)
+>     > position = (12.0, 52.0)
+>     > target_position = (0.0, 17.3333)
+>     WallCheckRay (RayCast2D)
+>     > position = (0.0, 21.33)
+>     > target_position = (17.3333, 0.003334)
+>     RayCast2D3 (RayCast2D)
+>   TurnCooldownTimer (Timer)
+>   > one_shot = true
+>   VisionConeArea (Area2D)
+>   > scale = (0.5, 0.5)
+>     CollisionPolygon2D (CollisionPolygon2D)
+>     > polygon = [(201.3, -22.6), (201.3, 64.0), (1.3, 2.6)]
+>     VisionConePolygon (Polygon2D)
+>     > color = (0.3922, 0.3922, 0.0, 0.6196)
+>     > polygon = [(201.3, -22.6), (201.3, 64.0), (1.3, 2.6)]
+>     LineOfSightRay (RayCast2D)
+>     > position = (2.6, -1.3)
+>     > target_position = (250.0, 4.0)
+>     WallDetectionRay (RayCast2D)
+>     > target_position = (250.0, 4.0)
+>   StateMachine (Node)
+>     script: res://Enemies/Guard/States/guard_state_machine.gd
+>   > initial_state = PatrolState:<Node#88566319417566>
+>     PatrolState (Node)
+>       script: res://Enemies/Guard/States/patrol_state.gd
+>     SuspiciousState (Node)
+>       script: res://Enemies/Guard/States/suspicious_state.gd
+>     AlertState (Node)
+>       script: res://Enemies/Guard/States/alert_state.gd
+>   SuspicionTimer (Timer)
+>   > wait_time = 3.0
+>   > one_shot = true
+> CameraBoundary (Area2D)
+>   scene: res://Levels/CameraBoundary.tscn
+>   groups = [&"camera_boundary"]
+>   CollisionShape2D (CollisionShape2D)
+>   > position = (1084.0, 296.0)
+>   > shape = res://Levels/VillageOutskirts.tscn::RectangleShape2D_k88k2
+
+--- SCENE: res://Player/PlayerCamera.tscn ---
+PlayerCamera (Camera2D)
+> script: res://Player/PlayerCamera.gd
+> scene: res://Player/PlayerCamera.tscn
+> default_camera_zoom = 1.0
+> fall_camera_zoom = 0.9
+> glide_camera_zoom = 0.9
+> camera_zoom_out_speed = 0.05
+> camera_zoom_in_speed = 0.2
+> look_up_offset = -75.0
+> look_down_offset = 75.0
+> camera_vertical_lerp_speed = 0.1
+> horizontal_lookahead = 80.0
+> smoothing_speed = 5.0
+
+--- SCENE: res://Player/PlayerScene.tscn ---
+Player (CharacterBody2D)
+> script: res://Player/PlayerScript.gd
+> scene: res://Player/PlayerScene.tscn
+> groups = [&"player"]
+> rotation = -0.00456182984635
+> scale = (1.01525, 1.0)
+> stats = res://Player/Data/player_stats.tres
+> dust_puff_scene = res://VFX/DustPuff.tscn
+> AnimatedSprite2D (AnimatedSprite2D)
+> > position = (5.0, 3.0)
+> > sprite_frames = res://Player/PlayerScene.tscn::SpriteFrames_pwdtq
+> > animation = idle
+> > autoplay = "idle"
+> AnimationPlayer (AnimationPlayer)
+> > libraries = {"":"<AnimationLibrary#-9223369873197810440>"}
+> SlidingCollision (CollisionShape2D)
+> > visible = false
+> > position = (4.0, 36.5089)
+> > shape = res://Player/PlayerScene.tscn::RectangleShape2D_fpl1g
+> > disabled = true
+> StandingCollision (CollisionShape2D)
+> > position = (2.3074, 25.9861)
+> > shape = res://Player/PlayerScene.tscn::RectangleShape2D_5nnq8
+> CrouchingCollision (CollisionShape2D)
+> > visible = false
+> > position = (1.0, 30.002)
+> > scale = (1.06667, 1.08811)
+> > shape = res://Player/PlayerScene.tscn::RectangleShape2D_qvcxh
+> WallSlideCollision (CollisionShape2D)
+> > visible = false
+> > position = (3.50396, 25.0)
+> > shape = res://Player/PlayerScene.tscn::RectangleShape2D_epaal
+> > disabled = true
+> HeadClearanceRaycast (RayCast2D)
+> > visible = false
+> > position = (1.0, 9.0)
+> > target_position = (0.0, -2.0)
+> Timers (Node)
+>   groups = [&"timers"]
+>   SlowMoTimer (Timer)
+>     groups = [&"timers"]
+>   > wait_time = 0.5
+>   > one_shot = true
+>   InvisibilityTimer (Timer)
+>     groups = [&"timers"]
+>   > wait_time = 0.5
+>   > one_shot = true
+>   InvisibilityCooldownTimer (Timer)
+>     groups = [&"timers"]
+>   > wait_time = 0.5
+>   > one_shot = true
+>   WallDetachTimer (Timer)
+>     groups = [&"timers"]
+>   > wait_time = 0.5
+>   > one_shot = true
+>   CameraZoomResetTimer (Timer)
+>     groups = [&"timers"]
+>   > wait_time = 0.5
+>   > one_shot = true
+>   SlideTimer (Timer)
+>     groups = [&"timers"]
+>   > wait_time = 0.5
+>   > one_shot = true
+>   WallCoyoteTimer (Timer)
+>     groups = [&"timers"]
+>   > wait_time = 0.5
+>   > one_shot = true
+>   SkidTimer (Timer)
+>     groups = [&"timers"]
+>   > wait_time = 0.5
+>   > one_shot = true
+>   WallSlipTimer (Timer)
+>     groups = [&"timers"]
+>   > wait_time = 0.1
+>   > one_shot = true
+>   WallStickTimer (Timer)
+>     groups = [&"timers"]
+>   > one_shot = true
+>   FallZoomTimer (Timer)
+>     groups = [&"timers"]
+>   > one_shot = true
+>   AfterImageTimer (Timer)
+>     groups = [&"timers"]
+>   > one_shot = true
+>   DashTimer (Timer)
+>     groups = [&"timers"]
+>   > one_shot = true
+>   DashFreezeTimer (Timer)
+>     groups = [&"timers"]
+>   > process_callback = 0
+>   > one_shot = true
+>   JumpBufferTimer (Timer)
+>     groups = [&"timers"]
+>   > one_shot = true
+>   CoyoteTimer (Timer)
+>     groups = [&"timers"]
+>   > one_shot = true
+>   DashCooldownTimer (Timer)
+>     groups = [&"timers"]
+>   > one_shot = true
+>   CrouchTimer (Timer)
+>     groups = [&"timers"]
+>   > one_shot = true
+>   LandTimer (Timer)
+>     groups = [&"timers"]
+>   > wait_time = 0.1
+>   > one_shot = true
+> DashParticles (GPUParticles2D)
+> > material = res://Player/PlayerScene.tscn::ShaderMaterial_4tc8y
+> > position = (-2.0, -1.0)
+> > emitting = false
+> > amount = 6
+> > texture = res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_Dash.png
+> > lifetime = 0.25
+> > process_material = res://Player/PlayerScene.tscn::ParticleProcessMaterial_fpl1g
+> VFX (Node2D)
+>   script: res://Player/PlayerModularControl/VFX.gd
+> AnimationController (Node2D)
+>   script: res://Player/PlayerModularControl/AnimationController.gd
+> TrajectoryLine (Line2D)
+> > position = (-3.0, 20.0)
+> > width = 3.0
+> > default_color = (0.9735, 0.9735, 0.9735, 1.0)
+> TargetPoint (Marker2D)
+> > position = (0.863649, 27.0043)
+> StateMachine (Node)
+>   script: res://Player/States/StateMachine.gd
+> > initial_state = IdleState
+>   IdleState (Node)
+>     script: res://Player/States/Idle.gd
+>   RunningState (Node)
+>     script: res://Player/States/RunningState.gd
+>   JumpingState (Node)
+>     script: res://Player/States/JumpingState.gd
+>   FallingState (Node)
+>     script: res://Player/States/FallingState.gd
+>   WallDetachState (Node)
+>     script: res://Player/States/WallDetachState.gd
+>   OnWallState (Node)
+>     script: res://Player/States/OnWallState.gd
+>     ParticleTimer (Timer)
+>     > wait_time = 0.1
+>     > autostart = true
+>   WallStickingState (Node)
+>     script: res://Player/States/WallStickingState.gd
+>   DashingState (Node)
+>     script: res://Player/States/DashingState.gd
+>   GlidingState (Node)
+>     script: res://Player/States/GlidingState.gd
+>   WallSlipState (Node)
+>     script: res://Player/States/WallSlipState.gd
+>   LandingState (Node)
+>     script: res://Player/States/LandingState.gd
+>   SlidingState (Node)
+>     script: res://Player/States/SlidingState.gd
+>   SkiddingState (Node)
+>     script: res://Player/States/SkiddingState.gd
+>   DashPrepareState (Node)
+>     script: res://Player/States/DashPrepareState.gd
+>   UnstickingState (Node)
+>     script: res://Player/States/UnstickingState.gd
+>   CrouchingState (Node)
+>     script: res://Player/States/CrouchingState.gd
+> PlayerInteraction (Area2D)
+>   script: res://Player/PlayerInteraction.gd
+> > visible = false
+> > position = (1.85311, 26.0089)
+>   CollisionShape2D (CollisionShape2D)
+>   > shape = res://Player/PlayerScene.tscn::CircleShape2D_5x2q4
+> PlayerCamera (Camera2D)
+>   script: res://Player/PlayerCamera.gd
+> > position_smoothing_enabled = true
+> > default_camera_zoom = 1.0
+> > fall_camera_zoom = 0.9
+> > glide_camera_zoom = 0.9
+> > camera_zoom_out_speed = 0.05
+> > camera_zoom_in_speed = 0.2
+> > look_up_offset = -75.0
+> > look_down_offset = 50.0
+> > camera_vertical_lerp_speed = 0.1
+> > horizontal_lookahead = 80.0
+> > smoothing_speed = 5.0
+>   CameraZoomResetTimer (Timer)
+> WallCheckRayRight (RayCast2D)
+> > position = (3.83204, 24.018)
+> > target_position = (20.0, 0.0)
+> WallCheckRayLeft (RayCast2D)
+> > position = (2.84707, 24.0134)
+> > target_position = (-20.0, 0.0)
+> GroundRay (RayCast2D)
+> > position = (2.95491, 0.013685)
+> > target_position = (-0.548182, 121.999)
+> LedgeRay (RayCast2D)
+> > position = (18.5392, 39.0863)
+> > target_position = (-0.125813, 27.9997)
+> FootSpawner (Marker2D)
+> > position = (0.791757, 43.0041)
+> WallSlideSpawner (Marker2D)
+> > position = (1.85761, 25.0089)
+
+--- SCENE: res://Singletons/SceneManager.tscn ---
+SceneManager (CanvasLayer)
+> script: res://Singletons/SceneManager.gd
+> scene: res://Singletons/SceneManager.tscn
+> process_mode = 3
+> scene_entries = ["<Resource#-9223283467414796041>","<Resource#-9223283467398018826>"]
+> player_scene = res://Player/PlayerScene.tscn
+> ColorRect (ColorRect)
+> > anchors_preset = 15
+> > anchor_right = 1.0
+> > anchor_bottom = 1.0
+> > grow_horizontal = 2
+> > grow_vertical = 2
+> > mouse_filter = 2
+> > color = (0.0, 0.0, 0.0, 0.0)
+> AnimationPlayer (AnimationPlayer)
+> > libraries = {"":"<AnimationLibrary#-9223283467330909966>"}
+
+--- SCENE: res://UserInterface/DialogueBox.tscn ---
+DialogueBox (CanvasLayer)
+> script: res://UserInterface/DialogueBox.gd
+> scene: res://UserInterface/DialogueBox.tscn
+> groups = [&"DialogueBox"]
+> process_mode = 3
+> visible = false
+> MarginContainer (MarginContainer)
+> > custom_minimum_size = (100.0, 100.0)
+> > anchors_preset = 12
+> > anchor_top = 1.0
+> > anchor_right = 1.0
+> > anchor_bottom = 1.0
+> > offset_top = -75.0
+> > grow_horizontal = 2
+> > grow_vertical = 0
+>   Panel (Panel)
+>   > custom_minimum_size = (150.0, 75.0)
+>   > layout_mode = 2
+>     Label (Label)
+>     > layout_mode = 1
+>     > offset_right = 130.0
+>     > offset_bottom = 61.0
+>     > horizontal_alignment = 1
+>     > vertical_alignment = 1
+>     > autowrap_mode = 3
+
+--- SCENE: res://UserInterface/FloatingText.tscn ---
+FloatingText (Label)
+> script: res://UserInterface/FloatingText.gd
+> scene: res://UserInterface/FloatingText.tscn
+> offset_right = 40.0
+> offset_bottom = 23.0
+> theme = res://pixel_theme.tres
+> float_height = 50.0
+
+--- SCENE: res://UserInterface/InteractionPrompt.tscn ---
+InteractionPrompt (Node2D)
+> script: res://UserInterface/InteractionPrompt.gd
+> scene: res://UserInterface/InteractionPrompt.tscn
+> Label (Label)
+> > offset_right = 292.0
+> > offset_bottom = 108.0
+> > size_flags_vertical = 8
+> > text = "Filler Text"
+> > horizontal_alignment = 1
+> > autowrap_mode = 2
+> PromptPosition (Marker2D)
+> > position = (5.0, -31.0)
+
+--- SCENE: res://UserInterface/InteractionUI.tscn ---
+InteractionUI (CanvasLayer)
+> script: res://UserInterface/InteractionUI.gd
+> scene: res://UserInterface/InteractionUI.tscn
+> Panel (PanelContainer)
+> > offset_left = 282.5
+> > offset_top = 171.0
+> > offset_right = 357.5
+> > offset_bottom = 189.0
+> > grow_horizontal = 2
+> > grow_vertical = 2
+>   Label (Label)
+>   > layout_mode = 2
+>   > theme = res://pixel_theme.tres
+>   > text = "Filler Text"
+
+--- SCENE: res://UserInterface/MissionFailedScreen.tscn ---
+MissionFailedScreen (CanvasLayer)
+> script: res://UserInterface/MissionFailedScreen.gd
+> scene: res://UserInterface/MissionFailedScreen.tscn
+> process_mode = 3
+> ColorRect (ColorRect)
+> > anchors_preset = 15
+> > anchor_right = 1.0
+> > anchor_bottom = 1.0
+> > grow_horizontal = 2
+> > grow_vertical = 2
+> > color = (0.1836, 0.1836, 0.1836, 1.0)
+> MarginContainer (MarginContainer)
+> > anchors_preset = 8
+> > anchor_left = 0.5
+> > anchor_top = 0.5
+> > anchor_right = 0.5
+> > anchor_bottom = 0.5
+> > offset_left = -74.5
+> > offset_top = -29.0
+> > offset_right = 74.5
+> > offset_bottom = 29.0
+> > grow_horizontal = 2
+> > grow_vertical = 2
+> > theme = res://pixel_theme.tres
+>   VBoxContainer (VBoxContainer)
+>   > layout_mode = 2
+>   > size_flags_vertical = 4
+>   > focus_mode = 2
+>     Label (Label)
+>     > layout_mode = 2
+>     > text = "You were detected!"
+>     > horizontal_alignment = 1
+>     > vertical_alignment = 1
+>     ReturnButton (Button)
+>     > process_mode = 3
+>     > layout_mode = 2
+>     > size_flags_horizontal = 4
+>     > size_flags_vertical = 4
+>     > text = "Return to Hideout"
+
+--- SCENE: res://UserInterface/MissionSuccessScreen.tscn ---
+MissionSuccessScreen (CanvasLayer)
+> script: res://UserInterface/MissionSuccessScreen.gd
+> scene: res://UserInterface/MissionSuccessScreen.tscn
+> process_mode = 2
+> ColorRect (ColorRect)
+> > anchors_preset = 15
+> > anchor_right = 1.0
+> > anchor_bottom = 1.0
+> > grow_horizontal = 2
+> > grow_vertical = 2
+> > color = (0.1836, 0.1836, 0.1836, 1.0)
+> MarginContainer (MarginContainer)
+> > anchors_preset = 8
+> > anchor_left = 0.5
+> > anchor_top = 0.5
+> > anchor_right = 0.5
+> > anchor_bottom = 0.5
+> > offset_left = -74.0
+> > offset_top = -56.0
+> > offset_right = 74.0
+> > offset_bottom = 56.0
+> > grow_horizontal = 2
+> > grow_vertical = 2
+> > theme = res://pixel_theme.tres
+>   VBoxContainer (VBoxContainer)
+>   > layout_mode = 2
+>   > size_flags_horizontal = 4
+>   > size_flags_vertical = 4
+>     Label (Label)
+>     > layout_mode = 2
+>     > text = "Mission Complete!"
+>     GoldLabel (Label)
+>     > layout_mode = 2
+>     VillagersLabel (Label)
+>     > layout_mode = 2
+>     ReturnButton (Button)
+>     > process_mode = 3
+>     > layout_mode = 2
+>     > text = "Return to Hideout"
+
+--- SCENE: res://UserInterface/PauseMenu.tscn ---
+PauseMenu (CanvasLayer)
+> script: res://UserInterface/PauseMenu.gd
+> scene: res://UserInterface/PauseMenu.tscn
+> process_mode = 3
+> Background (ColorRect)
+> > anchors_preset = 15
+> > anchor_right = 1.0
+> > anchor_bottom = 1.0
+> > grow_horizontal = 2
+> > grow_vertical = 2
+> > color = (0.0, 0.0, 0.0, 0.3882)
+> MarginContainer (MarginContainer)
+> > anchors_preset = 15
+> > anchor_right = 1.0
+> > anchor_bottom = 1.0
+> > grow_horizontal = 2
+> > grow_vertical = 2
+> > size_flags_horizontal = 3
+> > size_flags_vertical = 3
+> > theme = res://pixel_theme.tres
+>   VBoxContainer (VBoxContainer)
+>   > layout_mode = 2
+>   > size_flags_horizontal = 4
+>   > size_flags_vertical = 4
+>     Label (Label)
+>     > layout_mode = 2
+>     > text = "Game Paused"
+>     > horizontal_alignment = 1
+>     ResumeButton (Button)
+>     > layout_mode = 2
+>     > text = "Resume\n"
+>     QuitButton (Button)
+>     > layout_mode = 2
+>     > text = "Quit to Hideout"
+
+--- SCENE: res://UserInterface/TitleScreen.tscn ---
+Title Screen (ColorRect)
+> script: res://UserInterface/TitleScreen.gd
+> scene: res://UserInterface/TitleScreen.tscn
+> anchor_right = 1.0
+> anchor_bottom = 1.0
+> grow_horizontal = 2
+> grow_vertical = 2
+> size_flags_vertical = 4
+> theme = res://pixel_theme.tres
+> color = (0.0, 0.0, 0.0, 1.0)
+> CenterContainer (CenterContainer)
+> > layout_mode = 1
+> > anchors_preset = 15
+> > anchor_right = 1.0
+> > anchor_bottom = 1.0
+> > grow_horizontal = 2
+> > grow_vertical = 2
+>   VBoxContainer (VBoxContainer)
+>   > layout_mode = 2
+>   > size_flags_horizontal = 3
+>   > mouse_filter = 2
+>     Label (Label)
+>     > layout_mode = 2
+>     > size_flags_vertical = 1
+>     > text = "Project: Robin Hood"
+>     > horizontal_alignment = 1
+>     > vertical_alignment = 1
+>     ContinueButton (Button)
+>     > layout_mode = 2
+>     > size_flags_vertical = 3
+>     > text = "Continue\n"
+>     NewGameButton (Button)
+>     > layout_mode = 2
+>     > size_flags_vertical = 3
+>     > text = "New Game\n"
+
+--- SCENE: res://UserInterface/UIManager.tscn ---
+UIManager (CanvasLayer)
+> script: res://UserInterface/UIManager.gd
+> scene: res://UserInterface/UIManager.tscn
+
+--- SCENE: res://VFX/DustPuff.tscn ---
+DustPuff (GPUParticles2D)
+> scene: res://VFX/DustPuff.tscn
+> emitting = false
+> amount = 16
+> texture = res://assets/dustparticles/dust1.png
+> lifetime = 0.3
+> one_shot = true
+> explosiveness = 0.89999997615814
+> process_material = res://VFX/DustPuff.tscn::ParticleProcessMaterial_fydcl
+
+--- SCENE: res://World/ExitZone.tscn ---
+ExitZone (Area2D)
+> script: res://World/ExitZone.gd
+> scene: res://World/ExitZone.tscn
+> CollisionShape2D (CollisionShape2D)
+> > position = (-6.0, 171.0)
+> > shape = res://World/ExitZone.tscn::RectangleShape2D_febds
+
+--- SCENE: res://World/KillZone.tscn ---
+KillZone (Area2D)
+> script: res://KillZone.gd
+> scene: res://World/KillZone.tscn
+> CollisionShape2D (CollisionShape2D)
+> > shape = res://World/KillZone.tscn::RectangleShape2D_c8hpk
+--- END OF SCENE STRUCTURES ---
+
+#### **4.4. Codebase**
+
+--- START OF CODEBASE ---
+--- SCRIPT: res://addons/godot-vision-cone-main/addons/vision_cone_2d/cone_editor_helper.gd ---
+@tool
+extends Node2D
+
+@export var is_visible = true
+@export var color = Color.RED
+
+@onready var vision_cone: VisionCone2D = get_parent()
+
+## Draws a preview of the vision cone inside the editor. The actual vision cone cannot be displayed as a lot of stuff
+## is missing before the game is actually started
+func _draw():
+	if not is_visible or not Engine.is_editor_hint():
+		return
+	var rot_diff = global_rotation - vision_cone.global_rotation
+	var half_angle = deg_to_rad(vision_cone.angle_deg)/2.
+	var right = Vector2(0, vision_cone.max_distance).rotated(rot_diff + half_angle)
+	var left = Vector2(0, vision_cone.max_distance).rotated(rot_diff - half_angle)
+	draw_line(Vector2.ZERO, right, color)
+	draw_line(Vector2.ZERO, left, color)
+	draw_line(right, left, color)
+
+--- SCRIPT: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.gd ---
+extends CharacterBody2D
+
+@export var vision_renderer: Polygon2D
+@export var alert_color: Color
+
+@export_group("Rotation")
+@export var is_rotating = false
+@export var rotation_speed = 0.1
+@export var rotation_angle = 90
+
+@export_group("Movement")
+@export var move_on_path: PathFollow2D
+@export var movement_speed = 0.1
+@onready var pos_start = position.x
+
+@onready var original_color = vision_renderer.color if vision_renderer else Color.WHITE
+@onready var rot_start = rotation
+
+func _on_vision_cone_area_body_entered(body: Node2D) -> void:
+	# print("%s is seeing %s" % [self, body])
+	vision_renderer.color = alert_color
+
+func _on_vision_cone_area_body_exited(body: Node2D) -> void:
+	# print("%s stopped seeing %s" % [self, body])
+	vision_renderer.color = original_color
+
+func _physics_process(delta: float) -> void:
+	if is_rotating:
+		rotation = rot_start + sin(Time.get_ticks_msec()/1000. * rotation_speed) * deg_to_rad(rotation_angle/2.)
+	if move_on_path:
+		move_on_path.progress += movement_speed
+		global_position = move_on_path.position
+		rotation = move_on_path.rotation
+
+--- SCRIPT: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/player_movement.gd ---
+extends CharacterBody2D
+
+@export var speed = 1.
+@export var distance = 300.
+
+@onready var pos_start = position.x
+
+func _physics_process(delta: float) -> void:
+	var target_pos = pos_start + sin(Time.get_ticks_msec()/1000. * speed) * distance
+	velocity = Vector2(target_pos - position.x, 0)
+	move_and_slide()
+
+--- SCRIPT: res://addons/godot-vision-cone-main/addons/vision_cone_2d/vision_cone_2d.gd ---
+extends Node2D
+
+## A configurable vision cone for 2D entities. It can be used for example to simulate the vision of enemies in a stealth game.
+class_name VisionCone2D
+
+@export_group("Raycast parameters")
+## How wide the vision cone is in degrees
+@export_range(0, 360) var angle_deg: int = 360
+## Total number of rays that will be shot to cover the angle. Will be distributed at equal distances.
+## This has the biggest impact on performance in the script.
+## Have this high enough that it is precise, but low enough that it doesn't affect performance
+@export var ray_count: int = 100
+## The maximum length of the rays. Basically how far the character can see
+@export var max_distance: float = 500.
+
+@export_group("Collisions")
+## What collision layers will block the vision. Have it set to the same layer as your walls, while avoiding things like items or characters
+@export_flags_2d_physics var collision_layer_mask: int = 0
+## Optional collision shape that the cone will be copied to.
+## Use this if you want to have logic on things entering the cone (you probably do, unless you're just visualizing the cone without acting on it)
+@export var write_collision_polygon: CollisionPolygon2D
+
+@export_group("Visualization")
+## Optional shape used to render the cone. This can then be textured and colored to customize the visual aspect
+## or it can be null if you don't need to visualize the cone, but maybe just use it for AI
+@export var write_polygon2d: Polygon2D
+## Will draw lines for each ray. Only used for debugging, you should probably disable it in the actual project
+@export var debug_lines: bool = false
+## Will draw the shape outline of the cone. Only used for debugging, you should probably disable it in the actual project
+@export var debug_shape: bool = false
+
+@export_group("Optimizations")
+## Introduce a minimum time (in msec) before recalculating. Useful to improve performance for slow moving objects,
+## or objects where precise updates on every physics update are not necessary
+@export var minimum_recalculate_time_msec: int = 0
+## Should the vision cone be recalculated when the object hasn't moved?
+## Set this to false to optimize by not recalculating the area if the object hasn't moved.
+## May incorrectly avoid an update if the object rotates in place or the scene layout changes at runtime
+@export var recalculate_if_static: bool = true
+## How far the character has to move before the vision cone is recalculated. Only used if recalculate_if_static is false
+@export var static_threshold: float = 2
+## How far two adjacent ray points have to be from each other before adding a new point to the shape.
+## Use this to reduce the number of vertices in the cone mesh when there are a lot of them close together.
+## Increasing this can help with performance or when getting Godot errors like [Convex decomposing failed], at the cost of detail
+## A <= 0 value will disable this behavior altogether. The value has to be squared, aka distance^2 (for performance reasons the sqrt is avoided)
+@export var min_distance_sqr: float = 16
+
+var _vision_points: Array[Vector2]
+var _last_position = null  ## Optional[Vector2]
+var _last_redraw_time: int = 0
+
+# constants for optimization
+@onready var _angle: float = deg_to_rad(angle_deg)
+@onready var _angle_half: float = _angle/2.
+@onready var _angular_delta: float = _angle / ray_count
+
+func _process(_delta: float) -> void:
+	if debug_lines or debug_shape:
+		queue_redraw()
+
+func _physics_process(delta: float) -> void:
+	if Time.get_ticks_msec() - _last_redraw_time > minimum_recalculate_time_msec:
+		_last_redraw_time = Time.get_ticks_msec()
+		recalculate_vision()
+
+func recalculate_vision(override_static_flag = false):
+	var should_recalculate = override_static_flag or recalculate_if_static
+	if not should_recalculate:
+		var has_position_changed = _last_position == null or (global_position - _last_position).length() > static_threshold
+		if not has_position_changed:
+			return
+	
+	_last_position = global_position
+	_vision_points.clear()
+	_vision_points = calculate_vision_shape(override_static_flag)
+	_update_collision_polygon()
+	_update_render_polygon()
+
+func calculate_vision_shape(override_static_flag = false) -> Array[Vector2]:
+	var new_vision_points: Array[Vector2] = []
+	var last_point = null # Optional[Vector2]
+
+	if _angle < 2*PI:
+		new_vision_points.append(Vector2.ZERO)
+		last_point = Vector2.ZERO
+
+	for i in range(ray_count + 1): 
+		# TODO following transform should be customizable
+		var new_point = _ray_to(Vector2(0, max_distance).rotated(_angular_delta * i + global_rotation - _angle_half))
+		if min_distance_sqr > 0 and last_point:
+			# check against min_distance_sqr
+			var dist = (new_point - last_point).length_squared()
+			if dist < min_distance_sqr:
+				continue
+		new_vision_points.append(new_point)
+		last_point = new_point
+
+	if _angle < 2*PI:
+		new_vision_points.append(Vector2.ZERO)
+	return new_vision_points
+
+func _draw():
+	if len(_vision_points) == 0:
+		return 
+	var from = _vision_points[0]
+	var to: Vector2
+	for i in range(1, len(_vision_points)):
+		to = _vision_points[i]
+		if debug_shape:
+			draw_line(from, to, Color.GREEN)
+		if debug_lines:
+			draw_line(Vector2.ZERO, to, Color(0, 0, 1, 0.5))
+		from = to
+	
+func _update_collision_polygon():
+	if write_collision_polygon == null:
+		return
+	write_collision_polygon.polygon = _vision_points
+
+func _update_render_polygon():
+	if write_polygon2d == null:
+		return
+	write_polygon2d.polygon = _vision_points
+
+func _ray_to(direction: Vector2) -> Vector2:
+	# TODO add offset to origin
+	var destination = global_position + direction
+	var query = PhysicsRayQueryParameters2D.create(global_position, destination, collision_layer_mask)
+	var collision = get_world_2d().direct_space_state.intersect_ray(query)
+
+	var ray_position = collision.get("position", destination)
+	return to_local(ray_position)
+
+--- SCRIPT: res://addons/godot-vision-cone-main/addons/vision_cone_2d/vision_cone_entry.gd ---
+@tool
+extends EditorPlugin
+
+
+func _enter_tree() -> void:
+	# Initialization of the plugin goes here.
+	pass
+
+
+func _exit_tree() -> void:
+	# Clean-up of the plugin goes here.
+	pass
+
+--- SCRIPT: res://Enemies/Guard/Guard.gd ---
+# res://Enemies/Guard/Guard.gd
+extends CharacterBody2D
+
+@export_group("Stats")
+@export var speed: float = 50.0
+@export var detection_time: float = 1.5
+@export var hearing_range: float = 300.0 # This line was missing
+
+@export_group("Visuals")
+@export var vision_cone_normal_color: Color = Color(1, 1, 0, 0.2)
+@export var vision_cone_alert_color: Color = Color(1, 0, 0, 0.3)
+
+# --- Public State ---
+var direction: int = 1
+var player_in_cone: CharacterBody2D = null
+var last_known_sound_position: Vector2
+
+# --- Node References ---
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var hitbox_area: Area2D = $HitboxArea
+@onready var raycasts: Node2D = $Raycasts
+@onready var ledge_check_ray: RayCast2D = $Raycasts/LedgeCheckRay
+@onready var wall_check_ray: RayCast2D = $Raycasts/WallCheckRay
+@onready var turn_cooldown_timer: Timer = $TurnCooldownTimer
+@onready var vision_cone_area: Area2D = $VisionConeArea
+@onready var vision_cone_polygon: Polygon2D = $"VisionConeArea/VisionConePolygon"
+@onready var line_of_sight_ray: RayCast2D =$"VisionConeArea/LineOfSightRay"
+@onready var state_machine: GuardStateMachine = $StateMachine
+@onready var suspicion_timer: Timer = $SuspicionTimer
+@onready var wall_detection_ray: RayCast2D = $"VisionConeArea/WallDetectionRay"
+
+func _ready() -> void:
+	vision_cone_area.body_entered.connect(_on_vision_cone_area_body_entered)
+	vision_cone_area.body_exited.connect(_on_vision_cone_area_body_exited)
+	EventBus.sound_created.connect(_on_sound_created)
+	
+	if is_instance_valid(vision_cone_polygon):
+		vision_cone_polygon.color = vision_cone_normal_color
+	
+	state_machine.initialize.call_deferred()
+
+func _physics_process(delta: float) -> void:
+	state_machine._physics_process(delta)
+	
+	if not is_on_floor():
+		velocity.y += 980 * delta
+	
+	move_and_slide()
+
+func turn_around() -> void:
+	direction *= -1
+	turn_cooldown_timer.start(0.2)
+	raycasts.scale.x = direction
+	vision_cone_area.scale.x = direction
+
+# --- Signal Callbacks ---
+
+func _on_vision_cone_area_body_entered(body: Node) -> void:
+	if body.is_in_group("player"):
+		player_in_cone = body
+
+func _on_vision_cone_area_body_exited(body: Node) -> void:
+	if body == player_in_cone:
+		player_in_cone = null
+
+# --- Event Bus Handler ---
+func _on_sound_created(position: Vector2, sound_range: float) -> void:
+	if state_machine.current_state.name == "AlertState":
+		return
+
+	var distance_to_sound = global_position.distance_to(position)
+	if distance_to_sound < hearing_range + sound_range:
+		last_known_sound_position = position
+		state_machine.change_state("SuspiciousState")
+
+--- SCRIPT: res://Enemies/Guard/States/alert_state.gd ---
+# res://Enemies/Guard/States/alert_state.gd
+extends GuardState
+
+func enter() -> void:
+	# Stop all movement.
+	guard.velocity = Vector2.ZERO
+	
+	# You can create a dedicated "alert" animation later. For now, "idle" works.
+	guard.animated_sprite.play("idle")
+	
+	# Announce that the player has been caught.
+	EventBus.player_detected.emit()
+	
+	# Disable the guard's physics process so it does nothing further.
+	guard.set_physics_process(false)
+
+--- SCRIPT: res://Enemies/Guard/States/guard_state.gd ---
+# res://Enemies/Guard/States/guard_state.gd
+class_name GuardState
+extends Node
+
+var state_machine: Node
+@onready var guard: CharacterBody2D = get_owner() as CharacterBody2D
+
+func enter() -> void:
+	pass
+
+func exit() -> void:
+	pass
+
+func process_physics(_delta: float) -> void:
+	pass
+
+--- SCRIPT: res://Enemies/Guard/States/guard_state_machine.gd ---
+# res://Enemies/Guard/States/guard_state_machine.gd
+class_name GuardStateMachine
+extends Node
+
+@export var initial_state: GuardState
+
+var current_state: GuardState
+var states: Dictionary = {}
+
+func initialize() -> void:
+	for child in get_children():
+		if child is GuardState:
+			states[child.name] = child
+			child.state_machine = self
+	
+	if initial_state:
+		current_state = initial_state
+		current_state.enter()
+
+func _physics_process(delta: float) -> void:
+	if current_state:
+		current_state.process_physics(delta)
+
+func change_state(state_name: String) -> void:
+	if not states.has(state_name):
+		printerr("Guard FSM Error: State '", state_name, "' not found.")
+		return
+	
+	if current_state:
+		current_state.exit()
+	
+	current_state = states[state_name]
+	current_state.enter()
+
+--- SCRIPT: res://Enemies/Guard/States/patrol_state.gd ---
+# res://Enemies/Guard/States/patrol_state.gd
+extends GuardState
+
+var _detection_progress: float = 0.0
+
+func enter() -> void:
+	_detection_progress = 0.0
+	guard.animated_sprite.play("walk")
+
+func process_physics(delta: float) -> void:
+	# --- Handle Patrol Movement ---
+	if guard.is_on_floor() and guard.turn_cooldown_timer.is_stopped():
+		if not guard.ledge_check_ray.is_colliding() or guard.wall_check_ray.is_colliding():
+			guard.turn_around()
+	
+	guard.velocity.x = guard.speed * guard.direction
+	guard.animated_sprite.flip_h = (guard.direction < 0)
+
+	# --- Handle Vision Cone Scaling ---
+	if is_instance_valid(guard.vision_cone_area):
+		var target_scale_x = 1.0 # Start with a default scale of 1.
+		
+		# Check for walls using our stable ray.
+		if guard.wall_detection_ray.is_colliding():
+			var distance_to_wall = guard.wall_detection_ray.get_collision_point().distance_to(guard.wall_detection_ray.global_position)
+			var ray_full_length = guard.wall_detection_ray.target_position.length()
+			var shrink_ratio = clamp(distance_to_wall / ray_full_length, 0.01, 1.0)
+			target_scale_x *= shrink_ratio
+		
+		# Smoothly change the cone's width, ignoring its direction (which is handled by the parent).
+		guard.vision_cone_area.scale.y = lerp(guard.vision_cone_area.scale.y, target_scale_x, delta * 15.0)
+	# --- Handle Player Detection Logic ---
+	var is_player_visible: bool = _is_player_in_line_of_sight()
+
+	if is_player_visible:
+		_detection_progress += delta / guard.detection_time
+	else:
+		_detection_progress -= delta / guard.detection_time
+
+	_detection_progress = clamp(_detection_progress, 0.0, 1.0)
+	guard.vision_cone_polygon.color = guard.vision_cone_normal_color.lerp(guard.vision_cone_alert_color, _detection_progress)
+
+	# --- Handle State Transitions ---
+	if _detection_progress >= 1.0:
+		state_machine.change_state("AlertState")
+
+func _is_player_in_line_of_sight() -> bool:
+	if not is_instance_valid(guard.player_in_cone) or guard.player_in_cone.is_invisible:
+		return false
+	
+	var target_point: Node2D = guard.player_in_cone.get_node_or_null("TargetPoint")
+	if not is_instance_valid(target_point):
+		return false
+
+	guard.line_of_sight_ray.target_position = guard.line_of_sight_ray.to_local(target_point.global_position)
+	guard.line_of_sight_ray.force_raycast_update()
+	
+	return guard.line_of_sight_ray.get_collider() == guard.player_in_cone
+
+--- SCRIPT: res://Enemies/Guard/States/suspicious_state.gd ---
+# res://Enemies/Guard/States/suspicious_state.gd
+extends GuardState
+
+func enter() -> void:
+	# Stop moving
+	guard.velocity = Vector2.ZERO
+	guard.animated_sprite.play("idle")
+	
+	# Turn to face the direction of the sound
+	var direction_to_sound = (guard.last_known_sound_position - guard.global_position).normalized()
+	var new_direction = 1 if direction_to_sound.x >= 0 else -1
+	
+	if guard.direction != new_direction:
+		guard.turn_around()
+
+	# Start the timer to decide how long to wait
+	guard.suspicion_timer.start()
+	guard.suspicion_timer.timeout.connect(_on_suspicion_timer_timeout)
+
+func exit() -> void:
+	# Disconnect the timer signal to prevent it from being connected multiple times.
+	if guard.suspicion_timer.is_connected("timeout", Callable(self, "_on_suspicion_timer_timeout")):
+		guard.suspicion_timer.timeout.disconnect(_on_suspicion_timer_timeout)
+
+func process_physics(_delta: float) -> void:
+	# While suspicious, the guard is just waiting, so no physics logic is needed here.
+	# We could add logic later for the guard to be able to see the player in this state.
+	pass
+
+func _on_suspicion_timer_timeout() -> void:
+	# Once the timer is done, go back to patrolling.
+	state_machine.change_state("PatrolState")
+
+--- SCRIPT: res://Interactables/Chest/Chest.gd ---
+# res://Interactables/Chest/Chest.gd
+extends StaticBody2D
+
+@export var gold_amount: int = 10
+@export var floating_text_scene: PackedScene
+# ADD THIS NEW VARIABLE. A default of 20px up is a good start.
+@export var text_spawn_offset: Vector2 = Vector2(0, -20)
+
+var _is_opened := false
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var _interactable: Interactable = $InteractionArea
+
+
+func _ready() -> void:
+	_interactable.interacted.connect(_on_interacted)
+
+
+func _on_interacted() -> void:
+	if _is_opened:
+		return
+	_is_opened = true
+	
+	animated_sprite.play("open")
+	await animated_sprite.animation_finished
+	
+	EventBus.gold_collected.emit(gold_amount)
+	
+	if floating_text_scene:
+		var floating_text_instance = floating_text_scene.instantiate()
+		get_tree().current_scene.add_child(floating_text_instance)
+		
+		# UPDATE THIS LINE to add the offset.
+		floating_text_instance.global_position = self.global_position + text_spawn_offset
+		
+		floating_text_instance.show_text("+%d Gold" % gold_amount)
+	
+	queue_free()
+
+--- SCRIPT: res://Interactables/Interactable.gd ---
+# Interactable.gd
+class_name Interactable
+extends Area2D
+
+## This signal is emitted when the player interacts with this object.
+signal interacted
+
+## The message to display (e.g., "Press E to Open").
+@export var prompt_message: String = "Interact"
+
+# This function is called by the player.
+func perform_interaction():
+	interacted.emit()
+
+--- SCRIPT: res://Interactables/Prisoner/Prisoner.gd ---
+# res://Interactables/Prisoner/Prisoner.gd
+extends StaticBody2D
+
+@onready var _interactable: Interactable = $Interactable
+
+func _ready() -> void:
+	# This line connects the interaction signal to our logic function below.
+	_interactable.interacted.connect(_on_interactable_interacted)
+
+
+func _on_interactable_interacted() -> void:
+	# Announce that a villager was rescued. The GameManager will hear this
+	# and update its internal state.
+	EventBus.villager_rescued.emit()
+	queue_free()
+
+--- SCRIPT: res://Interactables/RescuedVillager/RescuedVillager.gd ---
+# res://Interactables/RescuedVillager/RescuedVillager.gd
+extends StaticBody2D
+
+@export_multiline var dialogue_message: String = "Thank you!"
+
+@onready var _collision_shape: CollisionShape2D = $CollisionShape2D
+@onready var _interactable: Interactable = $InteractionArea
+
+func _ready() -> void:
+	_interactable.interacted.connect(_on_interacted)
+	GameManager.resources_updated.connect(update_visibility)
+	update_visibility()
+
+
+func _on_interacted() -> void:
+	EventBus.show_dialogue.emit(dialogue_message)
+
+
+func update_visibility() -> void:
+	# (You can remove the print statements now if you like)
+	
+	if GameManager.villagers <= 0:
+		# Hide and disable everything with the most reliable methods.
+		hide()
+		_collision_shape.set_deferred("disabled", true)
+		_interactable.monitoring = false
+		
+		# THE DEFINITIVE FIX: Directly disable the interaction area's collision shape.
+		# This is a more direct command to the physics server.
+		_interactable.get_node("CollisionShape2D").set_deferred("disabled", true)
+	else:
+		# Show and enable everything.
+		show()
+		_collision_shape.set_deferred("disabled", false)
+		_interactable.monitoring = true
+		_interactable.get_node("CollisionShape2D").set_deferred("disabled", false)
+
+--- SCRIPT: res://KillZone.gd ---
+# res://World/Killzone.gd
+extends Area2D
+
+func _ready() -> void:
+	# Connect the signal for when a body enters this area.
+	body_entered.connect(_on_body_entered)
+
+
+func _on_body_entered(body: Node) -> void:
+	# Check if the body that entered is the player.
+	if body.is_in_group("player"):
+		# Announce that the player has died.
+		EventBus.player_died.emit()
+
+--- SCRIPT: res://Levels/Hideout/Hideout.gd ---
+# res://Levels/Hideout.gd
+extends Control
+
+# We need a reference to our new placeholder scene.
+@export var archer_placeholder_scene: PackedScene
+
+# --- Node References ---
+@onready var gold_label: Label = $ResourceDisplay/PanelContainer/HBoxContainer/GoldLabel
+@onready var villager_label: Label = $ResourceDisplay/PanelContainer/HBoxContainer/VillagerLabel
+@onready var archer_label: Label =$ResourceDisplay/PanelContainer/HBoxContainer/ArcherLabel
+@onready var train_archer_button: Button = $TrainArcherButton
+
+# A reference to the spawn location for our archers.
+@onready var archery_range: Node2D = owner.get_node("ArcheryRange")
+
+
+func _ready() -> void:
+	# Connect button signals
+	train_archer_button.pressed.connect(_on_train_archer_button_pressed)
+	
+	
+	# Connect to the GameManager's signal to keep visuals and UI in sync.
+	GameManager.resources_updated.connect(update_visuals)
+	
+	# Update everything once at the start to reflect the loaded save data.
+	update_visuals()
+
+
+# This function now handles ALL UI and visual updates for the hideout.
+func update_visuals() -> void:
+	# --- Update UI Labels ---
+	gold_label.text = "Gold: " + str(GameManager.gold)
+	villager_label.text = "Villagers: " + str(GameManager.villagers)
+	archer_label.text = "Archers: " + str(GameManager.archers)
+	
+	# --- Update Button State ---
+	train_archer_button.disabled = not (GameManager.gold >= 10 and GameManager.villagers > 0)
+	
+	# --- Update Archer Placeholders ---
+	# First, clear any existing archers to prevent duplicates.
+	for child in archery_range.get_children():
+		child.queue_free()
+		
+	# Second, spawn one placeholder for each archer we have.
+	if archer_placeholder_scene:
+		for i in range(GameManager.archers):
+			var archer = archer_placeholder_scene.instantiate()
+			# Spread them out so they don't spawn on top of each other.
+			archer.position.x = i * 50 
+			archery_range.add_child(archer)
+
+
+func _on_train_archer_button_pressed() -> void:
+	# This button's only job is to request the upgrade.
+	# The GameManager will update the state, which will trigger our 'update_visuals'
+	# function via the 'resources_updated' signal.
+	EventBus.train_archer_requested.emit()
+
+
+func _on_start_mission_button_pressed() -> void:
+	EventBus.start_mission_requested.emit("village_outskirts")
+
+--- SCRIPT: res://Levels/Level.gd ---
+# res://Levels/Level.gd
+extends Node2D
+
+# This script can be used for level-specific logic in the future,
+# but it no longer needs to handle global mission state signals.
+func _ready() -> void:
+	pass
+
+--- SCRIPT: res://MissionBoard.gd ---
+# res://World/MissionBoard.gd
+extends StaticBody2D
+
+@onready var _interactable: Interactable = $Interactable
+
+func _ready() -> void:
+	_interactable.interacted.connect(_on_interacted)
+
+func _on_interacted() -> void:
+	# Announce the user wants to start the mission.
+	EventBus.start_mission_requested.emit("village_outskirts")
+
+--- SCRIPT: res://Player/Data/PlayerStats.gd ---
+class_name PlayerStats
+extends Resource
+
+@export_group("Movement & Physics")
+
+@export_group("Movement & Physics")
+@export var speed: float = 500.0
+@export var air_control_acceleration: float = 100.0
+@export var terminal_velocity: float = 750.0
+@export var acceleration_smoothness: float = 0.1
+@export var friction_smoothness: float = 0.2
+
+@export_group("Jumping & Gravity")
+@export var jump_height: float = 120.0
+@export var time_to_apex: float = 0.5
+@export var fall_gravity: float = 2400.0
+@export var jump_cut_multiplier: float = 0.5
+
+@export_group("Abilities")
+@export var glide_velocity: float = 300.0
+@export var blink_dash_enabled: bool = false
+@export var slide_duration: float = 0.5
+@export var slide_friction: float = 0.01
+@export var skid_duration: float = 0.25
+@export var skid_friction: float = 0.25
+@export var wall_slip_duration: float = 0.08
+@export var wall_slide_friction: float = 80.0
+@export var crouch_speed_multiplier: float = 0.5
+@export var wall_slide_jump_horizontal_velocity: float = 600.0
+@export var wall_slide_jump_vertical_velocity: float = -600.0
+@export var wall_stick_jump_horizontal_velocity: float = 900.0
+@export var wall_stick_jump_vertical_velocity: float = -400.0
+@export var dash_end_velocity_multiplier: float = 0.3
+@export var invisibility_duration: float = 2.0
+@export var invisibility_cooldown: float = 5.0
+
+@export_group("Game Feel & Timers")
+@export var coyote_time_duration: float = 0.2
+@export var wall_coyote_time_duration: float = 0.18
+@export var jump_buffer_duration: float = 0.1
+@export var dash_freeze_duration: float = 0.08
+@export var fall_zoom_delay: float = 0.3
+@export var wall_detach_hang_time: float = 0.2
+@export var wall_detach_gravity_scale: float = 0.5
+
+# --- Calculated Values ---
+# These are not exported, but are calculated for our script to use.
+var jump_velocity: float
+var jump_gravity: float
+var charged_jump_velocity: float
+
+
+# This function runs when the resource is first loaded.
+func _init() -> void:
+	# We can still use our nice tuning variables to calculate the physics.
+	if time_to_apex > 0:
+		jump_gravity = (2 * jump_height) / (time_to_apex * time_to_apex)
+		jump_velocity = -jump_gravity * time_to_apex
+		charged_jump_velocity = jump_velocity * 1.5
+	else:
+		# Provide default values if time_to_apex is zero to avoid division errors.
+		jump_gravity = 1200.0
+		jump_velocity = -600.0
+		charged_jump_velocity = -900.0
+
+--- SCRIPT: res://Player/PlayerCamera.gd ---
+# res://Player/PlayerCamera.gd
+extends Camera2D
+
+@export_group("Camera Tuning")
+@export var default_camera_zoom: float = 1.0
+@export var fall_camera_zoom: float = 0.9
+@export var glide_camera_zoom: float = 0.9
+@export var camera_zoom_out_speed: float = 0.05
+@export var camera_zoom_in_speed: float = 0.2
+@export var look_up_offset: float = -75.0
+@export var look_down_offset: float = 75.0
+@export var camera_vertical_lerp_speed: float = 0.1
+@export var horizontal_lookahead: float = 80.0
+@export var smoothing_speed: float = 5.0
+
+
+# --- Private State ---
+var player: CharacterBody2D
+var _is_in_long_fall: bool = false
+var _is_gliding: bool = false
+@onready var ground_ray: RayCast2D = get_parent().get_node("GroundRay")
+@onready var ledge_ray: RayCast2D = get_parent().get_node("LedgeRay")
+var _target_position: Vector2
+var _vertical_threshold: float
+
+
+func _ready() -> void:
+	player = get_parent()
+	if not is_instance_valid(player):
+		printerr("PlayerCamera has no valid parent!")
+		return
+	
+	# Set the initial target position.
+	_target_position = player.global_position
+	
+	# Calculate the 30% screen height threshold in pixels.
+	_vertical_threshold = get_viewport_rect().size.y * 0.3
+	
+	# Connect to the player's signals to track its state.
+	player.long_fall_started.connect(func(): _is_in_long_fall = true)
+	player.long_fall_ended.connect(func(): _is_in_long_fall = false)
+	player.gliding_started.connect(func(): _is_gliding = true)
+	player.gliding_ended.connect(func(): _is_gliding = false)
+	
+	# Wait one frame for the level tree to be fully ready before setting limits.
+	call_deferred("_setup_level_limits")
+
+
+func _setup_level_limits() -> void:
+	var boundary_nodes = get_tree().get_nodes_in_group("camera_boundary")
+	if boundary_nodes.is_empty():
+		return # No boundary found, so we do nothing.
+	
+	var boundary_area: Area2D = boundary_nodes[0]
+	var shape_node: CollisionShape2D = boundary_area.get_node("CollisionShape2D")
+	
+	# This robustly gets the rectangle's true global coordinates.
+	var global_rect: Rect2 = shape_node.get_global_transform() * shape_node.shape.get_rect()
+	
+	# Apply the correctly calculated values to the camera's limits.
+	self.limit_left = int(global_rect.position.x)
+	self.limit_top = int(global_rect.position.y)
+	self.limit_right = int(global_rect.end.x)
+	self.limit_bottom = int(global_rect.end.y)
+
+func _physics_process(delta: float) -> void:
+	if not is_instance_valid(player):
+		return
+		
+	# Start with a baseline target. The camera always tracks the player's X,
+	# but the Y is determined by the logic below.
+	var target_y = _target_position.y
+		
+	# --- Ledge Look-Down Logic ---
+	# Flip the ledge ray's position based on the player's velocity.
+	if abs(player.velocity.x) > 10:
+		ledge_ray.position.x = abs(ledge_ray.position.x) * sign(player.velocity.x)
+
+	# If the player is on the floor and moving towards a ledge...
+	if player.is_on_floor() and not ledge_ray.is_colliding() and abs(player.velocity.x) > 10:
+		# ...the target is the last known platform height PLUS the offset.
+		if ground_ray.is_colliding():
+			target_y = ground_ray.get_collision_point().y + look_down_offset
+	
+	# --- Settle on Platform Logic ---
+	# Otherwise, if not at a ledge but on the floor, lock the target to the platform's surface.
+	elif player.is_on_floor() and ground_ray.is_colliding():
+		target_y = ground_ray.get_collision_point().y
+	
+	# --- Jump Deadzone & Fall Logic (runs when airborne) ---
+	var vertical_diff = target_y - player.global_position.y
+	if vertical_diff > _vertical_threshold:
+		target_y = player.global_position.y + _vertical_threshold
+
+	if player.global_position.y > target_y:
+		target_y = player.global_position.y
+		
+	# --- Final Update ---
+	# Assemble the final target position from our calculated X and Y.
+	_target_position = Vector2(player.global_position.x, target_y)
+	# Smoothly move the camera towards its final target.
+	self.global_position = self.global_position.lerp(_target_position, delta * smoothing_speed)
+
+
+func _update_camera_zoom() -> void:
+	var target_zoom_value: float = default_camera_zoom
+	if _is_in_long_fall:
+		target_zoom_value = fall_camera_zoom
+	elif _is_gliding:
+		target_zoom_value = glide_camera_zoom
+	
+	var lerp_speed: float = camera_zoom_in_speed if target_zoom_value == default_camera_zoom else camera_zoom_out_speed
+	var target_zoom: Vector2 = Vector2(target_zoom_value, target_zoom_value)
+	self.zoom = lerp(self.zoom, target_zoom, lerp_speed)
+
+
+func _update_camera_offset() -> void:
+	var target_offset_y: float = 0.0
+	if _is_in_long_fall:
+		target_offset_y = look_down_offset
+	elif player.is_on_floor() and Input.is_action_pressed("ui_up"):
+		target_offset_y = look_up_offset
+	
+	var input_direction_x = Input.get_axis("left", "right")
+	var target_offset_x = input_direction_x * horizontal_lookahead
+	self.offset.x = lerp(self.offset.x, target_offset_x, camera_vertical_lerp_speed)
+	
+	self.offset.y = lerp(self.offset.y, target_offset_y, camera_vertical_lerp_speed)
+
+--- SCRIPT: res://Player/PlayerInteraction.gd ---
+# res://Player/PlayerInteraction.gd
+extends Area2D
+
+func _ready() -> void:
+	area_entered.connect(_on_area_entered)
+	area_exited.connect(_on_area_exited)
+
+
+func _on_area_entered(area: Area2D) -> void:
+	if area is Interactable:
+		print("DEBUG: Player - Entered area of: ", area.get_parent().name)
+		InteractionManager.register_interactable(area)
+
+
+func _on_area_exited(area: Area2D) -> void:
+	if area is Interactable:
+		print("DEBUG: Player - Exited area of: ", area.get_parent().name)
+		InteractionManager.unregister_interactable(area)
+
+--- SCRIPT: res://Player/PlayerModularControl/AnimationController.gd ---
+extends Node2D
+
+# Get a reference to the AnimatedSprite2D node, which is a sibling of this node.
+@onready var animated_sprite = get_parent().get_node("AnimatedSprite2D")
+# -- A variable to hold a reference to the main player script --
+var player
+
+# --- Get the parent reference when the node is ready ---
+func _ready():
+	# We get the parent node so we can access its "States" enum
+	player = get_parent()
+
+# This is the main public function that our player script will call every frame.
+# It needs to know the player's current state, velocity, and wall normal to make decisions.
+func update_animation(current_state, _current_velocity, wall_normal, input_direction_x):
+	# This new structure is much clearer. We handle special cases first.
+	match current_state:
+		player.States.ON_WALL, player.States.WALL_SLIP:
+			animated_sprite.play("wall slide")
+			# Flip is based on the wall's direction, not input.
+			animated_sprite.flip_h = wall_normal.x < 0
+
+		player.States.WALL_STICKING:
+			animated_sprite.play("wall hang")
+			# This flip logic makes the player face away from the wall.
+			animated_sprite.flip_h = wall_normal.x > 0
+
+		# The default case handles all other "normal" states.
+		_:
+			# First, determine the animation to play.
+			match current_state:
+				player.States.IDLE:
+					animated_sprite.play("idle")
+				player.States.RUNNING:
+					animated_sprite.play("run")
+				player.States.JUMPING:
+					animated_sprite.play("jump")
+				player.States.FALLING, player.States.WALL_DETACH:
+					animated_sprite.play("fall")
+				player.States.LANDING, player.States.DASH_PREPARE:
+					animated_sprite.play("crouch")
+				player.States.SKIDDING:
+					animated_sprite.play("turn")
+				player.States.SLIDING:
+					animated_sprite.play("slide")
+				player.States.DASHING:
+					animated_sprite.play("jump") # Or a dedicated dash animation
+
+			# Second, for all these normal states, flip the sprite based on input.
+			if input_direction_x > 0:
+				animated_sprite.flip_h = false
+			elif input_direction_x < 0:
+				animated_sprite.flip_h = true
+
+--- SCRIPT: res://Player/PlayerModularControl/VFX.gd ---
+extends Node2D
+
+# Get references to the nodes this component will control.
+## We will now find the camera in the _ready() function.
+var camera: Camera2D
+@onready var dash_particles = get_parent().get_node("DashParticles")
+@onready var animated_sprite = get_parent().get_node("AnimatedSprite2D")
+
+func _ready():
+	## This is the fix! Search the scene tree for the active camera
+	## instead of assuming it's a direct child.
+	camera = get_tree().get_first_node_in_group("PlayerCamera")
+
+# This is the "public" function our main player script will call.
+func play_dash_effects():
+	# Trigger the camera punch effect
+	_trigger_camera_punch()
+	
+	# Start the particle effect
+	var dash_direction = Vector2(1 if not animated_sprite.flip_h else -1, 0)
+	
+	dash_particles.scale.x = dash_direction.x
+	dash_particles.emitting = true
+
+func stop_dash_effects():
+	dash_particles.emitting = false
+	dash_particles.scale.x = 1
+
+# This is the same camera punch function, now living in its own component.
+func _trigger_camera_punch():
+	## Add a safety check to make sure the camera exists before trying to use it.
+	if not is_instance_valid(camera):
+		return
+
+	var player = get_parent()
+	var tween = create_tween()
+	var zoomed_in_vec = Vector2(player.default_camera_zoom, player.default_camera_zoom) * 1.1
+	var default_zoom_vec = Vector2(player.default_camera_zoom, player.default_camera_zoom)
+	
+	tween.tween_property(camera, "zoom", zoomed_in_vec, 0.1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(camera, "zoom", default_zoom_vec, 0.1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+
+--- SCRIPT: res://Player/PlayerScript.gd ---
+# PlayerScript.gd
+extends CharacterBody2D
+
+## We replace ALL the old @export variables with this single one.
+@export var stats: PlayerStats
+@export var dust_puff_scene: PackedScene
+
+# The state enum is logic, so it stays.
+enum States {IDLE, RUNNING, JUMPING, FALLING, GLIDING, ON_WALL, WALL_STICKING, DASHING, UNSTICKING, CROUCHING, LANDING, DASH_PREPARE, WALL_SLIP, SKIDDING, SLIDING, WALL_DETACH}
+
+#Signals
+signal long_fall_started
+signal long_fall_ended
+signal gliding_started
+signal gliding_ended
+
+# --- Constants ---
+# Constants that don't need to be tuned can also stay.
+const MAX_JUMPS = 2
+const DASH_SPEED = 1500.0
+const DASH_DURATION = 0.15
+const DASH_COOLDOWN = 0.5
+const WALL_STICK_DURATION = 2.0
+const JUMP_CHARGE_DURATION = 1.0
+const LANDING_DURATION = 0.15
+
+# --- Public State Variables ---
+var current_jumps = 0
+var can_dash: bool = true
+var can_wall_stick: bool = true
+var is_jump_charged: bool = false
+var jump_buffered: bool = false
+var is_long_fall: bool = false # Used by CameraLogic
+var is_invisible: bool = false
+var can_go_invisible: bool = true
+var last_wall_normal: Vector2
+
+# --- Node References ---
+@onready var state_machine = $StateMachine
+@onready var dash_timer = $Timers/DashTimer
+@onready var dash_cooldown_timer = $Timers/DashCooldownTimer
+@onready var wall_stick_timer = $Timers/WallStickTimer
+@onready var standing_collision = $StandingCollision
+@onready var crouching_collision = $CrouchingCollision
+@onready var wall_slide_collision = $WallSlideCollision
+@onready var crouch_timer = $Timers/CrouchTimer
+@onready var land_timer = $Timers/LandTimer
+@onready var coyote_timer = $Timers/CoyoteTimer
+@onready var jump_buffer_timer = $Timers/JumpBufferTimer
+@onready var animated_sprite = $AnimatedSprite2D
+@onready var dash_freeze_timer = $Timers/DashFreezeTimer
+@onready var fall_zoom_timer = $Timers/FallZoomTimer
+@onready var wall_slip_timer = $Timers/WallSlipTimer
+@onready var skid_timer = $Timers/SkidTimer
+@onready var wall_coyote_timer = $Timers/WallCoyoteTimer
+@onready var slide_timer = $Timers/SlideTimer
+@onready var head_clearance_ray = $HeadClearanceRaycast
+@onready var animation_controller = $AnimationController
+@onready var vfx = $VFX
+@onready var wall_detach_timer = $Timers/WallDetachTimer
+@onready var invisibility_timer = $Timers/InvisibilityTimer
+@onready var invisibility_cooldown_timer = $Timers/InvisibilityCooldownTimer
+@onready var wall_check_ray_right: RayCast2D = $WallCheckRayRight
+@onready var wall_check_ray_left: RayCast2D = $WallCheckRayLeft
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
+func _ready():
+	# The jump physics calculations are now handled by the resource itself!
+	# All we need to do is connect our timers.
+	dash_timer.timeout.connect(_on_dash_timer_timeout)
+	dash_cooldown_timer.timeout.connect(_on_dash_cooldown_timer_timeout)
+	wall_stick_timer.timeout.connect(_on_wall_stick_timer_timeout)
+	crouch_timer.timeout.connect(_on_crouch_timer_timeout)
+	land_timer.timeout.connect(_on_land_timer_timeout)
+	coyote_timer.timeout.connect(_on_coyote_timer_timeout)
+	jump_buffer_timer.timeout.connect(_on_jump_buffer_timer_timeout)
+	dash_freeze_timer.timeout.connect(_on_dash_freeze_timer_timeout)
+	fall_zoom_timer.timeout.connect(_on_fall_zoom_timer_timeout)
+	wall_slip_timer.timeout.connect(_on_wall_slip_timer_timeout)
+	skid_timer.timeout.connect(_on_skid_timer_timeout)
+	wall_coyote_timer.timeout.connect(_on_wall_coyote_timer_timeout)
+	slide_timer.timeout.connect(_on_slide_timer_timeout)
+	wall_detach_timer.timeout.connect(_on_wall_detach_timer_timeout)
+	invisibility_timer.timeout.connect(_on_invisibility_timer_timeout)
+	invisibility_cooldown_timer.timeout.connect(_on_invisibility_cooldown_timer_timeout)
+	
+	state_machine.call_deferred("initialize")
+
+func _process(_delta: float) -> void:
+	if Input.is_action_just_pressed("pause"):
+		EventBus.pause_toggled.emit(GameManager.is_gameplay_active)
+
+func _physics_process(_delta: float):
+	
+	
+	if not GameManager.is_gameplay_active:
+		return
+
+	if not is_instance_valid(stats):
+		return
+	
+	
+	velocity.y = min(velocity.y, stats.terminal_velocity)
+	_handle_global_inputs()
+	move_and_slide()
+	
+	
+
+func _handle_global_inputs():
+	if Input.is_action_just_pressed("dash") and can_dash:
+		state_machine.change_state("DashPrepare")
+
+	if Input.is_action_just_pressed("invisibility") and can_go_invisible:
+		_enter_invisibility()
+
+# --- Public Helper Functions (Called by States) ---
+
+func enter_jump_state():
+	coyote_timer.stop()
+	fall_zoom_timer.stop()
+	set_standing_collision()
+	velocity.y = stats.jump_velocity
+	current_jumps += 1
+
+func wall_jump(wall_normal_override: Vector2 = Vector2.ZERO):
+	wall_stick_timer.stop()
+	wall_coyote_timer.stop()
+	
+	var wall_normal = wall_normal_override if wall_normal_override != Vector2.ZERO else get_wall_normal()
+	
+	if Input.is_action_pressed("shift") and can_wall_stick:
+		velocity.y = stats.wall_stick_jump_vertical_velocity
+		velocity.x = wall_normal.x * stats.wall_stick_jump_horizontal_velocity
+	else:
+		velocity.y = stats.wall_slide_jump_vertical_velocity
+		velocity.x = wall_normal.x * stats.wall_slide_jump_horizontal_velocity
+
+	can_wall_stick = true
+	current_jumps = 1
+# Spawn a burst of particles
+	if dust_puff_scene:
+		var puff = dust_puff_scene.instantiate()
+		get_parent().add_child(puff)
+		var wall_offset = get_wall_normal() * -15
+		puff.global_position = get_node("WallSlideSpawner").global_position + wall_offset
+		
+func _start_wall_coyote_time():
+	last_wall_normal = get_wall_normal()
+	wall_coyote_timer.start(stats.wall_coyote_time_duration)
+	wall_detach_timer.start(stats.wall_detach_hang_time)
+	can_wall_stick = true
+	fall_zoom_timer.start(stats.fall_zoom_delay)
+
+func is_head_clear() -> bool:
+	return not head_clearance_ray.is_colliding()
+
+func set_standing_collision():
+	standing_collision.disabled = false
+	crouching_collision.disabled = true
+	wall_slide_collision.disabled = true
+
+func set_crouching_collision():
+	standing_collision.disabled = true
+	crouching_collision.disabled = false
+	wall_slide_collision.disabled = true
+
+func set_wall_slide_collision():
+	standing_collision.disabled = true
+	crouching_collision.disabled = true
+	wall_slide_collision.disabled = false
+
+func _enter_invisibility():
+	is_invisible = true
+	can_go_invisible = false
+	invisibility_timer.start(stats.invisibility_duration)
+	invisibility_cooldown_timer.start(stats.invisibility_cooldown)
+	animated_sprite.modulate.a = 0.5
+
+# --- Timer Callbacks ---
+
+func _on_dash_timer_timeout():
+	# If the timer runs out normally, do the cleanup...
+	end_dash()
+	# ...and then transition to the FallingState.
+	state_machine.change_state("Falling")
+
+func _on_dash_cooldown_timer_timeout():
+	can_dash = true
+
+func _on_wall_stick_timer_timeout():
+	if state_machine.current_state.name == "WallStickingState":
+		state_machine.change_state("OnWall")
+
+func _on_crouch_timer_timeout():
+	is_jump_charged = true
+
+func _on_coyote_timer_timeout():
+	if current_jumps == 0:
+		current_jumps = 1
+
+func _on_jump_buffer_timer_timeout():
+	jump_buffered = false
+
+func _on_dash_freeze_timer_timeout():
+	state_machine.change_state("Dashing")
+	var dash_direction = Vector2(1 if not animated_sprite.flip_h else -1, 0)
+	vfx.play_dash_effects()
+	velocity.x = dash_direction.x * DASH_SPEED
+	velocity.y = 0
+	dash_timer.start(DASH_DURATION)
+
+func _on_invisibility_timer_timeout():
+	is_invisible = false
+	animated_sprite.modulate.a = 1.0
+
+func _on_invisibility_cooldown_timer_timeout():
+	can_go_invisible = true
+
+func _on_land_timer_timeout():
+	if state_machine.current_state.name == "LandingState":
+		state_machine.change_state("Idle")
+
+func _on_fall_zoom_timer_timeout():
+	if not is_on_floor():
+		is_long_fall = true
+		# Announce that a long fall has begun.
+		long_fall_started.emit()
+
+func _on_wall_slip_timer_timeout():
+	if state_machine.current_state.name == "WallSlipState":
+		state_machine.change_state("WallSticking")
+
+func _on_skid_timer_timeout():
+	if state_machine.current_state.name == "SkiddingState":
+		state_machine.change_state("Running")
+
+func _on_wall_coyote_timer_timeout():
+	pass
+
+func _on_slide_timer_timeout():
+	if state_machine.current_state.name == "SlidingState":
+		if is_head_clear():
+			if Input.is_action_pressed("ui_down"):
+				state_machine.change_state("Crouching")
+			else:
+				state_machine.change_state("Idle")
+		else:
+			state_machine.change_state("Crouching")
+
+func _on_wall_detach_timer_timeout():
+	if state_machine.current_state.name == "WallDetachState":
+		state_machine.change_state("Falling")
+func _unhandled_input(event: InputEvent) -> void:
+	# This function will not run if gameplay is paused.
+	if not GameManager.is_gameplay_active:
+		return
+
+	# This function will also not run if another node (like our DialogueBox)
+	# has already handled this input event.
+	if event.is_action_pressed("interact_world"):
+		EventBus.interact_pressed.emit()
+func end_dash() -> void:
+	# Don't do anything if we aren't actually in the DashingState.
+	if state_machine.current_state.name != "DashingState":
+		return
+
+	# Perform all cleanup.
+	vfx.stop_dash_effects()
+	dash_cooldown_timer.start(DASH_COOLDOWN)
+	
+	
+
+--- SCRIPT: res://Player/States/CrouchingState.gd ---
+# res://Player/States/CrouchingState.gd
+extends State
+
+func enter() -> void:
+	# Change the player's collision shape to the smaller crouching version.
+	player.set_crouching_collision()
+	# Start the timer for the charged jump.
+	player.crouch_timer.start(player.JUMP_CHARGE_DURATION)
+	player.is_jump_charged = false # Reset the charged flag.
+
+
+func exit() -> void:
+	# Stop the timer when we leave this state.
+	player.crouch_timer.stop()
+	# Change collision back to standing, but only if there's room.
+	if player.is_head_clear():
+		player.set_standing_collision()
+
+
+func process_physics(_delta: float) -> void:
+	var input_x: float = Input.get_axis("left", "right")
+
+	# Apply movement at a reduced speed, using the multiplier from PlayerStats.
+	var target_velocity_x = input_x * player.stats.speed * player.stats.crouch_speed_multiplier
+	player.velocity.x = lerp(player.velocity.x, target_velocity_x, player.stats.acceleration_smoothness)
+	
+	# --- Handle State Transitions ---
+	# Transition to Jumping
+	if Input.is_action_just_pressed("jump"):
+		if player.is_head_clear():
+			# If the jump is charged, use the stronger charged jump velocity.
+			if player.is_jump_charged:
+				player.velocity.y = player.stats.charged_jump_velocity
+			else:
+				player.velocity.y = player.stats.jump_velocity
+			player.current_jumps = 1
+			state_machine.change_state("Jumping")
+	
+	# Transition to Idle (stand up)
+	elif not Input.is_action_pressed("ui_down"):
+		# Only stand up if there is nothing blocking the player's head.
+		if player.is_head_clear():
+			state_machine.change_state("Idle")
+			
+	# Update the animation every frame.
+	player.animation_controller.update_animation(
+		player.States.CROUCHING, player.velocity, Vector2.ZERO, input_x
+	)
+
+--- SCRIPT: res://Player/States/DashingState.gd ---
+# res://Player/States/DashingState.gd
+extends State
+
+func enter() -> void:
+	player.animation_controller.update_animation(player.States.DASHING, player.velocity, Vector2.ZERO, 0)
+
+
+func process_physics(_delta: float) -> void:
+	if not player.stats.blink_dash_enabled and player.is_on_wall():
+		# If we hit a wall, do the cleanup...
+		player.end_dash()
+		# ...and then transition directly to the OnWallState.
+		state_machine.change_state("OnWall")
+		return
+
+--- SCRIPT: res://Player/States/DashPrepareState.gd ---
+# DashPrepareState.gd
+extends State
+
+func enter():
+	player.can_dash = false
+	player.velocity = Vector2.ZERO
+	player.dash_freeze_timer.start(player.stats.dash_freeze_duration)
+	var input_x = Input.get_axis("left", "right")
+	player.animation_controller.update_animation(player.States.DASH_PREPARE, player.velocity, Vector2.ZERO, input_x)
+
+func process_physics(_delta):
+	# This state is controlled by a timer.
+	# The logic is in the _on_dash_freeze_timer_timeout() function in PlayerScript.gd.
+	# When that timer finishes, it will change the state to Dashing.
+	pass
+
+--- SCRIPT: res://Player/States/FallingState.gd ---
+# res://Player/States/FallingState.gd
+extends State
+
+func enter() -> void:
+	var input_x: float = Input.get_axis("left", "right")
+	player.animation_controller.update_animation(player.States.FALLING, player.velocity, Vector2.ZERO, input_x)
+
+func process_physics(delta: float) -> void:
+	var input_x: float = Input.get_axis("left", "right")
+
+	# Physics logic
+	if not player.is_on_floor():
+		player.velocity.y += player.stats.fall_gravity * delta
+	player.velocity.x = move_toward(player.velocity.x, input_x * player.stats.speed, player.stats.air_control_acceleration)
+
+	# --- Check for transitions ---
+	if Input.is_action_pressed("up"):
+		state_machine.change_state("Gliding")
+		return
+
+	elif player.is_on_floor():
+		state_machine.change_state("Landing")
+		return
+
+	elif player.is_on_wall():
+		if not (sign(player.get_wall_normal().x) == sign(input_x)):
+			state_machine.change_state("OnWall")
+			return
+
+	elif Input.is_action_just_pressed("jump"):
+		# NEW LOGIC: Check for nearby walls with RayCasts first.
+		if player.wall_check_ray_right.is_colliding():
+			# If the right ray hits a wall, we perform a wall jump as if we hit a wall on our right.
+			player.wall_jump(Vector2(-1, 0)) # Provide a left-pointing normal.
+			state_machine.change_state("Jumping")
+			return
+		elif player.wall_check_ray_left.is_colliding():
+			# If the left ray hits a wall, we jump as if we hit a wall on our left.
+			player.wall_jump(Vector2(1, 0)) # Provide a right-pointing normal.
+			state_machine.change_state("Jumping")
+			return
+		
+		# --- Original Logic ---
+		# If no nearby walls, check for coyote time or double jump.
+		if not player.wall_coyote_timer.is_stopped():
+			player.wall_jump(player.last_wall_normal)
+			state_machine.change_state("Jumping")
+			return
+		elif player.current_jumps < player.MAX_JUMPS:
+			state_machine.change_state("Jumping")
+			return
+		else:
+			player.jump_buffered = true
+			player.jump_buffer_timer.start(player.stats.jump_buffer_duration)
+
+	player.animation_controller.update_animation(player.States.FALLING, player.velocity, Vector2.ZERO, input_x)
+
+--- SCRIPT: res://Player/States/GlidingState.gd ---
+# res://Player/States/GlidingState.gd
+extends State
+
+func enter() -> void:
+	# Announce that gliding has started.
+	player.gliding_started.emit()
+	var input_x: float = Input.get_axis("left", "right")
+	player.animation_controller.update_animation(player.States.GLIDING, player.velocity, Vector2.ZERO, input_x)
+
+func exit() -> void:
+	# Announce that gliding has ended.
+	player.gliding_ended.emit()
+
+func process_physics(_delta: float) -> void:
+	var input_x: float = Input.get_axis("left", "right")
+
+	player.velocity.y = player.stats.glide_velocity
+	player.velocity.x = move_toward(player.velocity.x, input_x * player.stats.speed, 150)
+
+	if player.is_on_floor():
+		state_machine.change_state("Landing")
+	elif player.is_on_wall():
+		state_machine.change_state("OnWall")
+	elif Input.is_action_just_released("up"):
+		state_machine.change_state("Falling")
+	elif Input.is_action_just_pressed("jump"):
+		if player.current_jumps < player.MAX_JUMPS:
+			state_machine.change_state("Jumping")
+		else:
+			player.jump_buffered = true
+			player.jump_buffer_timer.start(player.stats.jump_buffer_duration)
+
+--- SCRIPT: res://Player/States/Idle.gd ---
+# IdleState.gd
+extends State
+
+func enter() -> void:
+	# Play the idle animation.
+	var input_x: float = Input.get_axis("left", "right")
+	player.animation_controller.update_animation(player.States.IDLE, player.velocity, Vector2.ZERO, input_x)
+
+
+func process_physics(_delta: float) -> void:
+	# Apply friction to slow the player down using our stats resource.
+	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.friction_smoothness)
+	
+	# --- Check for transitions to other states ---
+	var input_x: float = Input.get_axis("left", "right")
+	
+	if Input.is_action_pressed("ui_down"):
+		state_machine.change_state("Crouching")
+	elif input_x != 0:
+		state_machine.change_state("Running")
+	elif Input.is_action_just_pressed("jump"):
+		state_machine.change_state("Jumping")
+	elif not player.is_on_floor():
+		# This handles walking off a ledge.
+		player.coyote_timer.start(player.stats.coyote_time_duration)
+		player.fall_zoom_timer.start(player.stats.fall_zoom_delay)
+		state_machine.change_state("Falling")
+
+--- SCRIPT: res://Player/States/JumpingState.gd ---
+# res://Player/States/JumpingState.gd
+extends State
+
+func enter() -> void:
+	# THE FIX: This line was missing. It applies the jump's upward velocity.
+	player.enter_jump_state()
+
+	# --- Visuals and Polish ---
+	# (The code for animations and particles that we already fixed)
+	player.animation_player.play("jump_stretch")
+
+	print("DEBUG: Trying to spawn dust puff...")
+	if player.dust_puff_scene:
+		print("DEBUG: dust_puff_scene is valid. Instantiating.")
+		var puff = player.dust_puff_scene.instantiate()
+		get_tree().root.add_child(puff)
+		puff.global_position = player.get_node("FootSpawner").global_position
+		print("DEBUG: Setting 'emitting = true' on the puff instance.")
+		puff.emitting = true 
+	else:
+		printerr("DEBUG: ERROR - dust_puff_scene is NOT SET on the Player in the Inspector!")
+
+	# --- Final Animation Update ---
+	var input_x: float = Input.get_axis("left", "right")
+	player.animation_controller.update_animation(player.States.JUMPING, player.velocity, Vector2.ZERO, input_x)
+
+func exit() -> void:
+	# Reset the sprite's scale when we leave the jump state.
+	player.animation_player.play("RESET")
+
+
+func process_physics(delta: float) -> void:
+	var input_x: float = Input.get_axis("left", "right")
+	var gravity: float = player.stats.jump_gravity if player.velocity.y < 0 else player.stats.fall_gravity
+	
+	player.velocity.y += gravity * delta
+	player.velocity.x = move_toward(player.velocity.x, input_x * player.stats.speed, player.stats.air_control_acceleration)
+	
+	# --- Check for State Transitions ---
+	if player.is_on_wall():
+		if not (sign(player.get_wall_normal().x) == sign(input_x)):
+			state_machine.change_state("OnWall")
+			return
+
+	if player.velocity.y > 0:
+		state_machine.change_state("Falling")
+		return
+	elif Input.is_action_just_released("jump") and player.velocity.y < 0:
+		player.velocity.y *= player.stats.jump_cut_multiplier
+		
+	player.animation_controller.update_animation(player.States.JUMPING, player.velocity, Vector2.ZERO, input_x)
+
+--- SCRIPT: res://Player/States/LandingState.gd ---
+# res://Player/States/LandingState.gd
+extends State
+
+func enter() -> void:
+	
+	
+	# --- Debugging Logic for Particles ---
+	print("DEBUG: Trying to spawn dust puff...")
+	if player.dust_puff_scene:
+		print("DEBUG: dust_puff_scene is valid. Instantiating.")
+		var puff = player.dust_puff_scene.instantiate()
+		get_tree().root.add_child(puff)
+		puff.global_position = player.get_node("FootSpawner").global_position
+		
+		# THE FIX & DEBUG: We must explicitly tell the particles to emit.
+		print("DEBUG: Setting 'emitting = true' on the puff instance.")
+		puff.emitting = true 
+	else:
+		printerr("DEBUG: ERROR - dust_puff_scene is NOT SET on the Player in the Inspector!")
+
+
+func exit() -> void:
+	player.land_timer.stop()
+
+func process_physics(_delta: float) -> void:
+	if Input.is_action_just_pressed("jump"):
+		state_machine.change_state("Jumping")
+		return
+
+	# This block now has the necessary return statement.
+	if Input.is_action_pressed("slide"):
+		state_machine.change_state("Sliding")
+		return # <-- THE FIX
+
+	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.friction_smoothness)
+
+	if player.land_timer.is_stopped():
+		state_machine.change_state("Idle")
+	elif player.jump_buffered:
+		player.jump_buffered = false
+		player.jump_buffer_timer.stop()
+		state_machine.change_state("Jumping")
+
+--- SCRIPT: res://Player/States/OnWallState.gd ---
+# res://Player/States/OnWallState.gd
+extends State
+@onready var particle_timer: Timer = $ParticleTimer
+
+func _ready() -> void:
+	particle_timer.timeout.connect(_on_particle_timer_timeout)
+
+
+func enter() -> void:
+	# First, determine which wall we are on.
+	var wall_normal = player.get_wall_normal()
+	
+	# Play the correct offset animation based on the wall's direction.
+	if wall_normal.x > 0: # A positive normal means the wall is on the LEFT.
+		player.animation_player.play("wall_slide_offset_left")
+	else: # A negative normal means the wall is on the RIGHT.
+		player.animation_player.play("wall_slide_offset_right")
+	
+	# --- The rest of the function is the same ---
+	player.set_wall_slide_collision()
+	player.current_jumps = 0
+	var input_x: float = Input.get_axis("left", "right")
+	player.animation_controller.update_animation(player.States.ON_WALL, player.velocity, wall_normal, input_x)
+	
+func process_physics(delta: float) -> void:
+	var input_x: float = Input.get_axis("left", "right")
+	
+	if player.jump_buffered:
+		player.jump_buffered = false
+		player.jump_buffer_timer.stop()
+		player.wall_jump()
+		state_machine.change_state("Falling")
+		return
+
+	# Use stats resource for physics values
+	player.velocity.y = move_toward(player.velocity.y, player.stats.wall_slide_friction, player.stats.fall_gravity * delta)
+	player.velocity.x = -player.get_wall_normal().x * 5.0
+
+	if Input.is_action_just_pressed("jump"):
+		player.wall_jump()
+		state_machine.change_state("Falling")
+	elif Input.is_action_pressed("shift") and player.can_wall_stick:
+		state_machine.change_state("WallSlip")
+	elif not player.is_on_wall() or (player.get_wall_normal().x * input_x > 0):
+		player._start_wall_coyote_time()
+		state_machine.change_state("WallDetach")
+	elif player.is_on_floor():
+		state_machine.change_state("Idle")
+
+func exit() -> void:
+	# Play the reset animation when we leave this state.
+	player.animation_player.play("RESET")
+	
+	
+func _on_particle_timer_timeout() -> void:
+	if player.dust_puff_scene:
+		var puff = player.dust_puff_scene.instantiate()
+		player.get_parent().add_child(puff)
+		# Position the puff between the player and the wall
+		var wall_offset = player.get_wall_normal() * -10
+		puff.global_position = player.get_node("WallSlideSpawner").global_position + wall_offset
+
+--- SCRIPT: res://Player/States/RunningState.gd ---
+# res://Player/States/RunningState.gd
+extends State
+
+func enter() -> void:
+	var input_x: float = Input.get_axis("left", "right")
+	player.animation_controller.update_animation(player.States.RUNNING, player.velocity, Vector2.ZERO, input_x)
+
+func process_physics(_delta: float) -> void:
+	var input_x: float = Input.get_axis("left", "right")
+
+	if input_x != 0 and sign(input_x) != sign(player.velocity.x) and abs(player.velocity.x) > 100:
+		state_machine.change_state("Skidding")
+		return
+
+	# Use stats resource for physics values
+	player.velocity.x = lerp(player.velocity.x, input_x * player.stats.speed, player.stats.acceleration_smoothness)
+
+	if input_x == 0:
+		state_machine.change_state("Idle")
+	elif Input.is_action_just_pressed("jump"):
+		state_machine.change_state("Jumping")
+	elif Input.is_action_just_pressed("slide"):
+		state_machine.change_state("Sliding")
+	elif not player.is_on_floor():
+		player.coyote_timer.start(player.stats.coyote_time_duration)
+		player.fall_zoom_timer.start(player.stats.fall_zoom_delay)
+		state_machine.change_state("Falling")
+
+--- SCRIPT: res://Player/States/SkiddingState.gd ---
+# res://Player/States/SkiddingState.gd
+extends State
+
+func enter() -> void:
+	player.skid_timer.start(player.stats.skid_duration)
+	var input_x: float = Input.get_axis("left", "right")
+	player.animation_controller.update_animation(player.States.SKIDDING, player.velocity, Vector2.ZERO, -input_x)
+
+func exit() -> void:
+	player.skid_timer.stop()
+
+func process_physics(_delta: float) -> void:
+	# Use stats resource for physics values
+	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.skid_friction)
+	
+	if player.skid_timer.is_stopped():
+		state_machine.change_state("Running")
+	elif Input.is_action_just_pressed("jump"):
+		state_machine.change_state("Jumping")
+
+--- SCRIPT: res://Player/States/SlidingState.gd ---
+# res://Player/States/SlidingState.gd
+extends State
+
+func enter() -> void:
+	player.slide_timer.start(player.stats.slide_duration)
+	player.set_crouching_collision()
+	var input_x: float = Input.get_axis("left", "right")
+	player.animation_controller.update_animation(player.States.SLIDING, player.velocity, Vector2.ZERO, input_x)
+
+func exit() -> void:
+	player.slide_timer.stop()
+	if player.is_head_clear():
+		player.set_standing_collision()
+
+func process_physics(_delta: float) -> void:
+	# Use stats resource for physics values
+	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.slide_friction)
+
+	if not player.is_on_floor():
+		state_machine.change_state("Falling")
+	elif player.slide_timer.is_stopped():
+		if player.is_head_clear():
+			state_machine.change_state("Idle")
+		else:
+			state_machine.change_state("Crouching")
+	elif Input.is_action_just_pressed("jump"):
+		state_machine.change_state("Jumping")
+
+--- SCRIPT: res://Player/States/State.gd ---
+# State.gd
+class_name State
+extends Node
+
+# A reference to the parent state machine.
+var state_machine: Node
+
+# A reference to the player character. We get this from the owner.
+@onready var player: CharacterBody2D = get_owner()
+
+## This virtual function is called when the state is entered.
+func enter():
+	pass # To be overridden by child states.
+
+## This virtual function is called when the state is exited.
+func exit():
+	pass # To be overridden by child states.
+
+## This virtual function runs during the _input() process.
+func process_input(_event: InputEvent):
+	pass # To be overridden by child states.
+
+## This virtual function runs during the _physics_process().
+func process_physics(_delta: float):
+	pass # To be overridden by child states.
+
+--- SCRIPT: res://Player/States/StateMachine.gd ---
+# StateMachine.gd
+class_name StateMachine
+extends Node
+
+## The starting state for the machine. Set this in the Inspector.
+@export var initial_state: NodePath
+
+var current_state: State
+var states: Dictionary = {}
+
+# The _ready function is now empty.
+func _ready():
+	pass
+
+# This new function will be called by the Player after it's ready.
+func initialize():
+	for child in get_children():
+		if child is State:
+			states[child.name] = child
+			child.state_machine = self
+	
+	if initial_state:
+		current_state = get_node(initial_state)
+		current_state.enter()
+
+## Changes the active state.
+func change_state(state_name: String):
+	var new_state_node_name = state_name + "State"
+
+	# Don't change to the same state.
+	if current_state.name == new_state_node_name:
+		return
+
+	# Call the exit function on the current state.
+	if current_state:
+		current_state.exit()
+	
+	# Find the new state in our dictionary.
+	var new_state = states.get(new_state_node_name)
+	if new_state:
+		current_state = new_state
+		current_state.enter()
+	else:
+		printerr("State '" + new_state_node_name + "' not found in StateMachine.")
+
+## Pass the engine callbacks to the active state.
+func _input(event: InputEvent):
+	if current_state:
+		current_state.process_input(event)
+
+func _physics_process(delta: float):
+	if current_state:
+		current_state.process_physics(delta)
+
+--- SCRIPT: res://Player/States/UnstickingState.gd ---
+# res://Player/States/UnstickingState.gd
+extends State
+
+func enter() -> void:
+	player.animation_controller.update_animation(player.States.UNSTICKING, player.velocity, Vector2.ZERO, 0)
+
+func process_physics(delta: float) -> void:
+	var last_dash_direction: Vector2 = Vector2(1 if not player.animated_sprite.flip_h else -1, 0)
+	# Use stats resource for physics values
+	player.global_position -= last_dash_direction * player.stats.speed * delta
+
+	if not player.test_move(player.transform, Vector2.ZERO):
+		player.velocity = -last_dash_direction * player.stats.speed * player.stats.dash_end_velocity_multiplier
+		player.dash_cooldown_timer.start(player.DASH_COOLDOWN)
+		state_machine.change_state("Falling")
+
+--- SCRIPT: res://Player/States/WallDetachState.gd ---
+# res://Player/States/WallDetachState.gd
+extends State
+
+func enter() -> void:
+	var input_x: float = Input.get_axis("left", "right")
+	player.animation_controller.update_animation(player.States.WALL_DETACH, player.velocity, Vector2.ZERO, input_x)
+
+func process_physics(delta: float) -> void:
+	var input_x: float = Input.get_axis("left", "right")
+	
+	# Use stats resource for physics values
+	player.velocity.y += player.stats.fall_gravity * player.stats.wall_detach_gravity_scale * delta
+	player.velocity.x = move_toward(player.velocity.x, input_x * player.stats.speed, player.stats.air_control_acceleration)
+	
+	if Input.is_action_just_pressed("jump"):
+		if not player.wall_coyote_timer.is_stopped():
+			player.wall_jump(player.last_wall_normal)
+			player.wall_detach_timer.stop()
+			state_machine.change_state("Falling")
+		else:
+			player.jump_buffered = true
+			player.jump_buffer_timer.start(player.stats.jump_buffer_duration)
+	elif player.wall_detach_timer.is_stopped():
+		state_machine.change_state("Falling")
+
+--- SCRIPT: res://Player/States/WallSlipState.gd ---
+# res://Player/States/WallSlipState.gd
+extends State
+
+func enter() -> void:
+	player.wall_slip_timer.start(player.stats.wall_slip_duration)
+	var input_x: float = Input.get_axis("left", "right")
+	player.animation_controller.update_animation(player.States.WALL_SLIP, player.velocity, player.get_wall_normal(),input_x )
+
+func exit() -> void:
+	player.wall_slip_timer.stop()
+
+func process_physics(delta: float) -> void:
+	# Use stats resource for physics values
+	player.velocity.y = move_toward(player.velocity.y, player.stats.wall_slide_friction, player.stats.fall_gravity * delta)
+	player.velocity.x = -player.get_wall_normal().x * 5.0
+
+	if player.wall_slip_timer.is_stopped():
+		player.can_wall_stick = false
+		player.wall_stick_timer.start(player.WALL_STICK_DURATION)
+		state_machine.change_state("WallSticking")
+	elif not Input.is_action_pressed("shift"):
+		state_machine.change_state("OnWall")
+	elif Input.is_action_just_pressed("jump"):
+		player.wall_jump()
+		state_machine.change_state("Falling")
+	elif not player.is_on_wall():
+		player._start_wall_coyote_time()
+		state_machine.change_state("WallDetach")
+
+--- SCRIPT: res://Player/States/WallStickingState.gd ---
+# WallStickingState.gd
+extends State
+
+func enter():
+		# First, determine which wall we are on.
+	var wall_normal = player.get_wall_normal()
+	
+	# Play the correct offset animation based on the wall's direction.
+	if wall_normal.x > 0: # A positive normal means the wall is on the LEFT.
+		player.animation_player.play("wall_stick_offset_left")
+	else: # A negative normal means the wall is on the RIGHT.
+		player.animation_player.play("wall_stick_offset_right")
+	
+	var input_x = Input.get_axis("left", "right")
+	player.animation_controller.update_animation(player.States.WALL_STICKING, player.velocity, player.get_wall_normal(), input_x)
+
+func process_physics(_delta):
+	player.velocity.y = 1.0
+	player.velocity.x = -player.get_wall_normal().x * 5.0
+
+	if not Input.is_action_pressed("shift"):
+		player.wall_stick_timer.stop()
+		state_machine.change_state("OnWall")
+	elif Input.is_action_just_pressed("jump"):
+		player.wall_jump()
+		state_machine.change_state("Falling")
+	elif not player.is_on_wall():
+		player.wall_stick_timer.stop()
+		player._start_wall_coyote_time()
+		state_machine.change_state("WallDetach")
+	elif player.is_on_floor():
+		player.wall_stick_timer.stop()
+		state_machine.change_state("Idle")
+
+--- SCRIPT: res://Singletons/EventBus.gd ---
+extends Node
+
+# --- Player & Resources ---
+signal gold_collected(amount: int)
+signal villager_rescued
+signal train_archer_requested
+signal sound_created(position: Vector2, range: float)
+
+# --- Mission State ---
+signal mission_started
+signal mission_objective_completed # e.g., Player has reached the exit zone
+signal mission_succeeded # Final confirmation after tallying results
+signal mission_failed
+signal player_detected
+signal player_died
+
+# --- UI & Game Flow ---
+signal pause_toggled
+signal interact_pressed
+signal show_dialogue(message: String)
+# NEW SIGNALS FOR SCENE TRANSITIONS
+signal return_to_hideout_requested
+signal start_mission_requested(mission_key: String)
+signal new_game_requested
+signal continue_game_requested
+
+--- SCRIPT: res://Singletons/GameManager.gd ---
+extends Node
+signal resources_updated
+var gold: int = 0
+var villagers: int = 0
+var archers: int = 0
+var is_gameplay_active: bool = true
+
+var mission_objective_complete: bool = false
+
+const SAVE_FILE_PATH = "user://savegame.json"
+
+func _ready() -> void:
+	load_game()
+	# The GameManager now subscribes to events it cares about.
+	EventBus.gold_collected.connect(_on_gold_collected)
+	EventBus.villager_rescued.connect(_on_villager_rescued)
+	EventBus.train_archer_requested.connect(_on_train_archer_requested)
+	EventBus.mission_started.connect(_on_mission_started)
+	EventBus.mission_objective_completed.connect(_on_mission_objective_completed)
+	EventBus.player_detected.connect(_on_player_detected)
+	EventBus.pause_toggled.connect(_on_pause_toggled)
+	EventBus.player_died.connect(_on_player_died)
+# --- Event Handlers ---
+
+func _on_gold_collected(amount: int) -> void:
+	gold += amount
+	print("Player received " + str(amount) + " gold. Total gold: " + str(gold))
+	save_game()
+
+func _on_villager_rescued() -> void:
+	villagers += 1
+	mission_objective_complete = true # Set the objective flag
+	print("Villager rescued! Total villagers: " + str(villagers))
+	save_game()
+
+func _on_train_archer_requested() -> void:
+	if gold >= 10 and villagers > 0:
+		gold -= 10
+		villagers -= 1
+		archers += 1
+		save_game()
+		print("Archer trained!")
+	else:
+		print("Cannot train archer. Not enough resources.")
+
+func _on_mission_started() -> void:
+	mission_objective_complete = false
+
+func _on_mission_objective_completed() -> void:
+	# When the player exits a level, we confirm the mission is a success.
+	# The UIManager will listen for this to show the success screen.
+	EventBus.mission_succeeded.emit()
+
+func _on_player_detected() -> void:
+	# When the player is detected, we confirm the mission has failed.
+	# The UIManager will listen for this to show the failure screen.
+	EventBus.mission_failed.emit()
+
+func _on_pause_toggled(is_paused: bool) -> void:
+	get_tree().paused = is_paused
+	is_gameplay_active = not is_paused
+	print("Game Paused: ", is_paused)
+
+func reset_game_data() -> void:
+	gold = 0
+	villagers = 0
+	archers = 0
+	if FileAccess.file_exists(SAVE_FILE_PATH):
+		DirAccess.remove_absolute(SAVE_FILE_PATH)
+	resources_updated.emit()
+
+# --- Save/Load System ---
+
+func save_game():
+	var save_data = {
+		"gold": gold,
+		"villagers": villagers,
+		"archers": archers
+	}
+	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
+	file.store_string(JSON.stringify(save_data))
+	print("Game saved!")
+
+func load_game():
+	if not FileAccess.file_exists(SAVE_FILE_PATH):
+		print("DEBUG: GameManager - No save file found.") #<-- ADD THIS
+		return
+		
+	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.READ)
+	var content = file.get_as_text()
+	var data = JSON.parse_string(content)
+	
+	if data:
+		gold = data.get("gold", 0)
+		villagers = data.get("villagers", 0)
+		archers = data.get("archers", 0)
+		print("DEBUG: GameManager - load_game() called. Villagers loaded as ", villagers) #<-- ADD THIS
+		resources_updated.emit()
+	else:
+		print("DEBUG: GameManager - Error loading save file.") #<-- ADD THIS
+func _on_player_died() -> void:
+	# For now, we'll just reload the current scene.
+	# This effectively respawns the player at the start of the level.
+	get_tree().reload_current_scene()
+
+--- SCRIPT: res://Singletons/InteractionManager.gd ---
+# res://Singletons/InteractionManager.gd
+extends Node
+
+signal show_prompt(interactable)
+signal hide_prompt
+
+var _current_interactable = null
+
+func _ready() -> void:
+	EventBus.interact_pressed.connect(_on_interact_pressed)
+	EventBus.mission_started.connect(clear_interactable)
+
+func clear_interactable() -> void:
+	print("DEBUG: InteractionManager - Clearing interactable.")
+	_current_interactable = null
+	hide_prompt.emit()
+
+func register_interactable(interactable: Interactable) -> void:
+	# Get the parent of the interactable area (e.g., the Chest or MissionBoard node).
+	var parent_node = interactable.get_parent()
+	print("DEBUG: InteractionManager - Registering: ", parent_node.name)
+	_current_interactable = interactable
+	show_prompt.emit(_current_interactable)
+
+
+func unregister_interactable(interactable: Interactable) -> void:
+	var parent_node = interactable.get_parent()
+	if _current_interactable == interactable:
+		print("DEBUG: InteractionManager - Unregistering: ", parent_node.name)
+		_current_interactable = null
+		hide_prompt.emit()
+
+
+func _on_interact_pressed() -> void:
+	if is_instance_valid(_current_interactable):
+		_current_interactable.perform_interaction()
+
+--- SCRIPT: res://Singletons/SceneEntry.gd ---
+# res://Singletons/SceneEntry.gd
+# This is a custom Resource script. It simply acts as a data container
+# to hold a key-value pair for our scene management system.
+# The Godot editor's Inspector understands resources, so it will let us
+# edit these properties visually.
+
+class_name SceneEntry
+extends Resource
+
+@export var key: String = ""
+@export var scene: PackedScene
+
+--- SCRIPT: res://Singletons/SceneManager.gd ---
+# res://Singletons/SceneManager.gd
+# Manages all scene transitions and dynamic player spawning.
+extends CanvasLayer
+
+## An array of SceneEntry resources. Configure this in the Godot editor's Inspector.
+@export var scene_entries: Array[SceneEntry]
+
+## The PackedScene for the player. Drag PlayerScene.tscn here in the Inspector.
+@export var player_scene: PackedScene
+
+# This dictionary is built at runtime from the scene_entries array for fast lookups.
+var _scene_map: Dictionary = {}
+
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
+func _ready() -> void:
+	# Build the scene map from our exported array for fast, safe access later.
+	for entry in scene_entries:
+		if entry and entry.scene and not entry.key.is_empty():
+			_scene_map[entry.key] = entry.scene
+		else:
+			printerr("SceneManager: Invalid or empty entry found in scene_entries array.")
+
+	# The SceneManager listens for requests from the entire game via the EventBus.
+	EventBus.new_game_requested.connect(func(): change_scene("hideout"))
+	EventBus.continue_game_requested.connect(func(): change_scene("hideout"))
+	EventBus.return_to_hideout_requested.connect(func(): change_scene("hideout"))
+	EventBus.start_mission_requested.connect(func(mission_key): change_scene(mission_key))
+
+
+## The master function for handling all scene transitions.
+func change_scene(scene_key: String) -> void:
+	# A. Tell the UIManager to close any active UI that might be open.
+	var ui_to_close = UIManager.close_current_ui()
+
+	# B. If there was a UI to close, wait for it to be fully removed from the tree.
+	if is_instance_valid(ui_to_close):
+		await ui_to_close.tree_exited
+
+	# 1. Safety Check: Ensure the requested scene key is valid.
+	if not _scene_map.has(scene_key):
+		printerr("SceneManager Error: Scene key '", scene_key, "' not found.")
+		return
+
+	# 2. Fade Out: Play the fade-out animation and wait for it to finish.
+	animation_player.play("fade_to_black")
+	await animation_player.animation_finished
+
+	# 3. Change Scene: Load the new scene from our map.
+	var scene_to_load: PackedScene = _scene_map[scene_key]
+	get_tree().change_scene_to_packed(scene_to_load)
+
+	# 4. Wait a Frame: Allow Godot to fully process the new scene tree.
+	await get_tree().process_frame
+
+	# 5. Spawn Player: Call our dedicated player spawning function.
+	# <--- THIS IS THE CALL TO THE SPAWN FUNCTION.
+	_spawn_player()
+
+	# 6. Fade In: Play the fade-in animation to reveal the new scene.
+	animation_player.play("fade_from_black")
+
+
+# <--- THIS IS THE DEDICATED SPAWN FUNCTION.
+## Handles instantiating and placing the player in the new scene.
+func _spawn_player() -> void:
+	# Safety check: ensure the player scene has been assigned in the editor.
+	if not player_scene:
+		printerr("SceneManager Error: player_scene has not been set in the Inspector!")
+		return
+
+	var current_scene = get_tree().current_scene
+	# Find the designated spawn point within the newly loaded level.
+	var spawn_point = current_scene.find_child("PlayerSpawnPoint", true, false)
+
+	if is_instance_valid(spawn_point):
+		var player_instance = player_scene.instantiate()
+		# Position the player exactly where the spawn marker is.
+		player_instance.global_position = spawn_point.global_position
+		# Add the player as a child of the main level node.
+		current_scene.add_child(player_instance)
+		
+
+--- SCRIPT: res://UserInterface/detection_meter.gd ---
+extends ProgressBar
+
+# This function is called by the Guard to update the meter's fill amount.
+# It expects a value between 0.0 (empty) and 1.0 (full).
+func update_progress(progress: float):
+	# Set the value of the progress bar.
+	value = progress
+	
+	# If the meter is empty, hide it. Otherwise, show it.
+	if progress <= 0:
+		hide()
+	else:
+		show()
+
+--- SCRIPT: res://UserInterface/DialogueBox.gd ---
+# res://UserInterface/DialogueBox.gd
+extends CanvasLayer
+
+# THE FIX: Add this line to declare the signal.
+signal closed
+
+@onready var _label: Label = $MarginContainer/Panel/Label
+
+func _unhandled_input(event: InputEvent) -> void:
+	# When the dialogue is visible, wait for an action to close it.
+	if event.is_action_pressed("interact") or event.is_action_pressed("jump"):
+		# Mark the input as handled so it doesn't trigger anything else.
+		get_viewport().set_input_as_handled()
+		# Announce that this dialogue is now closed.
+		closed.emit()
+		# Remove the dialogue box from the scene.
+		queue_free()
+
+
+# This is the public function the UIManager will call to set the text.
+func display_message(message: String) -> void:
+	_label.text = message
+	# We make it visible here, now that it starts hidden by default.
+	show()
+
+--- SCRIPT: res://UserInterface/FloatingText.gd ---
+# res://UserInterface/FloatingText.gd
+extends Label
+
+@export var float_height: float = 50.0
+
+func show_text(text_to_show: String) -> void:
+	text = text_to_show
+	# Make the text start slightly transparent
+	modulate.a = 0.0
+
+	var tween = create_tween()
+	# Chain the animations together
+	# 1. Fade in over 0.2 seconds
+	tween.tween_property(self, "modulate:a", 1.0, 0.2)
+	# 2. Move up by 50 pixels over 1 second
+	tween.tween_property(self, "position:y", position.y - float_height, 1.0).set_ease(Tween.EASE_OUT)
+	# 3. Simultaneously, fade out during the last 0.5 seconds of the move
+	tween.parallel().tween_property(self, "modulate:a", 0.0, 0.5).set_delay(0.5)
+
+	# When the entire animation sequence is finished, delete the node.
+	tween.finished.connect(queue_free)
+
+--- SCRIPT: res://UserInterface/InteractionPrompt.gd ---
+# InteractionPrompt.gd
+extends Node2D
+
+# --- Node References ---
+@onready var label: Label = $Label
+@onready var prompt_position: Marker2D = $PromptPosition
+
+# --- Private Variables ---
+var parent_node: Node2D
+
+func _ready():
+	# Hide by default.
+	hide()
+	# Ensure the label is set to not filter, so it stays crisp.
+	label.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	# Get a reference to the parent (the Chest, Prisoner, etc.).
+	parent_node = get_parent()
+
+
+func _process(_delta):
+	# If the parent object is invalid (e.g., has been freed), do nothing.
+	if not is_instance_valid(parent_node):
+		return
+
+	# Get the main camera to account for its position and zoom.
+	var camera = get_viewport().get_camera_2d()
+	if not camera:
+		return
+
+	# Calculate the target position in the game world.
+	# This is the parent's position plus our offset.
+	var world_position = parent_node.global_position + prompt_position.position
+	
+	# Convert the world position to a screen position.
+	# This accounts for camera scrolling.
+	var screen_position = camera.get_transform().affine_inverse().translated(world_position)
+	
+	# Apply the camera's zoom to the position.
+	label.global_position = screen_position * camera.get_zoom()
+
+
+## Public function to show the prompt with a specific message.
+func show_prompt(message: String):
+	label.text = message
+	show()
+
+
+## Public function to hide the prompt.
+func hide_prompt():
+	hide()
+
+--- SCRIPT: res://UserInterface/InteractionUI.gd ---
+# res://UserInterface/interaction_ui.gd
+extends CanvasLayer
+
+# THE FIX: Update the node path to find the Label inside the PanelContainer.
+@onready var _label: Label = $Panel/Label
+
+var _target_interactable: Node2D = null
+
+
+func _ready() -> void:
+	# The PanelContainer now handles all positioning, so we don't need
+	# the old anchoring code here anymore.
+	hide()
+
+
+func show_prompt(target: Node2D) -> void:
+	_target_interactable = target
+	_label.text = target.prompt_message
+	show()
+
+
+func hide_prompt() -> void:
+	_target_interactable = null
+	hide()
+
+--- SCRIPT: res://UserInterface/MissionFailedScreen.gd ---
+# res://UserInterface/MissionFailedScreen.gd
+extends CanvasLayer
+
+@onready var _return_button: Button = $MarginContainer/VBoxContainer/ReturnButton
+
+func _ready() -> void:
+	_return_button.pressed.connect(_on_return_button_pressed)
+	_return_button.grab_focus()
+	
+func _on_return_button_pressed() -> void:
+	# No longer calls UIManager. It just announces what the user wants.
+	EventBus.return_to_hideout_requested.emit()
+
+--- SCRIPT: res://UserInterface/MissionSuccessScreen.gd ---
+# res://UserInterface/MissionSuccessScreen.gd
+extends CanvasLayer
+
+@onready var _return_button: Button = $MarginContainer/VBoxContainer/ReturnButton
+
+func _ready() -> void:
+	_return_button.pressed.connect(_on_return_button_pressed)
+	_return_button.grab_focus()
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_accept"):
+		_on_return_button_pressed()
+
+
+func _on_return_button_pressed() -> void:
+	# No longer calls UIManager. It just announces what the user wants
+	EventBus.return_to_hideout_requested.emit()
+
+--- SCRIPT: res://UserInterface/PauseMenu.gd ---
+# res://UserInterface/PauseMenu.gd
+extends CanvasLayer
+
+@onready var _resume_button: Button = $MarginContainer/VBoxContainer/ResumeButton
+@onready var _quit_button: Button = $MarginContainer/VBoxContainer/QuitButton
+
+func _ready() -> void:
+	_resume_button.pressed.connect(_on_resume_button_pressed)
+	_quit_button.pressed.connect(_on_quit_button_pressed)
+	_resume_button.grab_focus()
+	
+func _on_resume_button_pressed() -> void:
+	# Announce the intent to unpause the game.
+	EventBus.pause_toggled.emit(false)
+
+func _on_quit_button_pressed() -> void:
+	# This button's only job is to announce the user's intent on the EventBus.
+	# The SceneManager will hear this and handle the entire process of
+	# closing the UI and changing the scene.
+	EventBus.return_to_hideout_requested.emit()
+
+--- SCRIPT: res://UserInterface/TitleScreen.gd ---
+# res://UserInterface/TitleScreen.gd
+extends Control
+
+@onready var _new_game_button: Button = $CenterContainer/VBoxContainer/NewGameButton
+@onready var _continue_button: Button = $CenterContainer/VBoxContainer/ContinueButton
+
+func _ready() -> void:
+	_new_game_button.pressed.connect(_on_new_game_button_pressed)
+	_continue_button.pressed.connect(_on_continue_button_pressed)
+	
+	if FileAccess.file_exists(GameManager.SAVE_FILE_PATH):
+		_continue_button.disabled = false
+		# If the continue button is available, make it the default.
+		_continue_button.grab_focus()
+	else:
+		_continue_button.disabled = true
+		# Otherwise, make the New Game button the default.
+		_new_game_button.grab_focus()
+		
+func _on_new_game_button_pressed() -> void:
+	GameManager.reset_game_data()
+	# CORRECTED: Announce the user's intent on the EventBus.
+	EventBus.new_game_requested.emit()
+
+func _on_continue_button_pressed() -> void:
+	# CORRECTED: Announce the user's intent on the EventBus.
+	EventBus.continue_game_requested.emit()
+
+--- SCRIPT: res://UserInterface/UIManager.gd ---
+# res://UserInterface/UIManager.gd
+# This manager is responsible for instantiating, showing, and hiding
+# all modal UI scenes like the pause menu or mission end screens.
+# It listens for global game state events from the EventBus and reacts
+# by presenting the appropriate UI to the player.
+extends CanvasLayer
+
+# --- Scene References ---
+# A dictionary mapping UI keys to their scene paths for easy management.
+var _ui_scenes: Dictionary = {
+	"PauseMenu": "res://UserInterface/PauseMenu.tscn",
+	"MissionSuccessScreen": "res://UserInterface/MissionSuccessScreen.tscn",
+	"MissionFailedScreen": "res://UserInterface/MissionFailedScreen.tscn"
+}
+var _dialogue_box_path: String = "res://UserInterface/DialogueBox.tscn"
+var _interaction_ui_path: String = "res://UserInterface/InteractionUI.tscn"
+
+# --- State Variables ---
+var _current_ui: CanvasLayer = null
+var _interaction_ui_instance: CanvasLayer = null
+
+
+func _ready() -> void:
+	# Connect to global events that trigger UI changes.
+	EventBus.mission_succeeded.connect(_on_mission_succeeded)
+	EventBus.mission_failed.connect(_on_mission_failed)
+	EventBus.pause_toggled.connect(_on_pause_toggled)
+	EventBus.show_dialogue.connect(_on_show_dialogue)
+
+	# Instantiate the persistent interaction prompt UI.
+	var interaction_scene: PackedScene = load(_interaction_ui_path)
+	if interaction_scene:
+		_interaction_ui_instance = interaction_scene.instantiate()
+		add_child(_interaction_ui_instance)
+
+	# Connect to the InteractionManager to show/hide prompts.
+	InteractionManager.show_prompt.connect(_on_show_prompt)
+	InteractionManager.hide_prompt.connect(_on_hide_prompt)
+
+
+func _on_pause_toggled(is_pausing: bool) -> void:
+	if is_pausing:
+		# If the game is pausing and no other UI is open, show the pause menu.
+		if not _current_ui:
+			_show_ui("PauseMenu")
+	else:
+		# If the game is unpausing, close the pause menu if it's the active UI.
+		if _current_ui and _current_ui.get_script().get_path().contains("PauseMenu.gd"):
+			_close_ui()
+
+
+func _on_show_dialogue(message: String) -> void:
+	if _current_ui:
+		return
+
+	var dialogue_scene: PackedScene = load(_dialogue_box_path)
+	if dialogue_scene:
+		var dialogue_instance = dialogue_scene.instantiate()
+		_current_ui = dialogue_instance
+		_current_ui.closed.connect(_on_dialogue_closed)
+		add_child(_current_ui)
+		_current_ui.display_message(message)
+		
+		print("DEBUG: UIManager - Dialogue opened. Emitting pause_toggled(true).") #<-- ADD THIS
+		EventBus.pause_toggled.emit(true)
+
+
+func _on_dialogue_closed() -> void:
+	_current_ui = null
+	
+	print("DEBUG: UIManager - Dialogue closed. Emitting pause_toggled(false).") #<-- ADD THIS
+	EventBus.pause_toggled.emit(false)
+
+
+func _on_show_prompt(interactable: Interactable) -> void:
+	if is_instance_valid(_interaction_ui_instance):
+		_interaction_ui_instance.show_prompt(interactable)
+
+
+func _on_hide_prompt() -> void:
+	if is_instance_valid(_interaction_ui_instance):
+		_interaction_ui_instance.hide_prompt()
+
+
+func _show_ui(ui_name: String) -> void:
+	if _current_ui:
+		return
+
+	var scene_path = _ui_scenes.get(ui_name)
+	if not scene_path:
+		printerr("UIManager Error: UI scene '", ui_name, "' not found in dictionary.")
+		return
+
+	var loaded_scene: PackedScene = load(scene_path)
+	if loaded_scene:
+		_current_ui = loaded_scene.instantiate()
+		add_child(_current_ui)
+		# Showing a modal UI should always pause the game.
+		EventBus.pause_toggled.emit(true)
+	else:
+		printerr("UIManager Error: Failed to load scene at path: ", scene_path)
+
+
+func _close_ui() -> void:
+	if is_instance_valid(_current_ui):
+		_current_ui.queue_free()
+		_current_ui = null
+		# Closing the modal UI should always unpause the game.
+		EventBus.pause_toggled.emit(false)
+
+
+func _on_mission_succeeded() -> void:
+	_show_ui("MissionSuccessScreen")
+
+
+func _on_mission_failed() -> void:
+	_show_ui("MissionFailedScreen")
+	
+## Closes the current UI and returns the node that is being queued for deletion.
+## This allows other systems to await its removal.
+func close_current_ui() -> Node:
+	if is_instance_valid(_current_ui):
+		var ui_node_to_close = _current_ui
+		# _close_ui() already handles unpausing and calling queue_free().
+		_close_ui()
+		return ui_node_to_close
+	return null
+
+--- SCRIPT: res://World/ExitZone.gd ---
+# res://World/exit_zone.gd
+extends Area2D
+
+func _ready() -> void:
+	body_entered.connect(_on_body_entered)
+
+
+func _on_body_entered(body: Node) -> void:
+	if body.is_in_group("player"):
+		# Check the GameManager's state to see if we can exit.
+		if GameManager.mission_objective_complete:
+			# Announce that the objective is complete. The GameManager will
+			# hear this and trigger the mission success sequence.
+			EventBus.mission_objective_completed.emit()
+			
+			$CollisionShape2D.set_deferred("disabled", true)
+--- END OF CODEBASE ---
+
+---
