@@ -7,7 +7,6 @@ func _ready() -> void:
 
 
 func _on_body_entered(body: Node) -> void:
-	# Check if the body that entered is the player.
 	if body.is_in_group("player"):
-		# Announce that the player has died.
+		
 		EventBus.player_died.emit()

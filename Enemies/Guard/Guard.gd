@@ -1,71 +1,49 @@
 # res://Enemies/Guard/Guard.gd
 extends CharacterBody2D
 
-@export_group("Stats")
 @export var speed: float = 50.0
-@export var hearing_range: float = 300.0
 
-# --- Public State ---
-# These variables can be accessed and modified by the state scripts.
+@export_group("Visuals")
+@export var vision_cone_neutral_color: Color = Color(1, 1, 1, 0.2)
+@export var vision_cone_suspicious_color: Color = Color(1, 1, 0, 0.25)
+@export var vision_cone_alert_color: Color = Color(1, 0, 0, 0.3)
+
 var direction: int = 1
-var last_known_sound_position: Vector2
+var is_player_in_cone: bool = false
 
-# --- Node References ---
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var raycasts: Node2D = $Raycasts
-@onready var ledge_check_ray: RayCast2D = $Raycasts/LedgeCheckRay 
-@onready var wall_check_ray: RayCast2D = $Raycasts/WallCheckRay
+@onready var ledge_check_ray: RayCast2D = $LedgeCheckRay
+@onready var wall_check_ray: RayCast2D = $WallCheckRay
+@onready var ground_check_ray: RayCast2D = $GroundCheckRay # ADD THIS LINE
 @onready var turn_cooldown_timer: Timer = $TurnCooldownTimer
-@onready var state_machine: GuardStateMachine = $StateMachine
-@onready var suspicion_timer: Timer = $SuspicionTimer
-# A reference to the custom vision cone component.
-@onready var vision_cone_area: Area2D = $VisionConeArea
+@onready var state_machine = $StateMachine
+@onready var vision_cone_area: Area2D = $VisionCone2D/VisionConeArea
+@onready var vision_cone_renderer: Polygon2D = $VisionCone2D/VisionConeRenderer
 
 
 func _ready() -> void:
-	# Connect to the vision cone's signal to know when the player is seen.
-	vision_cone_area.body_entered.connect(_on_body_entered)
-	# Connect to the global event bus to hear sounds.
-	EventBus.sound_created.connect(_on_sound_created)
-	
-	# Initialize the state machine on the first frame.
-	state_machine.initialize.call_deferred()
+	vision_cone_area.body_entered.connect(_on_vision_cone_body_entered)
+	vision_cone_area.body_exited.connect(_on_vision_cone_body_exited)
+	state_machine.call_deferred("initialize")
 
 
 func _physics_process(delta: float) -> void:
-	# Delegate all per-frame logic to the current active state.
-	state_machine._physics_process(delta)
-	
-	# Apply gravity if the guard is in the air.
-	if not is_on_floor():
-		velocity.y += 980 * delta
+	if state_machine.current_state:
+		state_machine.current_state.process_physics(delta)
 	
 	move_and_slide()
 
 
-## Flips the guard's direction and visual components.
 func turn_around() -> void:
 	direction *= -1
-	turn_cooldown_timer.start(0.2)# --- Signal Callbacks ---
+	turn_cooldown_timer.start(0.2)
 
-## Called when a body enters our custom vision cone's Area2D.
-func _on_body_entered(body: Node) -> void:
-	# If it's the player, immediately switch to the alert state.
+
+func _on_vision_cone_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		state_machine.change_state("AlertState")
+		is_player_in_cone = true
 
 
-# --- Event Bus Handler ---
-
-## Called when any sound is made in the game.
-func _on_sound_created(sound_position: Vector2, sound_range: float) -> void:
-	# Ignore sounds if we are already fully alerted.
-	if state_machine.current_state.name == "AlertState":
-		return
-
-	# Check if the sound is within our hearing range.
-	var distance_to_sound = global_position.distance_to(position)
-	if distance_to_sound < hearing_range + sound_range:
-		last_known_sound_position = position
-		# Switch to the suspicious state to investigate the sound.
-		state_machine.change_state("SuspiciousState")
+func _on_vision_cone_body_exited(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		is_player_in_cone = false

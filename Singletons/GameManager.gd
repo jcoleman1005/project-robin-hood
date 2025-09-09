@@ -99,6 +99,6 @@ func load_game():
 	else:
 		print("DEBUG: GameManager - Error loading save file.") #<-- ADD THIS
 func _on_player_died() -> void:
-	# For now, we'll just reload the current scene.
-	# This effectively respawns the player at the start of the level.
-	get_tree().reload_current_scene()
+	
+	if not SceneManager.current_scene_key.is_empty():
+		SceneManager.change_scene(SceneManager.current_scene_key)

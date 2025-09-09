@@ -472,7 +472,7 @@ texture = ExtResource("3_udjjl")
 0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="TileSet" id="TileSet_0vrxt"]
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 2
 sources/0 = SubResource("TileSetAtlasSource_m5pg5")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_df04x"]
@@ -593,7 +593,7 @@ tile_set = SubResource("TileSet_0vrxt")
 position = Vector2(494, 720)
 
 [node name="PlayerSpawnPoint" type="Marker2D" parent="."]
-position = Vector2(52, 720)
+position = Vector2(66, 663)
 
 [node name="DialogueBox" parent="." instance=ExtResource("5_gfc8j")]
 

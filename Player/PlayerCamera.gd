@@ -25,6 +25,8 @@ var _vertical_threshold: float
 
 
 func _ready() -> void:
+	print("DEBUG: PlayerCamera - A new camera has been initialized (_ready called).")
+	
 	player = get_parent()
 	if not is_instance_valid(player):
 		printerr("PlayerCamera has no valid parent!")

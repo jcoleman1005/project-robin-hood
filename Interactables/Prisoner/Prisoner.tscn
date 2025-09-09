@@ -98,6 +98,6 @@ frame_progress = 0.383016
 
 [node name="Interactable" parent="." instance=ExtResource("3_cccd3")]
 position = Vector2(0, 11)
-prompt_message = "Press E to rescue"
+prompt_message = "Rescue"
 
 [editable path="Interactable"]

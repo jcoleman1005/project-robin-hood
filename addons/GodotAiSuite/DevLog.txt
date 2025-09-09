@@ -24,3 +24,25 @@
 
 [Bugfix] Fixed interaction prompt not appearing by connecting it to the InteractionManager's signals.
 [Refactor] Updated mission end screens to use the EventBus for unpausing.
+[Feature] Implement parallax background for levels to create visual depth.
+[Feature] Add interactable Mission Board to Hideout, removing the old UI button.
+[Feature] Implement "jump squat" and "stretch" animations for a more responsive feel.
+[Feature] Add dust puff particle effects for jump, land, wall slide, and wall jump actions.
+[Feature] Implement a "killzone" and respawn system for when the player falls out of a level.
+[Feature] Add joypad/controller support for all UI menus.
+
+[Refactor] Greatly improve camera system with vertical platform settling, jump deadzone, and ledge look-down.
+[Refactor] Refactor Guard's vision cone to use a self-contained, multi-raycast component inspired by an addon.
+[Refactor] Make all UI scenes responsive to the new low-resolution pixel art viewport.
+[Refactor] Create unique Theme resources for Hideout and in-mission UI to allow for different font sizes.
+[Refactor] Update AnimationController with a clearer match-based structure to prevent animation flip bugs.
+[Refactor] Create a centralized end_dash() function to properly clean up particles and cooldowns.
+
+[Bugfix] Fix issue where LedgeCheckRay and sprite would not flip correctly on the Guard.
+[Bugfix] Resolve Convex decomposing failed! error by using rotation instead of negative scale to flip the vision cone.
+[Bugfix] Fix one-frame animation flip glitch when jumping into a wall.
+[Bugfix] Fix issue where jump_squat animation would loop indefinitely.
+[Bugfix] Fix visual gap between player and wall during wall slide by using AnimationPlayer to offset the sprite.
+[Bugfix] Resolve input loop where closing a dialogue box would immediately re-trigger an interaction.
+[Bugfix] Fix various UI bugs related to the new pixel art viewport and layout containers.
+[Bugfix] Fix bug where slide could not be triggered from a landing state.

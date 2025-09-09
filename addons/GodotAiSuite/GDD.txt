@@ -1,65 +1,101 @@
 Game Design Document: Project Robin Hood
-Version: 2.0 Date: August 29, 2025
-1. Executive Summary
+
+Version: 3.1 (Studio Director’s Draft)
+Date: September 7, 2025
+-----1. Executive Summary
 Game Title: Project Robin Hood
 Genre: 2D Stealth/Infiltration Platformer
-Logline: A skilled knight must complete tense, non-combat stealth missions to rescue villagers and gather resources, using them to build a thriving hideout and reclaim the land from a corrupt regime.
+Logline: A skilled knight must complete tense, non-combat stealth missions to rescue villagers and gather resources, using them to build a thriving hideout and ultimately reclaim the land from a corrupt regime.
 Core Question (Vertical Slice): "Is the core gameplay loop of completing a tense stealth/infiltration mission to strategically upgrade a home base a fun and repeatable experience?"
-2. Gameplay
+-----2. Gameplay
+
 2.1. Core Gameplay Loop
+
 The gameplay is divided into two distinct phases: Missions and Hideout Management.
-Prepare: At the Hideout, the player views their resources and upgrades before choosing to embark on a mission.
-Infiltrate (The Mission): The player enters a non-linear 2D level with a primary objective (e.g., rescue prisoners, steal valuables). The focus is on stealth, evasion, and traversal, not combat.
-Return: Upon completing the objective, the player returns to the Hideout with acquired resources. If detected by a guard, a penalty is applied, reducing the resources gathered on that run.
-Upgrade (The Hideout): In the Hideout, the player spends resources at upgrade stations to unlock new abilities, improve existing ones, and expand the hideout.
+Prepare: At the Hideout, the player views their resources, upgrades, and available missions before choosing to embark.
+Infiltrate (The Mission): The player enters a non-linear 2D level with a primary objective. The focus is on stealth, evasion, and traversal.
+Return: Upon completing the objective, the player must exit the level to return to the Hideout. If detected by a guard, the Alarm State is triggered. This forces the player into a frantic escape where they must decide on the fly whether to flee with the resources they have or risk everything to complete the primary objective.
+Upgrade (The Hideout): In the Hideout, the player spends resources to unlock new abilities and expansions.
 2.2. Player Experience & Game Feel
 Tension: During missions, the player should feel like a vulnerable but highly skilled infiltrator. Guards are a significant threat, and evasion is paramount.
-Empowerment: The player's movement controller is fluid and precise. Mastery of movement is the key to success and the primary source of player satisfaction.
-Reward: Returning to the Hideout and seeing it grow provides a powerful sense of accomplishment. Each new building or trained ally is a tangible result of the player's skill.
-3. Core Mechanics
+Empowerment: The player's movement controller is fluid and precise. Mastery of movement is the key to success.
+Reward: Returning to the Hideout and seeing it grow provides a powerful sense of accomplishment.
+Game Feel: Flow State Stealth: The game's stealth is not about slow, patient waiting. It is about speed, momentum, and improvisation. The player should feel like a skilled ghost, stringing together fluid movements to create an unbroken "flow" through the level. Success should feel like a perfectly executed acrobatic performance. For example, the player could string together a wall-slide, a kick-off, and a dash to "acrobatically" bypass a guard patrol without ever stopping.
+-----3. Core Mechanics
+
 3.1. Player Controller
-The player character, "The Knight," is controlled by a node-based state machine for maximum scalability and organization.
-Core Abilities:
-Run: Standard left/right movement.
-Jump: Crisp, controllable jump with a double jump.
-Wall Slide/Jump: Ability to slide down vertical surfaces and jump off them.
-Dash: A high-speed horizontal burst of speed for evasion and traversal.
-Interact: A single-button, context-sensitive action for interacting with objects and NPCs.
-Advanced & Upgradable Abilities:
-Invisibility: A special ability on a cooldown that allows the player to temporarily bypass guards.
-Crouch & Slide: For navigating small spaces and maintaining momentum.
-Glide: For crossing wide gaps.
+
+The player character, "The Knight," is controlled by a node-based state machine.
+Core Abilities: Run, Jump (Double), Wall Slide/Jump, Dash, Interact, Crouch/Slide.
 3.2. Stealth System
-Guard AI: Guards patrol set paths and have a visible cone of vision. They are a hazard to be avoided, not a combatant to be fought. Contact with a guard triggers the mission failure state.
-Detection: A visible meter fills when the player is in a guard's line of sight. The invisibility skill prevents this.
-Interactable Objects: Levels contain objects like chests (providing Gold) and prisoners (providing Villagers) that the player can interact with.
-4. The Vertical Slice Scope
-This section defines the precise, limited scope required to answer the "Core Question" of the project.
-4.1. The Mission: "The Village Outskirts"
-Structure: A small, self-contained level with a clear start and end.
-Elements: Must contain simple platforms, at least one wall for wall-jumping, a single patrolling Guard, one Gold Chest, and one Caged Villager at the end.
-4.2. The Hideout
-Functionality: A hub scene that displays current resources (Gold, Villagers, Archers).
-Interactables:
-Start Mission Board: An object the player interacts with to begin the "Village Outskirts" mission.
-Upgrade Station: A single station where the player can spend resources.
-Upgrade: "Train Archer"
-Cost: 10 Gold and 1 Villager.
-Effect: Increases the "Archers" count on the UI. This serves as a simple proof-of-concept for the upgrade system.
-5. Art & Sound
-Art Style (Full Game Vision): A 2D pixel art style with a dark, moody atmosphere, contrasted with the warmth and growing life of the Hideout.
-Art Style (Vertical Slice Scope): All visuals will be simple placeholder shapes ("grey-boxing") to focus development time on mechanics and game feel.
-Sound (Full Game Vision): Atmospheric music and high-impact sound effects.
-Sound (Vertical Slice Scope): The game will be silent or use minimal, free placeholder sound effects.
-6. Technical Details
+Guard AI: Guards patrol set paths and have a visible cone of vision.
+Detection: The vision cone changes color from white to yellow to red when the player is in a guard's line of sight. When fully red, it triggers the Alarm State.
+3.3. Alarm State
+Concept: A high-stakes failure condition that transforms a stealth failure into a climactic escape sequence.
+Trigger: The moment a Guard's detection meter is completely filled.
+Feedback: Instantaneous and overwhelming audio/visual feedback (alarm sound, chase music, screen flash).
+Rules:
+Objective: The primary goal becomes "Escape to the original entrance!" All other objectives (like "Rescue the Villager") remain active and can be attempted at extreme risk.
+Guard Behavior: All Guards enter a "Hunter" state: they abandon patrols, gain a speed boost, and relentlessly pursue the player.
+Stakes: Success (reaching the start zone) means keeping all collected resources. Failure (being touched by a Guard) means returning to the hideout with 0 Gold from that run.
+3.4. Contextual Interaction: Rapid Override Sequence
+Concept: During the Alarm State, "hold-to-interact" mechanics on major objectives are replaced with a Quick-Time Event.
+Mechanic: A short, randomized sequence of multiple directional inputs (3 for chests and 5 for prisoners)  appears on-screen.
+Execution: The player must correctly input the sequence within a 1.5-second time limit.
+Failure: An incorrect input or expired timer puts the interaction on a short cooldown.
+-----4. Progression Systems
+
+4.1. Specialist NPCs
+Concept: The growth of the Hideout is driven by rescuing and recruiting key Specialist NPCs who unlock major new gameplay systems.
+Recruitment Flow:
+The Lead: The player discovers a specialist's location via the Opportunity Deck system.
+The Rescue: The player undertakes a unique mission to save the specialist.
+The Foundation: The rescued Specialist appears in the Hideout but requires a specific building to begin work.
+The Reward: Once the building is constructed, the specialist becomes active, unlocking their upgrade tree.
+4.2. The Opportunity Deck
+Concept: A controlled randomization system ( like a "deck of cards") that generates mission variety and special rescue missions between runs.
+Rules:
+Gating: Event "cards" are added to the deck when the player achieves specific milestones.
+Save-Scum Proof: The "draw" from the deck occurs upon returning to the Hideout, locking in the next mission's state before the player can save.
+Forgiveness: Failed special missions have a "pity timer" and an increased probability of reappearing.
+4.3. Key Building: The Scout's Lookout
+Concept: The central hub for the Intel progression pillar, required to unlock mission variety and new areas.
+Functions & Upgrades:
+Level 1: Unlocks the Opportunity Deck and the "Lead Scout" NPC.
+Level 2: Unlocks the next major gameplay area and adds more complex modifiers to the deck.
+Level 3: Increases the number of mission choices on the Mission Board.
+-----5. The Vertical Slice Scope
+
+5.1. The Mission: "The Village Outskirts"
+Structure: A small, self-contained level.
+Elements: Simple platforms, one wall for wall-jumping, one patrolling Guard, one Gold Chest, one Caged Villager.
+5.2. The Hideout
+Functionality: A hub scene displaying current resources.
+Interactables: Start Mission Board, one Upgrade Station.
+Upgrade: "Train Archer" (Cost: 10 Gold, 1 Villager).
+-----6. Art & Sound
+Art Style (Full Game Vision): A 2D pixel art style with a dark, moody atmosphere (to be determined), contrasted with the warmth and growing life of the Hideout.
+Art Style (Vertical Slice Scope): All visuals will be simple placeholder shapes ("grey-boxing").
+Sound (Vertical Slice Scope): Minimal placeholder sound effects for critical feedback.
+-----7. Technical Details
 Engine: Godot 4.2.2
-Architecture: A decoupled system using global singleton managers:
-GameManager: Manages persistent data (Gold, Villagers) and the save/load system. Emits global game state signals (mission_succeeded).
-SceneManager: Manages all scene transitions with a fade-to-black effect.
-UIManager: Manages the instancing and display of all UI scenes (PauseMenu, MissionSuccessScreen, etc.) on a dedicated CanvasLayer.
-Save/Load: Game state is saved to a JSON file upon acquiring resources or making purchases.
-7. Post-Vertical Slice Goals (Excluded Features)
-To maintain a tight focus, the following features are explicitly excluded from the vertical slice and will be considered for future development:
-NO combat system.
-NO additional levels, units, enemies, or upgrades.
-NO inventory, complex dialogue, or story elements.
+Architecture: Decoupled system using global singleton managers (GameManager, SceneManager, UIManager, EventBus).
+Save/Load: Game state is saved to a JSON file.
+-----8. Idea Parking Lot / Post-Production Features
+
+This section serves as a backlog of approved but unscheduled ideas for future development.
+
+8.1. New Player Abilities (Potential Quartermaster Unlocks)
+Wall Kick: A horizontal kick-off from a wall-slide. This can influence downward vertical movement to add challenge and break up monotony.
+Bash Traversal: An advanced ability to launch off enemies or specific environmental points.
+Grappling Hook: A traversal tool for latching onto and swinging from specific anchor points.
+Hookshot: A traversal tool that pulls the player directly towards a latched surface.
+Invisibility, Glide Advanced traversal and stealth options.
+Rapid Override Enhancements: Upgrades to the QTE sequence (more time, shorter sequence).
+8.2. New Hideout & Progression Systems
+Treasury & Gold Cap: An economic system that introduces a limit to how much Gold the player can hold.
+Full Dialogue System: A system for interactive conversations with NPCs.
+8.3. Major Systems & Expansions
+Advanced Guard AI: Expansion of AI to include audio detection and a "Suspicious" state.
+Playable Rescuers: A major expansion where the player controls a recruit to rescue a captured Knight. (DLC/Sequel scope).
+Metroidvania World Structure: A fundamental shift to an interconnected world. (Sequel scope).

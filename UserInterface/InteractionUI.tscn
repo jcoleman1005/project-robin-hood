@@ -11,16 +11,14 @@ border_width_right = 5
 border_width_bottom = 5
 border_color = Color(0, 0, 0, 0.4)
 
-[node name="InteractionUI" type="CanvasLayer"]
+[node name="InteractionUI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_p7br5")
 
 [node name="Panel" type="PanelContainer" parent="."]
-offset_left = 282.5
-offset_top = 171.0
-offset_right = 357.5
-offset_bottom = 189.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_right = 85.0
+offset_bottom = 28.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_kegi0")
 metadata/_edit_group_ = true
 

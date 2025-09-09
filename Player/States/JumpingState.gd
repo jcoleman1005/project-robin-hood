@@ -9,13 +9,13 @@ func enter() -> void:
 	# (The code for animations and particles that we already fixed)
 	player.animation_player.play("jump_stretch")
 
-	print("DEBUG: Trying to spawn dust puff...")
+	
 	if player.dust_puff_scene:
-		print("DEBUG: dust_puff_scene is valid. Instantiating.")
+		
 		var puff = player.dust_puff_scene.instantiate()
 		get_tree().root.add_child(puff)
 		puff.global_position = player.get_node("FootSpawner").global_position
-		print("DEBUG: Setting 'emitting = true' on the puff instance.")
+		
 		puff.emitting = true 
 	else:
 		printerr("DEBUG: ERROR - dust_puff_scene is NOT SET on the Player in the Inspector!")

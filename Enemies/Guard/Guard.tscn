@@ -1,16 +1,15 @@
-[gd_scene load_steps=26 format=3 uid="uid://bvxaf08x2ym7h"]
+[gd_scene load_steps=24 format=3 uid="uid://bvxaf08x2ym7h"]
 
 [ext_resource type="Script" uid="uid://dt6uwq8dw5s7i" path="res://Enemies/Guard/Guard.gd" id="1_smm0d"]
 [ext_resource type="Texture2D" uid="uid://ctkkhnwtxa67h" path="res://assets/CharacterSprites/Prototype/Aiming.png" id="2_r4kue"]
 [ext_resource type="Texture2D" uid="uid://d3koe2gneclrr" path="res://assets/CharacterSprites/Prototype/Walking.png" id="3_5hr6y"]
 [ext_resource type="Script" uid="uid://cpkt6fcce33m5" path="res://Enemies/Guard/States/guard_state_machine.gd" id="4_5hr6y"]
 [ext_resource type="Script" uid="uid://dhunf227oltaw" path="res://Enemies/Guard/States/patrol_state.gd" id="5_7ghg5"]
-[ext_resource type="Script" uid="uid://sn3lm2idmu2j" path="res://Enemies/Guard/States/suspicious_state.gd" id="6_6lr57"]
-[ext_resource type="Script" uid="uid://bia0pujcof2to" path="res://Enemies/Guard/States/alert_state.gd" id="7_165wt"]
-[ext_resource type="PackedScene" uid="uid://jygx2bahhjqq" path="res://Enemies/CustomVisionCone.tscn" id="8_6lr57"]
+[ext_resource type="Script" uid="uid://covvrfgqanvfw" path="res://Enemies/Guard/States/caught_state.gd" id="6_7ghg5"]
+[ext_resource type="PackedScene" uid="uid://kf8tqdlm8c5t" path="res://addons/godot-vision-cone-main/addons/vision_cone_2d/vision_cone_2d_template.tscn" id="6_y8lw7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gyn35"]
-size = Vector2(20, 68)
+size = Vector2(11.6667, 66)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y8lw7"]
 atlas = ExtResource("2_r4kue")
@@ -123,30 +122,35 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lvm1q"]
-size = Vector2(18.6667, 70.6667)
-
 [node name="Guard" type="CharacterBody2D"]
-scale = Vector2(0.75, 0.75)
+scale = Vector2(0.6, 0.6)
+collision_mask = 2
 script = ExtResource("1_smm0d")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-2.5, 31.3333)
+position = Vector2(-4.16667, 30.3333)
 shape = SubResource("RectangleShape2D_gyn35")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_a34ki")
-animation = &"idle"
-
-[node name="HitboxArea" type="Area2D" parent="."]
-position = Vector2(4, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxArea"]
-position = Vector2(-9.33333, 31.3333)
-shape = SubResource("RectangleShape2D_lvm1q")
+animation = &"walk"
+frame_progress = 0.029589
 
 [node name="TurnCooldownTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="LedgeCheckRay" type="RayCast2D" parent="."]
+position = Vector2(11.6667, 55)
+collision_mask = 2
+
+[node name="GroundCheckRay" type="RayCast2D" parent="."]
+position = Vector2(-3.33333, 21.6667)
+collision_mask = 2
+
+[node name="WallCheckRay" type="RayCast2D" parent="."]
+position = Vector2(0, 21.33)
+target_position = Vector2(50, 0.337)
+collision_mask = 2
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("4_5hr6y")
@@ -155,29 +159,12 @@ initial_state = NodePath("PatrolState")
 [node name="PatrolState" type="Node" parent="StateMachine"]
 script = ExtResource("5_7ghg5")
 
-[node name="SuspiciousState" type="Node" parent="StateMachine"]
-script = ExtResource("6_6lr57")
+[node name="CaughtState" type="Node" parent="StateMachine"]
+script = ExtResource("6_7ghg5")
 
-[node name="AlertState" type="Node" parent="StateMachine"]
-script = ExtResource("7_165wt")
+[node name="VisionCone2D" parent="." instance=ExtResource("6_y8lw7")]
+angle_deg = 60
+ray_count = 75
+max_distance = 150.0
 
-[node name="SuspicionTimer" type="Timer" parent="."]
-wait_time = 3.0
-one_shot = true
-
-[node name="VisionConeArea" parent="." instance=ExtResource("8_6lr57")]
-radius = 250.0
-angle_degrees = 30.0
-ray_count = 15
-
-[node name="Raycasts" type="Node2D" parent="."]
-
-[node name="LedgeCheckRay" type="RayCast2D" parent="Raycasts"]
-position = Vector2(12, 52)
-target_position = Vector2(0, 21.3333)
-
-[node name="WallCheckRay" type="RayCast2D" parent="Raycasts"]
-position = Vector2(0, 21.33)
-target_position = Vector2(17.3333, 0.00333405)
-
-[editable path="VisionConeArea"]
+[editable path="VisionCone2D"]

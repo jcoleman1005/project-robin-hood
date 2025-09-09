@@ -23,6 +23,7 @@ const DASH_COOLDOWN = 0.5
 const WALL_STICK_DURATION = 2.0
 const JUMP_CHARGE_DURATION = 1.0
 const LANDING_DURATION = 0.15
+const COMBO_STATES: Array[String] = ["Jumping", "OnWall", "Dashing", "Sliding"]
 
 # --- Public State Variables ---
 var current_jumps = 0
@@ -34,6 +35,8 @@ var is_long_fall: bool = false # Used by CameraLogic
 var is_invisible: bool = false
 var can_go_invisible: bool = true
 var last_wall_normal: Vector2
+var _combo_chain: Array[String] = []
+var _interact_held: bool = false
 
 # --- Node References ---
 @onready var state_machine = $StateMachine
@@ -63,6 +66,9 @@ var last_wall_normal: Vector2
 @onready var wall_check_ray_right: RayCast2D = $WallCheckRayRight
 @onready var wall_check_ray_left: RayCast2D = $WallCheckRayLeft
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var combo_timer: Timer = $Timers/ComboTimer
+@onready var combo_reset_timer: Timer = $Timers/ComboResetTimer
+@onready var slide_grace_timer: Timer = $Timers/SlideGraceTimer
 
 func _ready():
 	# The jump physics calculations are now handled by the resource itself!
@@ -83,27 +89,30 @@ func _ready():
 	wall_detach_timer.timeout.connect(_on_wall_detach_timer_timeout)
 	invisibility_timer.timeout.connect(_on_invisibility_timer_timeout)
 	invisibility_cooldown_timer.timeout.connect(_on_invisibility_cooldown_timer_timeout)
-	
+	combo_timer.timeout.connect(_on_combo_timer_timeout)
+	combo_reset_timer.timeout.connect(_on_combo_reset_timer_timeout)
+	state_machine.state_changed.connect(_on_state_changed)
 	state_machine.call_deferred("initialize")
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("pause"):
-		EventBus.pause_toggled.emit(GameManager.is_gameplay_active)
+		EventBus.pause_menu_requested.emit()
 
 func _physics_process(_delta: float):
-	
-	
 	if not GameManager.is_gameplay_active:
 		return
 
 	if not is_instance_valid(stats):
 		return
 	
+	# DELETE THIS BLOCK:
+	# if Input.is_action_just_pressed("interact_world"):
+	#	 # Emit on the EventBus now
+	#	 EventBus.interact_pressed.emit()
 	
 	velocity.y = min(velocity.y, stats.terminal_velocity)
 	_handle_global_inputs()
 	move_and_slide()
-	
 	
 
 func _handle_global_inputs():
@@ -240,7 +249,7 @@ func _on_wall_coyote_timer_timeout():
 func _on_slide_timer_timeout():
 	if state_machine.current_state.name == "SlidingState":
 		if is_head_clear():
-			if Input.is_action_pressed("ui_down"):
+			if Input.is_action_pressed("down"):
 				state_machine.change_state("Crouching")
 			else:
 				state_machine.change_state("Idle")
@@ -250,15 +259,14 @@ func _on_slide_timer_timeout():
 func _on_wall_detach_timer_timeout():
 	if state_machine.current_state.name == "WallDetachState":
 		state_machine.change_state("Falling")
+
 func _unhandled_input(event: InputEvent) -> void:
-	# This function will not run if gameplay is paused.
 	if not GameManager.is_gameplay_active:
 		return
 
-	# This function will also not run if another node (like our DialogueBox)
-	# has already handled this input event.
 	if event.is_action_pressed("interact_world"):
 		EventBus.interact_pressed.emit()
+		
 func end_dash() -> void:
 	# Don't do anything if we aren't actually in the DashingState.
 	if state_machine.current_state.name != "DashingState":
@@ -269,3 +277,47 @@ func end_dash() -> void:
 	dash_cooldown_timer.start(DASH_COOLDOWN)
 	
 	
+func _on_state_changed(new_state_name: String) -> void:
+	# Check if the new state is a valid move that can extend a combo.
+	if new_state_name in COMBO_STATES:
+		# Any valid combo move stops the "on ground" reset timer.
+		combo_reset_timer.stop()
+		
+		# To be a valid combo link, the move must be unique.
+		if not new_state_name in _combo_chain:
+			_add_move_to_combo(new_state_name)
+			
+	# If the player is idle or running, start the timer to reset the combo.
+	elif new_state_name in ["Idle", "Running"]:
+		combo_reset_timer.start(1.5)
+
+
+# This function handles adding a move and checking for success.
+func _add_move_to_combo(move_name: String) -> void:
+	# Restart the 1-second timer for the next move in the chain.
+	combo_timer.start(1.0)
+	_combo_chain.append(move_name)
+	
+	print("Combo Chain: ", _combo_chain) # For debugging
+
+	# Check for a successful 3-move combo.
+	if _combo_chain.size() >= 3:
+		EventBus.flow_combo_success.emit()
+		print("--- FLOW COMBO SUCCESS! ---") # For debugging
+
+
+# This function resets the combo chain.
+func _reset_combo() -> void:
+	if not _combo_chain.is_empty():
+		_combo_chain.clear()
+		print("Combo Reset.") # For debugging
+
+
+# This timer fires if there's >1 second between combo moves.
+func _on_combo_timer_timeout() -> void:
+	_reset_combo()
+
+
+# This timer fires if the player is on the ground for >1.5 seconds.
+func _on_combo_reset_timer_timeout() -> void:
+	_reset_combo()

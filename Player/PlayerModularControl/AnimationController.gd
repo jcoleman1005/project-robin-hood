@@ -12,7 +12,7 @@ func _ready():
 
 # This is the main public function that our player script will call every frame.
 # It needs to know the player's current state, velocity, and wall normal to make decisions.
-func update_animation(current_state, _current_velocity, wall_normal, input_direction_x):
+func update_animation(current_state, current_velocity, wall_normal, input_direction_x):
 	# This new structure is much clearer. We handle special cases first.
 	match current_state:
 		player.States.ON_WALL, player.States.WALL_SLIP:
@@ -45,7 +45,11 @@ func update_animation(current_state, _current_velocity, wall_normal, input_direc
 					animated_sprite.play("slide")
 				player.States.DASHING:
 					animated_sprite.play("jump") # Or a dedicated dash animation
-
+				player.States.CROUCHING:
+					if abs(current_velocity.x) > 10:
+						animated_sprite.play("crouch walk")
+					else:
+						animated_sprite.play("crouch")
 			# Second, for all these normal states, flip the sprite based on input.
 			if input_direction_x > 0:
 				animated_sprite.flip_h = false

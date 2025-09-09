@@ -7,27 +7,32 @@ extends Node
 var current_state: GuardState
 var states: Dictionary = {}
 
-func initialize() -> void:
+
+func initialize():
 	for child in get_children():
 		if child is GuardState:
 			states[child.name] = child
 			child.state_machine = self
-	
+
 	if initial_state:
 		current_state = initial_state
 		current_state.enter()
 
-func _physics_process(delta: float) -> void:
-	if current_state:
-		current_state.process_physics(delta)
 
-func change_state(state_name: String) -> void:
-	if not states.has(state_name):
-		printerr("Guard FSM Error: State '", state_name, "' not found.")
+# ADD THIS ENTIRE FUNCTION
+func change_state(new_state_name: String):
+	# Don't change to the same state.
+	if current_state and current_state.name == new_state_name:
 		return
-	
+
+	# Call the exit function on the current state before switching.
 	if current_state:
 		current_state.exit()
 	
-	current_state = states[state_name]
-	current_state.enter()
+	# Find the new state in our dictionary of children.
+	var new_state = states.get(new_state_name)
+	if new_state:
+		current_state = new_state
+		current_state.enter()
+	else:
+		printerr("Guard State Machine Error: State '", new_state_name, "' not found.")

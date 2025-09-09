@@ -17,7 +17,7 @@ func _on_interacted() -> void:
 
 
 func update_visibility() -> void:
-	# (You can remove the print statements now if you like)
+	
 	
 	if GameManager.villagers <= 0:
 		# Hide and disable everything with the most reliable methods.

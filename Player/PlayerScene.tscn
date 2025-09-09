@@ -1,4 +1,4 @@
-[gd_scene load_steps=118 format=3 uid="uid://bqep4lh77amxw"]
+[gd_scene load_steps=117 format=3 uid="uid://bqep4lh77amxw"]
 
 [ext_resource type="Script" uid="uid://322jte5qhr8v" path="res://Player/PlayerScript.gd" id="1_mom48"]
 [ext_resource type="Texture2D" uid="uid://oj5uoalybhj8" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_CrouchFull.png" id="2_74o77"]
@@ -472,7 +472,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"run",
-"speed": 15.0
+"speed": 19.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -695,11 +695,9 @@ _data = {
 &"wall_stick_offset_right": SubResource("Animation_lxyxv")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fpl1g"]
-size = Vector2(20, 13.0178)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5nnq8"]
-size = Vector2(16.8209, 33.9722)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vbs5d"]
+radius = 5.57391
+height = 37.9996
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qvcxh"]
 size = Vector2(20, 23.8985)
@@ -755,7 +753,7 @@ radius = 26.0749
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 rotation = -0.00456183
-scale = Vector2(1.01525, 1)
+collision_mask = 2
 script = ExtResource("1_mom48")
 stats = ExtResource("2_bjedy")
 dust_puff_scene = ExtResource("3_vbs5d")
@@ -773,15 +771,13 @@ libraries = {
 }
 
 [node name="SlidingCollision" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(4, 36.5089)
-shape = SubResource("RectangleShape2D_fpl1g")
+position = Vector2(4, 37.0089)
 disabled = true
 metadata/_edit_group_ = true
 
 [node name="StandingCollision" type="CollisionShape2D" parent="."]
-position = Vector2(2.3074, 25.9861)
-shape = SubResource("RectangleShape2D_5nnq8")
+position = Vector2(1.88593, 25.0089)
+shape = SubResource("CapsuleShape2D_vbs5d")
 metadata/_edit_group_ = true
 
 [node name="CrouchingCollision" type="CollisionShape2D" parent="."]
@@ -799,9 +795,9 @@ disabled = true
 metadata/_edit_group_ = true
 
 [node name="HeadClearanceRaycast" type="RayCast2D" parent="."]
-visible = false
-position = Vector2(1, 9)
-target_position = Vector2(0, -2)
+position = Vector2(1.88593, 25.0089)
+target_position = Vector2(0.0957966, -20.9998)
+collision_mask = 2
 metadata/_edit_group_ = true
 
 [node name="Timers" type="Node" parent="." groups=["timers"]]
@@ -872,6 +868,15 @@ one_shot = true
 
 [node name="LandTimer" type="Timer" parent="Timers" groups=["timers"]]
 wait_time = 0.1
+one_shot = true
+
+[node name="ComboTimer" type="Timer" parent="Timers" groups=["timers"]]
+one_shot = true
+
+[node name="ComboResetTimer" type="Timer" parent="Timers" groups=["timers"]]
+one_shot = true
+
+[node name="SlideGraceTimer" type="Timer" parent="Timers" groups=["timers"]]
 one_shot = true
 
 [node name="DashParticles" type="GPUParticles2D" parent="."]
@@ -980,7 +985,8 @@ shape = SubResource("CircleShape2D_5x2q4")
 [node name="PlayerCamera" type="Camera2D" parent="."]
 position_smoothing_enabled = true
 script = ExtResource("35_k4b7y")
-look_down_offset = 50.0
+default_camera_zoom = 1.2
+horizontal_lookahead = 120.0
 
 [node name="CameraZoomResetTimer" type="Timer" parent="PlayerCamera"]
 

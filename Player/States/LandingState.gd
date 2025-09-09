@@ -2,41 +2,40 @@
 extends State
 
 func enter() -> void:
-	
-	
-	# --- Debugging Logic for Particles ---
-	print("DEBUG: Trying to spawn dust puff...")
+	player.current_jumps = 0
+	if player.is_long_fall:
+		player.is_long_fall = false
+		player.long_fall_ended.emit()
+
+	player.land_timer.start(player.LANDING_DURATION)
+
 	if player.dust_puff_scene:
-		print("DEBUG: dust_puff_scene is valid. Instantiating.")
 		var puff = player.dust_puff_scene.instantiate()
 		get_tree().root.add_child(puff)
 		puff.global_position = player.get_node("FootSpawner").global_position
-		
-		# THE FIX & DEBUG: We must explicitly tell the particles to emit.
-		print("DEBUG: Setting 'emitting = true' on the puff instance.")
-		puff.emitting = true 
-	else:
-		printerr("DEBUG: ERROR - dust_puff_scene is NOT SET on the Player in the Inspector!")
-
+		puff.emitting = true
+	
+	var input_x: float = Input.get_axis("left", "right")
+	player.animation_controller.update_animation(player.States.LANDING, player.velocity, Vector2.ZERO, input_x)
 
 func exit() -> void:
 	player.land_timer.stop()
 
 func process_physics(_delta: float) -> void:
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed("jump") or player.jump_buffered:
+		player.jump_buffered = false
+		player.jump_buffer_timer.stop()
 		state_machine.change_state("Jumping")
 		return
 
-	# This block now has the necessary return statement.
 	if Input.is_action_pressed("slide"):
 		state_machine.change_state("Sliding")
-		return # <-- THE FIX
+		return
 
 	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.friction_smoothness)
 
 	if player.land_timer.is_stopped():
-		state_machine.change_state("Idle")
-	elif player.jump_buffered:
-		player.jump_buffered = false
-		player.jump_buffer_timer.stop()
-		state_machine.change_state("Jumping")
+		if Input.is_action_pressed("down"):
+			state_machine.change_state("Crouching")
+		else:
+			state_machine.change_state("Idle")

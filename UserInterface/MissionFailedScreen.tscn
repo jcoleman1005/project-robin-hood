@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://bgx3prsgldcw2" path="res://pixel_theme.tres" id="2_toef0"]
 
 [node name="MissionFailedScreen" type="CanvasLayer"]
-process_mode = 3
+process_mode = 2
 script = ExtResource("1_srgml")
 
 [node name="ColorRect" type="ColorRect" parent="."]

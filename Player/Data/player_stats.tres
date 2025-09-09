@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_byv2g")
-speed = 500.0
+speed = 350.0
 air_control_acceleration = 250.0
 terminal_velocity = 750.0
 acceleration_smoothness = 0.1
@@ -15,7 +15,7 @@ fall_gravity = 2400.0
 jump_cut_multiplier = 0.3
 glide_velocity = 300.0
 blink_dash_enabled = false
-slide_duration = 0.5
+slide_duration = 0.4
 slide_friction = 0.01
 skid_duration = 0.25
 skid_friction = 0.25

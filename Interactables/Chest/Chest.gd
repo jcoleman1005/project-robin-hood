@@ -3,7 +3,6 @@ extends StaticBody2D
 
 @export var gold_amount: int = 10
 @export var floating_text_scene: PackedScene
-# ADD THIS NEW VARIABLE. A default of 20px up is a good start.
 @export var text_spawn_offset: Vector2 = Vector2(0, -20)
 
 var _is_opened := false
@@ -12,6 +11,7 @@ var _is_opened := false
 
 
 func _ready() -> void:
+	# The parent connects to its child's 'interacted' signal.
 	_interactable.interacted.connect(_on_interacted)
 
 
@@ -28,10 +28,7 @@ func _on_interacted() -> void:
 	if floating_text_scene:
 		var floating_text_instance = floating_text_scene.instantiate()
 		get_tree().current_scene.add_child(floating_text_instance)
-		
-		# UPDATE THIS LINE to add the offset.
 		floating_text_instance.global_position = self.global_position + text_spawn_offset
-		
 		floating_text_instance.show_text("+%d Gold" % gold_amount)
 	
 	queue_free()
