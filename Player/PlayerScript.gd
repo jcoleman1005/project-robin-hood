@@ -260,12 +260,14 @@ func _on_wall_detach_timer_timeout():
 	if state_machine.current_state.name == "WallDetachState":
 		state_machine.change_state("Falling")
 
+
 func _unhandled_input(event: InputEvent) -> void:
-	if not GameManager.is_gameplay_active:
-		return
+	if not GameManager.is_gameplay_active: return
 
 	if event.is_action_pressed("interact_world"):
-		EventBus.interact_pressed.emit()
+		EventBus.interaction_started.emit()
+	elif event.is_action_released("interact_world"):
+		EventBus.interaction_cancelled.emit()
 		
 func end_dash() -> void:
 	# Don't do anything if we aren't actually in the DashingState.

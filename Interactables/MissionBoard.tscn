@@ -17,5 +17,7 @@ texture = ExtResource("2_fi8tn")
 shape = SubResource("RectangleShape2D_0ghu3")
 
 [node name="Interactable" parent="." instance=ExtResource("3_htoau")]
+prompt_message = "Start Mission"
+prompt_vertical_offset = -50.0
 
 [editable path="Interactable"]

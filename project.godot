@@ -22,6 +22,7 @@ GameManager="*res://Singletons/GameManager.gd"
 InteractionManager="*res://Singletons/InteractionManager.gd"
 UIManager="*res://UserInterface/UIManager.gd"
 SceneManager="*res://Singletons/SceneManager.tscn"
+DebugManager="*res://Singletons/DebugManager.gd"
 
 [display]
 
@@ -31,7 +32,7 @@ window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/GodotAiSuite/plugin.cfg", "res://addons/godot-vision-cone-main/addons/vision_cone_2d/plugin.cfg")
+enabled=PackedStringArray("res://addons/GodotAiSuite/plugin.cfg", "res://addons/godot-vision-cone-main/addons/vision_cone_2d/plugin.cfg", "res://addons/gut/plugin.cfg")
 
 [global_group]
 

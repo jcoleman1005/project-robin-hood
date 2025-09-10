@@ -7,10 +7,12 @@ var _ui_scenes: Dictionary = {
 	"MissionFailedScreen": "res://UserInterface/MissionFailedScreen.tscn"
 }
 var _dialogue_box_path: String = "res://UserInterface/DialogueBox.tscn"
+# We still need the path to create the instance.
 var _interaction_ui_path: String = "res://UserInterface/InteractionUI.tscn"
 
 var _current_ui: CanvasLayer = null
-var _interaction_ui_instance: Control = null
+# We no longer need to hold a reference to the instance here,
+# as it will manage itself after being added to the scene.
 
 func _ready() -> void:
 	EventBus.mission_succeeded.connect(_on_mission_succeeded)
@@ -19,13 +21,18 @@ func _ready() -> void:
 	EventBus.show_dialogue.connect(_on_show_dialogue)
 	EventBus.pause_menu_requested.connect(_on_pause_menu_requested)
 
+	# --- THE FIX IS HERE ---
+	# The UIManager's job is to create the UI, but that's it.
+	# We no longer connect to the InteractionManager's signals here.
 	var interaction_scene: PackedScene = load(_interaction_ui_path)
 	if interaction_scene:
-		_interaction_ui_instance = interaction_scene.instantiate()
-		add_child(_interaction_ui_instance)
+		var interaction_ui_instance = interaction_scene.instantiate()
+		add_child(interaction_ui_instance)
+	# The InteractionUI.gd script will handle its own signal connections in its own _ready() function.
 
-	InteractionManager.show_prompt.connect(_on_show_prompt)
-	InteractionManager.hide_prompt.connect(_on_hide_prompt)
+# --- ALL OF THE FOLLOWING FUNCTIONS HAVE BEEN REMOVED ---
+# func _on_show_prompt(...)
+# func _on_hide_prompt(...)
 
 func _on_pause_menu_requested():
 	if not _current_ui:
@@ -50,14 +57,6 @@ func _on_show_dialogue(message: String) -> void:
 func _on_dialogue_closed() -> void:
 	_current_ui = null
 	EventBus.pause_toggled.emit(false)
-
-func _on_show_prompt(interactable: Interactable) -> void:
-	if is_instance_valid(_interaction_ui_instance):
-		_interaction_ui_instance.show_prompt(interactable, interactable.prompt_message)
-
-func _on_hide_prompt() -> void:
-	if is_instance_valid(_interaction_ui_instance):
-		_interaction_ui_instance.hide_prompt()
 
 func _show_ui(ui_name: String) -> void:
 	if _current_ui: return

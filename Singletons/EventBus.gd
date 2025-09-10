@@ -19,7 +19,10 @@ signal player_died
 # --- UI & Game Flow ---
 signal pause_toggled
 signal pause_menu_requested
-signal interact_pressed # Restored
+signal interaction_started # Player has pressed the button
+signal interaction_cancelled # Player has released the button
+signal interaction_succeeded # InteractionManager confirms the hold was completed
+signal interaction_progress_updated(progress: float) # InteractionManager broadcasts hold progress
 signal show_dialogue(message: String)
 signal return_to_hideout_requested
 signal start_mission_requested(mission_key: String)

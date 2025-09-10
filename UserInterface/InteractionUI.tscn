@@ -1,15 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://ckeu537xfsm8n"]
+[gd_scene load_steps=5 format=3 uid="uid://ckeu537xfsm8n"]
 
 [ext_resource type="Script" uid="uid://bxslb7tjrxafu" path="res://UserInterface/InteractionUI.gd" id="1_p7br5"]
 [ext_resource type="Theme" uid="uid://bgx3prsgldcw2" path="res://pixel_theme.tres" id="2_cyofe"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kegi0"]
-bg_color = Color(0, 0, 0, 0.4)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(0, 0, 0, 0.4)
+bg_color = Color(0.145098, 0.145098, 0.145098, 0.756863)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cyofe"]
+bg_color = Color(1, 1, 1, 1)
 
 [node name="InteractionUI" type="Control"]
 layout_mode = 3
@@ -26,3 +24,9 @@ metadata/_edit_group_ = true
 layout_mode = 2
 theme = ExtResource("2_cyofe")
 text = "Filler Text"
+horizontal_alignment = 1
+
+[node name="HoldProgressBar" type="ProgressBar" parent="Panel"]
+layout_mode = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_cyofe")
+show_percentage = false

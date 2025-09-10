@@ -23,19 +23,18 @@ func _ready() -> void:
 
 
 func change_scene(scene_key: String) -> void:
+	# THE FIX IS HERE: Remember which scene we are loading.
+	current_scene_key = scene_key
+	
+	DebugManager.log(DebugManager.Category.GAME_STATE, "Changing scene to: '%s'" % scene_key)
 	
 	var ui_to_close = UIManager.close_current_ui()
-	
-
 	if is_instance_valid(ui_to_close):
-		
 		await ui_to_close.tree_exited
 		
-
 	animation_player.play("fade_to_black")
 	await animation_player.animation_finished
 
-	
 	var scene_to_load: PackedScene = _scene_map[scene_key]
 	get_tree().change_scene_to_packed(scene_to_load)
 
@@ -55,14 +54,7 @@ func _spawn_player() -> void:
 	var spawn_point = current_scene.find_child("PlayerSpawnPoint", true, false)
 
 	if is_instance_valid(spawn_point):
-		
 		var player_instance = player_scene.instantiate()
 		player_instance.global_position = spawn_point.global_position
-		
-		
 		current_scene.add_child(player_instance)
-		
-		# Wait one frame for the physics engine to process the new node.
 		await get_tree().process_frame
-		
-		

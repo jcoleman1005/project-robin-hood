@@ -88,6 +88,7 @@ shape = SubResource("RectangleShape2D_k88k2")
 
 [node name="KillZone" parent="." instance=ExtResource("9_tljy5")]
 position = Vector2(-18, 624)
+collision_layer = 2
 
 [node name="CollisionShape2D" parent="KillZone" index="0"]
 position = Vector2(1460, 37)
