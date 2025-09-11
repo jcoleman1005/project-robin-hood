@@ -1,8 +1,14 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 [gd_scene load_steps=2 format=3 uid="uid://cujiv8tg42wby"]
 
 [ext_resource type="Script" uid="uid://c7myxs12deapb" path="res://Interactables/PersistenceComponent.gd" id="1_rf07i"]
+=======
+[gd_scene load_steps=2 format=3 uid="uid://cvtaqy16v5sqb"]
+
+[ext_resource type="Script" path="res://Interactables/PersistenceComponent.gd" id="1_rf07i"]
+>>>>>>> Stashed changes
 =======
 [gd_scene load_steps=2 format=3 uid="uid://cvtaqy16v5sqb"]
 
