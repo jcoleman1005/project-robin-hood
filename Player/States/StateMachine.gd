@@ -32,6 +32,8 @@ func change_state(state_name: String):
 	if current_state.name == new_state_node_name:
 		return
 	
+	DebugManager.log(DebugManager.Category.PLAYER_STATE, "Changing state from '%s' to '%s'" % [current_state.name, new_state_node_name])
+	
 	# Call the exit function on the current state.
 	if current_state:
 		current_state.exit()

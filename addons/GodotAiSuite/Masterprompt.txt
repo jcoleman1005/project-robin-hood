@@ -3,7 +3,7 @@
 You are **Indie Dev Guru**, an AI assistant embodying the spirit of a seasoned game developer. Your personality is a blend of a passionate mentor and a pragmatic, battle-tested collaborator.
 
 *   **Tone**: encouraging, educating, realistic, based.
-*   **Core Mission**: To guide the user toward building a well-architected, maintainable, and successful game by enforcing best practices and providing clear, actionable advice. You task is to serve as the primary programmer and debugger.
+*   **Core Mission**: To guide the user toward building a well-architected, maintainable, and successful game by enforcing best practices and providing clear, actionable advice. You celebrate wins and use setbacks as teaching moments.
 
 ---
 
@@ -12,6 +12,7 @@ You are **Indie Dev Guru**, an AI assistant embodying the spirit of a seasoned g
 This section contains all the specific rules, conventions, and architectural choices for the current project. **All your responses must strictly adhere to these settings.**
 
 *   **Target Developer Profile**
+	*   **Type**: Solo indie developer. Intermediate Godot knowledge.
 	*   **Constraints**: You must assume the user has limited time and budget. Your solutions should prioritize efficiency, clarity, and manageable scope.
 
 *   **Engine Details**
@@ -280,7 +281,7 @@ window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/GodotAiSuite/plugin.cfg", "res://addons/godot-vision-cone-main/addons/vision_cone_2d/plugin.cfg")
+enabled=PackedStringArray("res://addons/GodotAiSuite/plugin.cfg", "res://addons/godot-vision-cone-main/addons/vision_cone_2d/plugin.cfg", "res://addons/gut/plugin.cfg")
 
 [global_group]
 
@@ -448,14 +449,14 @@ Label/fonts/font = ExtResource("1_ghajk")
 script = ExtResource("1_kqdxa")
 horizontal_deadzone = 100.0
 vertical_deadzone = 60.0
-smoothing_speed = 7.0
+smoothing_speed = 6.0
 fall_speed_multiplier = 2.5
-look_offset = 100.0
+look_offset = 80.0
 look_speed = 4.0
-lookahead_distance = 120.0
+lookahead_distance = 110.0
 ledge_peek_offset = 100.0
 wall_slide_peek_offset = 100.0
-recenter_speed = 2.0
+recenter_speed = 3.0
 metadata/_custom_type_script = "uid://cncohoeprijfe"
 
 --- RESOURCE: res://Player/Data/player_stats.tres ---
@@ -477,6 +478,7 @@ jump_cut_multiplier = 0.3
 glide_velocity = 300.0
 blink_dash_enabled = false
 slide_duration = 0.4
+standing_slide_speed = 375.0
 slide_friction = 0.01
 skid_duration = 0.25
 skid_friction = 0.25
@@ -507,7 +509,7 @@ metadata/_custom_type_script = "uid://bx05fogp11uwl"
 Enemy (CharacterBody2D)
 > script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.gd
 > scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
-> vision_renderer = VisionConeRenderer:<Polygon2D#110931875044301>
+> vision_renderer = VisionConeRenderer:<Polygon2D#67219090411182>
 > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > is_rotating = false
 > rotation_speed = 0.1
@@ -526,8 +528,8 @@ Enemy (CharacterBody2D)
 > > ray_count = 100
 > > max_distance = 500.0
 > > collision_layer_mask = 2
-> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#110931908598899>
-> > write_polygon2d = VisionConeRenderer:<Polygon2D#110931875044301>
+> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#67219123966873>
+> > write_polygon2d = VisionConeRenderer:<Polygon2D#67219090411182>
 > > debug_lines = false
 > > debug_shape = false
 > > minimum_recalculate_time_msec = 0
@@ -557,7 +559,7 @@ example (Node2D)
 >   script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.gd
 >   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
 > > position = (1055.0, 97.0)
-> > vision_renderer = VisionConeRenderer:<Polygon2D#110932512586096>
+> > vision_renderer = VisionConeRenderer:<Polygon2D#67219727945800>
 > > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > > is_rotating = false
 > > rotation_speed = 0.1
@@ -576,8 +578,8 @@ example (Node2D)
 >   > ray_count = 100
 >   > max_distance = 500.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#110932546140529>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#110932512586096>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#67219761500185>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#67219727945800>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -613,7 +615,7 @@ example (Node2D)
 >   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
 > > position = (301.0, 705.0)
 > > rotation = -1.57079994678497
-> > vision_renderer = VisionConeRenderer:<Polygon2D#110932697127391>
+> > vision_renderer = VisionConeRenderer:<Polygon2D#67219912495167>
 > > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > > is_rotating = true
 > > rotation_speed = 1.0
@@ -632,8 +634,8 @@ example (Node2D)
 >   > ray_count = 50
 >   > max_distance = 700
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#110932730682972>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#110932697127391>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#67219946050380>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#67219912495167>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -662,12 +664,12 @@ example (Node2D)
 >   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
 > > position = (211.0, 130.0)
 > > rotation = -0.48296800255775
-> > vision_renderer = VisionConeRenderer:<Polygon2D#110932848122665>
+> > vision_renderer = VisionConeRenderer:<Polygon2D#67220063490195>
 > > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > > is_rotating = false
 > > rotation_speed = 1.0
 > > rotation_angle = 90
-> > move_on_path = PathFollow2D:<PathFollow2D#110932445477318>
+> > move_on_path = PathFollow2D:<PathFollow2D#67219660836816>
 > > movement_speed = 3.0
 >   CharacterRenderer (Polygon2D)
 >   > rotation = -1.57079994678497
@@ -682,8 +684,8 @@ example (Node2D)
 >   > ray_count = 10
 >   > max_distance = 700
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#110932881684959>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#110932848122665>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#67220097044546>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#67220063490195>
 >   > debug_lines = true
 >   > debug_shape = true
 >   > minimum_recalculate_time_msec = 250
@@ -822,8 +824,8 @@ VisionCone2D (Node2D)
 > ray_count = 100
 > max_distance = 500.0
 > collision_layer_mask = 2
-> write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#110934509066236>
-> write_polygon2d = VisionConeRenderer:<Polygon2D#110934475520451>
+> write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#67221724434450>
+> write_polygon2d = VisionConeRenderer:<Polygon2D#67221690880343>
 > debug_lines = false
 > debug_shape = false
 > minimum_recalculate_time_msec = 0
@@ -1984,7 +1986,7 @@ GutRunner (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 0
->           > resize_control = Normal:<Panel#110961117739589>
+>           > resize_control = Normal:<Panel#67247729119536>
 >           > vertical_resize = true
 >           SwitchModes (Button)
 >           > layout_mode = 2
@@ -1999,7 +2001,7 @@ GutRunner (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 1
->           > resize_control = Normal:<Panel#110961117739589>
+>           > resize_control = Normal:<Panel#67247729119536>
 >           > vertical_resize = true
 >           SidePad2 (CenterContainer)
 >           > custom_minimum_size = (2.0, 0.0)
@@ -2110,7 +2112,7 @@ GutRunner (Node2D)
 >               > layout_mode = 2
 >               > color = (1.0, 1.0, 1.0, 0.0)
 >               > orientation = 0
->               > resize_control = Compact:<Panel#110962594131834>
+>               > resize_control = Compact:<Panel#67249205514676>
 >               > vertical_resize = false
 >               SwitchModes (Button)
 >               > layout_mode = 2
@@ -2128,7 +2130,7 @@ GutRunner (Node2D)
 >               > layout_mode = 2
 >               > color = (1.0, 1.0, 1.0, 0.0)
 >               > orientation = 1
->               > resize_control = Compact:<Panel#110962594131834>
+>               > resize_control = Compact:<Panel#67249205514676>
 >               > vertical_resize = false
 >           RightMargin (CenterContainer)
 >           > custom_minimum_size = (5.0, 0.0)
@@ -2239,7 +2241,7 @@ Min (Panel)
 >         > layout_mode = 2
 >         > color = (1.0, 1.0, 1.0, 0.0)
 >         > orientation = 0
->         > resize_control = Min:<Panel#110966285114157>
+>         > resize_control = Min:<Panel#67252896502104>
 >         > vertical_resize = false
 >         SwitchModes (Button)
 >         > layout_mode = 2
@@ -2257,7 +2259,7 @@ Min (Panel)
 >         > layout_mode = 2
 >         > color = (1.0, 1.0, 1.0, 0.0)
 >         > orientation = 1
->         > resize_control = Min:<Panel#110966285114157>
+>         > resize_control = Min:<Panel#67252896502104>
 >         > vertical_resize = false
 >     RightMargin (CenterContainer)
 >     > custom_minimum_size = (5.0, 0.0)
@@ -2410,7 +2412,7 @@ Large (Panel)
 >     > layout_mode = 2
 >     > color = (1.0, 1.0, 1.0, 0.0)
 >     > orientation = 0
->     > resize_control = Large:<Panel#110968449375021>
+>     > resize_control = Large:<Panel#67255060762968>
 >     > vertical_resize = true
 >     SwitchModes (Button)
 >     > layout_mode = 2
@@ -2425,7 +2427,7 @@ Large (Panel)
 >     > layout_mode = 2
 >     > color = (1.0, 1.0, 1.0, 0.0)
 >     > orientation = 1
->     > resize_control = Large:<Panel#110968449375021>
+>     > resize_control = Large:<Panel#67255060762968>
 >     > vertical_resize = true
 >     SidePad2 (CenterContainer)
 >     > custom_minimum_size = (2.0, 0.0)
@@ -2888,7 +2890,7 @@ GutScene (Node2D)
 >       > layout_mode = 2
 >       > color = (1.0, 1.0, 1.0, 0.0)
 >       > orientation = 0
->       > resize_control = Normal:<Panel#110981367826922>
+>       > resize_control = Normal:<Panel#67266754482152>
 >       > vertical_resize = true
 >       SwitchModes (Button)
 >       > layout_mode = 2
@@ -2903,7 +2905,7 @@ GutScene (Node2D)
 >       > layout_mode = 2
 >       > color = (1.0, 1.0, 1.0, 0.0)
 >       > orientation = 1
->       > resize_control = Normal:<Panel#110981367826922>
+>       > resize_control = Normal:<Panel#67266754482152>
 >       > vertical_resize = true
 >       SidePad2 (CenterContainer)
 >       > custom_minimum_size = (2.0, 0.0)
@@ -3014,7 +3016,7 @@ GutScene (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 0
->           > resize_control = Compact:<Panel#110982844227830>
+>           > resize_control = Compact:<Panel#67268230877771>
 >           > vertical_resize = false
 >           SwitchModes (Button)
 >           > layout_mode = 2
@@ -3032,7 +3034,7 @@ GutScene (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 1
->           > resize_control = Compact:<Panel#110982844227830>
+>           > resize_control = Compact:<Panel#67268230877771>
 >           > vertical_resize = false
 >       RightMargin (CenterContainer)
 >       > custom_minimum_size = (5.0, 0.0)
@@ -3043,6 +3045,7 @@ GutScene (Node2D)
 
 --- SCENE: res://addons/gut/gut_loader_the_scene.tscn ---
 Node (Node2D)
+> script: res://addons/gut/gut_loader.gd
 > scene: res://addons/gut/gut_loader_the_scene.tscn
 
 --- SCENE: res://addons/gut/UserFileViewer.tscn ---
@@ -3053,7 +3056,7 @@ UserFileViewer (Window)
 > FileDialog (FileDialog)
 > > access = 1
 > > show_hidden_files = true
->   @PopupMenu@56661 (PopupMenu)
+>   @PopupMenu@31233 (PopupMenu)
 > TextDisplay (ColorRect)
 > > anchors_preset = 15
 > > anchor_right = 1.0
@@ -3167,7 +3170,7 @@ Guard (CharacterBody2D)
 > > collision_mask = 2
 > StateMachine (Node)
 >   script: res://Enemies/Guard/States/guard_state_machine.gd
-> > initial_state = PatrolState:<Node#110997675293252>
+> > initial_state = PatrolState:<Node#67282877387055>
 >   PatrolState (Node)
 >     script: res://Enemies/Guard/States/patrol_state.gd
 >   CaughtState (Node)
@@ -3179,8 +3182,8 @@ Guard (CharacterBody2D)
 > > ray_count = 75
 > > max_distance = 150.0
 > > collision_layer_mask = 2
-> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#110997759179323>
-> > write_polygon2d = VisionConeRenderer:<Polygon2D#110997725624902>
+> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#67282961273130>
+> > write_polygon2d = VisionConeRenderer:<Polygon2D#67282927718702>
 > > debug_lines = false
 > > debug_shape = false
 > > minimum_recalculate_time_msec = 0
@@ -3621,7 +3624,7 @@ VillageOutskirts (Node2D)
 >   > collision_mask = 2
 >   StateMachine (Node)
 >     script: res://Enemies/Guard/States/guard_state_machine.gd
->   > initial_state = PatrolState:<Node#111009855538291>
+>   > initial_state = PatrolState:<Node#67295057648250>
 >     PatrolState (Node)
 >       script: res://Enemies/Guard/States/patrol_state.gd
 >     CaughtState (Node)
@@ -3633,8 +3636,8 @@ VillageOutskirts (Node2D)
 >   > ray_count = 75
 >   > max_distance = 150.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#111009939428897>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#111009905878326>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#67295141532432>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#67295107978068>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -3682,7 +3685,7 @@ VillageOutskirts (Node2D)
 >   > collision_mask = 2
 >   StateMachine (Node)
 >     script: res://Enemies/Guard/States/guard_state_machine.gd
->   > initial_state = PatrolState:<Node#111010107204412>
+>   > initial_state = PatrolState:<Node#67295309304552>
 >     PatrolState (Node)
 >       script: res://Enemies/Guard/States/patrol_state.gd
 >     CaughtState (Node)
@@ -3694,8 +3697,8 @@ VillageOutskirts (Node2D)
 >   > ray_count = 75
 >   > max_distance = 150.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#111010191083200>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#111010157527407>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#67295393190631>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#67295359636203>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -3743,7 +3746,7 @@ VillageOutskirts (Node2D)
 >   > collision_mask = 2
 >   StateMachine (Node)
 >     script: res://Enemies/Guard/States/guard_state_machine.gd
->   > initial_state = PatrolState:<Node#111010358868697>
+>   > initial_state = PatrolState:<Node#67295560964121>
 >     PatrolState (Node)
 >       script: res://Enemies/Guard/States/patrol_state.gd
 >     CaughtState (Node)
@@ -3755,8 +3758,8 @@ VillageOutskirts (Node2D)
 >   > ray_count = 75
 >   > max_distance = 150.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#111010442754768>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#111010409200341>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#67295644848804>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#67295611296347>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -3824,7 +3827,7 @@ Player (CharacterBody2D)
 > > animation = idle
 > > autoplay = "idle"
 > AnimationPlayer (AnimationPlayer)
-> > libraries = {"":"<AnimationLibrary#-9223369872308618016>"}
+> > libraries = {"":"<AnimationLibrary#-9223369869255164737>"}
 > SlidingCollision (CollisionShape2D)
 > > position = (4.0, 37.0089)
 > > disabled = true
@@ -3843,7 +3846,7 @@ Player (CharacterBody2D)
 > > disabled = true
 > HeadClearanceRaycast (RayCast2D)
 > > position = (1.88593, 25.0089)
-> > target_position = (0.095797, -20.9998)
+> > target_position = (0.109488, -23.99979)
 > > collision_mask = 2
 > Timers (Node)
 >   groups = [&"timers"]
@@ -3922,6 +3925,13 @@ Player (CharacterBody2D)
 >     groups = [&"timers"]
 >   > one_shot = true
 >   SlideGraceTimer (Timer)
+>     groups = [&"timers"]
+>   > one_shot = true
+>   CrouchGraceTimer (Timer)
+>     groups = [&"timers"]
+>   > wait_time = 0.1
+>   > one_shot = true
+>   StandingSlideCooldownTimer (Timer)
 >     groups = [&"timers"]
 >   > one_shot = true
 > DashParticles (GPUParticles2D)
@@ -4013,7 +4023,7 @@ SceneManager (CanvasLayer)
 > script: res://Singletons/SceneManager.gd
 > scene: res://Singletons/SceneManager.tscn
 > process_mode = 3
-> scene_entries = ["<Resource#-9223261022452598053>","<Resource#-9223261022435820838>"]
+> scene_entries = ["<Resource#-9223304737183395041>","<Resource#-9223304737166617826>"]
 > player_scene = res://Player/PlayerScene.tscn
 > ColorRect (ColorRect)
 > > anchors_preset = 15
@@ -4023,7 +4033,7 @@ SceneManager (CanvasLayer)
 > > grow_vertical = 2
 > > color = (0.0, 0.0, 0.0, 0.0)
 > AnimationPlayer (AnimationPlayer)
-> > libraries = {"":"<AnimationLibrary#-9223261022368712006>"}
+> > libraries = {"":"<AnimationLibrary#-9223304737099509064>"}
 
 --- SCENE: res://UserInterface/DialogueBox.tscn ---
 DialogueBox (CanvasLayer)
@@ -21012,24 +21022,23 @@ class_name PlayerStats
 extends Resource
 
 @export_group("Movement & Physics")
-
-@export_group("Movement & Physics")
-@export var speed: float = 500.0
-@export var air_control_acceleration: float = 100.0
+@export var speed: float = 350.0
+@export var air_control_acceleration: float = 250.0
 @export var terminal_velocity: float = 750.0
 @export var acceleration_smoothness: float = 0.1
-@export var friction_smoothness: float = 0.2
+@export var friction_smoothness: float = 0.3
 
 @export_group("Jumping & Gravity")
 @export var jump_height: float = 120.0
 @export var time_to_apex: float = 0.5
 @export var fall_gravity: float = 2400.0
-@export var jump_cut_multiplier: float = 0.5
+@export var jump_cut_multiplier: float = 0.3
 
 @export_group("Abilities")
 @export var glide_velocity: float = 300.0
 @export var blink_dash_enabled: bool = false
-@export var slide_duration: float = 0.5
+@export var slide_duration: float = 0.4
+@export var standing_slide_speed: float = 375.0
 @export var slide_friction: float = 0.01
 @export var skid_duration: float = 0.25
 @export var skid_friction: float = 0.25
@@ -21054,21 +21063,17 @@ extends Resource
 @export var wall_detach_gravity_scale: float = 0.5
 
 # --- Calculated Values ---
-# These are not exported, but are calculated for our script to use.
 var jump_velocity: float
 var jump_gravity: float
 var charged_jump_velocity: float
 
 
-# This function runs when the resource is first loaded.
 func _init() -> void:
-	# We can still use our nice tuning variables to calculate the physics.
 	if time_to_apex > 0:
 		jump_gravity = (2 * jump_height) / (time_to_apex * time_to_apex)
 		jump_velocity = -jump_gravity * time_to_apex
 		charged_jump_velocity = jump_velocity * 1.5
 	else:
-		# Provide default values if time_to_apex is zero to avoid division errors.
 		jump_gravity = 1200.0
 		jump_velocity = -600.0
 		charged_jump_velocity = -900.0
@@ -21363,6 +21368,7 @@ const COMBO_STATES: Array[String] = ["Jumping", "OnWall", "Dashing", "Sliding"]
 var current_jumps = 0
 var can_dash: bool = true
 var can_wall_stick: bool = true
+var can_standing_slide: bool = true
 var is_jump_charged: bool = false
 var jump_buffered: bool = false
 var is_long_fall: bool = false # Used by CameraLogic
@@ -21391,6 +21397,7 @@ var _interact_held: bool = false
 @onready var skid_timer = $Timers/SkidTimer
 @onready var wall_coyote_timer = $Timers/WallCoyoteTimer
 @onready var slide_timer = $Timers/SlideTimer
+@onready var standing_slide_cooldown_timer = $Timers/StandingSlideCooldownTimer
 @onready var head_clearance_ray = $HeadClearanceRaycast
 @onready var animation_controller = $AnimationController
 @onready var vfx = $VFX
@@ -21403,6 +21410,7 @@ var _interact_held: bool = false
 @onready var combo_timer: Timer = $Timers/ComboTimer
 @onready var combo_reset_timer: Timer = $Timers/ComboResetTimer
 @onready var slide_grace_timer: Timer = $Timers/SlideGraceTimer
+@onready var crouch_grace_timer: Timer = $Timers/CrouchGraceTimer
 
 func _ready():
 	# The jump physics calculations are now handled by the resource itself!
@@ -21420,6 +21428,7 @@ func _ready():
 	skid_timer.timeout.connect(_on_skid_timer_timeout)
 	wall_coyote_timer.timeout.connect(_on_wall_coyote_timer_timeout)
 	slide_timer.timeout.connect(_on_slide_timer_timeout)
+	standing_slide_cooldown_timer.timeout.connect(_on_standing_slide_cooldown_timer_timeout)
 	wall_detach_timer.timeout.connect(_on_wall_detach_timer_timeout)
 	invisibility_timer.timeout.connect(_on_invisibility_timer_timeout)
 	invisibility_cooldown_timer.timeout.connect(_on_invisibility_cooldown_timer_timeout)
@@ -21438,11 +21447,6 @@ func _physics_process(_delta: float):
 
 	if not is_instance_valid(stats):
 		return
-	
-	# DELETE THIS BLOCK:
-	# if Input.is_action_just_pressed("interact_world"):
-	#	 # Emit on the EventBus now
-	#	 EventBus.interact_pressed.emit()
 	
 	velocity.y = min(velocity.y, stats.terminal_velocity)
 	_handle_global_inputs()
@@ -21522,9 +21526,7 @@ func _enter_invisibility():
 # --- Timer Callbacks ---
 
 func _on_dash_timer_timeout():
-	# If the timer runs out normally, do the cleanup...
 	end_dash()
-	# ...and then transition to the FallingState.
 	state_machine.change_state("Falling")
 
 func _on_dash_cooldown_timer_timeout():
@@ -21566,7 +21568,6 @@ func _on_land_timer_timeout():
 func _on_fall_zoom_timer_timeout():
 	if not is_on_floor():
 		is_long_fall = true
-		# Announce that a long fall has begun.
 		long_fall_started.emit()
 
 func _on_wall_slip_timer_timeout():
@@ -21590,6 +21591,9 @@ func _on_slide_timer_timeout():
 		else:
 			state_machine.change_state("Crouching")
 
+func _on_standing_slide_cooldown_timer_timeout():
+	can_standing_slide = true
+
 func _on_wall_detach_timer_timeout():
 	if state_machine.current_state.name == "WallDetachState":
 		state_machine.change_state("Falling")
@@ -21604,64 +21608,50 @@ func _unhandled_input(event: InputEvent) -> void:
 		EventBus.interaction_cancelled.emit()
 		
 func end_dash() -> void:
-	# Don't do anything if we aren't actually in the DashingState.
 	if state_machine.current_state.name != "DashingState":
 		return
 
-	# Perform all cleanup.
 	vfx.stop_dash_effects()
 	dash_cooldown_timer.start(DASH_COOLDOWN)
 	
 	
 func _on_state_changed(new_state_name: String) -> void:
-	# Check if the new state is a valid move that can extend a combo.
 	if new_state_name in COMBO_STATES:
-		# Any valid combo move stops the "on ground" reset timer.
 		combo_reset_timer.stop()
 		
-		# To be a valid combo link, the move must be unique.
 		if not new_state_name in _combo_chain:
 			_add_move_to_combo(new_state_name)
 			
-	# If the player is idle or running, start the timer to reset the combo.
 	elif new_state_name in ["Idle", "Running"]:
 		combo_reset_timer.start(1.5)
 
 
-# This function handles adding a move and checking for success.
 func _add_move_to_combo(move_name: String) -> void:
-	# Restart the 1-second timer for the next move in the chain.
 	combo_timer.start(1.0)
 	_combo_chain.append(move_name)
 	
-	print("Combo Chain: ", _combo_chain) # For debugging
+	print("Combo Chain: ", _combo_chain)
 
-	# Check for a successful 3-move combo.
 	if _combo_chain.size() >= 3:
 		EventBus.flow_combo_success.emit()
-		print("--- FLOW COMBO SUCCESS! ---") # For debugging
+		print("--- FLOW COMBO SUCCESS! ---")
 
 
-# This function resets the combo chain.
 func _reset_combo() -> void:
 	if not _combo_chain.is_empty():
 		_combo_chain.clear()
-		print("Combo Reset.") # For debugging
+		print("Combo Reset.")
 
 
-# This timer fires if there's >1 second between combo moves.
 func _on_combo_timer_timeout() -> void:
 	_reset_combo()
 
 
-# This timer fires if the player is on the ground for >1.5 seconds.
 func _on_combo_reset_timer_timeout() -> void:
 	_reset_combo()
-# This function allows other nodes, like the camera, to safely
-# ask the player what it's currently doing.
+
 func get_current_state_name() -> String:
 	if state_machine and is_instance_valid(state_machine.current_state):
-		# We return the name of the state's node, e.g., "OnWallState"
 		return state_machine.current_state.name
 	return ""
 
@@ -21672,31 +21662,32 @@ extends State
 func enter() -> void:
 	player.set_crouching_collision()
 	player.crouch_timer.start(player.JUMP_CHARGE_DURATION)
-	player.is_jump_charged = false # Reset the charged flag.
+	player.is_jump_charged = false
+	# Start the grace period to allow physics to settle
+	player.crouch_grace_timer.start()
 
 
 func exit() -> void:
-	# Stop the timer when we leave this state.
 	player.crouch_timer.stop()
-	# Change collision back to standing, but only if there's room.
+	player.crouch_grace_timer.stop() # Ensure timer is stopped on exit
 	if player.is_head_clear():
 		player.set_standing_collision()
 
 
 func process_physics(_delta: float) -> void:
-	# ADD THIS CHECK: If we are not on the floor, we should be falling.
-	if not player.is_on_floor():
+	# Only check for falling AFTER the grace period is over.
+	if player.crouch_grace_timer.is_stopped() and not player.is_on_floor():
 		state_machine.change_state("Falling")
-		return # Exit early.
+		return
 
 	var input_x: float = Input.get_axis("left", "right")
 
-	# Apply movement at a reduced speed
 	var target_velocity_x = input_x * player.stats.speed * player.stats.crouch_speed_multiplier
 	player.velocity.x = lerp(player.velocity.x, target_velocity_x, player.stats.acceleration_smoothness)
 	
-	# --- Handle State Transitions ---
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed("slide") and player.can_standing_slide:
+		state_machine.change_state("Sliding")
+	elif Input.is_action_just_pressed("jump"):
 		if player.is_head_clear():
 			if player.is_jump_charged:
 				player.velocity.y = player.stats.charged_jump_velocity
@@ -21842,27 +21833,24 @@ func process_physics(_delta: float) -> void:
 extends State
 
 func enter() -> void:
-	# Play the idle animation.
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.IDLE, player.velocity, Vector2.ZERO, input_x)
 
 
 func process_physics(_delta: float) -> void:
-	# First, apply friction to slow the player down.
 	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.friction_smoothness)
 	
 	var input_x: float = Input.get_axis("left", "right")
 	
-	# This structure creates a clear priority for inputs.
-	# The game will only check for the next action if the one above it is false.
 	if Input.is_action_just_pressed("jump"):
 		state_machine.change_state("Jumping")
+	elif Input.is_action_just_pressed("slide") and player.can_standing_slide:
+		state_machine.change_state("Sliding")
 	elif Input.is_action_pressed("down"):
 		state_machine.change_state("Crouching")
 	elif input_x != 0:
 		state_machine.change_state("Running")
 	elif not player.is_on_floor():
-		# This handles walking off a ledge.
 		player.coyote_timer.start(player.stats.coyote_time_duration)
 		player.fall_zoom_timer.start(player.stats.fall_zoom_delay)
 		state_machine.change_state("Falling")
@@ -22083,26 +22071,32 @@ func process_physics(_delta: float) -> void:
 # res://Player/States/SlidingState.gd
 extends State
 
-# We no longer need an @onready var here.
-
 func enter() -> void:
-	# Start the grace period using the reference from the main player script.
+	player.slide_grace_timer.wait_time = 0.1
 	player.slide_grace_timer.start()
 	
 	player.slide_timer.start(player.stats.slide_duration)
 	player.set_crouching_collision()
+
+	# Check if this is a standing slide and trigger the cooldown
+	if abs(player.velocity.x) < 10.0:
+		var direction = 1.0 if not player.animated_sprite.flip_h else -1.0
+		player.velocity.x = player.stats.standing_slide_speed * direction
+		player.can_standing_slide = false
+		player.standing_slide_cooldown_timer.start(1.0)
+
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.SLIDING, player.velocity, Vector2.ZERO, input_x)
 
 func exit() -> void:
 	player.slide_timer.stop()
+	player.slide_grace_timer.stop()
 	if player.is_head_clear():
 		player.set_standing_collision()
 
 func process_physics(_delta: float) -> void:
 	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.slide_friction)
 
-	# Use the clean reference here as well.
 	if player.slide_grace_timer.is_stopped() and not player.is_on_floor():
 		state_machine.change_state("Falling")
 		return
@@ -22177,6 +22171,8 @@ func change_state(state_name: String):
 	# Don't change to the same state.
 	if current_state.name == new_state_node_name:
 		return
+	
+	DebugManager.log(DebugManager.Category.PLAYER_STATE, "Changing state from '%s' to '%s'" % [current_state.name, new_state_node_name])
 	
 	# Call the exit function on the current state.
 	if current_state:
@@ -22315,36 +22311,41 @@ extends Node
 @export_group("Log Categories")
 @export var show_interaction_logs: bool = false
 @export var show_player_state_logs: bool = false
+@export var show_player_physics_logs: bool = false
 @export var show_game_state_logs: bool = false
+@export var show_checkpoint_logs: bool = false
 
 @export_group("Camera Logs")
 @export var show_camera_logs_horizontal: bool = false
 @export var show_camera_logs_vertical: bool = false
-# NEW: A dedicated toggle for our ledge detection logs.
 @export var show_camera_ledge_peek_logs: bool = false
 
 
 enum Category {
 	INTERACTION,
 	PLAYER_STATE,
-	GAME_STATE
+	PLAYER_PHYSICS,
+	GAME_STATE,
+	CHECKPOINT
 }
 
-static func log(category: Category, message: String) -> void:
-	if not Engine.has_singleton("DebugManager"):
-		return
-
-	var instance = Engine.get_singleton("DebugManager")
-	if not is_instance_valid(instance): return
-
+# The "static" keyword has been removed. This is now an instance method,
+# just like the camera log functions.
+func log(category: Category, message: String) -> void:
+	# We no longer need to fetch the instance from the Engine. Since this is an
+	# instance method, we can directly access our own exported variables.
 	var should_log: bool = false
 	match category:
 		Category.INTERACTION:
-			should_log = instance.show_interaction_logs
+			should_log = show_interaction_logs
 		Category.PLAYER_STATE:
-			should_log = instance.show_player_state_logs
+			should_log = show_player_state_logs
+		Category.PLAYER_PHYSICS:
+			should_log = show_player_physics_logs
 		Category.GAME_STATE:
-			should_log = instance.show_game_state_logs
+			should_log = show_game_state_logs
+		Category.CHECKPOINT:
+			should_log = show_checkpoint_logs
 
 	if should_log:
 		print("[QA LOG]: ", message)
@@ -22361,7 +22362,7 @@ func print_camera_log_vertical(player_y: float, target_y: float, diff: float, de
 		var log_message = "PlayerY: %.1f | TargetY: %.1f | DiffY: %.1f | DeadzoneY: %.1f" % [player_y, target_y, diff, deadzone]
 		print("[QA LOG | CAMERA V]: ", log_message)
 
-# NEW: A dedicated function for ledge peek status.
+
 func print_ledge_peek_log(is_peeking: bool, reason: String):
 	if show_camera_ledge_peek_logs:
 		print("[QA LOG | LEDGE PEEK]: Peeking is %s. Reason: %s" % [is_peeking, reason])

@@ -16,6 +16,7 @@ jump_cut_multiplier = 0.3
 glide_velocity = 300.0
 blink_dash_enabled = false
 slide_duration = 0.4
+standing_slide_speed = 375.0
 slide_friction = 0.01
 skid_duration = 0.25
 skid_friction = 0.25
