@@ -16,6 +16,7 @@ func enter() -> void:
 		
 		# Tell the new scene to play the correct animation for landing.
 		effect.play_effect("jump_puff")
+
 	
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.LANDING, player.velocity, Vector2.ZERO, input_x)

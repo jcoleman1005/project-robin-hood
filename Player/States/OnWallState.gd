@@ -7,21 +7,17 @@ func _ready() -> void:
 
 
 func enter() -> void:
-	# First, determine which wall we are on.
 	var wall_normal = player.get_wall_normal()
 	
-	# Play the correct offset animation based on the wall's direction.
-	if wall_normal.x > 0: # A positive normal means the wall is on the LEFT.
+	if wall_normal.x > 0:
 		player.animation_player.play("wall_slide_offset_left")
-	else: # A negative normal means the wall is on the RIGHT.
+	else:
 		player.animation_player.play("wall_slide_offset_right")
 	
-	# --- The rest of the function is the same ---
 	player.set_wall_slide_collision()
 	player.current_jumps = 0
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.ON_WALL, player.velocity, wall_normal, input_x)
-	# THE FIX: Manually start the timer when entering the state.
 	particle_timer.start()
 	
 func process_physics(delta: float) -> void:
@@ -34,7 +30,6 @@ func process_physics(delta: float) -> void:
 		state_machine.change_state("Falling")
 		return
 
-	# Use stats resource for physics values
 	player.velocity.y = move_toward(player.velocity.y, player.stats.wall_slide_friction, player.stats.fall_gravity * delta)
 	player.velocity.x = -player.get_wall_normal().x * 5.0
 
@@ -50,32 +45,29 @@ func process_physics(delta: float) -> void:
 		state_machine.change_state("Idle")
 
 func exit() -> void:
-	# THE FIX: Stop the timer when leaving the state to prevent further particle spawning.
 	particle_timer.stop()
-	# Play the reset animation when we leave this state.
 	player.animation_player.play("RESET")
 	
 	
 func _on_particle_timer_timeout() -> void:
-	if player.dust_puff_scene:
-		var puff = player.dust_puff_scene.instantiate()
-		# Add to the root of the tree for consistency and robustness.
-		get_tree().root.add_child(puff)
-		# Position the puff between the player and the wall
+	if player.dust_puff_scene: # This variable now holds AnimatedEffect.tscn
+		var effect = player.dust_puff_scene.instantiate()
+		get_tree().root.add_child(effect)
+		
 		var wall_offset = player.get_wall_normal() * -10
-		puff.global_position = player.get_node("WallSlideSpawner").global_position + wall_offset
+		effect.global_position = player.get_node("WallSlideSpawner").global_position + wall_offset
 		
-		# --- NEW SCALING LOGIC ---
-		puff.scale = Vector2(0.5, 0.5) # Scale the particles down by 50%
-		# --- END NEW LOGIC ---
+		# --- NEW ANIMATED EFFECT LOGIC ---
+		# Determine rotation based on wall normal
+		if player.get_wall_normal().x > 0: # Wall is on the left
+			effect.rotation_degrees = 90
+		else: # Wall is on the right
+			effect.rotation_degrees = -90
 		
-		# --- NEW ROTATION LOGIC ---
-		var wall_normal = player.get_wall_normal()
-		if wall_normal.x > 0: # Wall is on the left, puff should go right.
-			puff.rotation_degrees = 90
-		else: # Wall is on the right, puff should go left.
-			puff.rotation_degrees = -90
+		# Scale the effect down
+		effect.scale = Vector2(0.5, 0.5)
+		
+		# Tell the new scene to play the correct animation for wall sliding.
+		effect.play_effect("dash_puff")
 		# --- END NEW LOGIC ---
 
-		# Tell the particles to start emitting.
-		puff.emitting = true

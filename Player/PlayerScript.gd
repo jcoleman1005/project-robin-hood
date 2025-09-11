@@ -29,6 +29,7 @@ const COMBO_STATES: Array[String] = ["Jumping", "OnWall", "Dashing", "Sliding"]
 var current_jumps = 0
 var can_dash: bool = true
 var can_wall_stick: bool = true
+var can_standing_slide: bool = true
 var is_jump_charged: bool = false
 var jump_buffered: bool = false
 var is_long_fall: bool = false # Used by CameraLogic
@@ -57,6 +58,7 @@ var _interact_held: bool = false
 @onready var skid_timer = $Timers/SkidTimer
 @onready var wall_coyote_timer = $Timers/WallCoyoteTimer
 @onready var slide_timer = $Timers/SlideTimer
+@onready var standing_slide_cooldown_timer = $Timers/StandingSlideCooldownTimer
 @onready var head_clearance_ray = $HeadClearanceRaycast
 @onready var animation_controller = $AnimationController
 @onready var vfx = $VFX
@@ -68,7 +70,8 @@ var _interact_held: bool = false
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var combo_timer: Timer = $Timers/ComboTimer
 @onready var combo_reset_timer: Timer = $Timers/ComboResetTimer
-@onready var slide_grace_timer: Timer = $Timers/SlideGraceTimer
+@onready var ground_ray: RayCast2D = $GroundRay
+
 
 func _ready():
 	# The jump physics calculations are now handled by the resource itself!
@@ -86,6 +89,7 @@ func _ready():
 	skid_timer.timeout.connect(_on_skid_timer_timeout)
 	wall_coyote_timer.timeout.connect(_on_wall_coyote_timer_timeout)
 	slide_timer.timeout.connect(_on_slide_timer_timeout)
+	standing_slide_cooldown_timer.timeout.connect(_on_standing_slide_cooldown_timer_timeout)
 	wall_detach_timer.timeout.connect(_on_wall_detach_timer_timeout)
 	invisibility_timer.timeout.connect(_on_invisibility_timer_timeout)
 	invisibility_cooldown_timer.timeout.connect(_on_invisibility_cooldown_timer_timeout)
@@ -104,11 +108,6 @@ func _physics_process(_delta: float):
 
 	if not is_instance_valid(stats):
 		return
-	
-	# DELETE THIS BLOCK:
-	# if Input.is_action_just_pressed("interact_world"):
-	#	 # Emit on the EventBus now
-	#	 EventBus.interact_pressed.emit()
 	
 	velocity.y = min(velocity.y, stats.terminal_velocity)
 	_handle_global_inputs()
@@ -188,9 +187,7 @@ func _enter_invisibility():
 # --- Timer Callbacks ---
 
 func _on_dash_timer_timeout():
-	# If the timer runs out normally, do the cleanup...
 	end_dash()
-	# ...and then transition to the FallingState.
 	state_machine.change_state("Falling")
 
 func _on_dash_cooldown_timer_timeout():
@@ -232,7 +229,6 @@ func _on_land_timer_timeout():
 func _on_fall_zoom_timer_timeout():
 	if not is_on_floor():
 		is_long_fall = true
-		# Announce that a long fall has begun.
 		long_fall_started.emit()
 
 func _on_wall_slip_timer_timeout():
@@ -256,6 +252,9 @@ func _on_slide_timer_timeout():
 		else:
 			state_machine.change_state("Crouching")
 
+func _on_standing_slide_cooldown_timer_timeout():
+	can_standing_slide = true
+
 func _on_wall_detach_timer_timeout():
 	if state_machine.current_state.name == "WallDetachState":
 		state_machine.change_state("Falling")
@@ -270,63 +269,49 @@ func _unhandled_input(event: InputEvent) -> void:
 		EventBus.interaction_cancelled.emit()
 		
 func end_dash() -> void:
-	# Don't do anything if we aren't actually in the DashingState.
 	if state_machine.current_state.name != "DashingState":
 		return
 
-	# Perform all cleanup.
 	vfx.stop_dash_effects()
 	dash_cooldown_timer.start(DASH_COOLDOWN)
 	
 	
 func _on_state_changed(new_state_name: String) -> void:
-	# Check if the new state is a valid move that can extend a combo.
 	if new_state_name in COMBO_STATES:
-		# Any valid combo move stops the "on ground" reset timer.
 		combo_reset_timer.stop()
 		
-		# To be a valid combo link, the move must be unique.
 		if not new_state_name in _combo_chain:
 			_add_move_to_combo(new_state_name)
 			
-	# If the player is idle or running, start the timer to reset the combo.
 	elif new_state_name in ["Idle", "Running"]:
 		combo_reset_timer.start(1.5)
 
 
-# This function handles adding a move and checking for success.
 func _add_move_to_combo(move_name: String) -> void:
-	# Restart the 1-second timer for the next move in the chain.
 	combo_timer.start(1.0)
 	_combo_chain.append(move_name)
 	
-	print("Combo Chain: ", _combo_chain) # For debugging
+	print("Combo Chain: ", _combo_chain)
 
-	# Check for a successful 3-move combo.
 	if _combo_chain.size() >= 3:
 		EventBus.flow_combo_success.emit()
-		print("--- FLOW COMBO SUCCESS! ---") # For debugging
+		print("--- FLOW COMBO SUCCESS! ---")
 
 
-# This function resets the combo chain.
 func _reset_combo() -> void:
 	if not _combo_chain.is_empty():
 		_combo_chain.clear()
-		print("Combo Reset.") # For debugging
+		print("Combo Reset.")
 
 
-# This timer fires if there's >1 second between combo moves.
 func _on_combo_timer_timeout() -> void:
 	_reset_combo()
 
 
-# This timer fires if the player is on the ground for >1.5 seconds.
 func _on_combo_reset_timer_timeout() -> void:
 	_reset_combo()
-# This function allows other nodes, like the camera, to safely
-# ask the player what it's currently doing.
+
 func get_current_state_name() -> String:
 	if state_machine and is_instance_valid(state_machine.current_state):
-		# We return the name of the state's node, e.g., "OnWallState"
 		return state_machine.current_state.name
 	return ""
