@@ -21,6 +21,8 @@ func enter() -> void:
 	player.current_jumps = 0
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.ON_WALL, player.velocity, wall_normal, input_x)
+	# THE FIX: Manually start the timer when entering the state.
+	particle_timer.start()
 	
 func process_physics(delta: float) -> void:
 	var input_x: float = Input.get_axis("left", "right")
@@ -48,6 +50,8 @@ func process_physics(delta: float) -> void:
 		state_machine.change_state("Idle")
 
 func exit() -> void:
+	# THE FIX: Stop the timer when leaving the state to prevent further particle spawning.
+	particle_timer.stop()
 	# Play the reset animation when we leave this state.
 	player.animation_player.play("RESET")
 	
@@ -55,7 +59,23 @@ func exit() -> void:
 func _on_particle_timer_timeout() -> void:
 	if player.dust_puff_scene:
 		var puff = player.dust_puff_scene.instantiate()
-		player.get_parent().add_child(puff)
+		# Add to the root of the tree for consistency and robustness.
+		get_tree().root.add_child(puff)
 		# Position the puff between the player and the wall
 		var wall_offset = player.get_wall_normal() * -10
 		puff.global_position = player.get_node("WallSlideSpawner").global_position + wall_offset
+		
+		# --- NEW SCALING LOGIC ---
+		puff.scale = Vector2(0.5, 0.5) # Scale the particles down by 50%
+		# --- END NEW LOGIC ---
+		
+		# --- NEW ROTATION LOGIC ---
+		var wall_normal = player.get_wall_normal()
+		if wall_normal.x > 0: # Wall is on the left, puff should go right.
+			puff.rotation_degrees = 90
+		else: # Wall is on the right, puff should go left.
+			puff.rotation_degrees = -90
+		# --- END NEW LOGIC ---
+
+		# Tell the particles to start emitting.
+		puff.emitting = true

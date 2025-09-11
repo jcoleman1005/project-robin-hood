@@ -149,7 +149,7 @@ func wall_jump(wall_normal_override: Vector2 = Vector2.ZERO):
 # Spawn a burst of particles
 	if dust_puff_scene:
 		var puff = dust_puff_scene.instantiate()
-		get_parent().add_child(puff)
+		get_tree().root.add_child(puff)
 		var wall_offset = get_wall_normal() * -15
 		puff.global_position = get_node("WallSlideSpawner").global_position + wall_offset
 		

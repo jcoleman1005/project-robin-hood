@@ -5,9 +5,9 @@
 [ext_resource type="Resource" uid="uid://st5loweg5geo" path="res://Player/Data/player_stats.tres" id="2_bjedy"]
 [ext_resource type="Texture2D" uid="uid://cvxrk53lw3fx8" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_Fall.png" id="2_i061b"]
 [ext_resource type="Texture2D" uid="uid://b0yh1iumdaukq" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_Dash.png" id="2_ogexg"]
+[ext_resource type="PackedScene" uid="uid://b65sf7txtiy3x" path="res://VFX/AnimatedEffect.tscn" id="3_ac1bf"]
 [ext_resource type="Texture2D" uid="uid://upxnk3ip0shx" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_Idle.png" id="3_ogexg"]
 [ext_resource type="Texture2D" uid="uid://bpusubmn18t4h" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_CrouchWalk.png" id="3_ux3fp"]
-[ext_resource type="PackedScene" uid="uid://d1vfdxyl0atfj" path="res://VFX/DustPuff.tscn" id="3_vbs5d"]
 [ext_resource type="Texture2D" uid="uid://b86872nnm80rx" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_Jump.png" id="4_74o77"]
 [ext_resource type="Texture2D" uid="uid://c0dokmlg6n51c" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_JumpFallInbetween.png" id="5_4tc8y"]
 [ext_resource type="Texture2D" uid="uid://ddte03unngebc" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_Run.png" id="6_owe82"]
@@ -757,12 +757,12 @@ rotation = -0.00456183
 collision_mask = 2
 script = ExtResource("1_mom48")
 stats = ExtResource("2_bjedy")
-dust_puff_scene = ExtResource("3_vbs5d")
+dust_puff_scene = ExtResource("3_ac1bf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(5, 3)
 sprite_frames = SubResource("SpriteFrames_pwdtq")
-animation = &"idle"
+animation = &"wall slide"
 autoplay = "idle"
 metadata/_edit_group_ = true
 
@@ -934,7 +934,6 @@ metadata/_custom_type_script = "uid://814l5d1kyhhw"
 
 [node name="ParticleTimer" type="Timer" parent="StateMachine/OnWallState"]
 wait_time = 0.1
-autostart = true
 
 [node name="WallStickingState" type="Node" parent="StateMachine"]
 script = ExtResource("25_g2mjx")
@@ -1010,4 +1009,4 @@ target_position = Vector2(0, 60)
 position = Vector2(0.791757, 43.0041)
 
 [node name="WallSlideSpawner" type="Marker2D" parent="."]
-position = Vector2(1.85761, 25.0089)
+position = Vector2(-4.10944, 23.9815)

@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://d1vfdxyl0atfj"]
+[gd_scene load_steps=6 format=3 uid="uid://d1vfdxyl0atfj"]
 
 [ext_resource type="Texture2D" uid="uid://dkv12hms3cynh" path="res://assets/dustparticles/dust1.png" id="1_ftofd"]
+[ext_resource type="Script" uid="uid://covgtgsjoo63s" path="res://VFX/DustPuff.gd" id="2_mv4qd"]
 
 [sub_resource type="Curve" id="Curve_ftofd"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.992958, 0), 0.0, 0.0, 0, 0]
@@ -28,3 +29,4 @@ lifetime = 0.3
 one_shot = true
 explosiveness = 0.9
 process_material = SubResource("ParticleProcessMaterial_fydcl")
+script = ExtResource("2_mv4qd")

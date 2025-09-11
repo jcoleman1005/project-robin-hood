@@ -9,11 +9,13 @@ func enter() -> void:
 
 	player.land_timer.start(player.LANDING_DURATION)
 
-	if player.dust_puff_scene:
-		var puff = player.dust_puff_scene.instantiate()
-		get_tree().root.add_child(puff)
-		puff.global_position = player.get_node("FootSpawner").global_position
-		puff.emitting = true
+	if player.dust_puff_scene: # This variable now holds AnimatedEffect.tscn
+		var effect = player.dust_puff_scene.instantiate()
+		get_tree().root.add_child(effect)
+		effect.global_position = player.get_node("FootSpawner").global_position
+		
+		# Tell the new scene to play the correct animation for landing.
+		effect.play_effect("jump_puff")
 	
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.LANDING, player.velocity, Vector2.ZERO, input_x)
