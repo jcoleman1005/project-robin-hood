@@ -2,24 +2,23 @@ class_name PlayerStats
 extends Resource
 
 @export_group("Movement & Physics")
-
-@export_group("Movement & Physics")
-@export var speed: float = 500.0
-@export var air_control_acceleration: float = 100.0
+@export var speed: float = 350.0
+@export var air_control_acceleration: float = 250.0
 @export var terminal_velocity: float = 750.0
 @export var acceleration_smoothness: float = 0.1
-@export var friction_smoothness: float = 0.2
+@export var friction_smoothness: float = 0.3
 
 @export_group("Jumping & Gravity")
 @export var jump_height: float = 120.0
 @export var time_to_apex: float = 0.5
 @export var fall_gravity: float = 2400.0
-@export var jump_cut_multiplier: float = 0.5
+@export var jump_cut_multiplier: float = 0.3
 
 @export_group("Abilities")
 @export var glide_velocity: float = 300.0
 @export var blink_dash_enabled: bool = false
-@export var slide_duration: float = 0.5
+@export var slide_duration: float = 0.4
+@export var standing_slide_speed: float = 375.0
 @export var slide_friction: float = 0.01
 @export var skid_duration: float = 0.25
 @export var skid_friction: float = 0.25
@@ -44,21 +43,17 @@ extends Resource
 @export var wall_detach_gravity_scale: float = 0.5
 
 # --- Calculated Values ---
-# These are not exported, but are calculated for our script to use.
 var jump_velocity: float
 var jump_gravity: float
 var charged_jump_velocity: float
 
 
-# This function runs when the resource is first loaded.
 func _init() -> void:
-	# We can still use our nice tuning variables to calculate the physics.
 	if time_to_apex > 0:
 		jump_gravity = (2 * jump_height) / (time_to_apex * time_to_apex)
 		jump_velocity = -jump_gravity * time_to_apex
 		charged_jump_velocity = jump_velocity * 1.5
 	else:
-		# Provide default values if time_to_apex is zero to avoid division errors.
 		jump_gravity = 1200.0
 		jump_velocity = -600.0
 		charged_jump_velocity = -900.0

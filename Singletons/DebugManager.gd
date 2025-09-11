@@ -4,6 +4,7 @@ extends Node
 @export_group("Log Categories")
 @export var show_interaction_logs: bool = false
 @export var show_player_state_logs: bool = false
+@export var show_player_physics_logs: bool = false
 @export var show_game_state_logs: bool = false
 @export var show_checkpoint_logs: bool = false
 
@@ -16,27 +17,28 @@ extends Node
 enum Category {
 	INTERACTION,
 	PLAYER_STATE,
+	PLAYER_PHYSICS,
 	GAME_STATE,
 	CHECKPOINT
 }
 
-static func log(category: Category, message: String) -> void:
-	if not Engine.has_singleton("DebugManager"):
-		return
-
-	var instance = Engine.get_singleton("DebugManager")
-	if not is_instance_valid(instance): return
-
+# The "static" keyword has been removed. This is now an instance method,
+# just like the camera log functions.
+func log(category: Category, message: String) -> void:
+	# We no longer need to fetch the instance from the Engine. Since this is an
+	# instance method, we can directly access our own exported variables.
 	var should_log: bool = false
 	match category:
 		Category.INTERACTION:
-			should_log = instance.show_interaction_logs
+			should_log = show_interaction_logs
 		Category.PLAYER_STATE:
-			should_log = instance.show_player_state_logs
+			should_log = show_player_state_logs
+		Category.PLAYER_PHYSICS:
+			should_log = show_player_physics_logs
 		Category.GAME_STATE:
-			should_log = instance.show_game_state_logs
+			should_log = show_game_state_logs
 		Category.CHECKPOINT:
-			should_log = instance.show_checkpoint_logs
+			should_log = show_checkpoint_logs
 
 	if should_log:
 		print("[QA LOG]: ", message)

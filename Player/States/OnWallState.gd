@@ -7,16 +7,13 @@ func _ready() -> void:
 
 
 func enter() -> void:
-	# First, determine which wall we are on.
 	var wall_normal = player.get_wall_normal()
 	
-	# Play the correct offset animation based on the wall's direction.
-	if wall_normal.x > 0: # A positive normal means the wall is on the LEFT.
+	if wall_normal.x > 0:
 		player.animation_player.play("wall_slide_offset_left")
-	else: # A negative normal means the wall is on the RIGHT.
+	else:
 		player.animation_player.play("wall_slide_offset_right")
 	
-	# --- The rest of the function is the same ---
 	player.set_wall_slide_collision()
 	player.current_jumps = 0
 	var input_x: float = Input.get_axis("left", "right")
@@ -32,7 +29,6 @@ func process_physics(delta: float) -> void:
 		state_machine.change_state("Falling")
 		return
 
-	# Use stats resource for physics values
 	player.velocity.y = move_toward(player.velocity.y, player.stats.wall_slide_friction, player.stats.fall_gravity * delta)
 	player.velocity.x = -player.get_wall_normal().x * 5.0
 
@@ -48,7 +44,6 @@ func process_physics(delta: float) -> void:
 		state_machine.change_state("Idle")
 
 func exit() -> void:
-	# Play the reset animation when we leave this state.
 	player.animation_player.play("RESET")
 	
 	
@@ -56,6 +51,5 @@ func _on_particle_timer_timeout() -> void:
 	if player.dust_puff_scene:
 		var puff = player.dust_puff_scene.instantiate()
 		player.get_parent().add_child(puff)
-		# Position the puff between the player and the wall
 		var wall_offset = player.get_wall_normal() * -10
 		puff.global_position = player.get_node("WallSlideSpawner").global_position + wall_offset
