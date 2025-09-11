@@ -15,6 +15,7 @@ signal mission_succeeded
 signal mission_failed
 signal player_detected
 signal player_died
+signal checkpoint_set(position: Vector2)
 
 # --- UI & Game Flow ---
 signal pause_toggled

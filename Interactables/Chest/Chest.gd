@@ -5,21 +5,15 @@ extends StaticBody2D
 @export var floating_text_scene: PackedScene
 @export var text_spawn_offset: Vector2 = Vector2(0, -20)
 
-var _is_opened := false
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var _interactable: Interactable = $InteractionArea
+@onready var _persistence_component: PersistenceComponent = $PersistenceComponent
 
 
 func _ready() -> void:
-	# The parent connects to its child's 'interacted' signal.
 	_interactable.interacted.connect(_on_interacted)
 
-
 func _on_interacted() -> void:
-	if _is_opened:
-		return
-	_is_opened = true
-	
 	animated_sprite.play("open")
 	await animated_sprite.animation_finished
 	
@@ -31,4 +25,10 @@ func _on_interacted() -> void:
 		floating_text_instance.global_position = self.global_position + text_spawn_offset
 		floating_text_instance.show_text("+%d Gold" % gold_amount)
 	
-	queue_free()
+	_persistence_component.mark_collected({"is_collected": true})
+
+# This function is called by the PersistenceComponent if the chest has saved data.
+func _apply_persistent_state(state: Dictionary) -> void:
+	if state.get("is_collected", false):
+		# If this chest was already collected, just remove it from the scene.
+		queue_free()

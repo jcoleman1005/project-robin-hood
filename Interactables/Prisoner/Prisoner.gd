@@ -2,22 +2,19 @@
 extends StaticBody2D
 
 @onready var _interactable: Interactable = $Interactable
+@onready var _persistence_component: PersistenceComponent = $PersistenceComponent
+
 
 func _ready() -> void:
-	# This line connects the interaction signal to our logic function below.
 	_interactable.interacted.connect(_on_interactable_interacted)
 
-
 func _on_interactable_interacted() -> void:
-	# Announce that a villager was rescued. The GameManager will hear this
-	# and update its internal state.
 	EventBus.villager_rescued.emit()
-	queue_free()
+	# Tell the component this prisoner has been rescued.
+	_persistence_component.mark_collected({"is_rescued": true})
 
-
-func _on_body_entered(body: Node2D) -> void:
-	pass # Replace with function body.
-
-
-func _on_body_exited(body: Node2D) -> void:
-	pass # Replace with function body.
+# This function is called by the PersistenceComponent if the prisoner has saved data.
+func _apply_persistent_state(state: Dictionary) -> void:
+	if state.get("is_rescued", false):
+		# If this prisoner was already rescued, remove them from the scene.
+		queue_free()

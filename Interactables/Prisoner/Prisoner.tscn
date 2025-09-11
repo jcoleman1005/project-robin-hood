@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://c408hin1nld2m"]
+[gd_scene load_steps=17 format=3 uid="uid://c408hin1nld2m"]
 
 [ext_resource type="Script" uid="uid://7fbblhvw23re" path="res://Interactables/Prisoner/Prisoner.gd" id="1_mdajx"]
 [ext_resource type="Texture2D" uid="uid://c2t0lai1nkuc5" path="res://assets/CharacterSprites/Samurai/IDLE.png" id="1_slvsn"]
 [ext_resource type="PackedScene" uid="uid://coh7uki86a3k8" path="res://Interactables/Interactable.tscn" id="3_cccd3"]
+[ext_resource type="PackedScene" uid="uid://cujiv8tg42wby" path="res://Interactables/PersistanceComponent.tscn" id="4_whk62"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mdajx"]
 size = Vector2(20, 34)
@@ -99,5 +100,7 @@ frame_progress = 0.383016
 [node name="Interactable" parent="." instance=ExtResource("3_cccd3")]
 position = Vector2(0, 11)
 prompt_message = "Rescue"
+
+[node name="PersistenceComponent" parent="." instance=ExtResource("4_whk62")]
 
 [editable path="Interactable"]

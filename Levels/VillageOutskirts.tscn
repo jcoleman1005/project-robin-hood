@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://ca1sdxhmcglr5" path="res://Levels/VillageOutskirtsTilelayer.tscn" id="1_5s3wr"]
 [ext_resource type="PackedScene" uid="uid://bwabrs1anyrrd" path="res://World/ExitZone.tscn" id="3_y0c8d"]
-[ext_resource type="PackedScene" uid="uid://co2jslwvdsce1" path="res://Interactables/Chest/Chest.tscn" id="4_gi5vt"]
+[ext_resource type="PackedScene" uid="uid://co2jslwvdsce1" path="res://tests/Chest.tscn" id="4_gi5vt"]
 [ext_resource type="PackedScene" uid="uid://c408hin1nld2m" path="res://Interactables/Prisoner/Prisoner.tscn" id="5_5sajb"]
 [ext_resource type="PackedScene" uid="uid://bvxaf08x2ym7h" path="res://Enemies/Guard/Guard.tscn" id="6_0kw78"]
 [ext_resource type="PackedScene" uid="uid://x8baprwvbfbf" path="res://Levels/CameraBoundary.tscn" id="7_k88k2"]

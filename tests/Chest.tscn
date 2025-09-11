@@ -1,16 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://co2jslwvdsce1"]
+[gd_scene load_steps=11 format=3 uid="uid://co2jslwvdsce1"]
 
-[ext_resource type="Script" uid="uid://gg7svemh78c2" path="res://Interactables/Chest/Chest.gd" id="1_cjfl1"]
-[ext_resource type="Texture2D" uid="uid://dm42jd2pose0b" path="res://Interactables/Chest/treasure_chests_32x32.png" id="2_cb0st"]
-[ext_resource type="PackedScene" uid="uid://b20vxhd2moenc" path="res://UserInterface/FloatingText.tscn" id="2_rfhi8"]
-[ext_resource type="Script" uid="uid://bsqq5lbd0k33k" path="res://Interactables/Interactable.gd" id="3_cb0st"]
+[ext_resource type="Script" uid="uid://gg7svemh78c2" path="res://Interactables/Chest/Chest.gd" id="1_hvf5m"]
+[ext_resource type="PackedScene" uid="uid://b20vxhd2moenc" path="res://UserInterface/FloatingText.tscn" id="2_15pb1"]
+[ext_resource type="Texture2D" uid="uid://dm42jd2pose0b" path="res://Interactables/Chest/treasure_chests_32x32.png" id="3_yhxqm"]
+[ext_resource type="Script" uid="uid://bsqq5lbd0k33k" path="res://Interactables/Interactable.gd" id="4_rd8rs"]
+[ext_resource type="PackedScene" uid="uid://cujiv8tg42wby" path="res://Interactables/PersistanceComponent.tscn" id="5_xsli1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rfhi8"]
-atlas = ExtResource("2_cb0st")
+atlas = ExtResource("3_yhxqm")
 region = Rect2(160, 64, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4i8vu"]
-atlas = ExtResource("2_cb0st")
+atlas = ExtResource("3_yhxqm")
 region = Rect2(160, 96, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_jv5ma"]
@@ -34,8 +35,8 @@ size = Vector2(16, 8)
 radius = 51.0392
 
 [node name="Chest" type="StaticBody2D"]
-script = ExtResource("1_cjfl1")
-floating_text_scene = ExtResource("2_rfhi8")
+script = ExtResource("1_hvf5m")
+floating_text_scene = ExtResource("2_15pb1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_jv5ma")
@@ -45,8 +46,10 @@ animation = &"open"
 shape = SubResource("RectangleShape2D_pmguq")
 
 [node name="InteractionArea" type="Area2D" parent="."]
-script = ExtResource("3_cb0st")
+script = ExtResource("4_rd8rs")
 prompt_message = "Press E to Interact"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
 shape = SubResource("CircleShape2D_i7tb8")
+
+[node name="PersistenceComponent" parent="." instance=ExtResource("5_xsli1")]
