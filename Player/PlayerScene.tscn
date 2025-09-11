@@ -1,4 +1,4 @@
-[gd_scene load_steps=117 format=3 uid="uid://bqep4lh77amxw"]
+[gd_scene load_steps=118 format=3 uid="uid://bqep4lh77amxw"]
 
 [ext_resource type="Script" uid="uid://322jte5qhr8v" path="res://Player/PlayerScript.gd" id="1_mom48"]
 [ext_resource type="Texture2D" uid="uid://oj5uoalybhj8" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_CrouchFull.png" id="2_74o77"]
@@ -38,6 +38,7 @@
 [ext_resource type="Script" uid="uid://df5nf0m01u05b" path="res://Player/PlayerInteraction.gd" id="34_03m1d"]
 [ext_resource type="Script" uid="uid://cogun7bbjysao" path="res://Player/PlayerCamera.gd" id="35_k4b7y"]
 [ext_resource type="Script" uid="uid://c803xmb0rscj8" path="res://Player/States/CrouchingState.gd" id="35_yxgpa"]
+[ext_resource type="Resource" uid="uid://u5b8dtjrhv5f" path="res://Player/Data/default_camera_stats.tres" id="39_ac1bf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_owe82"]
 atlas = ExtResource("2_74o77")
@@ -985,8 +986,7 @@ shape = SubResource("CircleShape2D_5x2q4")
 [node name="PlayerCamera" type="Camera2D" parent="."]
 position_smoothing_enabled = true
 script = ExtResource("35_k4b7y")
-default_camera_zoom = 1.2
-horizontal_lookahead = 120.0
+stats = ExtResource("39_ac1bf")
 
 [node name="CameraZoomResetTimer" type="Timer" parent="PlayerCamera"]
 
@@ -1000,11 +1000,11 @@ target_position = Vector2(-20, 0)
 
 [node name="GroundRay" type="RayCast2D" parent="."]
 position = Vector2(2.95491, 0.0136854)
-target_position = Vector2(-0.548182, 121.999)
+target_position = Vector2(0, 60)
 
 [node name="LedgeRay" type="RayCast2D" parent="."]
-position = Vector2(18.5392, 39.0863)
-target_position = Vector2(-0.125813, 27.9997)
+position = Vector2(23, 0)
+target_position = Vector2(0, 60)
 
 [node name="FootSpawner" type="Marker2D" parent="."]
 position = Vector2(0.791757, 43.0041)

@@ -1,10 +1,11 @@
 extends Node
 signal resources_updated
+signal checkpoint_set
 var gold: int = 0
 var villagers: int = 0
 var archers: int = 0
 var is_gameplay_active: bool = true
-
+var current_checkpoint: Vector2
 var mission_objective_complete: bool = false
 
 const SAVE_FILE_PATH = "user://savegame.json"
@@ -102,3 +103,7 @@ func _on_player_died() -> void:
 	
 	if not SceneManager.current_scene_key.is_empty():
 		SceneManager.change_scene(SceneManager.current_scene_key)
+
+func set_checkpoint(pos: Vector2) -> void:
+	current_checkpoint = pos
+	EventBus.emit_signal("checkpoint_set", pos)

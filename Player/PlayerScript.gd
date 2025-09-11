@@ -323,3 +323,10 @@ func _on_combo_timer_timeout() -> void:
 # This timer fires if the player is on the ground for >1.5 seconds.
 func _on_combo_reset_timer_timeout() -> void:
 	_reset_combo()
+# This function allows other nodes, like the camera, to safely
+# ask the player what it's currently doing.
+func get_current_state_name() -> String:
+	if state_machine and is_instance_valid(state_machine.current_state):
+		# We return the name of the state's node, e.g., "OnWallState"
+		return state_machine.current_state.name
+	return ""
