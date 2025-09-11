@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CameraStats" load_steps=2 format=3 uid="uid://u5b8dtjrhv5f"]
 
-[ext_resource type="Script" uid="uid://cncohoeprijfe" path="res://Player/Data/CameraStats.gd" id="1_kqdxa"]
+[ext_resource type="Script" path="res://Player/Data/CameraStats.gd" id="1_kqdxa"]
 
 [resource]
 script = ExtResource("1_kqdxa")
