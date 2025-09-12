@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://c88qa042w3di6"]
 
-[ext_resource type="Script" uid="uid://boij6uod5wat6" path="res://MissionBoard.gd" id="1_t2oxa"]
+[ext_resource type="Script" uid="uid://boij6uod5wat6" path="res://Interactables/MissionBoard.gd" id="1_t2oxa"]
 [ext_resource type="Texture2D" uid="uid://b7b83g4xexe8q" path="res://assets/signpost32px.png" id="2_fi8tn"]
 [ext_resource type="PackedScene" uid="uid://coh7uki86a3k8" path="res://Interactables/Interactable.tscn" id="3_htoau"]
 

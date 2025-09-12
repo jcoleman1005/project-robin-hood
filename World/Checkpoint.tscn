@@ -1,8 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://dubxxng56d1pd"]
+[gd_scene load_steps=2 format=3 uid="uid://dh0p23o1t2ow3"]
 
-[ext_resource type="Script" uid="uid://5ih1luiwumvo" path="res://World/Checkpoint.gd" id="1_cux85"]
+[ext_resource type="Script" uid="uid://ch8unejnggvaj" path="res://World/Checkpoint.gd" id="1_cux85"]
 
 [node name="Checkpoint" type="Area2D"]
 script = ExtResource("1_cux85")
+respawn_point = NodePath("RespawnPoint")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="RespawnPoint" type="Marker2D" parent="."]

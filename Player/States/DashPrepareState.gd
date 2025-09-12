@@ -18,7 +18,7 @@ func enter():
 		var direction = 1.0 if not player.animated_sprite.flip_h else -1.0
 		puff.global_position.x -= direction * 15 # Adjust this offset as needed
 		
-		puff.emitting = true
+#eee		puff.emitting = true
 	# --- END NEW PARTICLE LOGIC ---
 	
 	var input_x = Input.get_axis("left", "right")
