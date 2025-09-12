@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dc1n0di2pmusq"
-path="res://.godot/imported/particles-flipbook.png-5a0f2e64c0b2e8efa32a57f30e7f8adc.ctex"
+uid="uid://hla8re88y4jm"
+path="res://.godot/imported/SmokeFX Lite SpriteSheet 4A-2.png-b86baf754dcd65e9499eef204fc1afc4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/particles-flipbook.png"
-dest_files=["res://.godot/imported/particles-flipbook.png-5a0f2e64c0b2e8efa32a57f30e7f8adc.ctex"]
+source_file="res://assets/particles/SmokeFX Lite SpriteSheet 4A-2.png"
+dest_files=["res://.godot/imported/SmokeFX Lite SpriteSheet 4A-2.png-b86baf754dcd65e9499eef204fc1afc4.ctex"]
 
 [params]
 

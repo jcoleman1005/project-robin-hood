@@ -1,13 +1,13 @@
-[gd_scene load_steps=117 format=3 uid="uid://bqep4lh77amxw"]
+[gd_scene load_steps=118 format=3 uid="uid://bqep4lh77amxw"]
 
 [ext_resource type="Script" uid="uid://322jte5qhr8v" path="res://Player/PlayerScript.gd" id="1_mom48"]
 [ext_resource type="Texture2D" uid="uid://oj5uoalybhj8" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_CrouchFull.png" id="2_74o77"]
 [ext_resource type="Resource" uid="uid://st5loweg5geo" path="res://Player/Data/player_stats.tres" id="2_bjedy"]
 [ext_resource type="Texture2D" uid="uid://cvxrk53lw3fx8" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_Fall.png" id="2_i061b"]
 [ext_resource type="Texture2D" uid="uid://b0yh1iumdaukq" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_Dash.png" id="2_ogexg"]
+[ext_resource type="PackedScene" uid="uid://b65sf7txtiy3x" path="res://VFX/AnimatedEffect.tscn" id="3_ac1bf"]
 [ext_resource type="Texture2D" uid="uid://upxnk3ip0shx" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_Idle.png" id="3_ogexg"]
 [ext_resource type="Texture2D" uid="uid://bpusubmn18t4h" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_CrouchWalk.png" id="3_ux3fp"]
-[ext_resource type="PackedScene" uid="uid://d1vfdxyl0atfj" path="res://VFX/DustPuff.tscn" id="3_vbs5d"]
 [ext_resource type="Texture2D" uid="uid://b86872nnm80rx" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_Jump.png" id="4_74o77"]
 [ext_resource type="Texture2D" uid="uid://c0dokmlg6n51c" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_JumpFallInbetween.png" id="5_4tc8y"]
 [ext_resource type="Texture2D" uid="uid://ddte03unngebc" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_Run.png" id="6_owe82"]
@@ -38,6 +38,7 @@
 [ext_resource type="Script" uid="uid://df5nf0m01u05b" path="res://Player/PlayerInteraction.gd" id="34_03m1d"]
 [ext_resource type="Script" uid="uid://cogun7bbjysao" path="res://Player/PlayerCamera.gd" id="35_k4b7y"]
 [ext_resource type="Script" uid="uid://c803xmb0rscj8" path="res://Player/States/CrouchingState.gd" id="35_yxgpa"]
+[ext_resource type="Resource" uid="uid://u5b8dtjrhv5f" path="res://Player/Data/default_camera_stats.tres" id="39_ac1bf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_owe82"]
 atlas = ExtResource("2_74o77")
@@ -756,12 +757,12 @@ rotation = -0.00456183
 collision_mask = 2
 script = ExtResource("1_mom48")
 stats = ExtResource("2_bjedy")
-dust_puff_scene = ExtResource("3_vbs5d")
+dust_puff_scene = ExtResource("3_ac1bf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(5, 3)
 sprite_frames = SubResource("SpriteFrames_pwdtq")
-animation = &"idle"
+animation = &"wall slide"
 autoplay = "idle"
 metadata/_edit_group_ = true
 
@@ -796,7 +797,7 @@ metadata/_edit_group_ = true
 
 [node name="HeadClearanceRaycast" type="RayCast2D" parent="."]
 position = Vector2(1.88593, 25.0089)
-target_position = Vector2(0.0957966, -20.9998)
+target_position = Vector2(0.109488, -23.9998)
 collision_mask = 2
 metadata/_edit_group_ = true
 
@@ -876,7 +877,7 @@ one_shot = true
 [node name="ComboResetTimer" type="Timer" parent="Timers" groups=["timers"]]
 one_shot = true
 
-[node name="SlideGraceTimer" type="Timer" parent="Timers" groups=["timers"]]
+[node name="StandingSlideCooldownTimer" type="Timer" parent="Timers" groups=["timers"]]
 one_shot = true
 
 [node name="DashParticles" type="GPUParticles2D" parent="."]
@@ -933,7 +934,6 @@ metadata/_custom_type_script = "uid://814l5d1kyhhw"
 
 [node name="ParticleTimer" type="Timer" parent="StateMachine/OnWallState"]
 wait_time = 0.1
-autostart = true
 
 [node name="WallStickingState" type="Node" parent="StateMachine"]
 script = ExtResource("25_g2mjx")
@@ -985,8 +985,7 @@ shape = SubResource("CircleShape2D_5x2q4")
 [node name="PlayerCamera" type="Camera2D" parent="."]
 position_smoothing_enabled = true
 script = ExtResource("35_k4b7y")
-default_camera_zoom = 1.2
-horizontal_lookahead = 120.0
+stats = ExtResource("39_ac1bf")
 
 [node name="CameraZoomResetTimer" type="Timer" parent="PlayerCamera"]
 
@@ -1000,14 +999,16 @@ target_position = Vector2(-20, 0)
 
 [node name="GroundRay" type="RayCast2D" parent="."]
 position = Vector2(2.95491, 0.0136854)
-target_position = Vector2(-0.548182, 121.999)
+target_position = Vector2(-0.17847, 48.9995)
+collision_mask = 2
 
 [node name="LedgeRay" type="RayCast2D" parent="."]
-position = Vector2(18.5392, 39.0863)
-target_position = Vector2(-0.125813, 27.9997)
+position = Vector2(23, 0)
+target_position = Vector2(-0.219206, 48.1044)
+collision_mask = 2
 
 [node name="FootSpawner" type="Marker2D" parent="."]
 position = Vector2(0.791757, 43.0041)
 
 [node name="WallSlideSpawner" type="Marker2D" parent="."]
-position = Vector2(1.85761, 25.0089)
+position = Vector2(-4.10944, 23.9815)

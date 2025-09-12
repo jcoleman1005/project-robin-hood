@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CameraStats" load_steps=2 format=3 uid="uid://u5b8dtjrhv5f"]
 
-[ext_resource type="Script" path="res://Player/Data/CameraStats.gd" id="1_kqdxa"]
+[ext_resource type="Script" uid="uid://cncohoeprijfe" path="res://Player/Data/CameraStats.gd" id="1_kqdxa"]
 
 [resource]
 script = ExtResource("1_kqdxa")
@@ -10,8 +10,8 @@ smoothing_speed = 6.0
 fall_speed_multiplier = 2.5
 look_offset = 80.0
 look_speed = 4.0
-lookahead_distance = 120.0
+lookahead_distance = 110.0
 ledge_peek_offset = 100.0
 wall_slide_peek_offset = 100.0
-recenter_speed = 2.0
+recenter_speed = 3.0
 metadata/_custom_type_script = "uid://cncohoeprijfe"

@@ -15,6 +15,7 @@ anchors_preset = 0
 script = ExtResource("1_p7br5")
 
 [node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 0
 offset_right = 85.0
 offset_bottom = 28.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_kegi0")

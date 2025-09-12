@@ -16,7 +16,10 @@ func enter() -> void:
 		get_tree().root.add_child(puff)
 		puff.global_position = player.get_node("FootSpawner").global_position
 		
-		puff.emitting = true 
+		# --- NEW ANIMATED EFFECT LOGIC ---
+		# Tell the new scene to play the correct animation.
+		puff.play_effect("jump_puff")
+		# --- END NEW LOGIC ---
 	else:
 		printerr("DEBUG: ERROR - dust_puff_scene is NOT SET on the Player in the Inspector!")
 
