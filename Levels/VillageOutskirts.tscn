@@ -1,12 +1,11 @@
-[gd_scene load_steps=15 format=4 uid="uid://btfq0patronhu"]
+[gd_scene load_steps=14 format=4 uid="uid://btfq0patronhu"]
 
 [ext_resource type="PackedScene" uid="uid://ca1sdxhmcglr5" path="res://Levels/VillageOutskirtsTilelayer.tscn" id="1_5s3wr"]
 [ext_resource type="PackedScene" uid="uid://bwabrs1anyrrd" path="res://World/ExitZone.tscn" id="3_y0c8d"]
 [ext_resource type="PackedScene" uid="uid://co2jslwvdsce1" path="res://tests/Chest.tscn" id="4_gi5vt"]
-[ext_resource type="PackedScene" uid="uid://c408hin1nld2m" path="res://Interactables/Prisoner/Prisoner.tscn" id="5_5sajb"]
 [ext_resource type="PackedScene" uid="uid://bvxaf08x2ym7h" path="res://Enemies/Guard/Guard.tscn" id="6_0kw78"]
 [ext_resource type="PackedScene" uid="uid://x8baprwvbfbf" path="res://Levels/CameraBoundary.tscn" id="7_k88k2"]
-[ext_resource type="PackedScene" uid="uid://dubxxng56d1pd" path="res://World/Checkpoint.tscn" id="8_5s3wr"]
+[ext_resource type="PackedScene" uid="uid://dh0p23o1t2ow3" path="res://World/Checkpoint.tscn" id="8_5s3wr"]
 [ext_resource type="PackedScene" uid="uid://wqts8wxwj0uc" path="res://World/KillZone.tscn" id="9_tljy5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qso13"]
@@ -56,6 +55,9 @@ metadata/_edit_group_ = true
 shape = SubResource("CircleShape2D_qso13")
 metadata/_edit_group_ = true
 
+[node name="PersistenceComponent" parent="Chest" index="3"]
+object_id = "obj_15301981044325328242"
+
 [node name="Chest2" parent="." instance=ExtResource("4_gi5vt")]
 position = Vector2(2223, -44)
 metadata/_edit_group_ = true
@@ -66,12 +68,15 @@ shape = SubResource("RectangleShape2D_nlkw8")
 [node name="CollisionShape2D" parent="Chest2/InteractionArea" index="0"]
 shape = SubResource("CircleShape2D_4ehxf")
 
+[node name="PersistenceComponent" parent="Chest2" index="3"]
+object_id = "obj_35586616104310362197"
+
 [node name="Chest3" parent="." instance=ExtResource("4_gi5vt")]
 position = Vector2(1266, -175)
 metadata/_edit_group_ = true
 
-[node name="prisoner" parent="." instance=ExtResource("5_5sajb")]
-position = Vector2(2150, 204)
+[node name="PersistenceComponent" parent="Chest3" index="3"]
+object_id = "obj_11875882354348981082"
 
 [node name="Guard" parent="." instance=ExtResource("6_0kw78")]
 position = Vector2(1348, 406)
@@ -99,14 +104,18 @@ position = Vector2(1460, 37)
 shape = SubResource("RectangleShape2D_qapib")
 
 [node name="Checkpoint" parent="." instance=ExtResource("8_5s3wr")]
-position = Vector2(2098, 216)
+position = Vector2(2075, 221)
 
 [node name="CollisionShape2D" parent="Checkpoint" index="0"]
-position = Vector2(6, -2)
+position = Vector2(28, -7)
 shape = SubResource("RectangleShape2D_tljy5")
+
+[node name="RespawnPoint" parent="Checkpoint" index="1"]
+position = Vector2(-3, -15)
 
 [editable path="Chest"]
 [editable path="Chest2"]
+[editable path="Chest3"]
 [editable path="CameraBoundary"]
 [editable path="KillZone"]
 [editable path="Checkpoint"]

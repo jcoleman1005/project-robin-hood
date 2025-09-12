@@ -4,5 +4,8 @@
 
 [node name="Checkpoint" type="Area2D"]
 script = ExtResource("1_cux85")
+respawn_point = NodePath("RespawnPoint")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="RespawnPoint" type="Marker2D" parent="."]

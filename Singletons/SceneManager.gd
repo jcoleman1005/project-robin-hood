@@ -23,15 +23,14 @@ func _ready() -> void:
 
 
 func change_scene(scene_key: String) -> void:
-	# THE FIX IS HERE: Remember which scene we are loading.
 	current_scene_key = scene_key
-	
+
 	DebugManager.log(DebugManager.Category.GAME_STATE, "Changing scene to: '%s'" % scene_key)
-	
+
 	var ui_to_close = UIManager.close_current_ui()
 	if is_instance_valid(ui_to_close):
 		await ui_to_close.tree_exited
-		
+
 	animation_player.play("fade_to_black")
 	await animation_player.animation_finished
 
@@ -51,10 +50,22 @@ func _spawn_player() -> void:
 		return
 
 	var current_scene = get_tree().current_scene
-	var spawn_point = current_scene.find_child("PlayerSpawnPoint", true, false)
+	var spawn_point_node = current_scene.find_child("PlayerSpawnPoint", true, false)
 
-	if is_instance_valid(spawn_point):
-		var player_instance = player_scene.instantiate()
-		player_instance.global_position = spawn_point.global_position
-		current_scene.add_child(player_instance)
-		await get_tree().process_frame
+	if not is_instance_valid(spawn_point_node):
+		printerr("SceneManager Error: No PlayerSpawnPoint found in scene '", current_scene.name, "'")
+		return
+
+	var spawn_position: Vector2
+	# Prioritize the checkpoint over the default spawn point by checking the resource.
+	if GameManager.session_state and GameManager.session_state.checkpoint_position != Vector2.ZERO:
+		spawn_position = GameManager.session_state.checkpoint_position
+		DebugManager.log(DebugManager.Category.GAME_STATE, "Spawning player at checkpoint: " + str(spawn_position))
+	else:
+		spawn_position = spawn_point_node.global_position
+		DebugManager.log(DebugManager.Category.GAME_STATE, "Spawning player at default spawn point: " + str(spawn_position))
+
+	var player_instance = player_scene.instantiate()
+	player_instance.global_position = spawn_position
+	current_scene.add_child(player_instance)
+	await get_tree().process_frame

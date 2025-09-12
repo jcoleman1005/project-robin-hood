@@ -1,106 +1,111 @@
-[gd_scene load_steps=17 format=3 uid="uid://c408hin1nld2m"]
+[gd_scene load_steps=17 format=3 uid="uid://bbyey4kwmwl15"]
 
 [ext_resource type="Script" uid="uid://7fbblhvw23re" path="res://Interactables/Prisoner/Prisoner.gd" id="1_mdajx"]
 [ext_resource type="Texture2D" uid="uid://c2t0lai1nkuc5" path="res://assets/CharacterSprites/Samurai/IDLE.png" id="1_slvsn"]
 [ext_resource type="PackedScene" uid="uid://coh7uki86a3k8" path="res://Interactables/Interactable.tscn" id="3_cccd3"]
-[ext_resource type="PackedScene" uid="uid://cujiv8tg42wby" path="res://Interactables/PersistanceComponent.tscn" id="4_whk62"]
+[ext_resource type="Script" uid="uid://c7myxs12deapb" path="res://Interactables/PersistenceComponent.gd" id="4_whk62"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mdajx"]
-size = Vector2(20, 34)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cw31s"]
+size = Vector2(16, 36)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6c6iy"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7iul"]
 atlas = ExtResource("1_slvsn")
 region = Rect2(0, 0, 96, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_td4pl"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ikvkk"]
 atlas = ExtResource("1_slvsn")
 region = Rect2(96, 0, 96, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_j14ve"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_wv3c2"]
 atlas = ExtResource("1_slvsn")
 region = Rect2(192, 0, 96, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_w0any"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_w0ndm"]
 atlas = ExtResource("1_slvsn")
 region = Rect2(288, 0, 96, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_iv1ne"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vcp5x"]
 atlas = ExtResource("1_slvsn")
 region = Rect2(384, 0, 96, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_i1r8f"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ptigc"]
 atlas = ExtResource("1_slvsn")
 region = Rect2(480, 0, 96, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6upvi"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fmfuh"]
 atlas = ExtResource("1_slvsn")
 region = Rect2(576, 0, 96, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5nfad"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_foa7l"]
 atlas = ExtResource("1_slvsn")
 region = Rect2(672, 0, 96, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_tpkd4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_hahu1"]
 atlas = ExtResource("1_slvsn")
 region = Rect2(768, 0, 96, 96)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rc750"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_go8ox"]
 atlas = ExtResource("1_slvsn")
 region = Rect2(864, 0, 96, 96)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_b8v8i"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_1j4pt"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_6c6iy")
+"texture": SubResource("AtlasTexture_e7iul")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_td4pl")
+"texture": SubResource("AtlasTexture_ikvkk")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_j14ve")
+"texture": SubResource("AtlasTexture_wv3c2")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_w0any")
+"texture": SubResource("AtlasTexture_w0ndm")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_iv1ne")
+"texture": SubResource("AtlasTexture_vcp5x")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_i1r8f")
+"texture": SubResource("AtlasTexture_ptigc")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_6upvi")
+"texture": SubResource("AtlasTexture_fmfuh")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5nfad")
+"texture": SubResource("AtlasTexture_foa7l")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_tpkd4")
+"texture": SubResource("AtlasTexture_hahu1")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rc750")
+"texture": SubResource("AtlasTexture_go8ox")
 }],
 "loop": true,
-"name": &"default",
-"speed": 10.0
+"name": &"idle",
+"speed": 5.0
 }]
 
-[node name="prisoner" type="StaticBody2D"]
+[node name="Prisoner" type="StaticBody2D"]
 script = ExtResource("1_mdajx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 15)
-shape = SubResource("RectangleShape2D_mdajx")
+position = Vector2(1, 15)
+shape = SubResource("RectangleShape2D_cw31s")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_b8v8i")
-frame_progress = 0.383016
+sprite_frames = SubResource("SpriteFrames_1j4pt")
+animation = &"idle"
 
 [node name="Interactable" parent="." instance=ExtResource("3_cccd3")]
-position = Vector2(0, 11)
 prompt_message = "Rescue"
+interaction_duration = 2.0
 
-[node name="PersistenceComponent" parent="." instance=ExtResource("4_whk62")]
+[node name="CollisionShape2D" parent="Interactable" index="0"]
+position = Vector2(0, 16)
+
+[node name="PersistenceComponent" type="Node" parent="."]
+script = ExtResource("4_whk62")
+metadata/_custom_type_script = "uid://c7myxs12deapb"
 
 [editable path="Interactable"]

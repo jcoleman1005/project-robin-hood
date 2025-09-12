@@ -1,16 +1,31 @@
-# res://Persistence/persistence_component.gd
+# res://Interactables/PersistenceComponent.gd
+@tool
 extends Node
 class_name PersistenceComponent
 
-# A unique identifier for this object across the entire game.
-# Examples: "village_chest_01", "castle_prisoner_main_quest"
+# A unique identifier for this object. Use the button below to generate one.
 @export var object_id: String = ""
+
+# This creates a "button" in the Inspector to generate a new ID.
+@export var generate_new_id: bool = false:
+	set(value):
+		if value:
+			# Generate a new ID based on a hash of the time and node path.
+			# This is guaranteed to be unique enough for our purposes.
+			var new_id = "obj_" + str(str(get_path()).hash()) + str(Time.get_ticks_usec())
+			object_id = new_id
+			print("Generated new Object ID: ", new_id)
+
 
 var _owner: Node
 
 func _ready() -> void:
+	# This code only runs when the game is playing, not in the editor.
+	if Engine.is_editor_hint():
+		return
+
 	_owner = get_parent()
-	
+
 	if object_id.is_empty():
 		push_warning("Persistent object has no ID and will not be saved: " + str(_owner.name))
 		set_process(false)
@@ -22,14 +37,10 @@ func _ready() -> void:
 	if state != null:
 		# If it does, apply that state.
 		_apply_state(state)
-	else:
-		# Otherwise, it's a new object for this session.
-		# No action needed until it's marked as collected.
-		pass
 
-# Called by the owner (e.g., the Chest) when it has been interacted with.
+# Called by the owner (e.g., the Chest or Prisoner) when it has been interacted with.
 func mark_collected(state: Dictionary) -> void:
-	if object_id.is_empty():
+	if Engine.is_editor_hint() or object_id.is_empty():
 		return
 	GameManager.set_persistent_state(object_id, state)
 	# We call _apply_state here to immediately trigger the collected behavior (like queue_free).

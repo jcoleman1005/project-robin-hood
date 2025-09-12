@@ -70,4 +70,3 @@ func _on_particle_timer_timeout() -> void:
 		# Tell the new scene to play the correct animation for wall sliding.
 		effect.play_effect("dash_puff")
 		# --- END NEW LOGIC ---
-
