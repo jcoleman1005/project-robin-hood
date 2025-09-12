@@ -2,100 +2,115 @@ Game Design Document: Project Robin Hood
 
 Version: 3.1 (Studio Director’s Draft)
 Date: September 7, 2025
------1. Executive Summary
+Executive Summary
 Game Title: Project Robin Hood
 Genre: 2D Stealth/Infiltration Platformer
 Logline: A skilled knight must complete tense, non-combat stealth missions to rescue villagers and gather resources, using them to build a thriving hideout and ultimately reclaim the land from a corrupt regime.
 Core Question (Vertical Slice): "Is the core gameplay loop of completing a tense stealth/infiltration mission to strategically upgrade a home base a fun and repeatable experience?"
------2. Gameplay
-
-2.1. Core Gameplay Loop
-
+Gameplay
+Core Gameplay Loop
 The gameplay is divided into two distinct phases: Missions and Hideout Management.
 Prepare: At the Hideout, the player views their resources, upgrades, and available missions before choosing to embark.
 Infiltrate (The Mission): The player enters a non-linear 2D level with a primary objective. The focus is on stealth, evasion, and traversal.
 Return: Upon completing the objective, the player must exit the level to return to the Hideout. If detected by a guard, the Alarm State is triggered. This forces the player into a frantic escape where they must decide on the fly whether to flee with the resources they have or risk everything to complete the primary objective.
 Upgrade (The Hideout): In the Hideout, the player spends resources to unlock new abilities and expansions.
-2.2. Player Experience & Game Feel
+Player Experience & Game Feel
 Tension: During missions, the player should feel like a vulnerable but highly skilled infiltrator. Guards are a significant threat, and evasion is paramount.
 Empowerment: The player's movement controller is fluid and precise. Mastery of movement is the key to success.
 Reward: Returning to the Hideout and seeing it grow provides a powerful sense of accomplishment.
 Game Feel: Flow State Stealth: The game's stealth is not about slow, patient waiting. It is about speed, momentum, and improvisation. The player should feel like a skilled ghost, stringing together fluid movements to create an unbroken "flow" through the level. Success should feel like a perfectly executed acrobatic performance. For example, the player could string together a wall-slide, a kick-off, and a dash to "acrobatically" bypass a guard patrol without ever stopping.
------3. Core Mechanics
-
-3.1. Player Controller
-
+Core Mechanics
+Player Controller
 The player character, "The Knight," is controlled by a node-based state machine.
 Core Abilities: Run, Jump (Double), Wall Slide/Jump, Dash, Interact, Crouch/Slide.
-3.2. Stealth System
+Stealth System
 Guard AI: Guards patrol set paths and have a visible cone of vision.
 Detection: The vision cone changes color from white to yellow to red when the player is in a guard's line of sight. When fully red, it triggers the Alarm State.
-3.3. Alarm State
+Alarm State
 Concept: A high-stakes failure condition that transforms a stealth failure into a climactic escape sequence.
 Trigger: The moment a Guard's detection meter is completely filled.
 Feedback: Instantaneous and overwhelming audio/visual feedback (alarm sound, chase music, screen flash).
 Rules:
-Objective: The primary goal becomes "Escape to the original entrance!" All other objectives (like "Rescue the Villager") remain active and can be attempted at extreme risk.
-Guard Behavior: All Guards enter a "Hunter" state: they abandon patrols, gain a speed boost, and relentlessly pursue the player.
-Stakes: Success (reaching the start zone) means keeping all collected resources. Failure (being touched by a Guard) means returning to the hideout with 0 Gold from that run.
-3.4. Contextual Interaction: Rapid Override Sequence
-Concept: During the Alarm State, "hold-to-interact" mechanics on major objectives are replaced with a Quick-Time Event.
-Mechanic: A short, randomized sequence of multiple directional inputs (3 for chests and 5 for prisoners)  appears on-screen.
-Execution: The player must correctly input the sequence within a 1.5-second time limit.
-Failure: An incorrect input or expired timer puts the interaction on a short cooldown.
------4. Progression Systems
-
-4.1. Specialist NPCs
+Objective: The primary goal becomes "Escape to the original entrance!" All other objectives (like "Rescue the Villager") remain active and can be attempted at extreme risk
+Guard Behavior: [Planned] All Guards enter a "Hunter" state: they abandon patrols, gain a speed boost, and relentlessly pursue the player.
+Stakes: Success (reaching the start zone) means keeping all collected resources. The failure condition is a Guard's detection meter becoming completely filled. This triggers the player_detected event, leading to a MissionFailedScreen that prompts a return to the Hideout. The "touch and lose gold" mechanic is planned for a future implementation.
+Hold interaction
+Concept: To interact with key objects like chests or prisoners, the player must press and hold the interact button for a set duration.
+Mechanic: A UI element appears showing the hold progress. If the button is released before the hold is complete, the progress resets. The duration can be set per-interactable object. This system is managed globally by the InteractionManager.
+Environmental Hazards
+Concept: Certain level areas are instantly lethal to the player.
+Mechanic: These areas are defined by a KillZone scene. Upon entering a  KillZone, the player_died event is immediately triggered. This results in the  GameManager reloading the level, placing the player at their last activated checkpoint or the mission's starting spawn point.
+Progression Systems
+[Planned] Specialist NPCs
 Concept: The growth of the Hideout is driven by rescuing and recruiting key Specialist NPCs who unlock major new gameplay systems.
 Recruitment Flow:
 The Lead: The player discovers a specialist's location via the Opportunity Deck system.
 The Rescue: The player undertakes a unique mission to save the specialist.
 The Foundation: The rescued Specialist appears in the Hideout but requires a specific building to begin work.
 The Reward: Once the building is constructed, the specialist becomes active, unlocking their upgrade tree.
-4.2. The Opportunity Deck
+[Planned] The Opportunity Deck
 Concept: A controlled randomization system ( like a "deck of cards") that generates mission variety and special rescue missions between runs.
 Rules:
 Gating: Event "cards" are added to the deck when the player achieves specific milestones.
 Save-Scum Proof: The "draw" from the deck occurs upon returning to the Hideout, locking in the next mission's state before the player can save.
 Forgiveness: Failed special missions have a "pity timer" and an increased probability of reappearing.
-4.3. Key Building: The Scout's Lookout
+Key Building: The Scout's Lookout
 Concept: The central hub for the Intel progression pillar, required to unlock mission variety and new areas.
 Functions & Upgrades:
 Level 1: Unlocks the Opportunity Deck and the "Lead Scout" NPC.
+Provides "Mission Intel": For special missions like Specialist Rescues, a one-sentence tactical clue is displayed on the mission selection screen, preparing the player for the unique challenge ahead.
 Level 2: Unlocks the next major gameplay area and adds more complex modifiers to the deck.
 Level 3: Increases the number of mission choices on the Mission Board.
------5. The Vertical Slice Scope
-
-5.1. The Mission: "The Village Outskirts"
-Structure: A small, self-contained level.
-Elements: Simple platforms, one wall for wall-jumping, one patrolling Guard, one Gold Chest, one Caged Villager.
-5.2. The Hideout
-Functionality: A hub scene displaying current resources.
-Interactables: Start Mission Board, one Upgrade Station.
-Upgrade: "Train Archer" (Cost: 10 Gold, 1 Villager).
------6. Art & Sound
-Art Style (Full Game Vision): A 2D pixel art style with a dark, moody atmosphere (to be determined), contrasted with the warmth and growing life of the Hideout.
-Art Style (Vertical Slice Scope): All visuals will be simple placeholder shapes ("grey-boxing").
-Sound (Vertical Slice Scope): Minimal placeholder sound effects for critical feedback.
------7. Technical Details
+Level Design Concepts:
+Introductory Cinematics: Key puzzle rooms or unique missions will begin with a short, non-interactive, scripted camera pan. The purpose of this is to introduce the core elements of a challenge to the player in a non-verbal way, guiding their attention to the objective, the primary obstacle, and the potential solution.
+Art & Sound
+Art Pillars The visual direction of Project Robin Hood is guided by three core principles:
+Clarity Above All (Flow-State Readability): The primary function of the art is to serve the "Flow State Stealth" gameplay. Every visual element—from the texture of a floor tile to the silhouette of a guard—must prioritize instant readability to support fast-paced, acrobatic traversal and tactical assessment. If a choice must be made between aesthetic detail and gameplay clarity, clarity always wins.
+Narrative Dichotomy (Desperate vs. Hopeful): The art will be a primary tool for telling the story of struggle and recovery. There will be a stark, deliberate contrast between the oppressive, tense atmosphere of the Missions and the warm, growing vitality of the Hideout. This visual shift reinforces the core gameplay loop and the player's emotional journey.
+Vibrant Desolation: The world is moody and oppressed, not dead. The mission environments will pair a dark, desaturated base with sharp, vibrant accent colors. These accents will be used sparingly and deliberately to draw the player's eye to points of interaction, danger, and objective, creating a visually striking and highly functional aesthetic.
+Visual References & Inspirations The following projects serve as reference points for specific elements of our art style:
+Character Animation & Fluidity: Katana ZERO, Celeste. The goal is to achieve a similar level of expressive, fluid animation that makes movement feel responsive and powerful.
+Environmental Readability & Silhouettes: Dead Cells. Reference for its clear distinction between foreground gameplay layers and background parallax, and for how character and enemy silhouettes pop against their environments.
+Atmosphere & Color: Hollow Knight (for its moody, desolate world punctuated by unique biome palettes), Cyberpunk 2077 Edgerunners animation (for its use of sharp, high-saturation accent colors against dark backdrops).
+Color Philosophy Color will be used systematically to communicate mood and gameplay information.
+Mission Palette: Dominated by a cool, desaturated color scheme (deep blues, slate grays, muted earth tones) to create a sense of tension and oppression. All interactive threats (guard optics, trap triggers, alarm indicators) will use a single, reserved high-saturation accent color (e.g., a sharp, "toxic" yellow) for immediate identification.
+Hideout Palette: Dominated by a warm, more saturated color scheme (wood tones, soft golds, verdant greens). As the player upgrades the hideout, its color vibrancy and the complexity of its lighting will increase, providing a visual reward for progression.
+Key Asset Direction
+The Knight (Player Character): Must have an iconic and athletic silhouette. Animation is the top priority; it must sell the "acrobatic performance" fantasy. The color scheme should contrast well with both the Mission and Hideout palettes.
+The Regime (Enemies): Silhouettes should be uniform and oppressive, clearly distinct from the player's agile frame. They will incorporate the "threat" accent color in key areas (e.g., visors, power sources) to clearly communicate their facing and alert status.
+Environments: Architecture will feel grounded and believable but will be constructed to create clear paths and arenas for the "Flow State" platforming. Visual language will be consistent: navigable surfaces will be visually quiet, while traversal opportunities (like climbable walls) and hazards will be clearly marked.
+UI/UX: During missions, the UI will be minimalist and diegetic where possible to maximize screen real estate and immersion. In the Hideout, menus can be more stylized and thematic, reflecting the handcrafted nature of the resistance.
+Vertical Slice Art Goals 
+The "grey-boxing" phase will be succeeded by a "Color-Boxing" phase. The objective is to implement a first-pass version of the Mission Palette on the simple placeholder shapes. The initial player and Guard sprites will be created and tested against this colored environment to validate our core principle of Clarity Above All.
+Technical Details
 Engine: Godot 4.2.2
 Architecture: Decoupled system using global singleton managers (GameManager, SceneManager, UIManager, EventBus).
 Save/Load: Game state is saved to a JSON file.
------8. Idea Parking Lot / Post-Production Features
-
+Idea Parking Lot / Post-Production Features
 This section serves as a backlog of approved but unscheduled ideas for future development.
-
-8.1. New Player Abilities (Potential Quartermaster Unlocks)
+New Player Abilities (Potential Quartermaster Unlocks)
 Wall Kick: A horizontal kick-off from a wall-slide. This can influence downward vertical movement to add challenge and break up monotony.
 Bash Traversal: An advanced ability to launch off enemies or specific environmental points.
 Grappling Hook: A traversal tool for latching onto and swinging from specific anchor points.
 Hookshot: A traversal tool that pulls the player directly towards a latched surface.
 Invisibility, Glide Advanced traversal and stealth options.
 Rapid Override Enhancements: Upgrades to the QTE sequence (more time, shorter sequence).
-8.2. New Hideout & Progression Systems
+New Hideout & Progression Systems
 Treasury & Gold Cap: An economic system that introduces a limit to how much Gold the player can hold.
 Full Dialogue System: A system for interactive conversations with NPCs.
-8.3. Major Systems & Expansions
+Major Systems & Expansions
 Advanced Guard AI: Expansion of AI to include audio detection and a "Suspicious" state.
 Playable Rescuers: A major expansion where the player controls a recruit to rescue a captured Knight. (DLC/Sequel scope).
 Metroidvania World Structure: A fundamental shift to an interconnected world. (Sequel scope).
+System Evolution: Advanced Flow State ("Acrobat" System)
+Concept: An expansion of the "Flow State Feedback" system that introduces scoring and mechanical rewards for performing long, complex movement combos, inspired by games like Tony Hawk's Pro Skater.
+Potential Features:
+Visible Combo UI: A non-intrusive UI element that displays the current combo chain (e.g., "Wall Slide > Jump > Dash") and a score multiplier.
+Resource Bonus: Successfully completed combos could grant a multiplier to any Gold collected while the combo is active, directly rewarding skillful play with faster progression.
+Combo Extenders: New, advanced abilities (unlocked via the Quartermaster) designed to maintain a combo chain. The most crucial would be a "Ground Slide" that allows the player to maintain their combo state for a short time on flat ground, analogous to a THPS Manual.
+Contextual Interaction: Rapid Override Sequence
+Concept: During the Alarm State, "hold-to-interact" mechanics on major objectives are replaced with a Quick-Time Event.
+Mechanic: A short, randomized sequence of multiple directional inputs (3 for chests and 5 for prisoners)  appears on-screen.
+Execution: The player must correctly input the sequence within a 1.5-second time limit.
+Failure: An incorrect input or expired timer puts the interaction on a short cooldown.
+
