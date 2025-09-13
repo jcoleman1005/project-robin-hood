@@ -7,6 +7,7 @@ extends Node
 @export var show_player_physics_logs: bool = false
 @export var show_game_state_logs: bool = false
 @export var show_checkpoint_logs: bool = false
+@export var show_combo_logs: bool = false ## NEW: Toggle for combo chain prints.
 
 @export_group("Camera Logs")
 @export var show_camera_logs_horizontal: bool = false
@@ -22,11 +23,7 @@ enum Category {
 	CHECKPOINT
 }
 
-# The "static" keyword has been removed. This is now an instance method,
-# just like the camera log functions.
 func log(category: Category, message: String) -> void:
-	# We no longer need to fetch the instance from the Engine. Since this is an
-	# instance method, we can directly access our own exported variables.
 	var should_log: bool = false
 	match category:
 		Category.INTERACTION:

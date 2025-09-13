@@ -1,4 +1,4 @@
-[gd_scene load_steps=126 format=3 uid="uid://bqep4lh77amxw"]
+[gd_scene load_steps=128 format=3 uid="uid://bqep4lh77amxw"]
 
 [ext_resource type="Script" uid="uid://322jte5qhr8v" path="res://Player/PlayerScript.gd" id="1_mom48"]
 [ext_resource type="Texture2D" uid="uid://oj5uoalybhj8" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_CrouchFull.png" id="2_74o77"]
@@ -46,6 +46,8 @@
 [ext_resource type="Resource" uid="uid://cc6t44ykfjjb6" path="res://VFX/VFXData/slide_puff.tres" id="36_psxt1"]
 [ext_resource type="Resource" uid="uid://ci5d3pjnftf5n" path="res://VFX/VFXData/skid_puff.tres" id="38_i2cyd"]
 [ext_resource type="Resource" uid="uid://u5b8dtjrhv5f" path="res://Player/Data/default_camera_stats.tres" id="39_ac1bf"]
+[ext_resource type="Script" uid="uid://ca66boe0kxm6n" path="res://Player/States/WallKickState.gd" id="44_4kalu"]
+[ext_resource type="Resource" uid="uid://c23a6ftkf8xfr" path="res://VFX/VFXData/wall_kick_vfx.tres" id="45_buwl4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_owe82"]
 atlas = ExtResource("2_74o77")
@@ -969,6 +971,9 @@ one_shot = true
 [node name="StandingSlideCooldownTimer" type="Timer" parent="Timers" groups=["timers"]]
 one_shot = true
 
+[node name="WallKickTimer" type="Timer" parent="Timers" groups=["timers"]]
+one_shot = true
+
 [node name="DashParticles" type="GPUParticles2D" parent="."]
 material = SubResource("ShaderMaterial_4tc8y")
 position = Vector2(-2, -40)
@@ -1070,6 +1075,10 @@ metadata/_custom_type_script = "uid://814l5d1kyhhw"
 
 [node name="CrouchingState" type="Node" parent="StateMachine"]
 script = ExtResource("35_yxgpa")
+
+[node name="WallKickState" type="Node" parent="StateMachine"]
+script = ExtResource("44_4kalu")
+wall_kick_vfx = ExtResource("45_buwl4")
 
 [node name="PlayerInteraction" type="Area2D" parent="."]
 visible = false

@@ -14,6 +14,7 @@ var villagers: int = 0
 var archers: int = 0
 var is_gameplay_active: bool = true
 var mission_objective_complete: bool = false
+var wall_kick_unlocked: bool = true ## NEW: Set to true to enable the ability for testing.
 
 const SAVE_FILE_PATH = "user://savegame.json"
 

@@ -32,6 +32,9 @@ extends Resource
 @export var dash_end_velocity_multiplier: float = 0.3
 @export var invisibility_duration: float = 2.0
 @export var invisibility_cooldown: float = 5.0
+@export var wall_kick_horizontal_velocity: float = 700.0 ## NEW: Horizontal speed of the kick-off.
+@export var wall_kick_vertical_velocity: float = -200.0 ## NEW: Small upward boost during kick-off.
+@export var wall_kick_duration: float = 0.25 ## NEW: How long the kick-off state lasts.
 
 @export_group("Game Feel & Timers")
 @export var coyote_time_duration: float = 0.2

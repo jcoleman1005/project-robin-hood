@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="VFXData" load_steps=3 format=3 uid="uid://c23a6ftkf8xfr"]
+
+[ext_resource type="Script" uid="uid://ctlafprqxjjv2" path="res://VFX/VFXData/VFXData.gd" id="1_g8v3g"]
+[ext_resource type="PackedScene" uid="uid://b65sf7txtiy3x" path="res://VFX/AnimatedEffect.tscn" id="1_jxrb7"]
+
+[resource]
+script = ExtResource("1_g8v3g")
+effect_scene = ExtResource("1_jxrb7")
+animation_name = "dash_puff"
+playback_speed = 1.0
+spawn_marker_name = "WallSlideSpawner"
+position_offset = Vector2(0, 0)
+flip_h_with_player = false
+flip_h_with_wall = true
+rotate_with_wall_normal = true
+rotation_degrees = 0.0
+scale = Vector2(1, 1)
+camera_punch_intensity = 0.05
+metadata/_custom_type_script = "uid://ctlafprqxjjv2"
