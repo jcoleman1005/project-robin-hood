@@ -4,21 +4,24 @@ extends Node2D
 @onready var player: CharacterBody2D = get_parent() as CharacterBody2D
 @onready var camera: Camera2D = player.get_node("PlayerCamera")
 
-# ... (generic play_effect function) ...
+# --- Generic, Resource-Based Function for one-shot effects ---
 func play_effect(vfx_data: VFXData) -> void:
-	# ... (all the positioning, flipping, and scaling logic is the same) ...
 	if not is_instance_valid(vfx_data) or not is_instance_valid(vfx_data.effect_scene):
 		return
+
 	var effect: AnimatedSprite2D = vfx_data.effect_scene.instantiate()
 	get_tree().root.add_child(effect)
+
 	var spawn_marker: Marker2D = player.get_node_or_null(vfx_data.spawn_marker_name)
 	var spawn_pos: Vector2
+
 	if is_instance_valid(spawn_marker):
 		spawn_pos = spawn_marker.global_position
 	else:
 		spawn_pos = player.global_position
-	effect.rotation_degrees = vfx_data.rotation_degrees
+
 	effect.scale = vfx_data.scale
+
 	if vfx_data.flip_h_with_player:
 		var direction = -1.0 if player.animated_sprite.flip_h else 1.0
 		effect.flip_h = player.animated_sprite.flip_h
@@ -29,14 +32,23 @@ func play_effect(vfx_data: VFXData) -> void:
 		effect.flip_h = wall_normal.x < 0
 	else:
 		spawn_pos += vfx_data.position_offset
-	effect.global_position = spawn_pos
 	
+	effect.global_position = spawn_pos
+
+	# --- NEW: Contextual Rotation Logic ---
+	if vfx_data.rotate_with_wall_normal and player.is_on_wall():
+		var wall_normal = player.get_wall_normal()
+		# Wall on the left (normal.x > 0), so we rotate to point right.
+		effect.rotation_degrees = -90 if wall_normal.x > 0 else 90
+	else:
+		effect.rotation_degrees = vfx_data.rotation_degrees
+
 	# --- Play ---
 	if effect.has_method("play_effect"):
-		# UPDATE THIS LINE to pass the playback_speed from the resource.
 		effect.play_effect(vfx_data.animation_name, vfx_data.playback_speed)
 
-# ... (dash effect functions are the same) ...
+
+# --- Specific Functions for Sustained Effects (like Dash) ---
 func play_dash_effects(particles: GPUParticles2D) -> void:
 	if not is_instance_valid(particles): return
 	_trigger_camera_punch()

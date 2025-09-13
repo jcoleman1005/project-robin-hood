@@ -19,7 +19,9 @@ extends Resource
 @export var flip_h_with_player: bool = false
 ## Flips the effect horizontally based on the wall normal direction.
 @export var flip_h_with_wall: bool = false
-## Applies a specific rotation in degrees.
+## If true, applies a 90-degree rotation based on the wall normal.
+@export var rotate_with_wall_normal: bool = false
+## Applies a specific static rotation in degrees.
 @export var rotation_degrees: float = 0.0
 ## Sets a specific scale.
 @export var scale: Vector2 = Vector2.ONE

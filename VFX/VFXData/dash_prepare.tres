@@ -7,6 +7,7 @@
 script = ExtResource("1_rao5i")
 effect_scene = ExtResource("1_tc740")
 animation_name = "dash_puff"
+playback_speed = 1.0
 spawn_marker_name = "FootSpawner"
 position_offset = Vector2(-15, 0)
 flip_h_with_player = true

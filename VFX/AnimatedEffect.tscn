@@ -179,5 +179,5 @@ animations = [{
 
 [node name="AnimatedEffect" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_dfwn2")
-animation = &"jump_puff"
+animation = &"dash_puff"
 script = ExtResource("3_reqtd")

@@ -1,6 +1,8 @@
 # res://Player/States/SlidingState.gd
 extends State
 
+@export var slide_vfx: VFXData
+
 func enter() -> void:
 	player.slide_timer.start(player.stats.slide_duration)
 	player.set_crouching_collision()
@@ -15,6 +17,9 @@ func enter() -> void:
 
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.SLIDING, player.velocity, Vector2.ZERO, input_x)
+
+	if is_instance_valid(slide_vfx):
+		player.vfx.play_effect(slide_vfx)
 
 
 func exit() -> void:

@@ -1,9 +1,16 @@
-[Technical] Established a low-resolution pixel art viewport (640x360) as the base for the game's visuals.
-[Feature] Implemented a Finite State Machine (FSM) for Guard AI, starting with Patrol and Caught states.
-[Feature] Created the core Alarm State trigger; guards detecting the player now correctly leads to a mission failed state.
-[Feature] Implemented a UI progress bar for hold-to-interact actions, providing clear visual feedback to the player.
-[Architecture] Implemented a component-based persistence system for saving/loading the state of in-game objects.
-[Feature] Checkpoints now save the state of all persistent objects (e.g., opened chests), which is restored on player death.
+[Architecture] Refactored the VFX system to be data-driven using a custom VFXData resource.
+[Feature] VFXData resource now supports playback speed and contextual rotation, allowing for reversed and wall-oriented effects.
+[Feature] Added one-shot VFX for dash, slide, and skid actions.
+[Refactor] Improved jump and land animations (stretch/squish) to be driven by AnimationPlayer for better game feel.
+[Bugfix] Fixed input priority allowing slide actions to correctly override the standard landing state when initiated mid-air.
+[Bugfix] Resolved visual artifacts with wall slide and landing effects, ensuring they are correctly positioned and oriented.
+[Bugfix] Fixed various crashes related to null references uncovered during the refactor.
+[Technical] Introduced assert() statements as a best practice for defensive coding to catch missing Inspector assignments.
+[Feature] Implemented checkpoint respawn system; player now respawns at the last activated checkpoint upon death.
+[Architecture] Refactored the mission save state system to use a custom MissionSaveState resource, improving data structure and enabling editor-based setup.
+[Feature] Added an in-editor tool to the PersistenceComponent to automatically generate unique object IDs.
+[Refactor] Improved checkpoint workflow by adding a dedicated Marker2D for precise player respawn placement.
+[Bugfix] Resolved parser errors related to singleton class_name conflicts and incorrect typed function returns.
 [Refactor] Unified RescuedVillager to use the standard Interactable component, fixing a crash.
 [Refactor] Unified Chest to use the standard Interactable component.
 [Refactor] Moved pause input handling from PauseMenu to PlayerScript.

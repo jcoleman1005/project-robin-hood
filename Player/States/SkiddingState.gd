@@ -1,10 +1,15 @@
 # res://Player/States/SkiddingState.gd
 extends State
 
+@export var skid_vfx: VFXData
+
 func enter() -> void:
 	player.skid_timer.start(player.stats.skid_duration)
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.SKIDDING, player.velocity, Vector2.ZERO, -input_x)
+
+	if is_instance_valid(skid_vfx):
+		player.vfx.play_effect(skid_vfx)
 
 func exit() -> void:
 	player.skid_timer.stop()
