@@ -34,13 +34,19 @@ Date: September 7, 2025
 	  4. Rules:
 		 * Objective: The primary goal becomes "Escape to the original entrance!" All other objectives (like "Rescue the Villager") remain active and can be attempted at extreme risk
 		 * Guard Behavior: [Planned] All Guards enter a "Hunter" state: they abandon patrols, gain a speed boost, and relentlessly pursue the player.
-		 * Stakes: Success (reaching the start zone) means keeping all collected resources. The failure condition is a Guard's detection meter becoming completely filled. This triggers the player_detected event, leading to a MissionFailedScreen that prompts a return to the Hideout. The "touch and lose gold" mechanic is planned for a future implementation.
+		 * Stakes: Success (reaching the start zone) means keeping all collected resources. The failure condition is a Guard's detection meter becoming completely filled. This triggers the player_detected event, leading to a MissionFailedScreen that prompts a return to the Hideout. Upon returning to the Hideout, any progress saved at a checkpoint is lost, and the mission is reset. The "touch and lose gold" mechanic is planned for a future implementation.
    4. Hold interaction
 	  1. Concept: To interact with key objects like chests or prisoners, the player must press and hold the interact button for a set duration.
 	  2. Mechanic: A UI element appears showing the hold progress. If the button is released before the hold is complete, the progress resets. The duration can be set per-interactable object. This system is managed globally by the InteractionManager.
-   5. Environmental Hazards
-	  1. Concept: Certain level areas are instantly lethal to the player.
-	  2. Mechanic: These areas are defined by a KillZone scene. Upon entering a  KillZone, the player_died event is immediately triggered. This results in the  GameManager reloading the level, placing the player at their last activated checkpoint or the mission's starting spawn point.
+   5. Checkpoints & Hazards
+	  1. Concept: Checkpoints provide players with a respawn point within a mission, saving their progress on key objectives. This system works in tandem with environmental hazards (falls, spikes, traps), which act as an immediate failure condition that resets the player to their last checkpoint.
+	  2. Checkpoint Mechanic: 
+		 * Activation: The player activates a checkpoint by entering its area.
+		 * Progress Saving: Upon activation, the state of all "persistent" objects in the level is saved. This includes opened chests, rescued prisoners, unlocked doors, etc. The player's location at the checkpoint is also saved as the new respawn point.
+	  3. Hazard Mechanic:
+		 * Lethal Areas: Certain level areas are instantly lethal to the player.
+		 * Mechanic: These areas are defined by a KillZone scene. Upon entering a KillZone, the player_died event is immediately triggered.
+		 * Consequence: The GameManager reloads the level, restoring the state of all persistent objects from the last activated checkpoint and placing the player at that checkpoint's respawn point. If no checkpoint has been activated, the player is returned to the mission's starting spawn point.
 4. Progression Systems
    1. [Planned] Specialist NPCs
 	  1. Concept: The growth of the Hideout is driven by rescuing and recruiting key Specialist NPCs who unlock major new gameplay systems.
@@ -85,31 +91,32 @@ Date: September 7, 2025
 	  1. The "grey-boxing" phase will be succeeded by a "Color-Boxing" phase. The objective is to implement a first-pass version of the Mission Palette on the simple placeholder shapes. The initial player and Guard sprites will be created and tested against this colored environment to validate our core principle of Clarity Above All.
 7. Technical Details
    1. Engine: Godot 4.2.2
-   2. Architecture: Decoupled system using global singleton managers (GameManager, SceneManager, UIManager, EventBus).
-   3. Save/Load: Game state is saved to a JSON file.
+   2. Viewport: The game is rendered to a low-resolution 640x360 viewport, with canvas items scaled to fit the screen.
+   3. Architecture: Decoupled system using global singleton managers (GameManager, SceneManager, UIManager, EventBus).
+   4. Save/Load: Game state is saved to a JSON file.
 8. Idea Parking Lot / Post-Production Features
 This section serves as a backlog of approved but unscheduled ideas for future development.
-   4. New Player Abilities (Potential Quartermaster Unlocks)
+   5. New Player Abilities (Potential Quartermaster Unlocks)
 	  1. Wall Kick: A horizontal kick-off from a wall-slide. This can influence downward vertical movement to add challenge and break up monotony.
 	  2. Bash Traversal: An advanced ability to launch off enemies or specific environmental points.
 	  3. Grappling Hook: A traversal tool for latching onto and swinging from specific anchor points.
 	  4. Hookshot: A traversal tool that pulls the player directly towards a latched surface.
 	  5. Invisibility, Glide Advanced traversal and stealth options.
 	  6. Rapid Override Enhancements: Upgrades to the QTE sequence (more time, shorter sequence).
-   5. New Hideout & Progression Systems
+   6. New Hideout & Progression Systems
 	  1. Treasury & Gold Cap: An economic system that introduces a limit to how much Gold the player can hold.
 	  2. Full Dialogue System: A system for interactive conversations with NPCs.
-   6. Major Systems & Expansions
+   7. Major Systems & Expansions
 	  1. Advanced Guard AI: Expansion of AI to include audio detection and a "Suspicious" state.
 	  2. Playable Rescuers: A major expansion where the player controls a recruit to rescue a captured Knight. (DLC/Sequel scope).
 	  3. Metroidvania World Structure: A fundamental shift to an interconnected world. (Sequel scope).
-   7. System Evolution: Advanced Flow State ("Acrobat" System)
+   8. System Evolution: Advanced Flow State ("Acrobat" System)
 * Concept: An expansion of the "Flow State Feedback" system that introduces scoring and mechanical rewards for performing long, complex movement combos, inspired by games like Tony Hawk's Pro Skater.
 * Potential Features:
    * Visible Combo UI: A non-intrusive UI element that displays the current combo chain (e.g., "Wall Slide > Jump > Dash") and a score multiplier.
    * Resource Bonus: Successfully completed combos could grant a multiplier to any Gold collected while the combo is active, directly rewarding skillful play with faster progression.
    * Combo Extenders: New, advanced abilities (unlocked via the Quartermaster) designed to maintain a combo chain. The most crucial would be a "Ground Slide" that allows the player to maintain their combo state for a short time on flat ground, analogous to a THPS Manual.
-   8. Contextual Interaction: Rapid Override Sequence
+   9. Contextual Interaction: Rapid Override Sequence
 	  1. Concept: During the Alarm State, "hold-to-interact" mechanics on major objectives are replaced with a Quick-Time Event.
 	  2. Mechanic: A short, randomized sequence of multiple directional inputs (3 for chests and 5 for prisoners)  appears on-screen.
 	  3. Execution: The player must correctly input the sequence within a 1.5-second time limit.

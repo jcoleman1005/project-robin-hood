@@ -2,136 +2,16 @@
 
 You will be provided with a comprehensive dump of the Godot project context, structured as follows. You must parse, understand, and use this context to inform all your responses.
 
-*   **`2. GDD`**: The Game Design Document.
-*   **`3. Project Context`**: The technical project dump, including:
-    *   `3.1. Project Settings`
-    *   `3.2. Resource Files`
-    *   `3.3. Scene Structures`
-    *   `3.4. Codebase`
+*   **`2. Project Context`**: The technical project dump, including:
+    *   `2.1. Project Settings`
+    *   `2.2. Resource Files`
+    *   `2.3. Scene Structures`
+    *   `2.4. Codebase`
 
 ---
-### **2. GDD**
+### **2. Project Context**
 
-Game Design Document: Project Robin Hood
-
-
-Version: 3.1 (Studio Director’s Draft)
-Date: September 7, 2025
-1. Executive Summary
-   1. Game Title: Project Robin Hood
-   2. Genre: 2D Stealth/Infiltration Platformer
-   3. Logline: A skilled knight must complete tense, non-combat stealth missions to rescue villagers and gather resources, using them to build a thriving hideout and ultimately reclaim the land from a corrupt regime.
-   4. Core Question (Vertical Slice): "Is the core gameplay loop of completing a tense stealth/infiltration mission to strategically upgrade a home base a fun and repeatable experience?"
-2. Gameplay
-   1. Core Gameplay Loop
-      1. The gameplay is divided into two distinct phases: Missions and Hideout Management.
-      2. Prepare: At the Hideout, the player views their resources, upgrades, and available missions before choosing to embark.
-      3. Infiltrate (The Mission): The player enters a non-linear 2D level with a primary objective. The focus is on stealth, evasion, and traversal.
-      4. Return: Upon completing the objective, the player must exit the level to return to the Hideout. If detected by a guard, the Alarm State is triggered. This forces the player into a frantic escape where they must decide on the fly whether to flee with the resources they have or risk everything to complete the primary objective.
-      5. Upgrade (The Hideout): In the Hideout, the player spends resources to unlock new abilities and expansions.
-   2. Player Experience & Game Feel
-      1. Tension: During missions, the player should feel like a vulnerable but highly skilled infiltrator. Guards are a significant threat, and evasion is paramount.
-      2. Empowerment: The player's movement controller is fluid and precise. Mastery of movement is the key to success.
-      3. Reward: Returning to the Hideout and seeing it grow provides a powerful sense of accomplishment.
-      4. Game Feel: Flow State Stealth: The game's stealth is not about slow, patient waiting. It is about speed, momentum, and improvisation. The player should feel like a skilled ghost, stringing together fluid movements to create an unbroken "flow" through the level. Success should feel like a perfectly executed acrobatic performance. For example, the player could string together a wall-slide, a kick-off, and a dash to "acrobatically" bypass a guard patrol without ever stopping.
-3. Core Mechanics
-   1. Player Controller
-      1. The player character, "The Knight," is controlled by a node-based state machine.
-      2. Core Abilities: Run, Jump (Double), Wall Slide/Jump, Dash, Interact, Crouch/Slide.
-   2. Stealth System
-      1. Guard AI: Guards patrol set paths and have a visible cone of vision.
-      2. Detection: The vision cone changes color from white to yellow to red when the player is in a guard's line of sight. When fully red, it triggers the Alarm State.
-   3. Alarm State
-      1. Concept: A high-stakes failure condition that transforms a stealth failure into a climactic escape sequence.
-      2. Trigger: The moment a Guard's detection meter is completely filled.
-      3. Feedback: Instantaneous and overwhelming audio/visual feedback (alarm sound, chase music, screen flash).
-      4. Rules:
-         * Objective: The primary goal becomes "Escape to the original entrance!" All other objectives (like "Rescue the Villager") remain active and can be attempted at extreme risk
-         * Guard Behavior: [Planned] All Guards enter a "Hunter" state: they abandon patrols, gain a speed boost, and relentlessly pursue the player.
-         * Stakes: Success (reaching the start zone) means keeping all collected resources. The failure condition is a Guard's detection meter becoming completely filled. This triggers the player_detected event, leading to a MissionFailedScreen that prompts a return to the Hideout. The "touch and lose gold" mechanic is planned for a future implementation.
-   4. Hold interaction
-      1. Concept: To interact with key objects like chests or prisoners, the player must press and hold the interact button for a set duration.
-      2. Mechanic: A UI element appears showing the hold progress. If the button is released before the hold is complete, the progress resets. The duration can be set per-interactable object. This system is managed globally by the InteractionManager.
-   5. Environmental Hazards
-      1. Concept: Certain level areas are instantly lethal to the player.
-      2. Mechanic: These areas are defined by a KillZone scene. Upon entering a  KillZone, the player_died event is immediately triggered. This results in the  GameManager reloading the level, placing the player at their last activated checkpoint or the mission's starting spawn point.
-4. Progression Systems
-   1. [Planned] Specialist NPCs
-      1. Concept: The growth of the Hideout is driven by rescuing and recruiting key Specialist NPCs who unlock major new gameplay systems.
-      2. Recruitment Flow:
-         * The Lead: The player discovers a specialist's location via the Opportunity Deck system.
-         * The Rescue: The player undertakes a unique mission to save the specialist.
-         * The Foundation: The rescued Specialist appears in the Hideout but requires a specific building to begin work.
-         * The Reward: Once the building is constructed, the specialist becomes active, unlocking their upgrade tree.
-   2. [Planned] The Opportunity Deck
-      1. Concept: A controlled randomization system ( like a "deck of cards") that generates mission variety and special rescue missions between runs.
-      2. Rules:
-         * Gating: Event "cards" are added to the deck when the player achieves specific milestones.
-         * Save-Scum Proof: The "draw" from the deck occurs upon returning to the Hideout, locking in the next mission's state before the player can save.
-         * Forgiveness: Failed special missions have a "pity timer" and an increased probability of reappearing.
-   3. Key Building: The Scout's Lookout
-      1. Concept: The central hub for the Intel progression pillar, required to unlock mission variety and new areas.
-      2. Functions & Upgrades:
-         * Level 1: Unlocks the Opportunity Deck and the "Lead Scout" NPC.
-         * Provides "Mission Intel": For special missions like Specialist Rescues, a one-sentence tactical clue is displayed on the mission selection screen, preparing the player for the unique challenge ahead.
-         * Level 2: Unlocks the next major gameplay area and adds more complex modifiers to the deck.
-         * Level 3: Increases the number of mission choices on the Mission Board.
-5. Level Design Concepts:
-   1. Introductory Cinematics: Key puzzle rooms or unique missions will begin with a short, non-interactive, scripted camera pan. The purpose of this is to introduce the core elements of a challenge to the player in a non-verbal way, guiding their attention to the objective, the primary obstacle, and the potential solution.
-6. Art & Sound
-   1. Art Pillars The visual direction of Project Robin Hood is guided by three core principles:
-      1. Clarity Above All (Flow-State Readability): The primary function of the art is to serve the "Flow State Stealth" gameplay. Every visual element—from the texture of a floor tile to the silhouette of a guard—must prioritize instant readability to support fast-paced, acrobatic traversal and tactical assessment. If a choice must be made between aesthetic detail and gameplay clarity, clarity always wins.
-      2. Narrative Dichotomy (Desperate vs. Hopeful): The art will be a primary tool for telling the story of struggle and recovery. There will be a stark, deliberate contrast between the oppressive, tense atmosphere of the Missions and the warm, growing vitality of the Hideout. This visual shift reinforces the core gameplay loop and the player's emotional journey.
-      3. Vibrant Desolation: The world is moody and oppressed, not dead. The mission environments will pair a dark, desaturated base with sharp, vibrant accent colors. These accents will be used sparingly and deliberately to draw the player's eye to points of interaction, danger, and objective, creating a visually striking and highly functional aesthetic.
-   2. Visual References & Inspirations The following projects serve as reference points for specific elements of our art style:
-      1. Character Animation & Fluidity: Katana ZERO, Celeste. The goal is to achieve a similar level of expressive, fluid animation that makes movement feel responsive and powerful.
-      2. Environmental Readability & Silhouettes: Dead Cells. Reference for its clear distinction between foreground gameplay layers and background parallax, and for how character and enemy silhouettes pop against their environments.
-      3. Atmosphere & Color: Hollow Knight (for its moody, desolate world punctuated by unique biome palettes), Cyberpunk 2077 Edgerunners animation (for its use of sharp, high-saturation accent colors against dark backdrops).
-   3. Color Philosophy Color will be used systematically to communicate mood and gameplay information.
-      1. Mission Palette: Dominated by a cool, desaturated color scheme (deep blues, slate grays, muted earth tones) to create a sense of tension and oppression. All interactive threats (guard optics, trap triggers, alarm indicators) will use a single, reserved high-saturation accent color (e.g., a sharp, "toxic" yellow) for immediate identification.
-      2. Hideout Palette: Dominated by a warm, more saturated color scheme (wood tones, soft golds, verdant greens). As the player upgrades the hideout, its color vibrancy and the complexity of its lighting will increase, providing a visual reward for progression.
-   4. Key Asset Direction
-      1. The Knight (Player Character): Must have an iconic and athletic silhouette. Animation is the top priority; it must sell the "acrobatic performance" fantasy. The color scheme should contrast well with both the Mission and Hideout palettes.
-      2. The Regime (Enemies): Silhouettes should be uniform and oppressive, clearly distinct from the player's agile frame. They will incorporate the "threat" accent color in key areas (e.g., visors, power sources) to clearly communicate their facing and alert status.
-      3. Environments: Architecture will feel grounded and believable but will be constructed to create clear paths and arenas for the "Flow State" platforming. Visual language will be consistent: navigable surfaces will be visually quiet, while traversal opportunities (like climbable walls) and hazards will be clearly marked.
-      4. UI/UX: During missions, the UI will be minimalist and diegetic where possible to maximize screen real estate and immersion. In the Hideout, menus can be more stylized and thematic, reflecting the handcrafted nature of the resistance.
-   5. Vertical Slice Art Goals 
-      1. The "grey-boxing" phase will be succeeded by a "Color-Boxing" phase. The objective is to implement a first-pass version of the Mission Palette on the simple placeholder shapes. The initial player and Guard sprites will be created and tested against this colored environment to validate our core principle of Clarity Above All.
-7. Technical Details
-   1. Engine: Godot 4.2.2
-   2. Architecture: Decoupled system using global singleton managers (GameManager, SceneManager, UIManager, EventBus).
-   3. Save/Load: Game state is saved to a JSON file.
-8. Idea Parking Lot / Post-Production Features
-This section serves as a backlog of approved but unscheduled ideas for future development.
-   4. New Player Abilities (Potential Quartermaster Unlocks)
-      1. Wall Kick: A horizontal kick-off from a wall-slide. This can influence downward vertical movement to add challenge and break up monotony.
-      2. Bash Traversal: An advanced ability to launch off enemies or specific environmental points.
-      3. Grappling Hook: A traversal tool for latching onto and swinging from specific anchor points.
-      4. Hookshot: A traversal tool that pulls the player directly towards a latched surface.
-      5. Invisibility, Glide Advanced traversal and stealth options.
-      6. Rapid Override Enhancements: Upgrades to the QTE sequence (more time, shorter sequence).
-   5. New Hideout & Progression Systems
-      1. Treasury & Gold Cap: An economic system that introduces a limit to how much Gold the player can hold.
-      2. Full Dialogue System: A system for interactive conversations with NPCs.
-   6. Major Systems & Expansions
-      1. Advanced Guard AI: Expansion of AI to include audio detection and a "Suspicious" state.
-      2. Playable Rescuers: A major expansion where the player controls a recruit to rescue a captured Knight. (DLC/Sequel scope).
-      3. Metroidvania World Structure: A fundamental shift to an interconnected world. (Sequel scope).
-   7. System Evolution: Advanced Flow State ("Acrobat" System)
-* Concept: An expansion of the "Flow State Feedback" system that introduces scoring and mechanical rewards for performing long, complex movement combos, inspired by games like Tony Hawk's Pro Skater.
-* Potential Features:
-   * Visible Combo UI: A non-intrusive UI element that displays the current combo chain (e.g., "Wall Slide > Jump > Dash") and a score multiplier.
-   * Resource Bonus: Successfully completed combos could grant a multiplier to any Gold collected while the combo is active, directly rewarding skillful play with faster progression.
-   * Combo Extenders: New, advanced abilities (unlocked via the Quartermaster) designed to maintain a combo chain. The most crucial would be a "Ground Slide" that allows the player to maintain their combo state for a short time on flat ground, analogous to a THPS Manual.
-   8. Contextual Interaction: Rapid Override Sequence
-      1. Concept: During the Alarm State, "hold-to-interact" mechanics on major objectives are replaced with a Quick-Time Event.
-      2. Mechanic: A short, randomized sequence of multiple directional inputs (3 for chests and 5 for prisoners)  appears on-screen.
-      3. Execution: The player must correctly input the sequence within a 1.5-second time limit.
-      4. Failure: An incorrect input or expired timer puts the interaction on a short cooldown.
----
-### **3. Project Context**
-
-#### **3.1. Project Settings**
+#### **2.1. Project Settings**
 
 --- START OF PROJECT SETTINGS ---
 ; Engine configuration file.
@@ -294,7 +174,7 @@ renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 --- END OF PROJECT SETTINGS ---
 
-#### **3.2. Resource Files**
+#### **2.2. Resource Files**
 
 --- START OF RESOURCE FILES ---
 --- RESOURCE: res://addons/gut/gui/GutSceneTheme.tres ---
@@ -389,14 +269,14 @@ wall_detach_gravity_scale = 0.5
 metadata/_custom_type_script = "uid://bx05fogp11uwl"
 --- END OF RESOURCE FILES ---
 
-#### **3.3. Scene Structures**
+#### **2.3. Scene Structures**
 
 --- START OF SCENE STRUCTURES ---
 --- SCENE: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn ---
 Enemy (CharacterBody2D)
 > script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.gd
 > scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
-> vision_renderer = VisionConeRenderer:<Polygon2D#3446409363240>
+> vision_renderer = VisionConeRenderer:<Polygon2D#3210169380396>
 > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > is_rotating = false
 > rotation_speed = 0.1
@@ -415,8 +295,8 @@ Enemy (CharacterBody2D)
 > > ray_count = 100
 > > max_distance = 500.0
 > > collision_layer_mask = 2
-> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3446442917689>
-> > write_polygon2d = VisionConeRenderer:<Polygon2D#3446409363240>
+> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3210202934848>
+> > write_polygon2d = VisionConeRenderer:<Polygon2D#3210169380396>
 > > debug_lines = false
 > > debug_shape = false
 > > minimum_recalculate_time_msec = 0
@@ -446,7 +326,7 @@ example (Node2D)
 >   script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.gd
 >   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
 > > position = (1055.0, 97.0)
-> > vision_renderer = VisionConeRenderer:<Polygon2D#3447046897464>
+> > vision_renderer = VisionConeRenderer:<Polygon2D#3210806914626>
 > > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > > is_rotating = false
 > > rotation_speed = 0.1
@@ -465,8 +345,8 @@ example (Node2D)
 >   > ray_count = 100
 >   > max_distance = 500.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3447080451855>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#3447046897464>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3210840476544>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#3210806914626>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -502,7 +382,7 @@ example (Node2D)
 >   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
 > > position = (301.0, 705.0)
 > > rotation = -1.57079994678497
-> > vision_renderer = VisionConeRenderer:<Polygon2D#3447231446837>
+> > vision_renderer = VisionConeRenderer:<Polygon2D#3210991463983>
 > > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > > is_rotating = true
 > > rotation_speed = 1.0
@@ -521,8 +401,8 @@ example (Node2D)
 >   > ray_count = 50
 >   > max_distance = 700
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3447265001255>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#3447231446837>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3211025018413>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#3210991463983>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -551,12 +431,12 @@ example (Node2D)
 >   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
 > > position = (211.0, 130.0)
 > > rotation = -0.48296800255775
-> > vision_renderer = VisionConeRenderer:<Polygon2D#3447382442213>
+> > vision_renderer = VisionConeRenderer:<Polygon2D#3211142466401>
 > > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > > is_rotating = false
 > > rotation_speed = 1.0
 > > rotation_angle = 90
-> > move_on_path = PathFollow2D:<PathFollow2D#3446979788592>
+> > move_on_path = PathFollow2D:<PathFollow2D#3210739805747>
 > > movement_speed = 3.0
 >   CharacterRenderer (Polygon2D)
 >   > rotation = -1.57079994678497
@@ -571,8 +451,8 @@ example (Node2D)
 >   > ray_count = 10
 >   > max_distance = 700
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3447415996220>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#3447382442213>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3211176013339>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#3211142466401>
 >   > debug_lines = true
 >   > debug_shape = true
 >   > minimum_recalculate_time_msec = 250
@@ -711,8 +591,8 @@ VisionCone2D (Node2D)
 > ray_count = 100
 > max_distance = 500.0
 > collision_layer_mask = 2
-> write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3449194381114>
-> write_polygon2d = VisionConeRenderer:<Polygon2D#3449160826673>
+> write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3212803410808>
+> write_polygon2d = VisionConeRenderer:<Polygon2D#3212769848891>
 > debug_lines = false
 > debug_shape = false
 > minimum_recalculate_time_msec = 0
@@ -1873,7 +1753,7 @@ GutRunner (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 0
->           > resize_control = Normal:<Panel#3475199065577>
+>           > resize_control = Normal:<Panel#3238808095633>
 >           > vertical_resize = true
 >           SwitchModes (Button)
 >           > layout_mode = 2
@@ -1888,7 +1768,7 @@ GutRunner (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 1
->           > resize_control = Normal:<Panel#3475199065577>
+>           > resize_control = Normal:<Panel#3238808095633>
 >           > vertical_resize = true
 >           SidePad2 (CenterContainer)
 >           > custom_minimum_size = (2.0, 0.0)
@@ -1999,7 +1879,7 @@ GutRunner (Node2D)
 >               > layout_mode = 2
 >               > color = (1.0, 1.0, 1.0, 0.0)
 >               > orientation = 0
->               > resize_control = Compact:<Panel#3476675460668>
+>               > resize_control = Compact:<Panel#3240284490722>
 >               > vertical_resize = false
 >               SwitchModes (Button)
 >               > layout_mode = 2
@@ -2017,7 +1897,7 @@ GutRunner (Node2D)
 >               > layout_mode = 2
 >               > color = (1.0, 1.0, 1.0, 0.0)
 >               > orientation = 1
->               > resize_control = Compact:<Panel#3476675460668>
+>               > resize_control = Compact:<Panel#3240284490722>
 >               > vertical_resize = false
 >           RightMargin (CenterContainer)
 >           > custom_minimum_size = (5.0, 0.0)
@@ -2128,7 +2008,7 @@ Min (Panel)
 >         > layout_mode = 2
 >         > color = (1.0, 1.0, 1.0, 0.0)
 >         > orientation = 0
->         > resize_control = Min:<Panel#3480366448436>
+>         > resize_control = Min:<Panel#3243975470652>
 >         > vertical_resize = false
 >         SwitchModes (Button)
 >         > layout_mode = 2
@@ -2146,7 +2026,7 @@ Min (Panel)
 >         > layout_mode = 2
 >         > color = (1.0, 1.0, 1.0, 0.0)
 >         > orientation = 1
->         > resize_control = Min:<Panel#3480366448436>
+>         > resize_control = Min:<Panel#3243975470652>
 >         > vertical_resize = false
 >     RightMargin (CenterContainer)
 >     > custom_minimum_size = (5.0, 0.0)
@@ -2299,7 +2179,7 @@ Large (Panel)
 >     > layout_mode = 2
 >     > color = (1.0, 1.0, 1.0, 0.0)
 >     > orientation = 0
->     > resize_control = Large:<Panel#3482530709300>
+>     > resize_control = Large:<Panel#3246139731516>
 >     > vertical_resize = true
 >     SwitchModes (Button)
 >     > layout_mode = 2
@@ -2314,7 +2194,7 @@ Large (Panel)
 >     > layout_mode = 2
 >     > color = (1.0, 1.0, 1.0, 0.0)
 >     > orientation = 1
->     > resize_control = Large:<Panel#3482530709300>
+>     > resize_control = Large:<Panel#3246139731516>
 >     > vertical_resize = true
 >     SidePad2 (CenterContainer)
 >     > custom_minimum_size = (2.0, 0.0)
@@ -2777,7 +2657,7 @@ GutScene (Node2D)
 >       > layout_mode = 2
 >       > color = (1.0, 1.0, 1.0, 0.0)
 >       > orientation = 0
->       > resize_control = Normal:<Panel#3494224428857>
+>       > resize_control = Normal:<Panel#3257833451065>
 >       > vertical_resize = true
 >       SwitchModes (Button)
 >       > layout_mode = 2
@@ -2792,7 +2672,7 @@ GutScene (Node2D)
 >       > layout_mode = 2
 >       > color = (1.0, 1.0, 1.0, 0.0)
 >       > orientation = 1
->       > resize_control = Normal:<Panel#3494224428857>
+>       > resize_control = Normal:<Panel#3257833451065>
 >       > vertical_resize = true
 >       SidePad2 (CenterContainer)
 >       > custom_minimum_size = (2.0, 0.0)
@@ -2903,7 +2783,7 @@ GutScene (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 0
->           > resize_control = Compact:<Panel#3495700823606>
+>           > resize_control = Compact:<Panel#3259309853661>
 >           > vertical_resize = false
 >           SwitchModes (Button)
 >           > layout_mode = 2
@@ -2921,7 +2801,7 @@ GutScene (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 1
->           > resize_control = Compact:<Panel#3495700823606>
+>           > resize_control = Compact:<Panel#3259309853661>
 >           > vertical_resize = false
 >       RightMargin (CenterContainer)
 >       > custom_minimum_size = (5.0, 0.0)
@@ -2943,7 +2823,7 @@ UserFileViewer (Window)
 > FileDialog (FileDialog)
 > > access = 1
 > > show_hidden_files = true
->   @PopupMenu@27713 (PopupMenu)
+>   @PopupMenu@26978 (PopupMenu)
 > TextDisplay (ColorRect)
 > > anchors_preset = 15
 > > anchor_right = 1.0
@@ -3057,7 +2937,7 @@ Guard (CharacterBody2D)
 > > collision_mask = 2
 > StateMachine (Node)
 >   script: res://Enemies/Guard/States/guard_state_machine.gd
-> > initial_state = PatrolState:<Node#3511404298036>
+> > initial_state = PatrolState:<Node#3273956363150>
 >   PatrolState (Node)
 >     script: res://Enemies/Guard/States/patrol_state.gd
 >   CaughtState (Node)
@@ -3069,8 +2949,8 @@ Guard (CharacterBody2D)
 > > ray_count = 75
 > > max_distance = 150.0
 > > collision_layer_mask = 2
-> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3511488183808>
-> > write_polygon2d = VisionConeRenderer:<Polygon2D#3511454629374>
+> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3274040249235>
+> > write_polygon2d = VisionConeRenderer:<Polygon2D#3274006694797>
 > > debug_lines = false
 > > debug_shape = false
 > > minimum_recalculate_time_msec = 0
@@ -3110,7 +2990,7 @@ Interactable (Area2D)
 
 --- SCENE: res://Interactables/MissionBoard.tscn ---
 MissionBoard (StaticBody2D)
-> script: res://MissionBoard.gd
+> script: res://Interactables/MissionBoard.gd
 > scene: res://Interactables/MissionBoard.tscn
 > Sprite2D (Sprite2D)
 > > texture = res://assets/signpost32px.png
@@ -3126,25 +3006,28 @@ MissionBoard (StaticBody2D)
 >   > shape = res://Interactables/Interactable.tscn::CircleShape2D_nuwr0
 
 --- SCENE: res://Interactables/Prisoner/Prisoner.tscn ---
-prisoner (StaticBody2D)
+Prisoner (StaticBody2D)
 > script: res://Interactables/Prisoner/Prisoner.gd
 > scene: res://Interactables/Prisoner/Prisoner.tscn
 > CollisionShape2D (CollisionShape2D)
-> > position = (0.0, 15.0)
-> > shape = res://Interactables/Prisoner/Prisoner.tscn::RectangleShape2D_mdajx
+> > position = (1.0, 15.0)
+> > shape = res://Interactables/Prisoner/Prisoner.tscn::RectangleShape2D_cw31s
 > AnimatedSprite2D (AnimatedSprite2D)
-> > sprite_frames = res://Interactables/Prisoner/Prisoner.tscn::SpriteFrames_b8v8i
-> > frame_progress = 0.38301599025726
+> > sprite_frames = res://Interactables/Prisoner/Prisoner.tscn::SpriteFrames_1j4pt
+> > animation = idle
 > Interactable (Area2D)
 >   script: res://Interactables/Interactable.gd
 >   scene: res://Interactables/Interactable.tscn
-> > position = (0.0, 11.0)
 > > prompt_message = "Rescue"
 > > prompt_vertical_offset = -40.0
-> > interaction_duration = 1.0
+> > interaction_duration = 2.0
 >   CollisionShape2D (CollisionShape2D)
+>   > position = (0.0, 16.0)
 >   > shape = res://Interactables/Interactable.tscn::CircleShape2D_nuwr0
-> PersistenceComponent (MissingNode)
+> PersistenceComponent (Node)
+>   script: res://Interactables/PersistenceComponent.gd
+> > object_id = ""
+> > generate_new_id = false
 
 --- SCENE: res://Interactables/RescuedVillager/RescuedVillager.tscn ---
 RescuedVillager (StaticBody2D)
@@ -3330,7 +3213,7 @@ Hideout (Node2D)
 >   > position = (523.5, 519.5)
 >   > shape = res://Levels/Hideout/Hideout.tscn::RectangleShape2D_df04x
 > MissionBoard (StaticBody2D)
->   script: res://MissionBoard.gd
+>   script: res://Interactables/MissionBoard.gd
 >   scene: res://Interactables/MissionBoard.tscn
 > > position = (1002.0, 742.0)
 >   Sprite2D (Sprite2D)
@@ -3404,7 +3287,10 @@ VillageOutskirts (Node2D)
 >   > interaction_duration = 1.0
 >     CollisionShape2D (CollisionShape2D)
 >     > shape = res://Levels/VillageOutskirts.tscn::CircleShape2D_qso13
->   PersistenceComponent (MissingNode)
+>   PersistenceComponent (Node)
+>     script: res://Interactables/PersistenceComponent.gd
+>   > object_id = "obj_15301981044325328242"
+>   > generate_new_id = false
 > Chest2 (StaticBody2D)
 >   script: res://Interactables/Chest/Chest.gd
 >   scene: res://tests/Chest.tscn
@@ -3424,7 +3310,10 @@ VillageOutskirts (Node2D)
 >   > interaction_duration = 1.0
 >     CollisionShape2D (CollisionShape2D)
 >     > shape = res://Levels/VillageOutskirts.tscn::CircleShape2D_4ehxf
->   PersistenceComponent (MissingNode)
+>   PersistenceComponent (Node)
+>     script: res://Interactables/PersistenceComponent.gd
+>   > object_id = "obj_35586616104310362197"
+>   > generate_new_id = false
 > Chest3 (StaticBody2D)
 >   script: res://Interactables/Chest/Chest.gd
 >   scene: res://tests/Chest.tscn
@@ -3444,27 +3333,10 @@ VillageOutskirts (Node2D)
 >   > interaction_duration = 1.0
 >     CollisionShape2D (CollisionShape2D)
 >     > shape = res://tests/Chest.tscn::CircleShape2D_i7tb8
->   PersistenceComponent (MissingNode)
-> prisoner (StaticBody2D)
->   script: res://Interactables/Prisoner/Prisoner.gd
->   scene: res://Interactables/Prisoner/Prisoner.tscn
-> > position = (2150.0, 204.0)
->   CollisionShape2D (CollisionShape2D)
->   > position = (0.0, 15.0)
->   > shape = res://Interactables/Prisoner/Prisoner.tscn::RectangleShape2D_mdajx
->   AnimatedSprite2D (AnimatedSprite2D)
->   > sprite_frames = res://Interactables/Prisoner/Prisoner.tscn::SpriteFrames_b8v8i
->   > frame_progress = 0.38301599025726
->   Interactable (Area2D)
->     script: res://Interactables/Interactable.gd
->     scene: res://Interactables/Interactable.tscn
->   > position = (0.0, 11.0)
->   > prompt_message = "Rescue"
->   > prompt_vertical_offset = -40.0
->   > interaction_duration = 1.0
->     CollisionShape2D (CollisionShape2D)
->     > shape = res://Interactables/Interactable.tscn::CircleShape2D_nuwr0
->   PersistenceComponent (MissingNode)
+>   PersistenceComponent (Node)
+>     script: res://Interactables/PersistenceComponent.gd
+>   > object_id = "obj_11875882354348981082"
+>   > generate_new_id = false
 > Guard (CharacterBody2D)
 >   script: res://Enemies/Guard/Guard.gd
 >   scene: res://Enemies/Guard/Guard.tscn
@@ -3496,7 +3368,7 @@ VillageOutskirts (Node2D)
 >   > collision_mask = 2
 >   StateMachine (Node)
 >     script: res://Enemies/Guard/States/guard_state_machine.gd
->   > initial_state = PatrolState:<Node#3549840900692>
+>   > initial_state = PatrolState:<Node#3286136622210>
 >     PatrolState (Node)
 >       script: res://Enemies/Guard/States/patrol_state.gd
 >     CaughtState (Node)
@@ -3508,8 +3380,8 @@ VillageOutskirts (Node2D)
 >   > ray_count = 75
 >   > max_distance = 150.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3549924786656>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#3549891228931>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3286220508285>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#3286186953855>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -3557,7 +3429,7 @@ VillageOutskirts (Node2D)
 >   > collision_mask = 2
 >   StateMachine (Node)
 >     script: res://Enemies/Guard/States/guard_state_machine.gd
->   > initial_state = PatrolState:<Node#3550092558826>
+>   > initial_state = PatrolState:<Node#3286388280435>
 >     PatrolState (Node)
 >       script: res://Enemies/Guard/States/patrol_state.gd
 >     CaughtState (Node)
@@ -3569,8 +3441,8 @@ VillageOutskirts (Node2D)
 >   > ray_count = 75
 >   > max_distance = 150.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3550176444914>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#3550142890480>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3286472166510>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#3286438612080>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -3618,7 +3490,7 @@ VillageOutskirts (Node2D)
 >   > collision_mask = 2
 >   StateMachine (Node)
 >     script: res://Enemies/Guard/States/guard_state_machine.gd
->   > initial_state = PatrolState:<Node#3550344217082>
+>   > initial_state = PatrolState:<Node#3286639938660>
 >     PatrolState (Node)
 >       script: res://Enemies/Guard/States/patrol_state.gd
 >     CaughtState (Node)
@@ -3630,8 +3502,8 @@ VillageOutskirts (Node2D)
 >   > ray_count = 75
 >   > max_distance = 150.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3550428103167>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#3550394548734>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3286723824734>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#3286690270305>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -3657,7 +3529,7 @@ VillageOutskirts (Node2D)
 >   > position = (1548.0, 175.0)
 >   > shape = res://Levels/VillageOutskirts.tscn::RectangleShape2D_k88k2
 > KillZone (Area2D)
->   script: res://KillZone.gd
+>   script: res://World/KillZone.gd
 >   scene: res://World/KillZone.tscn
 > > position = (-18.0, 624.0)
 > > collision_layer = 2
@@ -3667,11 +3539,13 @@ VillageOutskirts (Node2D)
 > Checkpoint (Area2D)
 >   script: res://World/Checkpoint.gd
 >   scene: res://World/Checkpoint.tscn
-> > position = (2098.0, 216.0)
-> > respawn_position = (0.0, 0.0)
+> > position = (2075.0, 221.0)
+> > respawn_point = RespawnPoint
 >   CollisionShape2D (CollisionShape2D)
->   > position = (6.0, -2.0)
+>   > position = (28.0, -7.0)
 >   > shape = res://Levels/VillageOutskirts.tscn::RectangleShape2D_tljy5
+>   RespawnPoint (Marker2D)
+>   > position = (-3.0, -15.0)
 
 --- SCENE: res://Levels/VillageOutskirtsTilelayer.tscn ---
 VillageOutskirtsTilelayer (TileMapLayer)
@@ -3699,7 +3573,7 @@ Player (CharacterBody2D)
 > > animation = wall slide
 > > autoplay = "idle"
 > AnimationPlayer (AnimationPlayer)
-> > libraries = {"":"<AnimationLibrary#-9223369447727605970>"}
+> > libraries = {"":"<AnimationLibrary#-9223369865429959440>"}
 > SlidingCollision (CollisionShape2D)
 > > position = (4.0, 37.0089)
 > > disabled = true
@@ -3832,7 +3706,7 @@ Player (CharacterBody2D)
 >     script: res://Player/States/WallDetachState.gd
 >   OnWallState (Node)
 >     script: res://Player/States/OnWallState.gd
->     ParticleTimer (Timer)
+>     VFXTimer (Timer)
 >     > wait_time = 0.1
 >   WallStickingState (Node)
 >     script: res://Player/States/WallStickingState.gd
@@ -3889,7 +3763,7 @@ SceneManager (CanvasLayer)
 > script: res://Singletons/SceneManager.gd
 > scene: res://Singletons/SceneManager.tscn
 > process_mode = 3
-> scene_entries = ["<Resource#-9223368458257727951>","<Resource#-9223368458240949211>"]
+> scene_entries = ["<Resource#-9223368746171528040>","<Resource#-9223368746154750825>"]
 > player_scene = res://Player/PlayerScene.tscn
 > ColorRect (ColorRect)
 > > anchors_preset = 15
@@ -3899,7 +3773,7 @@ SceneManager (CanvasLayer)
 > > grow_vertical = 2
 > > color = (0.0, 0.0, 0.0, 0.0)
 > AnimationPlayer (AnimationPlayer)
-> > libraries = {"":"<AnimationLibrary#-9223368458173841936>"}
+> > libraries = {"":"<AnimationLibrary#-9223368746087641955>"}
 
 --- SCENE: res://tests/Chest.tscn ---
 Chest (StaticBody2D)
@@ -3920,7 +3794,10 @@ Chest (StaticBody2D)
 > > interaction_duration = 1.0
 >   CollisionShape2D (CollisionShape2D)
 >   > shape = res://tests/Chest.tscn::CircleShape2D_i7tb8
-> PersistenceComponent (MissingNode)
+> PersistenceComponent (Node)
+>   script: res://Interactables/PersistenceComponent.gd
+> > object_id = ""
+> > generate_new_id = false
 
 --- SCENE: res://UserInterface/DialogueBox.tscn ---
 DialogueBox (CanvasLayer)
@@ -4142,8 +4019,7 @@ AnimatedEffect (AnimatedSprite2D)
 > script: res://VFX/AnimatedEffect.gd
 > scene: res://VFX/AnimatedEffect.tscn
 > sprite_frames = res://VFX/AnimatedEffect.tscn::SpriteFrames_dfwn2
-> animation = jump_puff
-> frame_progress = 0.05789589881897
+> animation = dash_puff
 
 --- SCENE: res://VFX/DustPuff.tscn ---
 DustPuff (GPUParticles2D)
@@ -4161,8 +4037,9 @@ DustPuff (GPUParticles2D)
 Checkpoint (Area2D)
 > script: res://World/Checkpoint.gd
 > scene: res://World/Checkpoint.tscn
-> respawn_position = (0.0, 0.0)
+> respawn_point = RespawnPoint
 > CollisionShape2D (CollisionShape2D)
+> RespawnPoint (Marker2D)
 
 --- SCENE: res://World/ExitZone.tscn ---
 ExitZone (Area2D)
@@ -4174,13 +4051,13 @@ ExitZone (Area2D)
 
 --- SCENE: res://World/KillZone.tscn ---
 KillZone (Area2D)
-> script: res://KillZone.gd
+> script: res://World/KillZone.gd
 > scene: res://World/KillZone.tscn
 > CollisionShape2D (CollisionShape2D)
 > > shape = res://World/KillZone.tscn::RectangleShape2D_c8hpk
 --- END OF SCENE STRUCTURES ---
 
-#### **3.4. Codebase**
+#### **2.4. Codebase**
 
 --- START OF CODEBASE ---
 --- SCRIPT: res://addons/godot-vision-cone-main/addons/vision_cone_2d/cone_editor_helper.gd ---
@@ -20502,6 +20379,16 @@ static func load_script_using_custom_warnings(path : String, warnings_dictionary
 
 	return s
 
+--- SCRIPT: res://Data/MissionSaveState.gd ---
+# res://data/MissionSaveState.gd
+class_name MissionSaveState
+extends Resource
+
+## A dictionary where keys are unique object_ids and values are their state.
+@export var collected_objects: Dictionary = {}
+## The global position of the last activated checkpoint.
+@export var checkpoint_position: Vector2 = Vector2.ZERO
+
 --- SCRIPT: res://Enemies/Guard/Guard.gd ---
 # res://Enemies/Guard/Guard.gd
 extends CharacterBody2D
@@ -20724,20 +20611,48 @@ signal interacted
 func perform_interaction():
 	interacted.emit()
 
+--- SCRIPT: res://Interactables/MissionBoard.gd ---
+# res://World/MissionBoard.gd
+extends StaticBody2D
+
+@onready var _interactable: Interactable = $Interactable
+
+func _ready() -> void:
+	_interactable.interacted.connect(_on_interacted)
+
+func _on_interacted() -> void:
+	# Announce the user wants to start the mission.
+	EventBus.start_mission_requested.emit("village_outskirts")
+
 --- SCRIPT: res://Interactables/PersistenceComponent.gd ---
-# res://Persistence/persistence_component.gd
+# res://Interactables/PersistenceComponent.gd
+@tool
 extends Node
 class_name PersistenceComponent
 
-# A unique identifier for this object across the entire game.
-# Examples: "village_chest_01", "castle_prisoner_main_quest"
+# A unique identifier for this object. Use the button below to generate one.
 @export var object_id: String = ""
+
+# This creates a "button" in the Inspector to generate a new ID.
+@export var generate_new_id: bool = false:
+	set(value):
+		if value:
+			# Generate a new ID based on a hash of the time and node path.
+			# This is guaranteed to be unique enough for our purposes.
+			var new_id = "obj_" + str(str(get_path()).hash()) + str(Time.get_ticks_usec())
+			object_id = new_id
+			print("Generated new Object ID: ", new_id)
+
 
 var _owner: Node
 
 func _ready() -> void:
+	# This code only runs when the game is playing, not in the editor.
+	if Engine.is_editor_hint():
+		return
+
 	_owner = get_parent()
-	
+
 	if object_id.is_empty():
 		push_warning("Persistent object has no ID and will not be saved: " + str(_owner.name))
 		set_process(false)
@@ -20749,14 +20664,10 @@ func _ready() -> void:
 	if state != null:
 		# If it does, apply that state.
 		_apply_state(state)
-	else:
-		# Otherwise, it's a new object for this session.
-		# No action needed until it's marked as collected.
-		pass
 
-# Called by the owner (e.g., the Chest) when it has been interacted with.
+# Called by the owner (e.g., the Chest or Prisoner) when it has been interacted with.
 func mark_collected(state: Dictionary) -> void:
-	if object_id.is_empty():
+	if Engine.is_editor_hint() or object_id.is_empty():
 		return
 	GameManager.set_persistent_state(object_id, state)
 	# We call _apply_state here to immediately trigger the collected behavior (like queue_free).
@@ -20827,30 +20738,6 @@ func update_visibility() -> void:
 		_collision_shape.set_deferred("disabled", false)
 		_interactable.monitoring = true
 		_interactable.get_node("CollisionShape2D").set_deferred("disabled", false)
-
---- SCRIPT: res://KillZone.gd ---
-# res://World/Killzone.gd
-extends Area2D
-
-func _ready() -> void:
-	body_entered.connect(_on_body_entered)
-
-
-func _on_body_entered(body: Node) -> void:
-	if body.is_in_group("player"):
-		# This log will confirm our collision is working.
-		DebugManager.log(DebugManager.Category.GAME_STATE, "Player entered KillZone. Emitting player_died signal.")
-		EventBus.player_died.emit()
-
-func respawn_player(player: Node2D) -> void:
-	if GameManager.current_checkpoint != Vector2.ZERO:
-		player.global_position = GameManager.current_checkpoint
-	else:
-		# fallback to level start
-		player.global_position = get_node("/root/SceneManager").get_level_start()
-	
-	# Reset stats
-	player.reset_stats()
 
 --- SCRIPT: res://Levels/Hideout/Hideout.gd ---
 # res://Levels/Hideout.gd
@@ -20923,19 +20810,6 @@ extends Node2D
 # but it no longer needs to handle global mission state signals.
 func _ready() -> void:
 	pass
-
---- SCRIPT: res://MissionBoard.gd ---
-# res://World/MissionBoard.gd
-extends StaticBody2D
-
-@onready var _interactable: Interactable = $Interactable
-
-func _ready() -> void:
-	_interactable.interacted.connect(_on_interacted)
-
-func _on_interacted() -> void:
-	# Announce the user wants to start the mission.
-	EventBus.start_mission_requested.emit("village_outskirts")
 
 --- SCRIPT: res://Player/Data/CameraStats.gd ---
 # res://Player/Data/CameraStats.gd
@@ -21233,25 +21107,22 @@ func update_animation(current_state, current_velocity, wall_normal, input_direct
 --- SCRIPT: res://Player/PlayerModularControl/VFX.gd ---
 extends Node2D
 
+# We'll export this so we can assign our AnimatedEffect scene in the editor.
+@export var animated_effect_scene: PackedScene
+
 # Get references to the nodes this component will control.
-## We will now find the camera in the _ready() function.
 var camera: Camera2D
 @onready var dash_particles = get_parent().get_node("DashParticles")
 @onready var animated_sprite = get_parent().get_node("AnimatedSprite2D")
+@onready var player = get_parent()
 
 func _ready():
-	## This is the fix! Search the scene tree for the active camera
-	## instead of assuming it's a direct child.
 	camera = get_tree().get_first_node_in_group("PlayerCamera")
 
-# This is the "public" function our main player script will call.
+# --- Existing Dash Trail Logic ---
 func play_dash_effects():
-	# Trigger the camera punch effect
 	_trigger_camera_punch()
-	
-	# Start the particle effect
 	var dash_direction = Vector2(1 if not animated_sprite.flip_h else -1, 0)
-	
 	dash_particles.scale.x = dash_direction.x
 	dash_particles.emitting = true
 
@@ -21259,19 +21130,62 @@ func stop_dash_effects():
 	dash_particles.emitting = false
 	dash_particles.scale.x = 1
 
-# This is the same camera punch function, now living in its own component.
 func _trigger_camera_punch():
-	## Add a safety check to make sure the camera exists before trying to use it.
 	if not is_instance_valid(camera):
 		return
-
-	var player = get_parent()
 	var tween = create_tween()
-	var zoomed_in_vec = Vector2(player.default_camera_zoom, player.default_camera_zoom) * 1.1
-	var default_zoom_vec = Vector2(player.default_camera_zoom, player.default_camera_zoom)
-	
+	var zoomed_in_vec = camera.zoom * 1.1
+	var default_zoom_vec = camera.zoom
 	tween.tween_property(camera, "zoom", zoomed_in_vec, 0.1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tween.tween_property(camera, "zoom", default_zoom_vec, 0.1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+
+
+# --- NEW PUBLIC FUNCTIONS FOR ONE-SHOT EFFECTS ---
+
+func play_jump_effect():
+	if animated_effect_scene:
+		var effect = animated_effect_scene.instantiate()
+		get_tree().root.add_child(effect)
+		effect.global_position = player.get_node("FootSpawner").global_position
+		effect.play_effect("jump_puff")
+
+func play_landing_effect():
+	if animated_effect_scene:
+		var effect = animated_effect_scene.instantiate()
+		get_tree().root.add_child(effect)
+		effect.global_position = player.get_node("FootSpawner").global_position
+		effect.play_effect("jump_puff")
+
+func play_dash_prepare_effect():
+	if animated_effect_scene:
+		var effect = animated_effect_scene.instantiate()
+		get_tree().root.add_child(effect)
+		effect.global_position = player.get_node("FootSpawner").global_position
+		var direction = 1.0 if not player.animated_sprite.flip_h else -1.0
+		effect.global_position.x -= direction * 15
+		effect.flip_h = direction < 0
+		effect.play_effect("dash_puff")
+
+func play_wall_slide_effect():
+	if animated_effect_scene:
+		var effect = animated_effect_scene.instantiate()
+		get_tree().root.add_child(effect)
+		var wall_offset = player.get_wall_normal() * -10
+		effect.global_position = player.get_node("WallSlideSpawner").global_position + wall_offset
+		if player.get_wall_normal().x > 0:
+			effect.rotation_degrees = 90
+		else:
+			effect.rotation_degrees = -90
+		effect.scale = Vector2(0.5, 0.5)
+		effect.play_effect("dash_puff")
+
+func play_wall_jump_effect():
+	if animated_effect_scene:
+		var effect = animated_effect_scene.instantiate()
+		get_tree().root.add_child(effect)
+		var wall_offset = player.get_wall_normal() * -15
+		effect.global_position = player.get_node("WallSlideSpawner").global_position + wall_offset
+		effect.play_effect("jump_puff")
 
 --- SCRIPT: res://Player/PlayerScript.gd ---
 # PlayerScript.gd
@@ -21421,12 +21335,8 @@ func wall_jump(wall_normal_override: Vector2 = Vector2.ZERO):
 
 	can_wall_stick = true
 	current_jumps = 1
-# Spawn a burst of particles
-	if dust_puff_scene:
-		var puff = dust_puff_scene.instantiate()
-		get_tree().root.add_child(puff)
-		var wall_offset = get_wall_normal() * -15
-		puff.global_position = get_node("WallSlideSpawner").global_position + wall_offset
+# Spawn a burst of particles with VFX Manager
+	vfx.play_wall_jump_effect()
 		
 func _start_wall_coyote_time():
 	last_wall_normal = get_wall_normal()
@@ -21658,34 +21568,36 @@ func process_physics(_delta: float) -> void:
 --- SCRIPT: res://Player/States/DashPrepareState.gd ---
 # DashPrepareState.gd
 extends State
+@onready var vfx = $VFX
+
 
 func enter():
 	player.can_dash = false
 	player.velocity = Vector2.ZERO
 	player.dash_freeze_timer.start(player.stats.dash_freeze_duration)
 	
-	# --- NEW PARTICLE LOGIC ---
-	if player.dust_puff_scene:
-		var puff = player.dust_puff_scene.instantiate()
-		get_tree().root.add_child(puff)
+	# --- NEW ANIMATED EFFECT LOGIC ---
+	if player.dust_puff_scene: # This variable now holds AnimatedEffect.tscn
+		var effect = player.dust_puff_scene.instantiate()
+		get_tree().root.add_child(effect)
 		
-		# Position the puff at the player's feet
-		puff.global_position = player.get_node("FootSpawner").global_position
+		# Position the effect at the player's feet.
+		effect.global_position = player.get_node("FootSpawner").global_position
 		
-		# Offset it slightly behind the player for a better "kick-off" feel
+		# Set direction and flip the sprite accordingly.
 		var direction = 1.0 if not player.animated_sprite.flip_h else -1.0
-		puff.global_position.x -= direction * 15 # Adjust this offset as needed
+		effect.global_position.x -= direction * 15 # Offset it behind the player.
+		effect.flip_h = direction < 0
 		
-		puff.emitting = true
-	# --- END NEW PARTICLE LOGIC ---
-	
+
+		# Tell the new scene to play the correct animation.
+		vfx.play_dash_prepare_effect()
+		
 	var input_x = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.DASH_PREPARE, player.velocity, Vector2.ZERO, input_x)
 
 func process_physics(_delta):
 	# This state is controlled by a timer.
-	# The logic is in the _on_dash_freeze_timer_timeout() function in PlayerScript.gd.
-	# When that timer finishes, it will change the state to Dashing.
 	pass
 
 --- SCRIPT: res://Player/States/FallingState.gd ---
@@ -21809,7 +21721,7 @@ func process_physics(_delta: float) -> void:
 --- SCRIPT: res://Player/States/JumpingState.gd ---
 # res://Player/States/JumpingState.gd
 extends State
-
+@onready var vfx = $VFX
 func enter() -> void:
 	# THE FIX: This line was missing. It applies the jump's upward velocity.
 	player.enter_jump_state()
@@ -21819,18 +21731,7 @@ func enter() -> void:
 	player.animation_player.play("jump_stretch")
 
 	
-	if player.dust_puff_scene:
-		
-		var puff = player.dust_puff_scene.instantiate()
-		get_tree().root.add_child(puff)
-		puff.global_position = player.get_node("FootSpawner").global_position
-		
-		# --- NEW ANIMATED EFFECT LOGIC ---
-		# Tell the new scene to play the correct animation.
-		puff.play_effect("jump_puff")
-		# --- END NEW LOGIC ---
-	else:
-		printerr("DEBUG: ERROR - dust_puff_scene is NOT SET on the Player in the Inspector!")
+	vfx.play_jump_effect()
 
 	# --- Final Animation Update ---
 	var input_x: float = Input.get_axis("left", "right")
@@ -21865,7 +21766,7 @@ func process_physics(delta: float) -> void:
 --- SCRIPT: res://Player/States/LandingState.gd ---
 # res://Player/States/LandingState.gd
 extends State
-
+@onready var vfx = $"../../VFX"
 func enter() -> void:
 	player.current_jumps = 0
 	if player.is_long_fall:
@@ -21880,7 +21781,8 @@ func enter() -> void:
 		effect.global_position = player.get_node("FootSpawner").global_position
 		
 		# Tell the new scene to play the correct animation for landing.
-		effect.play_effect("jump_puff")
+
+		vfx.play_landing_effect()
 
 	
 	var input_x: float = Input.get_axis("left", "right")
@@ -21911,10 +21813,11 @@ func process_physics(_delta: float) -> void:
 --- SCRIPT: res://Player/States/OnWallState.gd ---
 # res://Player/States/OnWallState.gd
 extends State
-@onready var particle_timer: Timer = $ParticleTimer
+@onready var vfx_timer: Timer = $VFXTimer
+@onready var vfx = $"../../VFX"
 
 func _ready() -> void:
-	particle_timer.timeout.connect(_on_particle_timer_timeout)
+	vfx_timer.timeout.connect(_on_particle_timer_timeout)
 
 
 func enter() -> void:
@@ -21929,7 +21832,10 @@ func enter() -> void:
 	player.current_jumps = 0
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.ON_WALL, player.velocity, wall_normal, input_x)
-	particle_timer.start()
+
+	# Manually start the timer when entering the state.
+	vfx_timer.start()
+
 	
 func process_physics(delta: float) -> void:
 	var input_x: float = Input.get_axis("left", "right")
@@ -21956,31 +21862,17 @@ func process_physics(delta: float) -> void:
 		state_machine.change_state("Idle")
 
 func exit() -> void:
-	particle_timer.stop()
+
+	# Stop the timer when leaving the state to prevent further particle spawning.
+	vfx_timer.stop()
+	# Play the reset animation when we leave this state.
+
 	player.animation_player.play("RESET")
 	
 	
 func _on_particle_timer_timeout() -> void:
-	if player.dust_puff_scene: # This variable now holds AnimatedEffect.tscn
-		var effect = player.dust_puff_scene.instantiate()
-		get_tree().root.add_child(effect)
-		
-		var wall_offset = player.get_wall_normal() * -10
-		effect.global_position = player.get_node("WallSlideSpawner").global_position + wall_offset
-		
-		# --- NEW ANIMATED EFFECT LOGIC ---
-		# Determine rotation based on wall normal
-		if player.get_wall_normal().x > 0: # Wall is on the left
-			effect.rotation_degrees = 90
-		else: # Wall is on the right
-			effect.rotation_degrees = -90
-		
-		# Scale the effect down
-		effect.scale = Vector2(0.5, 0.5)
-		
-		# Tell the new scene to play the correct animation for wall sliding.
-		effect.play_effect("dash_puff")
-		# --- END NEW LOGIC ---
+
+	player.vfx.play_wall_slide_effect()
 
 --- SCRIPT: res://Player/States/RunningState.gd ---
 # res://Player/States/RunningState.gd
@@ -22384,21 +22276,27 @@ signal new_game_requested
 signal continue_game_requested
 
 --- SCRIPT: res://Singletons/GameManager.gd ---
+# res://Singletons/GameManager.gd
 extends Node
+
 signal resources_updated
 signal checkpoint_set
+
+# --- Resource-based State Management ---
+var session_state: MissionSaveState
+var checkpoint_state: MissionSaveState
+
+# --- Player Resources ---
 var gold: int = 0
 var villagers: int = 0
 var archers: int = 0
 var is_gameplay_active: bool = true
-var current_checkpoint: Vector2
 var mission_objective_complete: bool = false
 
 const SAVE_FILE_PATH = "user://savegame.json"
 
 func _ready() -> void:
 	load_game()
-	# The GameManager now subscribes to events it cares about.
 	EventBus.gold_collected.connect(_on_gold_collected)
 	EventBus.villager_rescued.connect(_on_villager_rescued)
 	EventBus.train_archer_requested.connect(_on_train_archer_requested)
@@ -22407,7 +22305,45 @@ func _ready() -> void:
 	EventBus.player_detected.connect(_on_player_detected)
 	EventBus.pause_toggled.connect(_on_pause_toggled)
 	EventBus.player_died.connect(_on_player_died)
+
+# --- Persistence API ---
+func get_persistent_state(object_id: String) -> Dictionary:
+	if session_state and session_state.collected_objects.has(object_id):
+		return session_state.collected_objects[object_id]
+	# FIX: Return an empty dictionary instead of null to match the function's return type.
+	return {}
+
+func set_persistent_state(object_id: String, state: Dictionary) -> void:
+	if session_state:
+		session_state.collected_objects[object_id] = state
+
+func save_checkpoint_data() -> void:
+	if session_state:
+		checkpoint_state = session_state.duplicate(true)
+		DebugManager.log(DebugManager.Category.CHECKPOINT, "Checkpoint data saved.")
+
 # --- Event Handlers ---
+func _on_mission_started() -> void:
+	mission_objective_complete = false
+	session_state = MissionSaveState.new()
+	checkpoint_state = null
+
+func _on_player_died() -> void:
+	if checkpoint_state:
+		session_state = checkpoint_state.duplicate(true)
+		DebugManager.log(DebugManager.Category.GAME_STATE, "Session state restored from checkpoint.")
+	else:
+		# No checkpoint was hit, so start with a fresh state
+		session_state = MissionSaveState.new()
+		DebugManager.log(DebugManager.Category.GAME_STATE, "No checkpoint found. Starting with fresh session state.")
+
+	if not SceneManager.current_scene_key.is_empty():
+		SceneManager.change_scene(SceneManager.current_scene_key)
+
+func set_checkpoint(pos: Vector2) -> void:
+	if session_state:
+		session_state.checkpoint_position = pos
+	EventBus.checkpoint_set.emit(pos)
 
 func _on_gold_collected(amount: int) -> void:
 	gold += amount
@@ -22416,7 +22352,7 @@ func _on_gold_collected(amount: int) -> void:
 
 func _on_villager_rescued() -> void:
 	villagers += 1
-	mission_objective_complete = true # Set the objective flag
+	mission_objective_complete = true
 	print("Villager rescued! Total villagers: " + str(villagers))
 	save_game()
 
@@ -22430,23 +22366,15 @@ func _on_train_archer_requested() -> void:
 	else:
 		print("Cannot train archer. Not enough resources.")
 
-func _on_mission_started() -> void:
-	mission_objective_complete = false
-
 func _on_mission_objective_completed() -> void:
-	# When the player exits a level, we confirm the mission is a success.
-	# The UIManager will listen for this to show the success screen.
 	EventBus.mission_succeeded.emit()
 
 func _on_player_detected() -> void:
-	# When the player is detected, we confirm the mission has failed.
-	# The UIManager will listen for this to show the failure screen.
 	EventBus.mission_failed.emit()
 
 func _on_pause_toggled(is_paused: bool) -> void:
 	get_tree().paused = is_paused
 	is_gameplay_active = not is_paused
-	print("Game Paused: ", is_paused)
 
 func reset_game_data() -> void:
 	gold = 0
@@ -22456,43 +22384,22 @@ func reset_game_data() -> void:
 		DirAccess.remove_absolute(SAVE_FILE_PATH)
 	resources_updated.emit()
 
-# --- Save/Load System ---
-
 func save_game():
-	var save_data = {
-		"gold": gold,
-		"villagers": villagers,
-		"archers": archers
-	}
+	var save_data = {"gold": gold, "villagers": villagers, "archers": archers}
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
 	file.store_string(JSON.stringify(save_data))
-	print("Game saved!")
 
 func load_game():
 	if not FileAccess.file_exists(SAVE_FILE_PATH):
-		print("DEBUG: GameManager - No save file found.") #<-- ADD THIS
 		return
-		
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.READ)
 	var content = file.get_as_text()
 	var data = JSON.parse_string(content)
-	
 	if data:
 		gold = data.get("gold", 0)
 		villagers = data.get("villagers", 0)
 		archers = data.get("archers", 0)
-		print("DEBUG: GameManager - load_game() called. Villagers loaded as ", villagers) #<-- ADD THIS
 		resources_updated.emit()
-	else:
-		print("DEBUG: GameManager - Error loading save file.") #<-- ADD THIS
-func _on_player_died() -> void:
-	
-	if not SceneManager.current_scene_key.is_empty():
-		SceneManager.change_scene(SceneManager.current_scene_key)
-
-func set_checkpoint(pos: Vector2) -> void:
-	current_checkpoint = pos
-	EventBus.emit_signal("checkpoint_set", pos)
 
 --- SCRIPT: res://Singletons/InteractionManager.gd ---
 # res://Singletons/InteractionManager.gd
@@ -22611,15 +22518,14 @@ func _ready() -> void:
 
 
 func change_scene(scene_key: String) -> void:
-	# THE FIX IS HERE: Remember which scene we are loading.
 	current_scene_key = scene_key
-	
+
 	DebugManager.log(DebugManager.Category.GAME_STATE, "Changing scene to: '%s'" % scene_key)
-	
+
 	var ui_to_close = UIManager.close_current_ui()
 	if is_instance_valid(ui_to_close):
 		await ui_to_close.tree_exited
-		
+
 	animation_player.play("fade_to_black")
 	await animation_player.animation_finished
 
@@ -22639,13 +22545,25 @@ func _spawn_player() -> void:
 		return
 
 	var current_scene = get_tree().current_scene
-	var spawn_point = current_scene.find_child("PlayerSpawnPoint", true, false)
+	var spawn_point_node = current_scene.find_child("PlayerSpawnPoint", true, false)
 
-	if is_instance_valid(spawn_point):
-		var player_instance = player_scene.instantiate()
-		player_instance.global_position = spawn_point.global_position
-		current_scene.add_child(player_instance)
-		await get_tree().process_frame
+	if not is_instance_valid(spawn_point_node):
+		printerr("SceneManager Error: No PlayerSpawnPoint found in scene '", current_scene.name, "'")
+		return
+
+	var spawn_position: Vector2
+	# Prioritize the checkpoint over the default spawn point by checking the resource.
+	if GameManager.session_state and GameManager.session_state.checkpoint_position != Vector2.ZERO:
+		spawn_position = GameManager.session_state.checkpoint_position
+		DebugManager.log(DebugManager.Category.GAME_STATE, "Spawning player at checkpoint: " + str(spawn_position))
+	else:
+		spawn_position = spawn_point_node.global_position
+		DebugManager.log(DebugManager.Category.GAME_STATE, "Spawning player at default spawn point: " + str(spawn_position))
+
+	var player_instance = player_scene.instantiate()
+	player_instance.global_position = spawn_position
+	current_scene.add_child(player_instance)
+	await get_tree().process_frame
 
 --- SCRIPT: res://tests/test_game_manager.gd ---
 # res://Debugging/TestScripts/test_game_manager.gd
@@ -23134,18 +23052,24 @@ extends Area2D
 
 signal checkpoint_activated(position: Vector2)
 
-@export var respawn_position: Vector2
+@export var respawn_point: NodePath
+
+@onready var _respawn_marker: Marker2D = get_node_or_null(respawn_point) as Marker2D
+
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 
+
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
-		respawn_position = global_position
-		checkpoint_activated.emit(respawn_position)
-		GameManager.set_checkpoint(respawn_position)
-		GameManager.save_checkpoint_data() # This is the crucial change
-		DebugManager.log(DebugManager.Category.CHECKPOINT, "Checkpoint activated at position: " + str(global_position))
+		assert(is_instance_valid(_respawn_marker), "RespawnPoint NodePath must be set on Checkpoint in the editor.")
+		var respawn_pos: Vector2 = _respawn_marker.global_position
+
+		checkpoint_activated.emit(respawn_pos)
+		GameManager.set_checkpoint(respawn_pos)
+		GameManager.save_checkpoint_data()
+		DebugManager.log(DebugManager.Category.CHECKPOINT, "Checkpoint activated. Respawn at: " + str(respawn_pos))
 
 --- SCRIPT: res://World/ExitZone.gd ---
 # res://World/exit_zone.gd
@@ -23164,6 +23088,20 @@ func _on_body_entered(body: Node) -> void:
 			EventBus.mission_objective_completed.emit()
 			
 			$CollisionShape2D.set_deferred("disabled", true)
+
+--- SCRIPT: res://World/KillZone.gd ---
+# res://World/Killzone.gd
+extends Area2D
+
+func _ready() -> void:
+	body_entered.connect(_on_body_entered)
+
+
+func _on_body_entered(body: Node) -> void:
+	if body.is_in_group("player"):
+		# This log will confirm our collision is working.
+		DebugManager.log(DebugManager.Category.GAME_STATE, "Player entered KillZone. Emitting player_died signal.")
+		EventBus.player_died.emit()
 --- END OF CODEBASE ---
 
 ---

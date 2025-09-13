@@ -1,11 +1,10 @@
-[gd_scene load_steps=118 format=3 uid="uid://bqep4lh77amxw"]
+[gd_scene load_steps=123 format=3 uid="uid://bqep4lh77amxw"]
 
 [ext_resource type="Script" uid="uid://322jte5qhr8v" path="res://Player/PlayerScript.gd" id="1_mom48"]
 [ext_resource type="Texture2D" uid="uid://oj5uoalybhj8" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_CrouchFull.png" id="2_74o77"]
 [ext_resource type="Resource" uid="uid://st5loweg5geo" path="res://Player/Data/player_stats.tres" id="2_bjedy"]
 [ext_resource type="Texture2D" uid="uid://cvxrk53lw3fx8" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_Fall.png" id="2_i061b"]
 [ext_resource type="Texture2D" uid="uid://b0yh1iumdaukq" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_Dash.png" id="2_ogexg"]
-[ext_resource type="PackedScene" uid="uid://b65sf7txtiy3x" path="res://VFX/AnimatedEffect.tscn" id="3_ac1bf"]
 [ext_resource type="Texture2D" uid="uid://upxnk3ip0shx" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_Idle.png" id="3_ogexg"]
 [ext_resource type="Texture2D" uid="uid://bpusubmn18t4h" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_CrouchWalk.png" id="3_ux3fp"]
 [ext_resource type="Texture2D" uid="uid://b86872nnm80rx" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_Jump.png" id="4_74o77"]
@@ -17,27 +16,32 @@
 [ext_resource type="Texture2D" uid="uid://cnhq51f0wfyrq" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_TurnAround.png" id="9_4tc8y"]
 [ext_resource type="Texture2D" uid="uid://basbndd34xt0r" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_SlideFull.png" id="10_owe82"]
 [ext_resource type="Texture2D" uid="uid://cf3njahs2xwo0" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_SlideTransitionEnd.png" id="11_fpl1g"]
-[ext_resource type="Script" uid="uid://dpc5pbhgi3tc0" path="res://Player/PlayerModularControl/VFX.gd" id="16_pwdtq"]
+[ext_resource type="Script" uid="uid://dpc5pbhgi3tc0" path="res://VFX/VFXManager.gd" id="16_pwdtq"]
 [ext_resource type="Script" uid="uid://immuou635t6o" path="res://Player/PlayerModularControl/AnimationController.gd" id="17_5nnq8"]
 [ext_resource type="Script" uid="uid://ccegoxu7aumxr" path="res://Player/States/StateMachine.gd" id="18_5x2q4"]
 [ext_resource type="Script" uid="uid://ywmbuyh7mjtr" path="res://Player/States/Idle.gd" id="19_03m1d"]
 [ext_resource type="Script" uid="uid://mptakgohnw3l" path="res://Player/States/RunningState.gd" id="20_k4b7y"]
 [ext_resource type="Script" uid="uid://gknjrg7d68xj" path="res://Player/States/JumpingState.gd" id="21_bjedy"]
 [ext_resource type="Script" uid="uid://6rxk0gmgbbu1" path="res://Player/States/FallingState.gd" id="22_yxgpa"]
+[ext_resource type="Resource" uid="uid://c52ah0tjgskhb" path="res://VFX/VFXData/jump_puff_vfx.tres" id="23_ac1bf"]
 [ext_resource type="Script" uid="uid://te8h6vhxh5jw" path="res://Player/States/WallDetachState.gd" id="23_vbs5d"]
 [ext_resource type="Script" uid="uid://dnq50x7pxluc2" path="res://Player/States/OnWallState.gd" id="24_ac1bf"]
 [ext_resource type="Script" uid="uid://bh0x4sspxhpdv" path="res://Player/States/WallStickingState.gd" id="25_g2mjx"]
 [ext_resource type="Script" uid="uid://curse0arspiqd" path="res://Player/States/DashingState.gd" id="26_jy1ce"]
 [ext_resource type="Script" uid="uid://do2ix3vxj2ycl" path="res://Player/States/GlidingState.gd" id="27_lxyxv"]
+[ext_resource type="Resource" uid="uid://cjmrmfqt44nwm" path="res://VFX/VFXData/wall_slide_vfx.tres" id="27_mrmde"]
 [ext_resource type="Script" uid="uid://dmkhaonnvcro7" path="res://Player/States/WallSlipState.gd" id="28_mrmde"]
+[ext_resource type="Resource" uid="uid://c0644r4j2jcdj" path="res://VFX/VFXData/wall_jump.tres" id="28_uqloe"]
 [ext_resource type="Script" uid="uid://bhwpguo7lfm0x" path="res://Player/States/LandingState.gd" id="29_uqloe"]
 [ext_resource type="Script" uid="uid://cl5lf6w0aki8c" path="res://Player/States/SlidingState.gd" id="30_psxt1"]
 [ext_resource type="Script" uid="uid://0me340b5h8ls" path="res://Player/States/SkiddingState.gd" id="31_i2cyd"]
 [ext_resource type="Script" uid="uid://dhu73iie4a1k8" path="res://Player/States/DashPrepareState.gd" id="32_4kalu"]
+[ext_resource type="Resource" uid="uid://fow4ncrcxhnu" path="res://VFX/VFXData/land_puff_vfx.tres" id="32_g2mjx"]
 [ext_resource type="Script" uid="uid://ddvxe8g76a3v0" path="res://Player/States/UnstickingState.gd" id="33_5x2q4"]
 [ext_resource type="Script" uid="uid://df5nf0m01u05b" path="res://Player/PlayerInteraction.gd" id="34_03m1d"]
 [ext_resource type="Script" uid="uid://cogun7bbjysao" path="res://Player/PlayerCamera.gd" id="35_k4b7y"]
 [ext_resource type="Script" uid="uid://c803xmb0rscj8" path="res://Player/States/CrouchingState.gd" id="35_yxgpa"]
+[ext_resource type="Resource" uid="uid://ccg8jgat5rg5m" path="res://VFX/VFXData/dash_prepare.tres" id="36_jy1ce"]
 [ext_resource type="Resource" uid="uid://u5b8dtjrhv5f" path="res://Player/Data/default_camera_stats.tres" id="39_ac1bf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_owe82"]
@@ -561,10 +565,22 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector2(1, 1)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WallSlideSpawner:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-8, -13)]
+}
 
 [sub_resource type="Animation" id="Animation_jy1ce"]
 resource_name = "jump_stretch"
-length = 0.1
+length = 0.25
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -572,10 +588,24 @@ tracks/0/path = NodePath("AnimatedSprite2D:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
+"times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0.8, 1.2), Vector2(1, 1)]
+"values": [Vector2(0.7, 1.3), Vector2(1, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimationController")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.25),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [2, Vector2(0, 0), Vector2(0, 0), 0.0],
+"method": &"update_animation"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_yxgpa"]
@@ -604,6 +634,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector2(1, 1)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WallSlideSpawner:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
 
 [sub_resource type="Animation" id="Animation_ac1bf"]
 resource_name = "wall_slide_offset_right"
@@ -630,6 +672,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WallSlideSpawner:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(11, -13)]
 }
 
 [sub_resource type="Animation" id="Animation_g2mjx"]
@@ -686,10 +740,41 @@ tracks/1/keys = {
 "values": [Vector2(1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_mrmde"]
+resource_name = "land_squish"
+length = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.075, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 0.8), Vector2(1, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("StateMachine")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.133333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["Idle"],
+"method": &"change_state"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ac1bf"]
 _data = {
 &"RESET": SubResource("Animation_vbs5d"),
 &"jump_stretch": SubResource("Animation_jy1ce"),
+&"land_squish": SubResource("Animation_mrmde"),
 &"wall_slide_offset_left": SubResource("Animation_yxgpa"),
 &"wall_slide_offset_right": SubResource("Animation_ac1bf"),
 &"wall_stick_offset_left": SubResource("Animation_g2mjx"),
@@ -757,13 +842,13 @@ rotation = -0.00456183
 collision_mask = 2
 script = ExtResource("1_mom48")
 stats = ExtResource("2_bjedy")
-dust_puff_scene = ExtResource("3_ac1bf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(5, 3)
 sprite_frames = SubResource("SpriteFrames_pwdtq")
 animation = &"wall slide"
 autoplay = "idle"
+offset = Vector2(0, -40)
 metadata/_edit_group_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -772,31 +857,31 @@ libraries = {
 }
 
 [node name="SlidingCollision" type="CollisionShape2D" parent="."]
-position = Vector2(4, 37.0089)
+position = Vector2(4, -3)
 disabled = true
 metadata/_edit_group_ = true
 
 [node name="StandingCollision" type="CollisionShape2D" parent="."]
-position = Vector2(1.88593, 25.0089)
+position = Vector2(1.886, -15)
 shape = SubResource("CapsuleShape2D_vbs5d")
 metadata/_edit_group_ = true
 
 [node name="CrouchingCollision" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2(1, 30.002)
+position = Vector2(1, -10)
 scale = Vector2(1.06667, 1.08811)
 shape = SubResource("RectangleShape2D_qvcxh")
 metadata/_edit_group_ = true
 
 [node name="WallSlideCollision" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2(3.50396, 25)
+position = Vector2(3.504, -15)
 shape = SubResource("RectangleShape2D_epaal")
 disabled = true
 metadata/_edit_group_ = true
 
 [node name="HeadClearanceRaycast" type="RayCast2D" parent="."]
-position = Vector2(1.88593, 25.0089)
+position = Vector2(1.886, -15)
 target_position = Vector2(0.109488, -23.9998)
 collision_mask = 2
 metadata/_edit_group_ = true
@@ -882,7 +967,7 @@ one_shot = true
 
 [node name="DashParticles" type="GPUParticles2D" parent="."]
 material = SubResource("ShaderMaterial_4tc8y")
-position = Vector2(-2, -1)
+position = Vector2(-2, -40)
 emitting = false
 amount = 6
 texture = ExtResource("2_ogexg")
@@ -901,7 +986,7 @@ width = 3.0
 default_color = Color(0.973535, 0.973535, 0.973535, 1)
 
 [node name="TargetPoint" type="Marker2D" parent="."]
-position = Vector2(0.863649, 27.0043)
+position = Vector2(1.05929, -12.9953)
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("18_5x2q4")
@@ -918,10 +1003,12 @@ metadata/_custom_type_script = "uid://814l5d1kyhhw"
 
 [node name="JumpingState" type="Node" parent="StateMachine"]
 script = ExtResource("21_bjedy")
+jump_vfx = ExtResource("23_ac1bf")
 metadata/_custom_type_script = "uid://814l5d1kyhhw"
 
 [node name="FallingState" type="Node" parent="StateMachine"]
 script = ExtResource("22_yxgpa")
+wall_jump_vfx = ExtResource("28_uqloe")
 metadata/_custom_type_script = "uid://814l5d1kyhhw"
 
 [node name="WallDetachState" type="Node" parent="StateMachine"]
@@ -930,6 +1017,8 @@ metadata/_custom_type_script = "uid://814l5d1kyhhw"
 
 [node name="OnWallState" type="Node" parent="StateMachine"]
 script = ExtResource("24_ac1bf")
+wall_slide_vfx = ExtResource("27_mrmde")
+wall_jump_vfx = ExtResource("28_uqloe")
 metadata/_custom_type_script = "uid://814l5d1kyhhw"
 
 [node name="VFXTimer" type="Timer" parent="StateMachine/OnWallState"]
@@ -953,6 +1042,7 @@ metadata/_custom_type_script = "uid://814l5d1kyhhw"
 
 [node name="LandingState" type="Node" parent="StateMachine"]
 script = ExtResource("29_uqloe")
+land_vfx = ExtResource("32_g2mjx")
 metadata/_custom_type_script = "uid://814l5d1kyhhw"
 
 [node name="SlidingState" type="Node" parent="StateMachine"]
@@ -965,6 +1055,7 @@ metadata/_custom_type_script = "uid://814l5d1kyhhw"
 
 [node name="DashPrepareState" type="Node" parent="StateMachine"]
 script = ExtResource("32_4kalu")
+dash_prepare_vfx = ExtResource("36_jy1ce")
 metadata/_custom_type_script = "uid://814l5d1kyhhw"
 
 [node name="UnstickingState" type="Node" parent="StateMachine"]
@@ -990,25 +1081,26 @@ stats = ExtResource("39_ac1bf")
 [node name="CameraZoomResetTimer" type="Timer" parent="PlayerCamera"]
 
 [node name="WallCheckRayRight" type="RayCast2D" parent="."]
-position = Vector2(3.83204, 24.018)
+position = Vector2(3.832, -15)
 target_position = Vector2(20, 0)
 
 [node name="WallCheckRayLeft" type="RayCast2D" parent="."]
-position = Vector2(2.84707, 24.0134)
+position = Vector2(2.847, -15)
 target_position = Vector2(-20, 0)
 
 [node name="GroundRay" type="RayCast2D" parent="."]
-position = Vector2(2.95491, 0.0136854)
+position = Vector2(2.955, -40)
 target_position = Vector2(-0.17847, 48.9995)
 collision_mask = 2
 
 [node name="LedgeRay" type="RayCast2D" parent="."]
-position = Vector2(23, 0)
+position = Vector2(23, -40)
 target_position = Vector2(-0.219206, 48.1044)
 collision_mask = 2
 
 [node name="FootSpawner" type="Marker2D" parent="."]
-position = Vector2(0.791757, 43.0041)
+position = Vector2(0.792, 0)
 
 [node name="WallSlideSpawner" type="Marker2D" parent="."]
-position = Vector2(-4.10944, 23.9815)
+position = Vector2(-8, -13)
+scale = Vector2(1, 1)

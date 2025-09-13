@@ -1,45 +1,33 @@
 # res://Player/States/LandingState.gd
 extends State
-@onready var vfx = $"../../VFX"
+
+@export var land_vfx: VFXData
+
 func enter() -> void:
 	player.current_jumps = 0
 	if player.is_long_fall:
 		player.is_long_fall = false
 		player.long_fall_ended.emit()
 
-	player.land_timer.start(player.LANDING_DURATION)
+	# Play the squish animation from the AnimationPlayer.
+	player.animation_player.play("land_squish")
 
-	if player.dust_puff_scene: # This variable now holds AnimatedEffect.tscn
-		var effect = player.dust_puff_scene.instantiate()
-		get_tree().root.add_child(effect)
-		effect.global_position = player.get_node("FootSpawner").global_position
-		
-		# Tell the new scene to play the correct animation for landing.
-
-		vfx.play_landing_effect()
-
-	
+	# Simultaneously, play the crouch animation on the AnimatedSprite2D.
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.LANDING, player.velocity, Vector2.ZERO, input_x)
 
+	if land_vfx:
+		player.vfx.play_effect(land_vfx)
+
 func exit() -> void:
-	player.land_timer.stop()
+	pass
 
 func process_physics(_delta: float) -> void:
+	# The state transition is handled by the "land_squish" animation's Call Method Track.
 	if Input.is_action_just_pressed("jump") or player.jump_buffered:
 		player.jump_buffered = false
 		player.jump_buffer_timer.stop()
 		state_machine.change_state("Jumping")
 		return
 
-	if Input.is_action_pressed("slide"):
-		state_machine.change_state("Sliding")
-		return
-
 	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.friction_smoothness)
-
-	if player.land_timer.is_stopped():
-		if Input.is_action_pressed("down"):
-			state_machine.change_state("Crouching")
-		else:
-			state_machine.change_state("Idle")

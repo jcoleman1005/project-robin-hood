@@ -3,7 +3,6 @@ extends CharacterBody2D
 
 ## We replace ALL the old @export variables with this single one.
 @export var stats: PlayerStats
-@export var dust_puff_scene: PackedScene
 
 # The state enum is logic, so it stays.
 enum States {IDLE, RUNNING, JUMPING, FALLING, GLIDING, ON_WALL, WALL_STICKING, DASHING, UNSTICKING, CROUCHING, LANDING, DASH_PREPARE, WALL_SLIP, SKIDDING, SLIDING, WALL_DETACH}
@@ -71,9 +70,11 @@ var _interact_held: bool = false
 @onready var combo_timer: Timer = $Timers/ComboTimer
 @onready var combo_reset_timer: Timer = $Timers/ComboResetTimer
 @onready var ground_ray: RayCast2D = $GroundRay
+@onready var dash_particles: GPUParticles2D = $DashParticles # ADD THIS LINE
 
 
 func _ready():
+	assert(is_instance_valid(stats), "PlayerStats resource must be assigned to the Player in the Inspector!")
 	# The jump physics calculations are now handled by the resource itself!
 	# All we need to do is connect our timers.
 	dash_timer.timeout.connect(_on_dash_timer_timeout)
@@ -108,11 +109,11 @@ func _physics_process(_delta: float):
 
 	if not is_instance_valid(stats):
 		return
-	
+
 	velocity.y = min(velocity.y, stats.terminal_velocity)
 	_handle_global_inputs()
 	move_and_slide()
-	
+
 
 func _handle_global_inputs():
 	if Input.is_action_just_pressed("dash") and can_dash:
@@ -133,9 +134,9 @@ func enter_jump_state():
 func wall_jump(wall_normal_override: Vector2 = Vector2.ZERO):
 	wall_stick_timer.stop()
 	wall_coyote_timer.stop()
-	
+
 	var wall_normal = wall_normal_override if wall_normal_override != Vector2.ZERO else get_wall_normal()
-	
+
 	if Input.is_action_pressed("shift") and can_wall_stick:
 		velocity.y = stats.wall_stick_jump_vertical_velocity
 		velocity.x = wall_normal.x * stats.wall_stick_jump_horizontal_velocity
@@ -145,9 +146,7 @@ func wall_jump(wall_normal_override: Vector2 = Vector2.ZERO):
 
 	can_wall_stick = true
 	current_jumps = 1
-# Spawn a burst of particles with VFX Manager
-	vfx.play_wall_jump_effect()
-		
+
 func _start_wall_coyote_time():
 	last_wall_normal = get_wall_normal()
 	wall_coyote_timer.start(stats.wall_coyote_time_duration)
@@ -206,7 +205,7 @@ func _on_jump_buffer_timer_timeout():
 func _on_dash_freeze_timer_timeout():
 	state_machine.change_state("Dashing")
 	var dash_direction = Vector2(1 if not animated_sprite.flip_h else -1, 0)
-	vfx.play_dash_effects()
+	vfx.play_dash_effects(dash_particles) # UPDATE THIS LINE
 	velocity.x = dash_direction.x * DASH_SPEED
 	velocity.y = 0
 	dash_timer.start(DASH_DURATION)
@@ -263,22 +262,22 @@ func _unhandled_input(event: InputEvent) -> void:
 		EventBus.interaction_started.emit()
 	elif event.is_action_released("interact_world"):
 		EventBus.interaction_cancelled.emit()
-		
+
 func end_dash() -> void:
 	if state_machine.current_state.name != "DashingState":
 		return
 
-	vfx.stop_dash_effects()
+	vfx.stop_dash_effects(dash_particles) # UPDATE THIS LINE
 	dash_cooldown_timer.start(DASH_COOLDOWN)
-	
-	
+
+
 func _on_state_changed(new_state_name: String) -> void:
 	if new_state_name in COMBO_STATES:
 		combo_reset_timer.stop()
-		
+
 		if not new_state_name in _combo_chain:
 			_add_move_to_combo(new_state_name)
-			
+
 	elif new_state_name in ["Idle", "Running"]:
 		combo_reset_timer.start(1.5)
 
@@ -286,7 +285,7 @@ func _on_state_changed(new_state_name: String) -> void:
 func _add_move_to_combo(move_name: String) -> void:
 	combo_timer.start(1.0)
 	_combo_chain.append(move_name)
-	
+
 	print("Combo Chain: ", _combo_chain)
 
 	if _combo_chain.size() >= 3:

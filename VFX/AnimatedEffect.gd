@@ -12,9 +12,9 @@ func _ready() -> void:
 
 # This is the main public function that other scripts will call.
 # It tells the effect which animation to play.
-func play_effect(animation_name: String) -> void:
-	# The 'play()' function is built into AnimatedSprite2D.
-	play(animation_name)
+func play_effect(animation_name: String, speed: float = 1.0) -> void:
+	# The third argument, "from_end", should be true if speed is negative.
+	play(animation_name, speed, speed < 0)
 
 
 func _on_animation_finished() -> void:
