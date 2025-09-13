@@ -12,6 +12,7 @@ spawn_marker_name = "FootSpawner"
 position_offset = Vector2(0, 0)
 flip_h_with_player = true
 flip_h_with_wall = false
+rotate_with_wall_normal = false
 rotation_degrees = 0.0
 scale = Vector2(1, 1)
 metadata/_custom_type_script = "uid://ctlafprqxjjv2"

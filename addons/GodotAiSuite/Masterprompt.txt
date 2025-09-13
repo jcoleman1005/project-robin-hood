@@ -267,6 +267,160 @@ fall_zoom_delay = 0.3
 wall_detach_hang_time = 0.2
 wall_detach_gravity_scale = 0.5
 metadata/_custom_type_script = "uid://bx05fogp11uwl"
+
+--- RESOURCE: res://VFX/VFXData/dash_prepare.tres ---
+[gd_resource type="Resource" script_class="VFXData" load_steps=3 format=3 uid="uid://ccg8jgat5rg5m"]
+
+[ext_resource type="Script" uid="uid://ctlafprqxjjv2" path="res://VFX/VFXData/VFXData.gd" id="1_rao5i"]
+[ext_resource type="PackedScene" uid="uid://b65sf7txtiy3x" path="res://VFX/AnimatedEffect.tscn" id="1_tc740"]
+
+[resource]
+script = ExtResource("1_rao5i")
+effect_scene = ExtResource("1_tc740")
+animation_name = "dash_puff"
+playback_speed = 1.0
+spawn_marker_name = "FootSpawner"
+position_offset = Vector2(-15, 0)
+flip_h_with_player = true
+flip_h_with_wall = false
+rotation_degrees = 0.0
+scale = Vector2(1, 1)
+metadata/_custom_type_script = "uid://ctlafprqxjjv2"
+
+--- RESOURCE: res://VFX/VFXData/dash_start.tres ---
+[gd_resource type="Resource" script_class="VFXData" load_steps=3 format=3 uid="uid://do1e8ufcym8bj"]
+
+[ext_resource type="PackedScene" uid="uid://b65sf7txtiy3x" path="res://VFX/AnimatedEffect.tscn" id="1_viw41"]
+[ext_resource type="Script" uid="uid://ctlafprqxjjv2" path="res://VFX/VFXData/VFXData.gd" id="2_u3og0"]
+
+[resource]
+script = ExtResource("2_u3og0")
+effect_scene = ExtResource("1_viw41")
+animation_name = "jump_puff"
+playback_speed = 1.0
+spawn_marker_name = "FootSpawner"
+position_offset = Vector2(0, 0)
+flip_h_with_player = true
+flip_h_with_wall = false
+rotate_with_wall_normal = false
+rotation_degrees = 90.0
+scale = Vector2(1, 1)
+metadata/_custom_type_script = "uid://ctlafprqxjjv2"
+
+--- RESOURCE: res://VFX/VFXData/jump_puff_vfx.tres ---
+[gd_resource type="Resource" script_class="VFXData" load_steps=3 format=3 uid="uid://c52ah0tjgskhb"]
+
+[ext_resource type="Script" uid="uid://ctlafprqxjjv2" path="res://VFX/VFXData/VFXData.gd" id="1_4juc7"]
+[ext_resource type="PackedScene" uid="uid://b65sf7txtiy3x" path="res://VFX/AnimatedEffect.tscn" id="1_lh7h6"]
+
+[resource]
+script = ExtResource("1_4juc7")
+effect_scene = ExtResource("1_lh7h6")
+animation_name = "jump_puff"
+playback_speed = 1.0
+spawn_marker_name = "FootSpawner"
+position_offset = Vector2(0, 0)
+flip_h_with_player = false
+flip_h_with_wall = false
+rotation_degrees = 0.0
+scale = Vector2(1, 1)
+metadata/_custom_type_script = "uid://ctlafprqxjjv2"
+
+--- RESOURCE: res://VFX/VFXData/land_puff_vfx.tres ---
+[gd_resource type="Resource" script_class="VFXData" load_steps=3 format=3 uid="uid://fow4ncrcxhnu"]
+
+[ext_resource type="Script" uid="uid://ctlafprqxjjv2" path="res://VFX/VFXData/VFXData.gd" id="1_0ydjj"]
+[ext_resource type="PackedScene" uid="uid://b65sf7txtiy3x" path="res://VFX/AnimatedEffect.tscn" id="1_hwssi"]
+
+[resource]
+script = ExtResource("1_0ydjj")
+effect_scene = ExtResource("1_hwssi")
+animation_name = "jump_puff"
+playback_speed = 1.0
+spawn_marker_name = "FootSpawner"
+position_offset = Vector2(0, 0)
+flip_h_with_player = false
+flip_h_with_wall = false
+rotation_degrees = 0.0
+scale = Vector2(1, 1)
+metadata/_custom_type_script = "uid://ctlafprqxjjv2"
+
+--- RESOURCE: res://VFX/VFXData/skid_puff.tres ---
+[gd_resource type="Resource" script_class="VFXData" load_steps=3 format=3 uid="uid://ci5d3pjnftf5n"]
+
+[ext_resource type="Script" uid="uid://ctlafprqxjjv2" path="res://VFX/VFXData/VFXData.gd" id="1_0j7f5"]
+[ext_resource type="PackedScene" uid="uid://b65sf7txtiy3x" path="res://VFX/AnimatedEffect.tscn" id="1_dapgh"]
+
+[resource]
+script = ExtResource("1_0j7f5")
+effect_scene = ExtResource("1_dapgh")
+animation_name = "dash_puff"
+playback_speed = 1.0
+spawn_marker_name = "FootSpawner"
+position_offset = Vector2(0, 0)
+flip_h_with_player = false
+flip_h_with_wall = false
+rotation_degrees = 0.0
+scale = Vector2(1, 1)
+metadata/_custom_type_script = "uid://ctlafprqxjjv2"
+
+--- RESOURCE: res://VFX/VFXData/slide_puff.tres ---
+[gd_resource type="Resource" script_class="VFXData" load_steps=3 format=3 uid="uid://cc6t44ykfjjb6"]
+
+[ext_resource type="Script" uid="uid://ctlafprqxjjv2" path="res://VFX/VFXData/VFXData.gd" id="1_0hk10"]
+[ext_resource type="PackedScene" uid="uid://b65sf7txtiy3x" path="res://VFX/AnimatedEffect.tscn" id="1_1gfmf"]
+
+[resource]
+script = ExtResource("1_0hk10")
+effect_scene = ExtResource("1_1gfmf")
+animation_name = "dash_puff"
+playback_speed = 1.0
+spawn_marker_name = "FootSpawner"
+position_offset = Vector2(0, 0)
+flip_h_with_player = true
+flip_h_with_wall = false
+rotation_degrees = 0.0
+scale = Vector2(1, 1)
+metadata/_custom_type_script = "uid://ctlafprqxjjv2"
+
+--- RESOURCE: res://VFX/VFXData/wall_jump.tres ---
+[gd_resource type="Resource" script_class="VFXData" load_steps=3 format=3 uid="uid://c0644r4j2jcdj"]
+
+[ext_resource type="Script" uid="uid://ctlafprqxjjv2" path="res://VFX/VFXData/VFXData.gd" id="1_bra6a"]
+[ext_resource type="PackedScene" uid="uid://b65sf7txtiy3x" path="res://VFX/AnimatedEffect.tscn" id="1_hyebq"]
+
+[resource]
+script = ExtResource("1_bra6a")
+effect_scene = ExtResource("1_hyebq")
+animation_name = "jump_puff"
+playback_speed = 1.0
+spawn_marker_name = "WallSlideSpawner"
+position_offset = Vector2(0, 0)
+flip_h_with_player = false
+flip_h_with_wall = false
+rotate_with_wall_normal = true
+rotation_degrees = 0.0
+scale = Vector2(1, 1)
+metadata/_custom_type_script = "uid://ctlafprqxjjv2"
+
+--- RESOURCE: res://VFX/VFXData/wall_slide_vfx.tres ---
+[gd_resource type="Resource" script_class="VFXData" load_steps=3 format=3 uid="uid://cjmrmfqt44nwm"]
+
+[ext_resource type="Script" uid="uid://ctlafprqxjjv2" path="res://VFX/VFXData/VFXData.gd" id="1_cus0g"]
+[ext_resource type="PackedScene" uid="uid://b65sf7txtiy3x" path="res://VFX/AnimatedEffect.tscn" id="1_lmj31"]
+
+[resource]
+script = ExtResource("1_cus0g")
+effect_scene = ExtResource("1_lmj31")
+animation_name = "dash_puff"
+playback_speed = 1.0
+spawn_marker_name = "WallSlideSpawner"
+position_offset = Vector2(0, 0)
+flip_h_with_player = false
+flip_h_with_wall = true
+rotation_degrees = 0.0
+scale = Vector2(1, 1)
+metadata/_custom_type_script = "uid://ctlafprqxjjv2"
 --- END OF RESOURCE FILES ---
 
 #### **2.3. Scene Structures**
@@ -276,7 +430,7 @@ metadata/_custom_type_script = "uid://bx05fogp11uwl"
 Enemy (CharacterBody2D)
 > script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.gd
 > scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
-> vision_renderer = VisionConeRenderer:<Polygon2D#3210169380396>
+> vision_renderer = VisionConeRenderer:<Polygon2D#2952773340884>
 > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > is_rotating = false
 > rotation_speed = 0.1
@@ -295,8 +449,8 @@ Enemy (CharacterBody2D)
 > > ray_count = 100
 > > max_distance = 500.0
 > > collision_layer_mask = 2
-> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3210202934848>
-> > write_polygon2d = VisionConeRenderer:<Polygon2D#3210169380396>
+> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#2952806895303>
+> > write_polygon2d = VisionConeRenderer:<Polygon2D#2952773340884>
 > > debug_lines = false
 > > debug_shape = false
 > > minimum_recalculate_time_msec = 0
@@ -326,7 +480,7 @@ example (Node2D)
 >   script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.gd
 >   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
 > > position = (1055.0, 97.0)
-> > vision_renderer = VisionConeRenderer:<Polygon2D#3210806914626>
+> > vision_renderer = VisionConeRenderer:<Polygon2D#2953410875086>
 > > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > > is_rotating = false
 > > rotation_speed = 0.1
@@ -345,8 +499,8 @@ example (Node2D)
 >   > ray_count = 100
 >   > max_distance = 500.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3210840476544>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#3210806914626>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#2953444429536>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#2953410875086>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -382,7 +536,7 @@ example (Node2D)
 >   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
 > > position = (301.0, 705.0)
 > > rotation = -1.57079994678497
-> > vision_renderer = VisionConeRenderer:<Polygon2D#3210991463983>
+> > vision_renderer = VisionConeRenderer:<Polygon2D#2953595424471>
 > > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > > is_rotating = true
 > > rotation_speed = 1.0
@@ -401,8 +555,8 @@ example (Node2D)
 >   > ray_count = 50
 >   > max_distance = 700
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3211025018413>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#3210991463983>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#2953628978929>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#2953595424471>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -431,12 +585,12 @@ example (Node2D)
 >   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
 > > position = (211.0, 130.0)
 > > rotation = -0.48296800255775
-> > vision_renderer = VisionConeRenderer:<Polygon2D#3211142466401>
+> > vision_renderer = VisionConeRenderer:<Polygon2D#2953746419448>
 > > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > > is_rotating = false
 > > rotation_speed = 1.0
 > > rotation_angle = 90
-> > move_on_path = PathFollow2D:<PathFollow2D#3210739805747>
+> > move_on_path = PathFollow2D:<PathFollow2D#2953343766233>
 > > movement_speed = 3.0
 >   CharacterRenderer (Polygon2D)
 >   > rotation = -1.57079994678497
@@ -451,8 +605,8 @@ example (Node2D)
 >   > ray_count = 10
 >   > max_distance = 700
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3211176013339>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#3211142466401>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#2953779973882>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#2953746419448>
 >   > debug_lines = true
 >   > debug_shape = true
 >   > minimum_recalculate_time_msec = 250
@@ -591,8 +745,8 @@ VisionCone2D (Node2D)
 > ray_count = 100
 > max_distance = 500.0
 > collision_layer_mask = 2
-> write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3212803410808>
-> write_polygon2d = VisionConeRenderer:<Polygon2D#3212769848891>
+> write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#2955407363794>
+> write_polygon2d = VisionConeRenderer:<Polygon2D#2955373809363>
 > debug_lines = false
 > debug_shape = false
 > minimum_recalculate_time_msec = 0
@@ -1753,7 +1907,7 @@ GutRunner (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 0
->           > resize_control = Normal:<Panel#3238808095633>
+>           > resize_control = Normal:<Panel#2981412048762>
 >           > vertical_resize = true
 >           SwitchModes (Button)
 >           > layout_mode = 2
@@ -1768,7 +1922,7 @@ GutRunner (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 1
->           > resize_control = Normal:<Panel#3238808095633>
+>           > resize_control = Normal:<Panel#2981412048762>
 >           > vertical_resize = true
 >           SidePad2 (CenterContainer)
 >           > custom_minimum_size = (2.0, 0.0)
@@ -1879,7 +2033,7 @@ GutRunner (Node2D)
 >               > layout_mode = 2
 >               > color = (1.0, 1.0, 1.0, 0.0)
 >               > orientation = 0
->               > resize_control = Compact:<Panel#3240284490722>
+>               > resize_control = Compact:<Panel#2982888443851>
 >               > vertical_resize = false
 >               SwitchModes (Button)
 >               > layout_mode = 2
@@ -1897,7 +2051,7 @@ GutRunner (Node2D)
 >               > layout_mode = 2
 >               > color = (1.0, 1.0, 1.0, 0.0)
 >               > orientation = 1
->               > resize_control = Compact:<Panel#3240284490722>
+>               > resize_control = Compact:<Panel#2982888443851>
 >               > vertical_resize = false
 >           RightMargin (CenterContainer)
 >           > custom_minimum_size = (5.0, 0.0)
@@ -2008,7 +2162,7 @@ Min (Panel)
 >         > layout_mode = 2
 >         > color = (1.0, 1.0, 1.0, 0.0)
 >         > orientation = 0
->         > resize_control = Min:<Panel#3243975470652>
+>         > resize_control = Min:<Panel#2986579431119>
 >         > vertical_resize = false
 >         SwitchModes (Button)
 >         > layout_mode = 2
@@ -2026,7 +2180,7 @@ Min (Panel)
 >         > layout_mode = 2
 >         > color = (1.0, 1.0, 1.0, 0.0)
 >         > orientation = 1
->         > resize_control = Min:<Panel#3243975470652>
+>         > resize_control = Min:<Panel#2986579431119>
 >         > vertical_resize = false
 >     RightMargin (CenterContainer)
 >     > custom_minimum_size = (5.0, 0.0)
@@ -2179,7 +2333,7 @@ Large (Panel)
 >     > layout_mode = 2
 >     > color = (1.0, 1.0, 1.0, 0.0)
 >     > orientation = 0
->     > resize_control = Large:<Panel#3246139731516>
+>     > resize_control = Large:<Panel#2988743691983>
 >     > vertical_resize = true
 >     SwitchModes (Button)
 >     > layout_mode = 2
@@ -2194,7 +2348,7 @@ Large (Panel)
 >     > layout_mode = 2
 >     > color = (1.0, 1.0, 1.0, 0.0)
 >     > orientation = 1
->     > resize_control = Large:<Panel#3246139731516>
+>     > resize_control = Large:<Panel#2988743691983>
 >     > vertical_resize = true
 >     SidePad2 (CenterContainer)
 >     > custom_minimum_size = (2.0, 0.0)
@@ -2657,7 +2811,7 @@ GutScene (Node2D)
 >       > layout_mode = 2
 >       > color = (1.0, 1.0, 1.0, 0.0)
 >       > orientation = 0
->       > resize_control = Normal:<Panel#3257833451065>
+>       > resize_control = Normal:<Panel#3000437411551>
 >       > vertical_resize = true
 >       SwitchModes (Button)
 >       > layout_mode = 2
@@ -2672,7 +2826,7 @@ GutScene (Node2D)
 >       > layout_mode = 2
 >       > color = (1.0, 1.0, 1.0, 0.0)
 >       > orientation = 1
->       > resize_control = Normal:<Panel#3257833451065>
+>       > resize_control = Normal:<Panel#3000437411551>
 >       > vertical_resize = true
 >       SidePad2 (CenterContainer)
 >       > custom_minimum_size = (2.0, 0.0)
@@ -2783,7 +2937,7 @@ GutScene (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 0
->           > resize_control = Compact:<Panel#3259309853661>
+>           > resize_control = Compact:<Panel#3001913806790>
 >           > vertical_resize = false
 >           SwitchModes (Button)
 >           > layout_mode = 2
@@ -2801,7 +2955,7 @@ GutScene (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 1
->           > resize_control = Compact:<Panel#3259309853661>
+>           > resize_control = Compact:<Panel#3001913806790>
 >           > vertical_resize = false
 >       RightMargin (CenterContainer)
 >       > custom_minimum_size = (5.0, 0.0)
@@ -2823,7 +2977,7 @@ UserFileViewer (Window)
 > FileDialog (FileDialog)
 > > access = 1
 > > show_hidden_files = true
->   @PopupMenu@26978 (PopupMenu)
+>   @PopupMenu@27380 (PopupMenu)
 > TextDisplay (ColorRect)
 > > anchors_preset = 15
 > > anchor_right = 1.0
@@ -2937,7 +3091,7 @@ Guard (CharacterBody2D)
 > > collision_mask = 2
 > StateMachine (Node)
 >   script: res://Enemies/Guard/States/guard_state_machine.gd
-> > initial_state = PatrolState:<Node#3273956363150>
+> > initial_state = PatrolState:<Node#3016560316279>
 >   PatrolState (Node)
 >     script: res://Enemies/Guard/States/patrol_state.gd
 >   CaughtState (Node)
@@ -2949,8 +3103,8 @@ Guard (CharacterBody2D)
 > > ray_count = 75
 > > max_distance = 150.0
 > > collision_layer_mask = 2
-> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3274040249235>
-> > write_polygon2d = VisionConeRenderer:<Polygon2D#3274006694797>
+> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3016644202364>
+> > write_polygon2d = VisionConeRenderer:<Polygon2D#3016610647926>
 > > debug_lines = false
 > > debug_shape = false
 > > minimum_recalculate_time_msec = 0
@@ -3368,7 +3522,7 @@ VillageOutskirts (Node2D)
 >   > collision_mask = 2
 >   StateMachine (Node)
 >     script: res://Enemies/Guard/States/guard_state_machine.gd
->   > initial_state = PatrolState:<Node#3286136622210>
+>   > initial_state = PatrolState:<Node#3028740575339>
 >     PatrolState (Node)
 >       script: res://Enemies/Guard/States/patrol_state.gd
 >     CaughtState (Node)
@@ -3380,8 +3534,8 @@ VillageOutskirts (Node2D)
 >   > ray_count = 75
 >   > max_distance = 150.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3286220508285>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#3286186953855>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3028824461414>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#3028790906984>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -3429,7 +3583,7 @@ VillageOutskirts (Node2D)
 >   > collision_mask = 2
 >   StateMachine (Node)
 >     script: res://Enemies/Guard/States/guard_state_machine.gd
->   > initial_state = PatrolState:<Node#3286388280435>
+>   > initial_state = PatrolState:<Node#3028992233564>
 >     PatrolState (Node)
 >       script: res://Enemies/Guard/States/patrol_state.gd
 >     CaughtState (Node)
@@ -3441,8 +3595,8 @@ VillageOutskirts (Node2D)
 >   > ray_count = 75
 >   > max_distance = 150.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3286472166510>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#3286438612080>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3029076119639>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#3029042565209>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -3490,7 +3644,7 @@ VillageOutskirts (Node2D)
 >   > collision_mask = 2
 >   StateMachine (Node)
 >     script: res://Enemies/Guard/States/guard_state_machine.gd
->   > initial_state = PatrolState:<Node#3286639938660>
+>   > initial_state = PatrolState:<Node#3029243891789>
 >     PatrolState (Node)
 >       script: res://Enemies/Guard/States/patrol_state.gd
 >     CaughtState (Node)
@@ -3502,8 +3656,8 @@ VillageOutskirts (Node2D)
 >   > ray_count = 75
 >   > max_distance = 150.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3286723824734>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#3286690270305>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3029327777863>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#3029294223434>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -3566,32 +3720,33 @@ Player (CharacterBody2D)
 > rotation = -0.00456182984635
 > collision_mask = 2
 > stats = res://Player/Data/player_stats.tres
-> dust_puff_scene = res://VFX/AnimatedEffect.tscn
+> dash_start_vfx = res://VFX/VFXData/dash_start.tres
 > AnimatedSprite2D (AnimatedSprite2D)
 > > position = (5.0, 3.0)
 > > sprite_frames = res://Player/PlayerScene.tscn::SpriteFrames_pwdtq
 > > animation = wall slide
 > > autoplay = "idle"
+> > offset = (0.0, -40.0)
 > AnimationPlayer (AnimationPlayer)
-> > libraries = {"":"<AnimationLibrary#-9223369865429959440>"}
+> > libraries = {"":"<AnimationLibrary#-9223369862846268150>"}
 > SlidingCollision (CollisionShape2D)
-> > position = (4.0, 37.0089)
+> > position = (4.0, -3.0)
 > > disabled = true
 > StandingCollision (CollisionShape2D)
-> > position = (1.88593, 25.0089)
+> > position = (1.886, -15.0)
 > > shape = res://Player/PlayerScene.tscn::CapsuleShape2D_vbs5d
 > CrouchingCollision (CollisionShape2D)
 > > visible = false
-> > position = (1.0, 30.002)
+> > position = (1.0, -10.0)
 > > scale = (1.06667, 1.08811)
 > > shape = res://Player/PlayerScene.tscn::RectangleShape2D_qvcxh
 > WallSlideCollision (CollisionShape2D)
 > > visible = false
-> > position = (3.50396, 25.0)
+> > position = (3.504, -15.0)
 > > shape = res://Player/PlayerScene.tscn::RectangleShape2D_epaal
 > > disabled = true
 > HeadClearanceRaycast (RayCast2D)
-> > position = (1.88593, 25.0089)
+> > position = (1.886, -15.0)
 > > target_position = (0.109488, -23.9998)
 > > collision_mask = 2
 > Timers (Node)
@@ -3675,14 +3830,14 @@ Player (CharacterBody2D)
 >   > one_shot = true
 > DashParticles (GPUParticles2D)
 > > material = res://Player/PlayerScene.tscn::ShaderMaterial_4tc8y
-> > position = (-2.0, -1.0)
+> > position = (-2.0, -40.0)
 > > emitting = false
 > > amount = 6
 > > texture = res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_Dash.png
 > > lifetime = 0.25
 > > process_material = res://Player/PlayerScene.tscn::ParticleProcessMaterial_fpl1g
 > VFX (Node2D)
->   script: res://Player/PlayerModularControl/VFX.gd
+>   script: res://VFX/VFXManager.gd
 > AnimationController (Node2D)
 >   script: res://Player/PlayerModularControl/AnimationController.gd
 > TrajectoryLine (Line2D)
@@ -3690,7 +3845,7 @@ Player (CharacterBody2D)
 > > width = 3.0
 > > default_color = (0.9735, 0.9735, 0.9735, 1.0)
 > TargetPoint (Marker2D)
-> > position = (0.863649, 27.0043)
+> > position = (1.05929, -12.9953)
 > StateMachine (Node)
 >   script: res://Player/States/StateMachine.gd
 > > initial_state = IdleState
@@ -3700,12 +3855,16 @@ Player (CharacterBody2D)
 >     script: res://Player/States/RunningState.gd
 >   JumpingState (Node)
 >     script: res://Player/States/JumpingState.gd
+>   > jump_vfx = res://VFX/VFXData/jump_puff_vfx.tres
 >   FallingState (Node)
 >     script: res://Player/States/FallingState.gd
+>   > wall_jump_vfx = res://VFX/VFXData/wall_jump.tres
 >   WallDetachState (Node)
 >     script: res://Player/States/WallDetachState.gd
 >   OnWallState (Node)
 >     script: res://Player/States/OnWallState.gd
+>   > wall_slide_vfx = res://VFX/VFXData/wall_slide_vfx.tres
+>   > wall_jump_vfx = res://VFX/VFXData/wall_jump.tres
 >     VFXTimer (Timer)
 >     > wait_time = 0.1
 >   WallStickingState (Node)
@@ -3718,12 +3877,16 @@ Player (CharacterBody2D)
 >     script: res://Player/States/WallSlipState.gd
 >   LandingState (Node)
 >     script: res://Player/States/LandingState.gd
+>   > land_vfx = res://VFX/VFXData/land_puff_vfx.tres
 >   SlidingState (Node)
 >     script: res://Player/States/SlidingState.gd
+>   > slide_vfx = res://VFX/VFXData/slide_puff.tres
 >   SkiddingState (Node)
 >     script: res://Player/States/SkiddingState.gd
+>   > skid_vfx = res://VFX/VFXData/skid_puff.tres
 >   DashPrepareState (Node)
 >     script: res://Player/States/DashPrepareState.gd
+>   > dash_prepare_vfx = res://VFX/VFXData/dash_prepare.tres
 >   UnstickingState (Node)
 >     script: res://Player/States/UnstickingState.gd
 >   CrouchingState (Node)
@@ -3740,30 +3903,30 @@ Player (CharacterBody2D)
 > > stats = res://Player/Data/default_camera_stats.tres
 >   CameraZoomResetTimer (Timer)
 > WallCheckRayRight (RayCast2D)
-> > position = (3.83204, 24.018)
+> > position = (3.832, -15.0)
 > > target_position = (20.0, 0.0)
 > WallCheckRayLeft (RayCast2D)
-> > position = (2.84707, 24.0134)
+> > position = (2.847, -15.0)
 > > target_position = (-20.0, 0.0)
 > GroundRay (RayCast2D)
-> > position = (2.95491, 0.013685)
+> > position = (2.955, -40.0)
 > > target_position = (-0.17847, 48.9995)
 > > collision_mask = 2
 > LedgeRay (RayCast2D)
-> > position = (23.0, 0.0)
+> > position = (23.0, -40.0)
 > > target_position = (-0.219206, 48.1044)
 > > collision_mask = 2
 > FootSpawner (Marker2D)
-> > position = (0.791757, 43.0041)
+> > position = (0.792, 0.0)
 > WallSlideSpawner (Marker2D)
-> > position = (-4.10944, 23.9815)
+> > position = (-8.0, -13.0)
 
 --- SCENE: res://Singletons/SceneManager.tscn ---
 SceneManager (CanvasLayer)
 > script: res://Singletons/SceneManager.gd
 > scene: res://Singletons/SceneManager.tscn
 > process_mode = 3
-> scene_entries = ["<Resource#-9223368746171528040>","<Resource#-9223368746154750825>"]
+> scene_entries = ["<Resource#-9223369003567574911>","<Resource#-9223369003550797696>"]
 > player_scene = res://Player/PlayerScene.tscn
 > ColorRect (ColorRect)
 > > anchors_preset = 15
@@ -3773,7 +3936,7 @@ SceneManager (CanvasLayer)
 > > grow_vertical = 2
 > > color = (0.0, 0.0, 0.0, 0.0)
 > AnimationPlayer (AnimationPlayer)
-> > libraries = {"":"<AnimationLibrary#-9223368746087641955>"}
+> > libraries = {"":"<AnimationLibrary#-9223369003483688826>"}
 
 --- SCENE: res://tests/Chest.tscn ---
 Chest (StaticBody2D)
@@ -21104,96 +21267,13 @@ func update_animation(current_state, current_velocity, wall_normal, input_direct
 			elif input_direction_x < 0:
 				animated_sprite.flip_h = true
 
---- SCRIPT: res://Player/PlayerModularControl/VFX.gd ---
-extends Node2D
-
-# We'll export this so we can assign our AnimatedEffect scene in the editor.
-@export var animated_effect_scene: PackedScene
-
-# Get references to the nodes this component will control.
-var camera: Camera2D
-@onready var dash_particles = get_parent().get_node("DashParticles")
-@onready var animated_sprite = get_parent().get_node("AnimatedSprite2D")
-@onready var player = get_parent()
-
-func _ready():
-	camera = get_tree().get_first_node_in_group("PlayerCamera")
-
-# --- Existing Dash Trail Logic ---
-func play_dash_effects():
-	_trigger_camera_punch()
-	var dash_direction = Vector2(1 if not animated_sprite.flip_h else -1, 0)
-	dash_particles.scale.x = dash_direction.x
-	dash_particles.emitting = true
-
-func stop_dash_effects():
-	dash_particles.emitting = false
-	dash_particles.scale.x = 1
-
-func _trigger_camera_punch():
-	if not is_instance_valid(camera):
-		return
-	var tween = create_tween()
-	var zoomed_in_vec = camera.zoom * 1.1
-	var default_zoom_vec = camera.zoom
-	tween.tween_property(camera, "zoom", zoomed_in_vec, 0.1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.tween_property(camera, "zoom", default_zoom_vec, 0.1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-
-
-# --- NEW PUBLIC FUNCTIONS FOR ONE-SHOT EFFECTS ---
-
-func play_jump_effect():
-	if animated_effect_scene:
-		var effect = animated_effect_scene.instantiate()
-		get_tree().root.add_child(effect)
-		effect.global_position = player.get_node("FootSpawner").global_position
-		effect.play_effect("jump_puff")
-
-func play_landing_effect():
-	if animated_effect_scene:
-		var effect = animated_effect_scene.instantiate()
-		get_tree().root.add_child(effect)
-		effect.global_position = player.get_node("FootSpawner").global_position
-		effect.play_effect("jump_puff")
-
-func play_dash_prepare_effect():
-	if animated_effect_scene:
-		var effect = animated_effect_scene.instantiate()
-		get_tree().root.add_child(effect)
-		effect.global_position = player.get_node("FootSpawner").global_position
-		var direction = 1.0 if not player.animated_sprite.flip_h else -1.0
-		effect.global_position.x -= direction * 15
-		effect.flip_h = direction < 0
-		effect.play_effect("dash_puff")
-
-func play_wall_slide_effect():
-	if animated_effect_scene:
-		var effect = animated_effect_scene.instantiate()
-		get_tree().root.add_child(effect)
-		var wall_offset = player.get_wall_normal() * -10
-		effect.global_position = player.get_node("WallSlideSpawner").global_position + wall_offset
-		if player.get_wall_normal().x > 0:
-			effect.rotation_degrees = 90
-		else:
-			effect.rotation_degrees = -90
-		effect.scale = Vector2(0.5, 0.5)
-		effect.play_effect("dash_puff")
-
-func play_wall_jump_effect():
-	if animated_effect_scene:
-		var effect = animated_effect_scene.instantiate()
-		get_tree().root.add_child(effect)
-		var wall_offset = player.get_wall_normal() * -15
-		effect.global_position = player.get_node("WallSlideSpawner").global_position + wall_offset
-		effect.play_effect("jump_puff")
-
 --- SCRIPT: res://Player/PlayerScript.gd ---
 # PlayerScript.gd
 extends CharacterBody2D
 
-## We replace ALL the old @export variables with this single one.
 @export var stats: PlayerStats
-@export var dust_puff_scene: PackedScene
+@export_group("VFX")
+@export var dash_start_vfx: VFXData # REPLACED the two old exports with this single one.
 
 # The state enum is logic, so it stays.
 enum States {IDLE, RUNNING, JUMPING, FALLING, GLIDING, ON_WALL, WALL_STICKING, DASHING, UNSTICKING, CROUCHING, LANDING, DASH_PREPARE, WALL_SLIP, SKIDDING, SLIDING, WALL_DETACH}
@@ -21205,7 +21285,6 @@ signal gliding_started
 signal gliding_ended
 
 # --- Constants ---
-# Constants that don't need to be tuned can also stay.
 const MAX_JUMPS = 2
 const DASH_SPEED = 1500.0
 const DASH_DURATION = 0.15
@@ -21222,7 +21301,7 @@ var can_wall_stick: bool = true
 var can_standing_slide: bool = true
 var is_jump_charged: bool = false
 var jump_buffered: bool = false
-var is_long_fall: bool = false # Used by CameraLogic
+var is_long_fall: bool = false
 var is_invisible: bool = false
 var can_go_invisible: bool = true
 var last_wall_normal: Vector2
@@ -21261,11 +21340,10 @@ var _interact_held: bool = false
 @onready var combo_timer: Timer = $Timers/ComboTimer
 @onready var combo_reset_timer: Timer = $Timers/ComboResetTimer
 @onready var ground_ray: RayCast2D = $GroundRay
-
+@onready var dash_particles: GPUParticles2D = $DashParticles
 
 func _ready():
-	# The jump physics calculations are now handled by the resource itself!
-	# All we need to do is connect our timers.
+	assert(is_instance_valid(stats), "PlayerStats resource must be assigned to the Player in the Inspector!")
 	dash_timer.timeout.connect(_on_dash_timer_timeout)
 	dash_cooldown_timer.timeout.connect(_on_dash_cooldown_timer_timeout)
 	wall_stick_timer.timeout.connect(_on_wall_stick_timer_timeout)
@@ -21295,74 +21373,58 @@ func _process(_delta: float) -> void:
 func _physics_process(_delta: float):
 	if not GameManager.is_gameplay_active:
 		return
-
 	if not is_instance_valid(stats):
 		return
-	
+
 	velocity.y = min(velocity.y, stats.terminal_velocity)
 	_handle_global_inputs()
 	move_and_slide()
-	
 
 func _handle_global_inputs():
 	if Input.is_action_just_pressed("dash") and can_dash:
 		state_machine.change_state("DashPrepare")
-
 	if Input.is_action_just_pressed("invisibility") and can_go_invisible:
 		_enter_invisibility()
 
-# --- Public Helper Functions (Called by States) ---
-
+# ... (Public Helper Functions are all the same) ...
 func enter_jump_state():
 	coyote_timer.stop()
 	fall_zoom_timer.stop()
 	set_standing_collision()
 	velocity.y = stats.jump_velocity
 	current_jumps += 1
-
 func wall_jump(wall_normal_override: Vector2 = Vector2.ZERO):
 	wall_stick_timer.stop()
 	wall_coyote_timer.stop()
-	
 	var wall_normal = wall_normal_override if wall_normal_override != Vector2.ZERO else get_wall_normal()
-	
 	if Input.is_action_pressed("shift") and can_wall_stick:
 		velocity.y = stats.wall_stick_jump_vertical_velocity
 		velocity.x = wall_normal.x * stats.wall_stick_jump_horizontal_velocity
 	else:
 		velocity.y = stats.wall_slide_jump_vertical_velocity
 		velocity.x = wall_normal.x * stats.wall_slide_jump_horizontal_velocity
-
 	can_wall_stick = true
 	current_jumps = 1
-# Spawn a burst of particles with VFX Manager
-	vfx.play_wall_jump_effect()
-		
 func _start_wall_coyote_time():
 	last_wall_normal = get_wall_normal()
 	wall_coyote_timer.start(stats.wall_coyote_time_duration)
 	wall_detach_timer.start(stats.wall_detach_hang_time)
 	can_wall_stick = true
 	fall_zoom_timer.start(stats.fall_zoom_delay)
-
 func is_head_clear() -> bool:
 	return not head_clearance_ray.is_colliding()
-
 func set_standing_collision():
 	standing_collision.disabled = false
 	crouching_collision.disabled = true
 	wall_slide_collision.disabled = true
-
 func set_crouching_collision():
 	standing_collision.disabled = true
 	crouching_collision.disabled = false
 	wall_slide_collision.disabled = true
-
 func set_wall_slide_collision():
 	standing_collision.disabled = true
 	crouching_collision.disabled = true
 	wall_slide_collision.disabled = false
-
 func _enter_invisibility():
 	is_invisible = true
 	can_go_invisible = false
@@ -21371,63 +21433,56 @@ func _enter_invisibility():
 	animated_sprite.modulate.a = 0.5
 
 # --- Timer Callbacks ---
-
-func _on_dash_timer_timeout():
-	end_dash()
-	state_machine.change_state("Falling")
-
-func _on_dash_cooldown_timer_timeout():
-	can_dash = true
-
-func _on_wall_stick_timer_timeout():
-	if state_machine.current_state.name == "WallStickingState":
-		state_machine.change_state("OnWall")
-
-func _on_crouch_timer_timeout():
-	is_jump_charged = true
-
-func _on_coyote_timer_timeout():
-	if current_jumps == 0:
-		current_jumps = 1
-
-func _on_jump_buffer_timer_timeout():
-	jump_buffered = false
-
 func _on_dash_freeze_timer_timeout():
 	state_machine.change_state("Dashing")
 	var dash_direction = Vector2(1 if not animated_sprite.flip_h else -1, 0)
-	vfx.play_dash_effects()
+
+	# --- SIMPLIFIED: Play the single dash start effect ---
+	if is_instance_valid(dash_start_vfx):
+		vfx.play_effect(dash_start_vfx)
+
+	# Play the sustained trail effect
+	vfx.play_dash_effects(dash_particles)
+
 	velocity.x = dash_direction.x * DASH_SPEED
 	velocity.y = 0
 	dash_timer.start(DASH_DURATION)
-
+# ... (rest of the timer callbacks and functions are the same) ...
+func _on_dash_timer_timeout():
+	end_dash()
+	state_machine.change_state("Falling")
+func _on_dash_cooldown_timer_timeout():
+	can_dash = true
+func _on_wall_stick_timer_timeout():
+	if state_machine.current_state.name == "WallStickingState":
+		state_machine.change_state("OnWall")
+func _on_crouch_timer_timeout():
+	is_jump_charged = true
+func _on_coyote_timer_timeout():
+	if current_jumps == 0:
+		current_jumps = 1
+func _on_jump_buffer_timer_timeout():
+	jump_buffered = false
 func _on_invisibility_timer_timeout():
 	is_invisible = false
 	animated_sprite.modulate.a = 1.0
-
 func _on_invisibility_cooldown_timer_timeout():
 	can_go_invisible = true
-
 func _on_land_timer_timeout():
 	if state_machine.current_state.name == "LandingState":
 		state_machine.change_state("Idle")
-
 func _on_fall_zoom_timer_timeout():
 	if not is_on_floor():
 		is_long_fall = true
 		long_fall_started.emit()
-
 func _on_wall_slip_timer_timeout():
 	if state_machine.current_state.name == "WallSlipState":
 		state_machine.change_state("WallSticking")
-
 func _on_skid_timer_timeout():
 	if state_machine.current_state.name == "SkiddingState":
 		state_machine.change_state("Running")
-
 func _on_wall_coyote_timer_timeout():
 	pass
-
 func _on_slide_timer_timeout():
 	if state_machine.current_state.name == "SlidingState":
 		if is_head_clear():
@@ -21437,66 +21492,44 @@ func _on_slide_timer_timeout():
 				state_machine.change_state("Idle")
 		else:
 			state_machine.change_state("Crouching")
-
 func _on_standing_slide_cooldown_timer_timeout():
 	can_standing_slide = true
-
 func _on_wall_detach_timer_timeout():
 	if state_machine.current_state.name == "WallDetachState":
 		state_machine.change_state("Falling")
-
-
 func _unhandled_input(event: InputEvent) -> void:
 	if not GameManager.is_gameplay_active: return
-
 	if event.is_action_pressed("interact_world"):
 		EventBus.interaction_started.emit()
 	elif event.is_action_released("interact_world"):
 		EventBus.interaction_cancelled.emit()
-		
 func end_dash() -> void:
 	if state_machine.current_state.name != "DashingState":
 		return
-
-	vfx.stop_dash_effects()
+	vfx.stop_dash_effects(dash_particles)
 	dash_cooldown_timer.start(DASH_COOLDOWN)
-	
-	
 func _on_state_changed(new_state_name: String) -> void:
 	if new_state_name in COMBO_STATES:
 		combo_reset_timer.stop()
-		
 		if not new_state_name in _combo_chain:
 			_add_move_to_combo(new_state_name)
-			
 	elif new_state_name in ["Idle", "Running"]:
 		combo_reset_timer.start(1.5)
-
-
 func _add_move_to_combo(move_name: String) -> void:
 	combo_timer.start(1.0)
 	_combo_chain.append(move_name)
-	
 	print("Combo Chain: ", _combo_chain)
-
 	if _combo_chain.size() >= 3:
 		EventBus.flow_combo_success.emit()
 		print("--- FLOW COMBO SUCCESS! ---")
-
-
 func _reset_combo() -> void:
 	if not _combo_chain.is_empty():
 		_combo_chain.clear()
 		print("Combo Reset.")
-
-
 func _on_combo_timer_timeout() -> void:
 	_reset_combo()
-
-
 func _on_combo_reset_timer_timeout() -> void:
 	_reset_combo()
-
 func get_current_state_name() -> String:
 	if state_machine and is_instance_valid(state_machine.current_state):
 		return state_machine.current_state.name
@@ -21568,31 +21601,17 @@ func process_physics(_delta: float) -> void:
 --- SCRIPT: res://Player/States/DashPrepareState.gd ---
 # DashPrepareState.gd
 extends State
-@onready var vfx = $VFX
 
+@export var dash_prepare_vfx: VFXData
 
 func enter():
 	player.can_dash = false
 	player.velocity = Vector2.ZERO
 	player.dash_freeze_timer.start(player.stats.dash_freeze_duration)
-	
-	# --- NEW ANIMATED EFFECT LOGIC ---
-	if player.dust_puff_scene: # This variable now holds AnimatedEffect.tscn
-		var effect = player.dust_puff_scene.instantiate()
-		get_tree().root.add_child(effect)
-		
-		# Position the effect at the player's feet.
-		effect.global_position = player.get_node("FootSpawner").global_position
-		
-		# Set direction and flip the sprite accordingly.
-		var direction = 1.0 if not player.animated_sprite.flip_h else -1.0
-		effect.global_position.x -= direction * 15 # Offset it behind the player.
-		effect.flip_h = direction < 0
-		
 
-		# Tell the new scene to play the correct animation.
-		vfx.play_dash_prepare_effect()
-		
+	if dash_prepare_vfx:
+		player.vfx.play_effect(dash_prepare_vfx)
+
 	var input_x = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.DASH_PREPARE, player.velocity, Vector2.ZERO, input_x)
 
@@ -21603,6 +21622,8 @@ func process_physics(_delta):
 --- SCRIPT: res://Player/States/FallingState.gd ---
 # res://Player/States/FallingState.gd
 extends State
+
+@export var wall_jump_vfx: VFXData
 
 func enter() -> void:
 	var input_x: float = Input.get_axis("left", "right")
@@ -21621,8 +21642,12 @@ func process_physics(delta: float) -> void:
 		state_machine.change_state("Gliding")
 		return
 
+	# --- FIX: Check for slide input on landing ---
 	elif player.is_on_floor():
-		state_machine.change_state("Landing")
+		if Input.is_action_pressed("slide"):
+			state_machine.change_state("Sliding")
+		else:
+			state_machine.change_state("Landing")
 		return
 
 	elif player.is_on_wall():
@@ -21631,22 +21656,23 @@ func process_physics(delta: float) -> void:
 			return
 
 	elif Input.is_action_just_pressed("jump"):
-		# NEW LOGIC: Check for nearby walls with RayCasts first.
 		if player.wall_check_ray_right.is_colliding():
-			# If the right ray hits a wall, we perform a wall jump as if we hit a wall on our right.
-			player.wall_jump(Vector2(-1, 0)) # Provide a left-pointing normal.
+			player.wall_jump(Vector2(-1, 0))
+			if wall_jump_vfx:
+				player.vfx.play_effect(wall_jump_vfx)
 			state_machine.change_state("Jumping")
 			return
 		elif player.wall_check_ray_left.is_colliding():
-			# If the left ray hits a wall, we jump as if we hit a wall on our left.
-			player.wall_jump(Vector2(1, 0)) # Provide a right-pointing normal.
+			player.wall_jump(Vector2(1, 0))
+			if wall_jump_vfx:
+				player.vfx.play_effect(wall_jump_vfx)
 			state_machine.change_state("Jumping")
 			return
-		
-		# --- Original Logic ---
-		# If no nearby walls, check for coyote time or double jump.
+
 		if not player.wall_coyote_timer.is_stopped():
 			player.wall_jump(player.last_wall_normal)
+			if wall_jump_vfx:
+				player.vfx.play_effect(wall_jump_vfx)
 			state_machine.change_state("Jumping")
 			return
 		elif player.current_jumps < player.MAX_JUMPS:
@@ -21721,35 +21747,30 @@ func process_physics(_delta: float) -> void:
 --- SCRIPT: res://Player/States/JumpingState.gd ---
 # res://Player/States/JumpingState.gd
 extends State
-@onready var vfx = $VFX
+
+@export var jump_vfx: VFXData
+
+
 func enter() -> void:
-	# THE FIX: This line was missing. It applies the jump's upward velocity.
 	player.enter_jump_state()
 
-	# --- Visuals and Polish ---
-	# (The code for animations and particles that we already fixed)
+	# This is the only animation call we need here.
+	# The AnimationPlayer will handle the rest of the sequence.
 	player.animation_player.play("jump_stretch")
 
-	
-	vfx.play_jump_effect()
-
-	# --- Final Animation Update ---
-	var input_x: float = Input.get_axis("left", "right")
-	player.animation_controller.update_animation(player.States.JUMPING, player.velocity, Vector2.ZERO, input_x)
+	if jump_vfx:
+		player.vfx.play_effect(jump_vfx)
 
 func exit() -> void:
-	# Reset the sprite's scale when we leave the jump state.
 	player.animation_player.play("RESET")
-
 
 func process_physics(delta: float) -> void:
 	var input_x: float = Input.get_axis("left", "right")
 	var gravity: float = player.stats.jump_gravity if player.velocity.y < 0 else player.stats.fall_gravity
-	
+
 	player.velocity.y += gravity * delta
 	player.velocity.x = move_toward(player.velocity.x, input_x * player.stats.speed, player.stats.air_control_acceleration)
-	
-	# --- Check for State Transitions ---
+
 	if player.is_on_wall():
 		if not (sign(player.get_wall_normal().x) == sign(input_x)):
 			state_machine.change_state("OnWall")
@@ -21760,90 +21781,81 @@ func process_physics(delta: float) -> void:
 		return
 	elif Input.is_action_just_released("jump") and player.velocity.y < 0:
 		player.velocity.y *= player.stats.jump_cut_multiplier
-		
+
 	player.animation_controller.update_animation(player.States.JUMPING, player.velocity, Vector2.ZERO, input_x)
 
 --- SCRIPT: res://Player/States/LandingState.gd ---
 # res://Player/States/LandingState.gd
 extends State
-@onready var vfx = $"../../VFX"
+
+@export var land_vfx: VFXData
+
 func enter() -> void:
 	player.current_jumps = 0
 	if player.is_long_fall:
 		player.is_long_fall = false
 		player.long_fall_ended.emit()
 
-	player.land_timer.start(player.LANDING_DURATION)
+	# Play the squish animation from the AnimationPlayer.
+	player.animation_player.play("land_squish")
 
-	if player.dust_puff_scene: # This variable now holds AnimatedEffect.tscn
-		var effect = player.dust_puff_scene.instantiate()
-		get_tree().root.add_child(effect)
-		effect.global_position = player.get_node("FootSpawner").global_position
-		
-		# Tell the new scene to play the correct animation for landing.
-
-		vfx.play_landing_effect()
-
-	
+	# Simultaneously, play the crouch animation on the AnimatedSprite2D.
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.LANDING, player.velocity, Vector2.ZERO, input_x)
 
+	if land_vfx:
+		player.vfx.play_effect(land_vfx)
+
 func exit() -> void:
-	player.land_timer.stop()
+	pass
 
 func process_physics(_delta: float) -> void:
+	# The state transition is handled by the "land_squish" animation's Call Method Track.
 	if Input.is_action_just_pressed("jump") or player.jump_buffered:
 		player.jump_buffered = false
 		player.jump_buffer_timer.stop()
 		state_machine.change_state("Jumping")
 		return
 
-	if Input.is_action_pressed("slide"):
-		state_machine.change_state("Sliding")
-		return
-
 	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.friction_smoothness)
-
-	if player.land_timer.is_stopped():
-		if Input.is_action_pressed("down"):
-			state_machine.change_state("Crouching")
-		else:
-			state_machine.change_state("Idle")
 
 --- SCRIPT: res://Player/States/OnWallState.gd ---
 # res://Player/States/OnWallState.gd
 extends State
+
+@export var wall_slide_vfx: VFXData
+@export var wall_jump_vfx: VFXData
+
 @onready var vfx_timer: Timer = $VFXTimer
-@onready var vfx = $"../../VFX"
 
 func _ready() -> void:
 	vfx_timer.timeout.connect(_on_particle_timer_timeout)
 
-
 func enter() -> void:
 	var wall_normal = player.get_wall_normal()
-	
+
+	# The AnimationPlayer now handles all visual offsets.
 	if wall_normal.x > 0:
 		player.animation_player.play("wall_slide_offset_left")
 	else:
 		player.animation_player.play("wall_slide_offset_right")
-	
+
 	player.set_wall_slide_collision()
 	player.current_jumps = 0
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.ON_WALL, player.velocity, wall_normal, input_x)
 
-	# Manually start the timer when entering the state.
 	vfx_timer.start()
 
-	
 func process_physics(delta: float) -> void:
 	var input_x: float = Input.get_axis("left", "right")
-	
+
 	if player.jump_buffered:
 		player.jump_buffered = false
 		player.jump_buffer_timer.stop()
 		player.wall_jump()
+		if wall_jump_vfx:
+			player.vfx.play_effect(wall_jump_vfx)
 		state_machine.change_state("Falling")
 		return
 
@@ -21852,6 +21864,8 @@ func process_physics(delta: float) -> void:
 
 	if Input.is_action_just_pressed("jump"):
 		player.wall_jump()
+		if wall_jump_vfx:
+			player.vfx.play_effect(wall_jump_vfx)
 		state_machine.change_state("Falling")
 	elif Input.is_action_pressed("shift") and player.can_wall_stick:
 		state_machine.change_state("WallSlip")
@@ -21862,17 +21876,12 @@ func process_physics(delta: float) -> void:
 		state_machine.change_state("Idle")
 
 func exit() -> void:
-
-	# Stop the timer when leaving the state to prevent further particle spawning.
 	vfx_timer.stop()
-	# Play the reset animation when we leave this state.
-
 	player.animation_player.play("RESET")
-	
-	
-func _on_particle_timer_timeout() -> void:
 
-	player.vfx.play_wall_slide_effect()
+func _on_particle_timer_timeout() -> void:
+	if wall_slide_vfx:
+		player.vfx.play_effect(wall_slide_vfx)
 
 --- SCRIPT: res://Player/States/RunningState.gd ---
 # res://Player/States/RunningState.gd
@@ -21910,10 +21919,15 @@ func process_physics(_delta: float) -> void:
 # res://Player/States/SkiddingState.gd
 extends State
 
+@export var skid_vfx: VFXData
+
 func enter() -> void:
 	player.skid_timer.start(player.stats.skid_duration)
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.SKIDDING, player.velocity, Vector2.ZERO, -input_x)
+
+	if is_instance_valid(skid_vfx):
+		player.vfx.play_effect(skid_vfx)
 
 func exit() -> void:
 	player.skid_timer.stop()
@@ -21931,6 +21945,8 @@ func process_physics(_delta: float) -> void:
 # res://Player/States/SlidingState.gd
 extends State
 
+@export var slide_vfx: VFXData
+
 func enter() -> void:
 	player.slide_timer.start(player.stats.slide_duration)
 	player.set_crouching_collision()
@@ -21945,6 +21961,9 @@ func enter() -> void:
 
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.SLIDING, player.velocity, Vector2.ZERO, input_x)
+
+	if is_instance_valid(slide_vfx):
+		player.vfx.play_effect(slide_vfx)
 
 
 func exit() -> void:
@@ -23020,9 +23039,9 @@ func _ready() -> void:
 
 # This is the main public function that other scripts will call.
 # It tells the effect which animation to play.
-func play_effect(animation_name: String) -> void:
-	# The 'play()' function is built into AnimatedSprite2D.
-	play(animation_name)
+func play_effect(animation_name: String, speed: float = 1.0) -> void:
+	# The third argument, "from_end", should be true if speed is negative.
+	play(animation_name, speed, speed < 0)
 
 
 func _on_animation_finished() -> void:
@@ -23045,6 +23064,107 @@ func _ready() -> void:
 func _on_finished() -> void:
 	# Once the signal is received, we simply queue the node for deletion.
 	queue_free()
+
+--- SCRIPT: res://VFX/VFXData/VFXData.gd ---
+# res://VFX/VFXData.gd
+class_name VFXData
+extends Resource
+
+@export_group("Core Properties")
+## The scene to instance for the effect (e.g., AnimatedEffect.tscn).
+@export var effect_scene: PackedScene
+## The animation to play from the effect_scene's SpriteFrames.
+@export var animation_name: String = ""
+## The playback speed. 1.0 is normal, -1.0 is reverse, 0.5 is half-speed.
+@export var playback_speed: float = 1.0
+
+@export_group("Spawning Behavior")
+## The Marker2D node on the player to spawn at (e.g., FootSpawner, WallSlideSpawner).
+@export var spawn_marker_name: String = "FootSpawner"
+## An additional position offset applied after spawning.
+@export var position_offset: Vector2 = Vector2.ZERO
+## Flips the effect horizontally based on the player's facing direction.
+@export var flip_h_with_player: bool = false
+## Flips the effect horizontally based on the wall normal direction.
+@export var flip_h_with_wall: bool = false
+## If true, applies a 90-degree rotation based on the wall normal.
+@export var rotate_with_wall_normal: bool = false
+## Applies a specific static rotation in degrees.
+@export var rotation_degrees: float = 0.0
+## Sets a specific scale.
+@export var scale: Vector2 = Vector2.ONE
+
+--- SCRIPT: res://VFX/VFXManager.gd ---
+# res://Player/PlayerModularControl/VFXManager.gd
+extends Node2D
+
+@onready var player: CharacterBody2D = get_parent() as CharacterBody2D
+@onready var camera: Camera2D = player.get_node("PlayerCamera")
+
+# --- Generic, Resource-Based Function for one-shot effects ---
+func play_effect(vfx_data: VFXData) -> void:
+	if not is_instance_valid(vfx_data) or not is_instance_valid(vfx_data.effect_scene):
+		return
+
+	var effect: AnimatedSprite2D = vfx_data.effect_scene.instantiate()
+	get_tree().root.add_child(effect)
+
+	var spawn_marker: Marker2D = player.get_node_or_null(vfx_data.spawn_marker_name)
+	var spawn_pos: Vector2
+
+	if is_instance_valid(spawn_marker):
+		spawn_pos = spawn_marker.global_position
+	else:
+		spawn_pos = player.global_position
+
+	effect.scale = vfx_data.scale
+
+	if vfx_data.flip_h_with_player:
+		var direction = -1.0 if player.animated_sprite.flip_h else 1.0
+		effect.flip_h = player.animated_sprite.flip_h
+		spawn_pos.x += vfx_data.position_offset.x * direction
+		spawn_pos.y += vfx_data.position_offset.y
+	elif vfx_data.flip_h_with_wall:
+		var wall_normal = player.get_wall_normal()
+		effect.flip_h = wall_normal.x < 0
+	else:
+		spawn_pos += vfx_data.position_offset
+	
+	effect.global_position = spawn_pos
+
+	# --- NEW: Contextual Rotation Logic ---
+	if vfx_data.rotate_with_wall_normal and player.is_on_wall():
+		var wall_normal = player.get_wall_normal()
+		# Wall on the left (normal.x > 0), so we rotate to point right.
+		effect.rotation_degrees = -90 if wall_normal.x > 0 else 90
+	else:
+		effect.rotation_degrees = vfx_data.rotation_degrees
+
+	# --- Play ---
+	if effect.has_method("play_effect"):
+		effect.play_effect(vfx_data.animation_name, vfx_data.playback_speed)
+
+
+# --- Specific Functions for Sustained Effects (like Dash) ---
+func play_dash_effects(particles: GPUParticles2D) -> void:
+	if not is_instance_valid(particles): return
+	_trigger_camera_punch()
+	var dash_direction = Vector2(1 if not player.animated_sprite.flip_h else -1, 0)
+	particles.scale.x = dash_direction.x
+	particles.emitting = true
+
+func stop_dash_effects(particles: GPUParticles2D) -> void:
+	if not is_instance_valid(particles): return
+	particles.emitting = false
+	particles.scale.x = 1
+
+func _trigger_camera_punch() -> void:
+	if not is_instance_valid(camera):
+		return
+	var tween = create_tween().set_trans(Tween.TRANS_QUAD)
+	var zoomed_in_vec = camera.zoom * 1.1
+	tween.tween_property(camera, "zoom", zoomed_in_vec, 0.1).set_ease(Tween.EASE_OUT)
+	tween.tween_property(camera, "zoom", camera.zoom, 0.1).set_ease(Tween.EASE_IN)
 
 --- SCRIPT: res://World/Checkpoint.gd ---
 # res://World/Checkpoint.gd

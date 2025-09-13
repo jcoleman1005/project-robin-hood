@@ -27,10 +27,10 @@ func enter() -> void:
 
 func process_physics(delta: float) -> void:
 	var input_x: float = Input.get_axis("left", "right")
+	var wall_normal = player.get_wall_normal()
 
-	if player.jump_buffered:
-		player.jump_buffered = false
-		player.jump_buffer_timer.stop()
+	# This state now only handles a simple vertical wall jump.
+	if Input.is_action_just_pressed("jump"):
 		player.wall_jump()
 		if wall_jump_vfx:
 			player.vfx.play_effect(wall_jump_vfx)
@@ -38,16 +38,11 @@ func process_physics(delta: float) -> void:
 		return
 
 	player.velocity.y = move_toward(player.velocity.y, player.stats.wall_slide_friction, player.stats.fall_gravity * delta)
-	player.velocity.x = -player.get_wall_normal().x * 5.0
+	player.velocity.x = -wall_normal.x * 5.0
 
-	if Input.is_action_just_pressed("jump"):
-		player.wall_jump()
-		if wall_jump_vfx:
-			player.vfx.play_effect(wall_jump_vfx)
-		state_machine.change_state("Falling")
-	elif Input.is_action_pressed("shift") and player.can_wall_stick:
+	if Input.is_action_pressed("shift") and player.can_wall_stick:
 		state_machine.change_state("WallSlip")
-	elif not player.is_on_wall() or (player.get_wall_normal().x * input_x > 0):
+	elif not player.is_on_wall() or (wall_normal.x * input_x > 0 and sign(input_x) != sign(wall_normal.x)):
 		player._start_wall_coyote_time()
 		state_machine.change_state("WallDetach")
 	elif player.is_on_floor():

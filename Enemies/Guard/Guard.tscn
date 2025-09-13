@@ -164,7 +164,8 @@ script = ExtResource("6_7ghg5")
 
 [node name="VisionCone2D" parent="." instance=ExtResource("6_y8lw7")]
 angle_deg = 60
-ray_count = 75
+ray_count = 30
 max_distance = 150.0
+minimum_recalculate_time_msec = 100
 
 [editable path="VisionCone2D"]
