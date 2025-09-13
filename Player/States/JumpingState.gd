@@ -1,6 +1,6 @@
 # res://Player/States/JumpingState.gd
 extends State
-
+@onready var vfx = $VFX
 func enter() -> void:
 	# THE FIX: This line was missing. It applies the jump's upward velocity.
 	player.enter_jump_state()
@@ -10,18 +10,7 @@ func enter() -> void:
 	player.animation_player.play("jump_stretch")
 
 	
-	if player.dust_puff_scene:
-		
-		var puff = player.dust_puff_scene.instantiate()
-		get_tree().root.add_child(puff)
-		puff.global_position = player.get_node("FootSpawner").global_position
-		
-		# --- NEW ANIMATED EFFECT LOGIC ---
-		# Tell the new scene to play the correct animation.
-		puff.play_effect("jump_puff")
-		# --- END NEW LOGIC ---
-	else:
-		printerr("DEBUG: ERROR - dust_puff_scene is NOT SET on the Player in the Inspector!")
+	vfx.play_jump_effect()
 
 	# --- Final Animation Update ---
 	var input_x: float = Input.get_axis("left", "right")

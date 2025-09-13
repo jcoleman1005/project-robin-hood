@@ -1,9 +1,10 @@
 # res://Player/States/OnWallState.gd
 extends State
-@onready var particle_timer: Timer = $ParticleTimer
+@onready var vfx_timer: Timer = $VFXTimer
+@onready var vfx = $"../../VFX"
 
 func _ready() -> void:
-	particle_timer.timeout.connect(_on_particle_timer_timeout)
+	vfx_timer.timeout.connect(_on_particle_timer_timeout)
 
 
 func enter() -> void:
@@ -18,7 +19,10 @@ func enter() -> void:
 	player.current_jumps = 0
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.ON_WALL, player.velocity, wall_normal, input_x)
-	particle_timer.start()
+
+	# Manually start the timer when entering the state.
+	vfx_timer.start()
+
 	
 func process_physics(delta: float) -> void:
 	var input_x: float = Input.get_axis("left", "right")
@@ -45,28 +49,15 @@ func process_physics(delta: float) -> void:
 		state_machine.change_state("Idle")
 
 func exit() -> void:
-	particle_timer.stop()
+
+	# Stop the timer when leaving the state to prevent further particle spawning.
+	vfx_timer.stop()
+	# Play the reset animation when we leave this state.
+
 	player.animation_player.play("RESET")
 	
 	
 func _on_particle_timer_timeout() -> void:
-	if player.dust_puff_scene: # This variable now holds AnimatedEffect.tscn
-		var effect = player.dust_puff_scene.instantiate()
-		get_tree().root.add_child(effect)
-		
-		var wall_offset = player.get_wall_normal() * -10
-		effect.global_position = player.get_node("WallSlideSpawner").global_position + wall_offset
-		
-		# --- NEW ANIMATED EFFECT LOGIC ---
-		# Determine rotation based on wall normal
-		if player.get_wall_normal().x > 0: # Wall is on the left
-			effect.rotation_degrees = 90
-		else: # Wall is on the right
-			effect.rotation_degrees = -90
-		
-		# Scale the effect down
-		effect.scale = Vector2(0.5, 0.5)
-		
-		# Tell the new scene to play the correct animation for wall sliding.
-		effect.play_effect("dash_puff")
-		# --- END NEW LOGIC ---
+
+	player.vfx.play_wall_slide_effect() 
+

@@ -932,7 +932,7 @@ metadata/_custom_type_script = "uid://814l5d1kyhhw"
 script = ExtResource("24_ac1bf")
 metadata/_custom_type_script = "uid://814l5d1kyhhw"
 
-[node name="ParticleTimer" type="Timer" parent="StateMachine/OnWallState"]
+[node name="VFXTimer" type="Timer" parent="StateMachine/OnWallState"]
 wait_time = 0.1
 
 [node name="WallStickingState" type="Node" parent="StateMachine"]

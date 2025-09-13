@@ -145,12 +145,8 @@ func wall_jump(wall_normal_override: Vector2 = Vector2.ZERO):
 
 	can_wall_stick = true
 	current_jumps = 1
-# Spawn a burst of particles
-	if dust_puff_scene:
-		var puff = dust_puff_scene.instantiate()
-		get_tree().root.add_child(puff)
-		var wall_offset = get_wall_normal() * -15
-		puff.global_position = get_node("WallSlideSpawner").global_position + wall_offset
+# Spawn a burst of particles with VFX Manager
+	vfx.play_wall_jump_effect()
 		
 func _start_wall_coyote_time():
 	last_wall_normal = get_wall_normal()

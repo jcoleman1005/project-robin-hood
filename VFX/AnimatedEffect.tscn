@@ -1,44 +1,32 @@
-[gd_scene load_steps=24 format=3 uid="uid://b65sf7txtiy3x"]
+[gd_scene load_steps=21 format=3 uid="uid://b65sf7txtiy3x"]
 
-[ext_resource type="Texture2D" uid="uid://barv28cpuim7w" path="res://assets/particles/SmokeFX Lite SpriteSheet 1A-15.png" id="1_0iy2l"]
+[ext_resource type="Texture2D" uid="uid://c67je0r44sk4w" path="res://assets/particles/SmokeFX Lite SpriteSheet 2A-2.png" id="1_reqtd"]
 [ext_resource type="Texture2D" uid="uid://hla8re88y4jm" path="res://assets/particles/SmokeFX Lite SpriteSheet 4A-2.png" id="2_reqtd"]
 [ext_resource type="Script" uid="uid://bl42yym8fe5rg" path="res://VFX/AnimatedEffect.gd" id="3_reqtd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2uwjm"]
-atlas = ExtResource("1_0iy2l")
+atlas = ExtResource("1_reqtd")
 region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cxqoe"]
-atlas = ExtResource("1_0iy2l")
+atlas = ExtResource("1_reqtd")
 region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kngia"]
-atlas = ExtResource("1_0iy2l")
+atlas = ExtResource("1_reqtd")
 region = Rect2(128, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u12v8"]
-atlas = ExtResource("1_0iy2l")
+atlas = ExtResource("1_reqtd")
 region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hpug7"]
-atlas = ExtResource("1_0iy2l")
+atlas = ExtResource("1_reqtd")
 region = Rect2(256, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3pjbf"]
-atlas = ExtResource("1_0iy2l")
+atlas = ExtResource("1_reqtd")
 region = Rect2(320, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uttkl"]
-atlas = ExtResource("1_0iy2l")
-region = Rect2(384, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0tyin"]
-atlas = ExtResource("1_0iy2l")
-region = Rect2(448, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8bovb"]
-atlas = ExtResource("1_0iy2l")
-region = Rect2(512, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d8f6q"]
 atlas = ExtResource("2_reqtd")
@@ -100,19 +88,10 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3pjbf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_uttkl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0tyin")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8bovb")
 }],
-"loop": true,
+"loop": false,
 "name": &"dash_puff",
-"speed": 24.0
+"speed": 26.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -145,13 +124,12 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1arhi")
 }],
-"loop": true,
+"loop": false,
 "name": &"jump_puff",
 "speed": 25.0
 }]
 
 [node name="AnimatedEffect" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_dfwn2")
-animation = &"jump_puff"
-frame_progress = 0.0578959
+animation = &"dash_puff"
 script = ExtResource("3_reqtd")

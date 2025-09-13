@@ -1,6 +1,6 @@
 # res://Player/States/LandingState.gd
 extends State
-
+@onready var vfx = $"../../VFX"
 func enter() -> void:
 	player.current_jumps = 0
 	if player.is_long_fall:
@@ -15,7 +15,8 @@ func enter() -> void:
 		effect.global_position = player.get_node("FootSpawner").global_position
 		
 		# Tell the new scene to play the correct animation for landing.
-		effect.play_effect("jump_puff")
+
+		vfx.play_landing_effect()
 
 	
 	var input_x: float = Input.get_axis("left", "right")

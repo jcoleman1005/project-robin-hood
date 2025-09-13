@@ -11,3 +11,5 @@ export_presets.cfg
 .mono/
 data_*/
 mono_crash.*.json
+addons/GodotAiSuite/GDD.txt
+addons/GodotAiSuite/Masterprompt.txt
