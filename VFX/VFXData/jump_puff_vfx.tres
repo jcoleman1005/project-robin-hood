@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="VFXData" load_steps=3 format=3 uid="uid://c52ah0tjgskhb"]
+
+[ext_resource type="Script" uid="uid://ctlafprqxjjv2" path="res://VFX/VFXData/VFXData.gd" id="1_4juc7"]
+[ext_resource type="PackedScene" uid="uid://b65sf7txtiy3x" path="res://VFX/AnimatedEffect.tscn" id="1_lh7h6"]
+
+[resource]
+script = ExtResource("1_4juc7")
+effect_scene = ExtResource("1_lh7h6")
+animation_name = "jump_puff"
+playback_speed = 1.0
+spawn_marker_name = "FootSpawner"
+position_offset = Vector2(0, 0)
+flip_h_with_player = false
+flip_h_with_wall = false
+rotation_degrees = 0.0
+scale = Vector2(1, 1)
+metadata/_custom_type_script = "uid://ctlafprqxjjv2"

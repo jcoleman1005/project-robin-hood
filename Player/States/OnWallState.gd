@@ -1,32 +1,39 @@
 # res://Player/States/OnWallState.gd
 extends State
-@onready var particle_timer: Timer = $ParticleTimer
+
+@export var wall_slide_vfx: VFXData
+@export var wall_jump_vfx: VFXData
+
+@onready var vfx_timer: Timer = $VFXTimer
 
 func _ready() -> void:
-	particle_timer.timeout.connect(_on_particle_timer_timeout)
-
+	vfx_timer.timeout.connect(_on_particle_timer_timeout)
 
 func enter() -> void:
 	var wall_normal = player.get_wall_normal()
-	
+
+	# The AnimationPlayer now handles all visual offsets.
 	if wall_normal.x > 0:
 		player.animation_player.play("wall_slide_offset_left")
 	else:
 		player.animation_player.play("wall_slide_offset_right")
-	
+
 	player.set_wall_slide_collision()
 	player.current_jumps = 0
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.ON_WALL, player.velocity, wall_normal, input_x)
-	particle_timer.start()
-	
+
+	vfx_timer.start()
+
 func process_physics(delta: float) -> void:
 	var input_x: float = Input.get_axis("left", "right")
-	
+
 	if player.jump_buffered:
 		player.jump_buffered = false
 		player.jump_buffer_timer.stop()
 		player.wall_jump()
+		if wall_jump_vfx:
+			player.vfx.play_effect(wall_jump_vfx)
 		state_machine.change_state("Falling")
 		return
 
@@ -35,6 +42,8 @@ func process_physics(delta: float) -> void:
 
 	if Input.is_action_just_pressed("jump"):
 		player.wall_jump()
+		if wall_jump_vfx:
+			player.vfx.play_effect(wall_jump_vfx)
 		state_machine.change_state("Falling")
 	elif Input.is_action_pressed("shift") and player.can_wall_stick:
 		state_machine.change_state("WallSlip")
@@ -45,28 +54,9 @@ func process_physics(delta: float) -> void:
 		state_machine.change_state("Idle")
 
 func exit() -> void:
-	particle_timer.stop()
+	vfx_timer.stop()
 	player.animation_player.play("RESET")
-	
-	
+
 func _on_particle_timer_timeout() -> void:
-	if player.dust_puff_scene: # This variable now holds AnimatedEffect.tscn
-		var effect = player.dust_puff_scene.instantiate()
-		get_tree().root.add_child(effect)
-		
-		var wall_offset = player.get_wall_normal() * -10
-		effect.global_position = player.get_node("WallSlideSpawner").global_position + wall_offset
-		
-		# --- NEW ANIMATED EFFECT LOGIC ---
-		# Determine rotation based on wall normal
-		if player.get_wall_normal().x > 0: # Wall is on the left
-			effect.rotation_degrees = 90
-		else: # Wall is on the right
-			effect.rotation_degrees = -90
-		
-		# Scale the effect down
-		effect.scale = Vector2(0.5, 0.5)
-		
-		# Tell the new scene to play the correct animation for wall sliding.
-		effect.play_effect("dash_puff")
-		# --- END NEW LOGIC ---
+	if wall_slide_vfx:
+		player.vfx.play_effect(wall_slide_vfx)
