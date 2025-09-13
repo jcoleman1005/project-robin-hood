@@ -1,3 +1,8 @@
+[Feature] Implemented new 'Wall Kick-Off' ability, an unlockable horizontal movement skill for crossing large gaps.
+[Refactor] Wall Kick-Off is now triggered from the 'Wall Stick' state, making it a more deliberate, skill-based maneuver.
+[Feature] Added dash VFX (particle trail, puff, and tunable camera punch) to the Wall Kick-Off for visual consistency.
+[Bugfix] Fixed an issue where the Prisoner would not disappear after being rescued.
+[Refactor] Added a procedural fade-out animation to the Prisoner rescue sequence for better visual feedback.
 [Architecture] Refactored the VFX system to be data-driven using a custom VFXData resource.
 [Feature] VFXData resource now supports playback speed and contextual rotation, allowing for reversed and wall-oriented effects.
 [Feature] Added one-shot VFX for dash, slide, and skid actions.
