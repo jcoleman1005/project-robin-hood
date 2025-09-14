@@ -688,7 +688,7 @@ position = Vector2(1.5, 2)
 shape = SubResource("RectangleShape2D_nptum")
 
 [node name="Interactable" parent="Campfire" index="2"]
-prompt_message = "Upgrade Hideout (10 Gold)"
+prompt_message = "Upgrade Hideout (100 Gold)"
 
 [editable path="CameraBoundary"]
 [editable path="Campfire"]
