@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="HideoutProgressionData" load_steps=2 format=3 uid="uid://wfwljs475tnc"]
+
+[ext_resource type="Script" uid="uid://cisjnutxkesm1" path="res://Data/HideoutProgressionData.gd" id="1_pjwpe"]
+
+[resource]
+script = ExtResource("1_pjwpe")
+upgrade_costs = Array[int]([10, 250])
+max_level = 3
+metadata/_custom_type_script = "uid://cisjnutxkesm1"

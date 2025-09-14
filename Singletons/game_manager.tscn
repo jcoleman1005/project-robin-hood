@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://qr4y070i53y2"]
+
+[ext_resource type="Script" uid="uid://defbngrin16m5" path="res://Singletons/GameManager.gd" id="1_v566q"]
+[ext_resource type="Resource" uid="uid://wfwljs475tnc" path="res://Data/hideout_upgrades.tres" id="2_bphfy"]
+
+[node name="GameManager" type="Node"]
+script = ExtResource("1_v566q")
+hideout_progression_data = ExtResource("2_bphfy")

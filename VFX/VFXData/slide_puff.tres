@@ -15,4 +15,5 @@ flip_h_with_wall = false
 rotate_with_wall_normal = false
 rotation_degrees = 0.0
 scale = Vector2(1, 1)
+camera_punch_intensity = 0.0
 metadata/_custom_type_script = "uid://ctlafprqxjjv2"

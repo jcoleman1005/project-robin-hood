@@ -1,0 +1,58 @@
+[gd_scene load_steps=10 format=3 uid="uid://rnvlkn4n02x"]
+
+[ext_resource type="Script" uid="uid://6sjb6hspvg4u" path="res://Interactables/Campfire.gd" id="1_0y6w1"]
+[ext_resource type="Texture2D" uid="uid://co5m2w37b6dnh" path="res://assets/Campfire36.png" id="1_5q31j"]
+[ext_resource type="PackedScene" uid="uid://coh7uki86a3k8" path="res://Interactables/Interactable.tscn" id="2_4rtkt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4rtkt"]
+radius = 48.5489
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4rtkt"]
+atlas = ExtResource("1_5q31j")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0y6w1"]
+atlas = ExtResource("1_5q31j")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n7iq4"]
+atlas = ExtResource("1_5q31j")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pyogu"]
+atlas = ExtResource("1_5q31j")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o5grn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4rtkt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0y6w1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n7iq4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pyogu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="Campfire" type="StaticBody2D"]
+script = ExtResource("1_0y6w1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_4rtkt")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_o5grn")
+autoplay = "default"
+frame_progress = 0.271723
+
+[node name="Interactable" parent="." instance=ExtResource("2_4rtkt")]

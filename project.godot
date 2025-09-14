@@ -18,7 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 EventBus="*res://Singletons/EventBus.gd"
-GameManager="*res://Singletons/GameManager.gd"
+GameManager="*res://Singletons/game_manager.tscn"
 InteractionManager="*res://Singletons/InteractionManager.gd"
 UIManager="*res://UserInterface/UIManager.gd"
 SceneManager="*res://Singletons/SceneManager.tscn"

@@ -1,15 +1,22 @@
-[gd_scene load_steps=12 format=3 uid="uid://mbeklaojkxji"]
+[gd_scene load_steps=14 format=3 uid="uid://mbeklaojkxji"]
 
 [ext_resource type="Script" uid="uid://bmq17m7pgtfx1" path="res://Singletons/SceneManager.gd" id="1_m4iqe"]
 [ext_resource type="PackedScene" uid="uid://bqep4lh77amxw" path="res://Player/PlayerScene.tscn" id="2_b4mtc"]
 [ext_resource type="Script" uid="uid://dcp858y2mh4my" path="res://Singletons/SceneEntry.gd" id="2_oxstb"]
-[ext_resource type="PackedScene" uid="uid://mel3m8hxjkn7" path="res://Levels/Hideout/Hideout.tscn" id="3_x16ul"]
+[ext_resource type="PackedScene" uid="uid://7o1xlp5jc84f" path="res://Levels/Hideout/Hideout_Level_1.tscn" id="3_707tl"]
 [ext_resource type="PackedScene" uid="uid://btfq0patronhu" path="res://Levels/VillageOutskirts.tscn" id="4_707tl"]
+[ext_resource type="PackedScene" uid="uid://dj5y3407klih4" path="res://Levels/Hideout/Hideout_Level_2.tscn" id="4_lkl4n"]
 
 [sub_resource type="Resource" id="Resource_x16ul"]
 script = ExtResource("2_oxstb")
-key = "hideout"
-scene = ExtResource("3_x16ul")
+key = "hideout_1"
+scene = ExtResource("3_707tl")
+metadata/_custom_type_script = "uid://dcp858y2mh4my"
+
+[sub_resource type="Resource" id="Resource_akrg2"]
+script = ExtResource("2_oxstb")
+key = "hideout_2"
+scene = ExtResource("4_lkl4n")
 metadata/_custom_type_script = "uid://dcp858y2mh4my"
 
 [sub_resource type="Resource" id="Resource_707tl"]
@@ -75,7 +82,7 @@ _data = {
 [node name="SceneManager" type="CanvasLayer"]
 process_mode = 3
 script = ExtResource("1_m4iqe")
-scene_entries = Array[ExtResource("2_oxstb")]([SubResource("Resource_x16ul"), SubResource("Resource_707tl")])
+scene_entries = Array[ExtResource("2_oxstb")]([SubResource("Resource_x16ul"), SubResource("Resource_akrg2"), SubResource("Resource_707tl")])
 player_scene = ExtResource("2_b4mtc")
 
 [node name="ColorRect" type="ColorRect" parent="."]
