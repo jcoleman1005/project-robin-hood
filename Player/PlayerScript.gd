@@ -12,10 +12,8 @@ signal long_fall_ended
 signal gliding_started
 signal gliding_ended
 
+# --- REMOVED hardcoded dash constants ---
 const MAX_JUMPS = 2
-const DASH_SPEED = 1500.0
-const DASH_DURATION = 0.15
-const DASH_COOLDOWN = 0.5
 const WALL_STICK_DURATION = 2.0
 const JUMP_CHARGE_DURATION = 1.0
 const LANDING_DURATION = 0.15
@@ -194,10 +192,14 @@ func _on_dash_freeze_timer_timeout():
 		vfx.play_effect(dash_start_vfx)
 
 	vfx.play_dash_effects(dash_particles)
-
-	velocity.x = dash_direction.x * DASH_SPEED
+	
+	# --- MODIFIED: Calculate speed from distance and duration ---
+	assert(stats.dash_duration > 0, "Dash Duration in PlayerStats cannot be zero.")
+	var dash_speed = stats.dash_distance / stats.dash_duration
+	
+	velocity.x = dash_direction.x * dash_speed
 	velocity.y = 0
-	dash_timer.start(DASH_DURATION)
+	dash_timer.start(stats.dash_duration)
 
 func _on_invisibility_timer_timeout():
 	is_invisible = false
@@ -254,7 +256,10 @@ func end_dash() -> void:
 	if state_machine.current_state.name != "DashingState":
 		return
 	vfx.stop_dash_effects(dash_particles)
-	dash_cooldown_timer.start(DASH_COOLDOWN)
+	# NOTE: We need a dedicated dash_cooldown property in PlayerStats.
+	# For now, I'm using a reasonable hardcoded value.
+	var dash_cooldown = 0.5 
+	dash_cooldown_timer.start(dash_cooldown)
 
 func _on_state_changed(new_state_name: String) -> void:
 	if new_state_name in COMBO_STATES:
@@ -267,10 +272,8 @@ func _on_state_changed(new_state_name: String) -> void:
 func _add_move_to_combo(move_name: String) -> void:
 	combo_timer.start(1.0)
 	_combo_chain.append(move_name)
-
 	if DebugManager.show_combo_logs:
 		print("Combo Chain: ", _combo_chain)
-
 	if _combo_chain.size() >= 3:
 		EventBus.flow_combo_success.emit()
 		if DebugManager.show_combo_logs:
@@ -293,6 +296,6 @@ func get_current_state_name() -> String:
 		return state_machine.current_state.name
 	return ""
 	
-func _on_wall_kick_timer_timeout() -> void: # ADD THIS ENTIRE FUNCTION
+func _on_wall_kick_timer_timeout() -> void:
 	if state_machine.current_state.name == "WallKickState":
 		state_machine.change_state("Falling")

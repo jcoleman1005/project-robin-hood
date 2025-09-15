@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=4 uid="uid://b5bxqhwvfthvj"]
+
+[ext_resource type="TileSet" uid="uid://dda5r1q7pyjvg" path="res://Levels/Tilesets/PrototypeTileset.tres" id="1_tt8rq"]
+
+[node name="dash_basic" type="Node2D"]
+
+[node name="entry" type="Marker2D" parent="."]
+
+[node name="exit" type="Marker2D" parent="."]
+position = Vector2(-544, 0)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+scale = Vector2(-1, 1)
+tile_map_data = PackedByteArray("AAAAAAAAAAABAAEAAAAAAAEAAAABAAEAAAAAAAIAAAABAAEAAAABAAAAAAABAAEAAAABAAEAAAACAAEAAAABAAIAAAABAAEAAAACAAAAAAABAAEAAAACAAEAAAABAAEAAAACAAIAAAABAAEAAAAfAAAAAAABAAEAAAAfAAEAAAACAAEAAAAfAAIAAAABAAEAAAAgAAAAAAABAAEAAAAgAAEAAAACAAIAAAAgAAIAAAABAAEAAAAhAAAAAAABAAEAAAAhAAEAAAABAAEAAAAhAAIAAAABAAEAAAAcAAAAAAABAAEAAAAcAAEAAAABAAEAAAAcAAIAAAABAAEAAAAdAAAAAAABAAEAAAAdAAEAAAACAAEAAAAdAAIAAAABAAEAAAAeAAAAAAABAAEAAAAeAAEAAAABAAEAAAAeAAIAAAABAAEAAAA=")
+tile_set = ExtResource("1_tt8rq")

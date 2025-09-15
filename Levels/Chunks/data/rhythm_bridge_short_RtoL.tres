@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ChunkData" load_steps=3 format=3 uid="uid://boixhdew1vwcb"]
+
+[ext_resource type="PackedScene" uid="uid://weiwc6fqeqdl" path="res://Levels/Chunks/scenes/rhythm_bridge_short_RtoL.tscn" id="1_0wywk"]
+[ext_resource type="Script" uid="uid://bb2qf5dmw57be" path="res://Levels/Chunks/ChunkData.gd" id="2_lgnig"]
+
+[resource]
+script = ExtResource("2_lgnig")
+chunk_scene = ExtResource("1_0wywk")
+category = 2
+difficulty = 1
+entry_tag = "floor_right"
+exit_tag = "floor_left"
+requires_double_jump = false
+requires_dash = false
+requires_wall_kick = false
+metadata/_custom_type_script = "uid://bb2qf5dmw57be"

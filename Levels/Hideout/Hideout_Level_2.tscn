@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://dj5y3407klih4"]
+[gd_scene load_steps=16 format=4 uid="uid://dj5y3407klih4"]
 
 [ext_resource type="Texture2D" uid="uid://bo5n6li5cftnt" path="res://assets/Backgrounds/Background/CloudsBack.png" id="1_droc5"]
 [ext_resource type="Texture2D" uid="uid://0od24pieen6v" path="res://assets/Backgrounds/Background/CloudsFront.png" id="2_7se4b"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://bxjdpqxly44ls" path="res://assets/Backgrounds/Background/BGFront.png" id="4_nwi7y"]
 [ext_resource type="Theme" uid="uid://cindktpnsryh8" path="res://Levels/Hideout/hideout_theme.tres" id="5_66q6p"]
 [ext_resource type="Script" uid="uid://xdwlsxhjilvc" path="res://Levels/Hideout.gd" id="6_pfy87"]
-[ext_resource type="PackedScene" uid="uid://dvmt8xfeyo1mq" path="res://Interactables/ArcherPlaceholder.tscn" id="7_vo5nq"]
 [ext_resource type="Texture2D" uid="uid://cg4hlay7ifynb" path="res://assets/Tilesets/Tileset3.png" id="8_jj788"]
 [ext_resource type="PackedScene" uid="uid://dk4o3f64bpeaj" path="res://Interactables/RescuedVillager/RescuedVillager.tscn" id="9_a1g1q"]
 [ext_resource type="PackedScene" uid="uid://gyisqiqdj8h6" path="res://UserInterface/DialogueBox.tscn" id="10_qf8pp"]
@@ -478,7 +477,7 @@ sources/0 = SubResource("TileSetAtlasSource_m5pg5")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_df04x"]
 size = Vector2(1155, 529)
 
-[node name="Hideout" type="Node2D"]
+[node name="Hideout Level 2" type="Node2D"]
 position = Vector2(56, -17)
 script = ExtResource("6_pfy87")
 
@@ -540,8 +539,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("5_66q6p")
-script = ExtResource("6_pfy87")
-archer_placeholder_scene = ExtResource("7_vo5nq")
 
 [node name="ResourceDisplay" type="MarginContainer" parent="CanvasLayer/GUI"]
 layout_mode = 1

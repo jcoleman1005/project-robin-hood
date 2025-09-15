@@ -10,6 +10,7 @@ bg_color = Color(0.145098, 0.145098, 0.145098, 0.756863)
 bg_color = Color(1, 1, 1, 1)
 
 [node name="InteractionUI" type="Control"]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_p7br5")

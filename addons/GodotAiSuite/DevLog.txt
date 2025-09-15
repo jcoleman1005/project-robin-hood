@@ -1,3 +1,12 @@
+[Architecture] Designed and implemented a scalable system for tiered Hideout upgrades.
+[Feature] Implemented the first Hideout upgrade mechanic, allowing players to spend Gold to visually improve the base.
+[Feature] Camera now has a velocity-based vertical lookahead for improved visibility during upward movement.
+[Feature] Camera now has a horizontal "facing offset" when the player is idle for a more cinematic feel.
+[Refactor] Centralized all Hideout upgrade costs into a new `HideoutProgressionData` resource for easy balancing.
+[Technical] Added Inspector tooltips (##) to all camera settings for better in-editor documentation.
+[Technical] Implemented a debug breakpoint to catch mismatches between UI text and game data for upgrade costs.
+[Bugfix] Fixed the camera's "ledge peek" logic to hold its position correctly as long as the player is near a ledge.
+[Bugfix] Resolved various "Node not found" and null reference errors in the Hideout and Player Camera scripts.
 [Feature] Implemented new 'Wall Kick-Off' ability, an unlockable horizontal movement skill for crossing large gaps.
 [Refactor] Wall Kick-Off is now triggered from the 'Wall Stick' state, making it a more deliberate, skill-based maneuver.
 [Feature] Added dash VFX (particle trail, puff, and tunable camera punch) to the Wall Kick-Off for visual consistency.

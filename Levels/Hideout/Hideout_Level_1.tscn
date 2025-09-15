@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://7o1xlp5jc84f"]
+[gd_scene load_steps=19 format=4 uid="uid://7o1xlp5jc84f"]
 
 [ext_resource type="Script" uid="uid://xdwlsxhjilvc" path="res://Levels/Hideout.gd" id="1_drx3b"]
 [ext_resource type="Texture2D" uid="uid://bo5n6li5cftnt" path="res://assets/Backgrounds/Background/CloudsBack.png" id="1_etlcn"]
@@ -13,70 +13,6 @@
 [ext_resource type="PackedScene" uid="uid://x8baprwvbfbf" path="res://Levels/CameraBoundary.tscn" id="11_1ftnr"]
 [ext_resource type="PackedScene" uid="uid://c88qa042w3di6" path="res://Interactables/MissionBoard.tscn" id="12_tvxtd"]
 [ext_resource type="PackedScene" uid="uid://rnvlkn4n02x" path="res://Interactables/Campfire.tscn" id="13_drx3b"]
-
-[sub_resource type="GDScript" id="GDScript_nptum"]
-script/source = "# res://Levels/Hideout.gd
-extends Control
-
-# We need a reference to our new placeholder scene.
-@export var archer_placeholder_scene: PackedScene
-
-# --- Node References ---
-@onready var gold_label: Label = $ResourceDisplay/PanelContainer/HBoxContainer/GoldLabel
-@onready var villager_label: Label = $ResourceDisplay/PanelContainer/HBoxContainer/VillagerLabel
-@onready var archer_label: Label =$ResourceDisplay/PanelContainer/HBoxContainer/ArcherLabel
-@onready var train_archer_button: Button = $TrainArcherButton
-
-# A reference to the spawn location for our archers.
-@onready var archery_range: Node2D = owner.get_node(\"ArcheryRange\")
-
-
-func _ready() -> void:
-	# Connect button signals
-	train_archer_button.pressed.connect(_on_train_archer_button_pressed)
-	
-	
-	# Connect to the GameManager's signal to keep visuals and UI in sync.
-	GameManager.resources_updated.connect(update_visuals)
-	
-	# Update everything once at the start to reflect the loaded save data.
-	update_visuals()
-
-
-# This function now handles ALL UI and visual updates for the hideout.
-func update_visuals() -> void:
-	# --- Update UI Labels ---
-	gold_label.text = \"Gold: \" + str(GameManager.gold)
-	villager_label.text = \"Villagers: \" + str(GameManager.villagers)
-	archer_label.text = \"Archers: \" + str(GameManager.archers)
-	
-	# --- Update Button State ---
-	train_archer_button.disabled = not (GameManager.gold >= 10 and GameManager.villagers > 0)
-	
-	# --- Update Archer Placeholders ---
-	# First, clear any existing archers to prevent duplicates.
-	for child in archery_range.get_children():
-		child.queue_free()
-		
-	# Second, spawn one placeholder for each archer we have.
-	if archer_placeholder_scene:
-		for i in range(GameManager.archers):
-			var archer = archer_placeholder_scene.instantiate()
-			# Spread them out so they don't spawn on top of each other.
-			archer.position.x = i * 50 
-			archery_range.add_child(archer)
-
-
-func _on_train_archer_button_pressed() -> void:
-	# This button's only job is to request the upgrade.
-	# The GameManager will update the state, which will trigger our 'update_visuals'
-	# function via the 'resources_updated' signal.
-	EventBus.train_archer_requested.emit()
-
-
-func _on_start_mission_button_pressed() -> void:
-	EventBus.start_mission_requested.emit(\"village_outskirts\")
-"
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mtroj"]
 bg_color = Color(0.156863, 0.156863, 0.156863, 0.705882)
@@ -546,7 +482,7 @@ size = Vector2(1155, 529)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nptum"]
 size = Vector2(103, 76)
 
-[node name="Hideout" type="Node2D"]
+[node name="Hideout Level 1" type="Node2D"]
 position = Vector2(56, -17)
 script = ExtResource("1_drx3b")
 archer_placeholder_scene = ExtResource("7_my3jo")
@@ -609,8 +545,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("5_bsjfj")
-script = SubResource("GDScript_nptum")
-archer_placeholder_scene = ExtResource("7_my3jo")
 
 [node name="ResourceDisplay" type="MarginContainer" parent="CanvasLayer/GUI"]
 layout_mode = 1

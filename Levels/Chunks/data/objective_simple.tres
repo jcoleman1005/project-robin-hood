@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ChunkData" load_steps=3 format=3 uid="uid://yx7otclrmoko"]
+
+[ext_resource type="Script" uid="uid://bb2qf5dmw57be" path="res://Levels/Chunks/ChunkData.gd" id="1_00qg1"]
+[ext_resource type="PackedScene" uid="uid://ncd2or17hbfa" path="res://Levels/Chunks/scenes/objective_simple.tscn" id="1_ujc20"]
+
+[resource]
+script = ExtResource("1_00qg1")
+chunk_scene = ExtResource("1_ujc20")
+category = 1
+difficulty = 1
+entry_tag = "floor_left"
+exit_tag = "none"
+requires_double_jump = false
+requires_dash = false
+requires_wall_kick = false
+metadata/_custom_type_script = "uid://bb2qf5dmw57be"

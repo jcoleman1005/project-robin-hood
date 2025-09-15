@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://03n1pw5xok1b"]
+
+[ext_resource type="Script" uid="uid://du7cmbytg28do" path="res://PCG_Testbed.gd" id="1_0yqlh"]
+
+[node name="PCG Testbed" type="Node2D"]
+script = ExtResource("1_0yqlh")
+
+[node name="Button" type="Button" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -62.5
+offset_top = -15.5
+offset_right = 62.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Generate Level"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.25, 0.25)

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Project Robin Hood"
-run/main_scene="uid://c8yq465fd8xvt"
+run/main_scene="uid://03n1pw5xok1b"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -23,6 +23,7 @@ InteractionManager="*res://Singletons/InteractionManager.gd"
 UIManager="*res://UserInterface/UIManager.gd"
 SceneManager="*res://Singletons/SceneManager.tscn"
 DebugManager="*res://Singletons/DebugManager.gd"
+LevelGenerator="*res://Singletons/LevelGenerator.tscn"
 
 [display]
 

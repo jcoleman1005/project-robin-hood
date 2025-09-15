@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ChunkData" load_steps=3 format=3 uid="uid://b8vdv7aki6yte"]
+
+[ext_resource type="PackedScene" uid="uid://bn6k3xxa7kcxa" path="res://Levels/Chunks/scenes/Walljump_Transition_RtoL.tscn" id="1_d4qw5"]
+[ext_resource type="Script" uid="uid://bb2qf5dmw57be" path="res://Levels/Chunks/ChunkData.gd" id="2_fpskp"]
+
+[resource]
+script = ExtResource("2_fpskp")
+chunk_scene = ExtResource("1_d4qw5")
+category = 6
+difficulty = 1
+entry_tag = "floor_right"
+exit_tag = "floor_left"
+requires_double_jump = false
+requires_dash = false
+requires_wall_kick = false
+metadata/_custom_type_script = "uid://bb2qf5dmw57be"

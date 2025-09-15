@@ -34,7 +34,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 EventBus="*res://Singletons/EventBus.gd"
-GameManager="*res://Singletons/GameManager.gd"
+GameManager="*res://Singletons/game_manager.tscn"
 InteractionManager="*res://Singletons/InteractionManager.gd"
 UIManager="*res://UserInterface/UIManager.gd"
 SceneManager="*res://Singletons/SceneManager.tscn"
@@ -186,6 +186,17 @@ renderer/rendering_method.mobile="gl_compatibility"
 default_font = ExtResource("1_df57p")
 Label/fonts/font = ExtResource("1_df57p")
 
+--- RESOURCE: res://Data/hideout_upgrades.tres ---
+[gd_resource type="Resource" script_class="HideoutProgressionData" load_steps=2 format=3 uid="uid://wfwljs475tnc"]
+
+[ext_resource type="Script" uid="uid://cisjnutxkesm1" path="res://Data/HideoutProgressionData.gd" id="1_pjwpe"]
+
+[resource]
+script = ExtResource("1_pjwpe")
+upgrade_costs = Array[int]([10, 250])
+max_level = 3
+metadata/_custom_type_script = "uid://cisjnutxkesm1"
+
 --- RESOURCE: res://Levels/Hideout/hideout_theme.tres ---
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://cindktpnsryh8"]
 
@@ -214,19 +225,19 @@ Label/fonts/font = ExtResource("1_ghajk")
 
 [resource]
 script = ExtResource("1_kqdxa")
-horizontal_deadzone = 500.0
-vertical_deadzone = 60.0
-smoothing_speed = 4.0
+horizontal_deadzone = 32.0
+vertical_deadzone = 48.0
+smoothing_speed = 6.0
 fall_speed_multiplier = 3.0
 look_offset = 75.0
-look_speed = 6.0
-lookahead_distance = 80.0
+look_speed = 4.0
+lookahead_distance = 100.0
 facing_offset = 50.0
-ledge_peek_offset = 50.0
+ledge_peek_offset = 80.0
 wall_slide_peek_offset = 100.0
 recenter_speed = 2.5
-upward_velocity_threshold = 100.0
-vertical_lookahead_amount = -100.0
+upward_velocity_threshold = 300.0
+vertical_lookahead_amount = -60.0
 vertical_lookahead_speed = 4.5
 metadata/_custom_type_script = "uid://cncohoeprijfe"
 
@@ -237,42 +248,44 @@ metadata/_custom_type_script = "uid://cncohoeprijfe"
 
 [resource]
 script = ExtResource("1_byv2g")
-speed = 350.0
-air_control_acceleration = 250.0
-terminal_velocity = 750.0
-acceleration_smoothness = 0.1
-friction_smoothness = 0.3
-jump_height = 120.0
+speed = 280.0
+air_control_acceleration = 200.0
+terminal_velocity = 600.0
+acceleration_smoothness = 0.12
+friction_smoothness = 0.25
+crouch_speed_multiplier = 0.5
+jump_height = 128.0
 time_to_apex = 0.5
-fall_gravity = 2400.0
-jump_cut_multiplier = 0.3
-glide_velocity = 300.0
-blink_dash_enabled = false
-slide_duration = 0.4
-standing_slide_speed = 375.0
+fall_gravity = 2200.0
+jump_cut_multiplier = 0.35
+dash_distance = 400.0
+dash_duration = 0.25
+dash_freeze_duration = 0.08
+dash_end_velocity_multiplier = 0.3
+slide_duration = 0.35
+standing_slide_speed = 400.0
 slide_friction = 0.01
 skid_duration = 0.25
 skid_friction = 0.25
 wall_slip_duration = 0.08
 wall_slide_friction = 80.0
-crouch_speed_multiplier = 0.5
-wall_slide_jump_horizontal_velocity = 600.0
+wall_slide_jump_horizontal_velocity = 480.0
 wall_slide_jump_vertical_velocity = -600.0
 wall_stick_jump_horizontal_velocity = 900.0
 wall_stick_jump_vertical_velocity = -400.0
-dash_end_velocity_multiplier = 0.3
-invisibility_duration = 2.0
-invisibility_cooldown = 5.0
 wall_kick_horizontal_velocity = 1200.0
-wall_kick_vertical_velocity = -200.0
+wall_kick_vertical_velocity = -180.0
 wall_kick_duration = 0.25
-coyote_time_duration = 0.2
 wall_coyote_time_duration = 0.18
-jump_buffer_duration = 0.1
-dash_freeze_duration = 0.08
-fall_zoom_delay = 0.3
 wall_detach_hang_time = 0.2
 wall_detach_gravity_scale = 0.5
+glide_velocity = 300.0
+invisibility_duration = 2.0
+invisibility_cooldown = 5.0
+blink_dash_enabled = false
+coyote_time_duration = 0.18
+jump_buffer_duration = 0.12
+fall_zoom_delay = 0.3
 metadata/_custom_type_script = "uid://bx05fogp11uwl"
 
 --- RESOURCE: res://VFX/VFXData/dash_prepare.tres ---
@@ -335,6 +348,7 @@ flip_h_with_wall = false
 rotate_with_wall_normal = false
 rotation_degrees = 0.0
 scale = Vector2(1, 1)
+camera_punch_intensity = 0.0
 metadata/_custom_type_script = "uid://ctlafprqxjjv2"
 
 --- RESOURCE: res://VFX/VFXData/land_puff_vfx.tres ---
@@ -355,6 +369,7 @@ flip_h_with_wall = false
 rotate_with_wall_normal = false
 rotation_degrees = 0.0
 scale = Vector2(1, 1)
+camera_punch_intensity = 0.0
 metadata/_custom_type_script = "uid://ctlafprqxjjv2"
 
 --- RESOURCE: res://VFX/VFXData/skid_puff.tres ---
@@ -375,6 +390,7 @@ flip_h_with_wall = false
 rotate_with_wall_normal = false
 rotation_degrees = 0.0
 scale = Vector2(1, 1)
+camera_punch_intensity = 0.0
 metadata/_custom_type_script = "uid://ctlafprqxjjv2"
 
 --- RESOURCE: res://VFX/VFXData/slide_puff.tres ---
@@ -395,6 +411,7 @@ flip_h_with_wall = false
 rotate_with_wall_normal = false
 rotation_degrees = 0.0
 scale = Vector2(1, 1)
+camera_punch_intensity = 0.0
 metadata/_custom_type_script = "uid://ctlafprqxjjv2"
 
 --- RESOURCE: res://VFX/VFXData/wall_jump.tres ---
@@ -415,6 +432,7 @@ flip_h_with_wall = false
 rotate_with_wall_normal = true
 rotation_degrees = 0.0
 scale = Vector2(1, 1)
+camera_punch_intensity = 0.0
 metadata/_custom_type_script = "uid://ctlafprqxjjv2"
 
 --- RESOURCE: res://VFX/VFXData/wall_kick_vfx.tres ---
@@ -456,6 +474,7 @@ flip_h_with_wall = true
 rotate_with_wall_normal = false
 rotation_degrees = 0.0
 scale = Vector2(1, 1)
+camera_punch_intensity = 0.0
 metadata/_custom_type_script = "uid://ctlafprqxjjv2"
 --- END OF RESOURCE FILES ---
 
@@ -466,7 +485,7 @@ metadata/_custom_type_script = "uid://ctlafprqxjjv2"
 Enemy (CharacterBody2D)
 > script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.gd
 > scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
-> vision_renderer = VisionConeRenderer:<Polygon2D#2989347673629>
+> vision_renderer = VisionConeRenderer:<Polygon2D#6721774923285>
 > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > is_rotating = false
 > rotation_speed = 0.1
@@ -485,8 +504,8 @@ Enemy (CharacterBody2D)
 > > ray_count = 100
 > > max_distance = 500.0
 > > collision_layer_mask = 2
-> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#2989381228045>
-> > write_polygon2d = VisionConeRenderer:<Polygon2D#2989347673629>
+> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#6721808477722>
+> > write_polygon2d = VisionConeRenderer:<Polygon2D#6721774923285>
 > > debug_lines = false
 > > debug_shape = false
 > > minimum_recalculate_time_msec = 0
@@ -516,7 +535,7 @@ example (Node2D)
 >   script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.gd
 >   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
 > > position = (1055.0, 97.0)
-> > vision_renderer = VisionConeRenderer:<Polygon2D#2989985207852>
+> > vision_renderer = VisionConeRenderer:<Polygon2D#6722412457513>
 > > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > > is_rotating = false
 > > rotation_speed = 0.1
@@ -535,8 +554,8 @@ example (Node2D)
 >   > ray_count = 100
 >   > max_distance = 500.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#2990018762277>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#2989985207852>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#6722446011917>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#6722412457513>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -572,7 +591,7 @@ example (Node2D)
 >   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
 > > position = (301.0, 705.0)
 > > rotation = -1.57079994678497
-> > vision_renderer = VisionConeRenderer:<Polygon2D#2990169757206>
+> > vision_renderer = VisionConeRenderer:<Polygon2D#6722597006905>
 > > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > > is_rotating = true
 > > rotation_speed = 1.0
@@ -591,8 +610,8 @@ example (Node2D)
 >   > ray_count = 50
 >   > max_distance = 700
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#2990203311648>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#2990169757206>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#6722630561339>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#6722597006905>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -621,12 +640,12 @@ example (Node2D)
 >   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
 > > position = (211.0, 130.0)
 > > rotation = -0.48296800255775
-> > vision_renderer = VisionConeRenderer:<Polygon2D#2990320724969>
+> > vision_renderer = VisionConeRenderer:<Polygon2D#6722748001858>
 > > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > > is_rotating = false
 > > rotation_speed = 1.0
 > > rotation_angle = 90
-> > move_on_path = PathFollow2D:<PathFollow2D#2989918098977>
+> > move_on_path = PathFollow2D:<PathFollow2D#6722345348648>
 > > movement_speed = 3.0
 >   CharacterRenderer (Polygon2D)
 >   > rotation = -1.57079994678497
@@ -641,8 +660,8 @@ example (Node2D)
 >   > ray_count = 10
 >   > max_distance = 700
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#2990354306615>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#2990320724969>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#6722781556292>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#6722748001858>
 >   > debug_lines = true
 >   > debug_shape = true
 >   > minimum_recalculate_time_msec = 250
@@ -781,8 +800,8 @@ VisionCone2D (Node2D)
 > ray_count = 100
 > max_distance = 500.0
 > collision_layer_mask = 2
-> write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#2991981696542>
-> write_polygon2d = VisionConeRenderer:<Polygon2D#2991948142103>
+> write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#6724408946210>
+> write_polygon2d = VisionConeRenderer:<Polygon2D#6724375391753>
 > debug_lines = false
 > debug_shape = false
 > minimum_recalculate_time_msec = 0
@@ -1943,7 +1962,7 @@ GutRunner (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 0
->           > resize_control = Normal:<Panel#3017986381489>
+>           > resize_control = Normal:<Panel#6750413631172>
 >           > vertical_resize = true
 >           SwitchModes (Button)
 >           > layout_mode = 2
@@ -1958,7 +1977,7 @@ GutRunner (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 1
->           > resize_control = Normal:<Panel#3017986381489>
+>           > resize_control = Normal:<Panel#6750413631172>
 >           > vertical_resize = true
 >           SidePad2 (CenterContainer)
 >           > custom_minimum_size = (2.0, 0.0)
@@ -2069,7 +2088,7 @@ GutRunner (Node2D)
 >               > layout_mode = 2
 >               > color = (1.0, 1.0, 1.0, 0.0)
 >               > orientation = 0
->               > resize_control = Compact:<Panel#3019462776578>
+>               > resize_control = Compact:<Panel#6751890026261>
 >               > vertical_resize = false
 >               SwitchModes (Button)
 >               > layout_mode = 2
@@ -2087,7 +2106,7 @@ GutRunner (Node2D)
 >               > layout_mode = 2
 >               > color = (1.0, 1.0, 1.0, 0.0)
 >               > orientation = 1
->               > resize_control = Compact:<Panel#3019462776578>
+>               > resize_control = Compact:<Panel#6751890026261>
 >               > vertical_resize = false
 >           RightMargin (CenterContainer)
 >           > custom_minimum_size = (5.0, 0.0)
@@ -2198,7 +2217,7 @@ Min (Panel)
 >         > layout_mode = 2
 >         > color = (1.0, 1.0, 1.0, 0.0)
 >         > orientation = 0
->         > resize_control = Min:<Panel#3023153763859>
+>         > resize_control = Min:<Panel#6755581013543>
 >         > vertical_resize = false
 >         SwitchModes (Button)
 >         > layout_mode = 2
@@ -2216,7 +2235,7 @@ Min (Panel)
 >         > layout_mode = 2
 >         > color = (1.0, 1.0, 1.0, 0.0)
 >         > orientation = 1
->         > resize_control = Min:<Panel#3023153763859>
+>         > resize_control = Min:<Panel#6755581013543>
 >         > vertical_resize = false
 >     RightMargin (CenterContainer)
 >     > custom_minimum_size = (5.0, 0.0)
@@ -2369,7 +2388,7 @@ Large (Panel)
 >     > layout_mode = 2
 >     > color = (1.0, 1.0, 1.0, 0.0)
 >     > orientation = 0
->     > resize_control = Large:<Panel#3025318024723>
+>     > resize_control = Large:<Panel#6757745274407>
 >     > vertical_resize = true
 >     SwitchModes (Button)
 >     > layout_mode = 2
@@ -2384,7 +2403,7 @@ Large (Panel)
 >     > layout_mode = 2
 >     > color = (1.0, 1.0, 1.0, 0.0)
 >     > orientation = 1
->     > resize_control = Large:<Panel#3025318024723>
+>     > resize_control = Large:<Panel#6757745274407>
 >     > vertical_resize = true
 >     SidePad2 (CenterContainer)
 >     > custom_minimum_size = (2.0, 0.0)
@@ -2847,7 +2866,7 @@ GutScene (Node2D)
 >       > layout_mode = 2
 >       > color = (1.0, 1.0, 1.0, 0.0)
 >       > orientation = 0
->       > resize_control = Normal:<Panel#3037011744284>
+>       > resize_control = Normal:<Panel#6769438993970>
 >       > vertical_resize = true
 >       SwitchModes (Button)
 >       > layout_mode = 2
@@ -2862,7 +2881,7 @@ GutScene (Node2D)
 >       > layout_mode = 2
 >       > color = (1.0, 1.0, 1.0, 0.0)
 >       > orientation = 1
->       > resize_control = Normal:<Panel#3037011744284>
+>       > resize_control = Normal:<Panel#6769438993970>
 >       > vertical_resize = true
 >       SidePad2 (CenterContainer)
 >       > custom_minimum_size = (2.0, 0.0)
@@ -2973,7 +2992,7 @@ GutScene (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 0
->           > resize_control = Compact:<Panel#3038488139517>
+>           > resize_control = Compact:<Panel#6770915389200>
 >           > vertical_resize = false
 >           SwitchModes (Button)
 >           > layout_mode = 2
@@ -2991,7 +3010,7 @@ GutScene (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 1
->           > resize_control = Compact:<Panel#3038488139517>
+>           > resize_control = Compact:<Panel#6770915389200>
 >           > vertical_resize = false
 >       RightMargin (CenterContainer)
 >       > custom_minimum_size = (5.0, 0.0)
@@ -3013,7 +3032,7 @@ UserFileViewer (Window)
 > FileDialog (FileDialog)
 > > access = 1
 > > show_hidden_files = true
->   @PopupMenu@27722 (PopupMenu)
+>   @PopupMenu@31284 (PopupMenu)
 > TextDisplay (ColorRect)
 > > anchors_preset = 15
 > > anchor_right = 1.0
@@ -3127,7 +3146,7 @@ Guard (CharacterBody2D)
 > > collision_mask = 2
 > StateMachine (Node)
 >   script: res://Enemies/Guard/States/guard_state_machine.gd
-> > initial_state = PatrolState:<Node#3053134649006>
+> > initial_state = PatrolState:<Node#6785561898689>
 >   PatrolState (Node)
 >     script: res://Enemies/Guard/States/patrol_state.gd
 >   CaughtState (Node)
@@ -3139,8 +3158,8 @@ Guard (CharacterBody2D)
 > > ray_count = 30
 > > max_distance = 150.0
 > > collision_layer_mask = 2
-> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3053218535091>
-> > write_polygon2d = VisionConeRenderer:<Polygon2D#3053184980653>
+> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#6785645784774>
+> > write_polygon2d = VisionConeRenderer:<Polygon2D#6785612230336>
 > > debug_lines = false
 > > debug_shape = false
 > > minimum_recalculate_time_msec = 100
@@ -3167,6 +3186,26 @@ ArcherPlaceHolder (Node2D)
 > > animation = idle
 > > autoplay = "idle"
 > > frame_progress = 0.55470299720764
+
+--- SCENE: res://Interactables/Campfire.tscn ---
+Campfire (StaticBody2D)
+> script: res://Interactables/Campfire.gd
+> scene: res://Interactables/Campfire.tscn
+> CollisionShape2D (CollisionShape2D)
+> > shape = res://Interactables/Campfire.tscn::CircleShape2D_4rtkt
+> AnimatedSprite2D (AnimatedSprite2D)
+> > scale = (1.5, 1.5)
+> > sprite_frames = res://Interactables/Campfire.tscn::SpriteFrames_o5grn
+> > autoplay = "default"
+> > frame_progress = 0.27172300219536
+> Interactable (Area2D)
+>   script: res://Interactables/Interactable.gd
+>   scene: res://Interactables/Interactable.tscn
+> > prompt_message = "Interact"
+> > prompt_vertical_offset = -40.0
+> > interaction_duration = 1.0
+>   CollisionShape2D (CollisionShape2D)
+>   > shape = res://Interactables/Interactable.tscn::CircleShape2D_nuwr0
 
 --- SCENE: res://Interactables/Interactable.tscn ---
 Interactable (Area2D)
@@ -3219,7 +3258,7 @@ Prisoner (StaticBody2D)
 > > object_id = ""
 > > generate_new_id = false
 > AnimationPlayer (AnimationPlayer)
-> > libraries = {"":"<AnimationLibrary#-9223369831070219995>"}
+> > libraries = {"":"<AnimationLibrary#-9223369830667566801>"}
 
 --- SCENE: res://Interactables/RescuedVillager/RescuedVillager.tscn ---
 RescuedVillager (StaticBody2D)
@@ -3305,14 +3344,12 @@ Hideout (Node2D)
 >     > stretch_mode = 6
 > CanvasLayer (CanvasLayer)
 >   GUI (Control)
->     script: res://Levels/Hideout/Hideout.gd
 >   > anchors_preset = 15
 >   > anchor_right = 1.0
 >   > anchor_bottom = 1.0
 >   > grow_horizontal = 2
 >   > grow_vertical = 2
 >   > theme = res://Levels/Hideout/hideout_theme.tres
->   > archer_placeholder_scene = res://Interactables/ArcherPlaceholder.tscn
 >     ResourceDisplay (MarginContainer)
 >     > layout_mode = 1
 >     > anchors_preset = 5
@@ -3404,6 +3441,351 @@ Hideout (Node2D)
 >   CollisionShape2D (CollisionShape2D)
 >   > position = (523.5, 519.5)
 >   > shape = res://Levels/Hideout/Hideout.tscn::RectangleShape2D_df04x
+> MissionBoard (StaticBody2D)
+>   script: res://Interactables/MissionBoard.gd
+>   scene: res://Interactables/MissionBoard.tscn
+> > position = (1002.0, 742.0)
+>   Sprite2D (Sprite2D)
+>   > texture = res://assets/signpost32px.png
+>   CollisionShape2D (CollisionShape2D)
+>   > shape = res://Interactables/MissionBoard.tscn::RectangleShape2D_0ghu3
+>   Interactable (Area2D)
+>     script: res://Interactables/Interactable.gd
+>     scene: res://Interactables/Interactable.tscn
+>   > prompt_message = "Start Mission"
+>   > prompt_vertical_offset = -50.0
+>   > interaction_duration = 1.0
+>     CollisionShape2D (CollisionShape2D)
+>     > shape = res://Interactables/Interactable.tscn::CircleShape2D_nuwr0
+
+--- SCENE: res://Levels/Hideout/Hideout_Level_1.tscn ---
+Hideout (Node2D)
+> script: res://Levels/Hideout.gd
+> scene: res://Levels/Hideout/Hideout_Level_1.tscn
+> position = (56.0, -17.0)
+> archer_placeholder_scene = res://Interactables/ArcherPlaceholder.tscn
+> ParallaxBackground (ParallaxBackground)
+> > scale = (1.2, 1.2)
+> > transform = [X: (1.2, 0.0), Y: (0.0, 1.2), O: (0.0, 0.0)]
+>   CloudsBack (ParallaxLayer)
+>   > motion_scale = (0.01, 1.0)
+>   > motion_mirroring = (640.0, 360.0)
+>     TextureRect (TextureRect)
+>     > offset_right = 640.0
+>     > offset_bottom = 360.0
+>     > texture = res://assets/Backgrounds/Background/CloudsBack.png
+>     > expand_mode = 1
+>     > stretch_mode = 6
+>   CoudsFront (ParallaxLayer)
+>   > motion_scale = (0.05, 1.0)
+>   > motion_mirroring = (640.0, 360.0)
+>     TextureRect (TextureRect)
+>     > offset_right = 640.0
+>     > offset_bottom = 360.0
+>     > texture = res://assets/Backgrounds/Background/CloudsFront.png
+>     > expand_mode = 1
+>     > stretch_mode = 6
+>   BGBack (ParallaxLayer)
+>   > motion_scale = (0.075, 1.0)
+>   > motion_mirroring = (640.0, 360.0)
+>     TextureRect (TextureRect)
+>     > offset_right = 640.0
+>     > offset_bottom = 360.0
+>     > texture = res://assets/Backgrounds/Background/BGBack.png
+>     > expand_mode = 1
+>     > stretch_mode = 6
+>   BGFront (ParallaxLayer)
+>   > motion_scale = (0.1, 1.0)
+>   > motion_mirroring = (640.0, 360.0)
+>     TextureRect (TextureRect)
+>     > offset_right = 640.0
+>     > offset_bottom = 360.0
+>     > texture = res://assets/Backgrounds/Background/BGFront.png
+>     > expand_mode = 1
+>     > stretch_mode = 6
+> CanvasLayer (CanvasLayer)
+>   GUI (Control)
+>     script: res://Levels/Hideout/Hideout_Level_1.tscn::GDScript_nptum
+>   > anchors_preset = 15
+>   > anchor_right = 1.0
+>   > anchor_bottom = 1.0
+>   > grow_horizontal = 2
+>   > grow_vertical = 2
+>   > theme = res://Levels/Hideout/hideout_theme.tres
+>   > archer_placeholder_scene = res://Interactables/ArcherPlaceholder.tscn
+>     ResourceDisplay (MarginContainer)
+>     > layout_mode = 1
+>     > anchors_preset = 5
+>     > anchor_left = 0.5
+>     > anchor_right = 0.5
+>     > offset_left = -20.0
+>     > offset_right = 20.0
+>     > offset_bottom = 62.0
+>     > grow_horizontal = 2
+>       PanelContainer (PanelContainer)
+>       > layout_mode = 2
+>         HBoxContainer (HBoxContainer)
+>         > layout_mode = 2
+>           VillagerLabel (Label)
+>           > layout_mode = 2
+>           GoldLabel (Label)
+>           > layout_mode = 2
+>           ArcherLabel (Label)
+>           > layout_mode = 2
+>     TrainArcherButton (Button)
+>     > layout_mode = 1
+>     > anchors_preset = 3
+>     > anchor_left = 1.0
+>     > anchor_top = 1.0
+>     > anchor_right = 1.0
+>     > anchor_bottom = 1.0
+>     > offset_left = -110.0
+>     > offset_top = -36.0
+>     > offset_right = -6.0
+>     > offset_bottom = -5.0
+>     > grow_horizontal = 0
+>     > grow_vertical = 0
+>     > text = "Train Archer"
+> TileMapLayer (TileMapLayer)
+> > position = (-26.0, 129.0)
+> > tile_set = res://Levels/Hideout/Hideout_Level_1.tscn::TileSet_0vrxt
+> RescuedVillager (StaticBody2D)
+>   script: res://Interactables/RescuedVillager/RescuedVillager.gd
+>   scene: res://Interactables/RescuedVillager/RescuedVillager.tscn
+> > position = (886.0, 718.0)
+> > dialogue_message = "Thank you!"
+>   CollisionShape2D (CollisionShape2D)
+>   > position = (0.0, 14.5)
+>   > shape = res://Interactables/RescuedVillager/RescuedVillager.tscn::RectangleShape2D_mdajx
+>   InteractionArea (Area2D)
+>     script: res://Interactables/Interactable.gd
+>   > prompt_message = "Interact"
+>   > prompt_vertical_offset = -40.0
+>   > interaction_duration = 0.2
+>     CollisionShape2D (CollisionShape2D)
+>     > position = (-1.0, 15.5)
+>     > shape = res://Interactables/RescuedVillager/RescuedVillager.tscn::CircleShape2D_3pwis
+>   AnimatedSprite2D (AnimatedSprite2D)
+>   > sprite_frames = res://Interactables/RescuedVillager/RescuedVillager.tscn::SpriteFrames_b8v8i
+>   > frame_progress = 0.38301599025726
+> PlayerSpawnPoint (Marker2D)
+> > position = (66.0, 663.0)
+> DialogueBox (CanvasLayer)
+>   script: res://UserInterface/DialogueBox.gd
+>   scene: res://UserInterface/DialogueBox.tscn
+>   groups = [&"DialogueBox"]
+> > process_mode = 3
+> > visible = false
+>   MarginContainer (MarginContainer)
+>   > custom_minimum_size = (100.0, 100.0)
+>   > anchors_preset = 12
+>   > anchor_top = 1.0
+>   > anchor_right = 1.0
+>   > anchor_bottom = 1.0
+>   > offset_top = -75.0
+>   > grow_horizontal = 2
+>   > grow_vertical = 0
+>     Panel (Panel)
+>     > custom_minimum_size = (150.0, 75.0)
+>     > layout_mode = 2
+>       Label (Label)
+>       > layout_mode = 1
+>       > offset_right = 130.0
+>       > offset_bottom = 61.0
+>       > horizontal_alignment = 1
+>       > vertical_alignment = 1
+>       > autowrap_mode = 3
+> ArcheryRange (Node2D)
+> > position = (722.0, 742.0)
+> CameraBoundary (Area2D)
+>   scene: res://Levels/CameraBoundary.tscn
+>   groups = [&"camera_boundary"]
+> > visible = false
+>   CollisionShape2D (CollisionShape2D)
+>   > position = (523.5, 519.5)
+>   > shape = res://Levels/Hideout/Hideout_Level_1.tscn::RectangleShape2D_df04x
+> MissionBoard (StaticBody2D)
+>   script: res://Interactables/MissionBoard.gd
+>   scene: res://Interactables/MissionBoard.tscn
+> > position = (1002.0, 742.0)
+>   Sprite2D (Sprite2D)
+>   > texture = res://assets/signpost32px.png
+>   CollisionShape2D (CollisionShape2D)
+>   > shape = res://Interactables/MissionBoard.tscn::RectangleShape2D_0ghu3
+>   Interactable (Area2D)
+>     script: res://Interactables/Interactable.gd
+>     scene: res://Interactables/Interactable.tscn
+>   > prompt_message = "Start Mission"
+>   > prompt_vertical_offset = -50.0
+>   > interaction_duration = 1.0
+>     CollisionShape2D (CollisionShape2D)
+>     > shape = res://Interactables/Interactable.tscn::CircleShape2D_nuwr0
+> Campfire (StaticBody2D)
+>   script: res://Interactables/Campfire.gd
+>   scene: res://Interactables/Campfire.tscn
+> > position = (469.0, 717.0)
+>   CollisionShape2D (CollisionShape2D)
+>   > position = (1.5, 2.0)
+>   > shape = res://Levels/Hideout/Hideout_Level_1.tscn::RectangleShape2D_nptum
+>   AnimatedSprite2D (AnimatedSprite2D)
+>   > scale = (1.5, 1.5)
+>   > sprite_frames = res://Interactables/Campfire.tscn::SpriteFrames_o5grn
+>   > autoplay = "default"
+>   > frame_progress = 0.27172300219536
+>   Interactable (Area2D)
+>     script: res://Interactables/Interactable.gd
+>     scene: res://Interactables/Interactable.tscn
+>   > prompt_message = "Upgrade Hideout (100 Gold)"
+>   > prompt_vertical_offset = -40.0
+>   > interaction_duration = 1.0
+>     CollisionShape2D (CollisionShape2D)
+>     > shape = res://Interactables/Interactable.tscn::CircleShape2D_nuwr0
+
+--- SCENE: res://Levels/Hideout/Hideout_Level_2.tscn ---
+Hideout (Node2D)
+> script: res://Levels/Hideout.gd
+> scene: res://Levels/Hideout/Hideout_Level_2.tscn
+> position = (56.0, -17.0)
+> ParallaxBackground (ParallaxBackground)
+> > scale = (1.2, 1.2)
+> > transform = [X: (1.2, 0.0), Y: (0.0, 1.2), O: (0.0, 0.0)]
+>   CloudsBack (ParallaxLayer)
+>   > motion_scale = (0.01, 1.0)
+>   > motion_mirroring = (640.0, 360.0)
+>     TextureRect (TextureRect)
+>     > offset_right = 640.0
+>     > offset_bottom = 360.0
+>     > texture = res://assets/Backgrounds/Background/CloudsBack.png
+>     > expand_mode = 1
+>     > stretch_mode = 6
+>   CoudsFront (ParallaxLayer)
+>   > motion_scale = (0.05, 1.0)
+>   > motion_mirroring = (640.0, 360.0)
+>     TextureRect (TextureRect)
+>     > offset_right = 640.0
+>     > offset_bottom = 360.0
+>     > texture = res://assets/Backgrounds/Background/CloudsFront.png
+>     > expand_mode = 1
+>     > stretch_mode = 6
+>   BGBack (ParallaxLayer)
+>   > motion_scale = (0.075, 1.0)
+>   > motion_mirroring = (640.0, 360.0)
+>     TextureRect (TextureRect)
+>     > offset_right = 640.0
+>     > offset_bottom = 360.0
+>     > texture = res://assets/Backgrounds/Background/BGBack.png
+>     > expand_mode = 1
+>     > stretch_mode = 6
+>   BGFront (ParallaxLayer)
+>   > motion_scale = (0.1, 1.0)
+>   > motion_mirroring = (640.0, 360.0)
+>     TextureRect (TextureRect)
+>     > offset_right = 640.0
+>     > offset_bottom = 360.0
+>     > texture = res://assets/Backgrounds/Background/BGFront.png
+>     > expand_mode = 1
+>     > stretch_mode = 6
+> CanvasLayer (CanvasLayer)
+>   GUI (Control)
+>     script: res://Levels/Hideout.gd
+>   > anchors_preset = 15
+>   > anchor_right = 1.0
+>   > anchor_bottom = 1.0
+>   > grow_horizontal = 2
+>   > grow_vertical = 2
+>   > theme = res://Levels/Hideout/hideout_theme.tres
+>   > archer_placeholder_scene = res://Interactables/ArcherPlaceholder.tscn
+>     ResourceDisplay (MarginContainer)
+>     > layout_mode = 1
+>     > anchors_preset = 5
+>     > anchor_left = 0.5
+>     > anchor_right = 0.5
+>     > offset_left = -20.0
+>     > offset_right = 20.0
+>     > offset_bottom = 62.0
+>     > grow_horizontal = 2
+>       PanelContainer (PanelContainer)
+>       > layout_mode = 2
+>         HBoxContainer (HBoxContainer)
+>         > layout_mode = 2
+>           VillagerLabel (Label)
+>           > layout_mode = 2
+>           GoldLabel (Label)
+>           > layout_mode = 2
+>           ArcherLabel (Label)
+>           > layout_mode = 2
+>     TrainArcherButton (Button)
+>     > layout_mode = 1
+>     > anchors_preset = 3
+>     > anchor_left = 1.0
+>     > anchor_top = 1.0
+>     > anchor_right = 1.0
+>     > anchor_bottom = 1.0
+>     > offset_left = -110.0
+>     > offset_top = -36.0
+>     > offset_right = -6.0
+>     > offset_bottom = -5.0
+>     > grow_horizontal = 0
+>     > grow_vertical = 0
+>     > text = "Train Archer"
+> TileMapLayer (TileMapLayer)
+> > position = (-26.0, 129.0)
+> > tile_set = res://Levels/Hideout/Hideout_Level_2.tscn::TileSet_0vrxt
+> RescuedVillager (StaticBody2D)
+>   script: res://Interactables/RescuedVillager/RescuedVillager.gd
+>   scene: res://Interactables/RescuedVillager/RescuedVillager.tscn
+> > position = (494.0, 720.0)
+> > dialogue_message = "Thank you!"
+>   CollisionShape2D (CollisionShape2D)
+>   > position = (0.0, 14.5)
+>   > shape = res://Interactables/RescuedVillager/RescuedVillager.tscn::RectangleShape2D_mdajx
+>   InteractionArea (Area2D)
+>     script: res://Interactables/Interactable.gd
+>   > prompt_message = "Interact"
+>   > prompt_vertical_offset = -40.0
+>   > interaction_duration = 0.2
+>     CollisionShape2D (CollisionShape2D)
+>     > position = (-1.0, 15.5)
+>     > shape = res://Interactables/RescuedVillager/RescuedVillager.tscn::CircleShape2D_3pwis
+>   AnimatedSprite2D (AnimatedSprite2D)
+>   > sprite_frames = res://Interactables/RescuedVillager/RescuedVillager.tscn::SpriteFrames_b8v8i
+>   > frame_progress = 0.38301599025726
+> PlayerSpawnPoint (Marker2D)
+> > position = (66.0, 663.0)
+> DialogueBox (CanvasLayer)
+>   script: res://UserInterface/DialogueBox.gd
+>   scene: res://UserInterface/DialogueBox.tscn
+>   groups = [&"DialogueBox"]
+> > process_mode = 3
+> > visible = false
+>   MarginContainer (MarginContainer)
+>   > custom_minimum_size = (100.0, 100.0)
+>   > anchors_preset = 12
+>   > anchor_top = 1.0
+>   > anchor_right = 1.0
+>   > anchor_bottom = 1.0
+>   > offset_top = -75.0
+>   > grow_horizontal = 2
+>   > grow_vertical = 0
+>     Panel (Panel)
+>     > custom_minimum_size = (150.0, 75.0)
+>     > layout_mode = 2
+>       Label (Label)
+>       > layout_mode = 1
+>       > offset_right = 130.0
+>       > offset_bottom = 61.0
+>       > horizontal_alignment = 1
+>       > vertical_alignment = 1
+>       > autowrap_mode = 3
+> ArcheryRange (Node2D)
+> > position = (722.0, 742.0)
+> CameraBoundary (Area2D)
+>   scene: res://Levels/CameraBoundary.tscn
+>   groups = [&"camera_boundary"]
+> > visible = false
+>   CollisionShape2D (CollisionShape2D)
+>   > position = (523.5, 519.5)
+>   > shape = res://Levels/Hideout/Hideout_Level_2.tscn::RectangleShape2D_df04x
 > MissionBoard (StaticBody2D)
 >   script: res://Interactables/MissionBoard.gd
 >   scene: res://Interactables/MissionBoard.tscn
@@ -3560,7 +3942,7 @@ VillageOutskirts (Node2D)
 >   > collision_mask = 2
 >   StateMachine (Node)
 >     script: res://Enemies/Guard/States/guard_state_machine.gd
->   > initial_state = PatrolState:<Node#3065180690338>
+>   > initial_state = PatrolState:<Node#6809939193740>
 >     PatrolState (Node)
 >       script: res://Enemies/Guard/States/patrol_state.gd
 >     CaughtState (Node)
@@ -3572,8 +3954,8 @@ VillageOutskirts (Node2D)
 >   > ray_count = 30
 >   > max_distance = 150.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3065264576413>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#3065231021983>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#6810023079831>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#6809989525397>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 100
@@ -3621,7 +4003,7 @@ VillageOutskirts (Node2D)
 >   > collision_mask = 2
 >   StateMachine (Node)
 >     script: res://Enemies/Guard/States/guard_state_machine.gd
->   > initial_state = PatrolState:<Node#3065432348563>
+>   > initial_state = PatrolState:<Node#6810190852001>
 >     PatrolState (Node)
 >       script: res://Enemies/Guard/States/patrol_state.gd
 >     CaughtState (Node)
@@ -3633,8 +4015,8 @@ VillageOutskirts (Node2D)
 >   > ray_count = 30
 >   > max_distance = 150.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3065516234638>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#3065482680208>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#6810274738084>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#6810241183650>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 100
@@ -3682,7 +4064,7 @@ VillageOutskirts (Node2D)
 >   > collision_mask = 2
 >   StateMachine (Node)
 >     script: res://Enemies/Guard/States/guard_state_machine.gd
->   > initial_state = PatrolState:<Node#3065684006788>
+>   > initial_state = PatrolState:<Node#6810442510254>
 >     PatrolState (Node)
 >       script: res://Enemies/Guard/States/patrol_state.gd
 >     CaughtState (Node)
@@ -3694,8 +4076,8 @@ VillageOutskirts (Node2D)
 >   > ray_count = 30
 >   > max_distance = 150.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3065767892862>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#3065734338433>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#6810526396341>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#6810492841907>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 100
@@ -3762,7 +4144,7 @@ VillageOutskirts (Node2D)
 >   > object_id = ""
 >   > generate_new_id = false
 >   AnimationPlayer (AnimationPlayer)
->   > libraries = {"":"<AnimationLibrary#-9223369831070219995>"}
+>   > libraries = {"":"<AnimationLibrary#-9223369830667566801>"}
 
 --- SCENE: res://Levels/VillageOutskirtsTilelayer.tscn ---
 VillageOutskirtsTilelayer (TileMapLayer)
@@ -3791,7 +4173,7 @@ Player (CharacterBody2D)
 > > autoplay = "idle"
 > > offset = (0.0, -40.0)
 > AnimationPlayer (AnimationPlayer)
-> > libraries = {"":"<AnimationLibrary#-9223369862108070638>"}
+> > libraries = {"":"<AnimationLibrary#-9223369862074516208>"}
 > SlidingCollision (CollisionShape2D)
 > > position = (4.0, -3.0)
 > > disabled = true
@@ -3990,12 +4372,18 @@ Player (CharacterBody2D)
 > WallSlideSpawner (Marker2D)
 > > position = (-8.0, -13.0)
 
+--- SCENE: res://Singletons/game_manager.tscn ---
+GameManager (Node)
+> script: res://Singletons/GameManager.gd
+> scene: res://Singletons/game_manager.tscn
+> hideout_progression_data = res://Data/hideout_upgrades.tres
+
 --- SCENE: res://Singletons/SceneManager.tscn ---
 SceneManager (CanvasLayer)
 > script: res://Singletons/SceneManager.gd
 > scene: res://Singletons/SceneManager.tscn
 > process_mode = 3
-> scene_entries = ["<Resource#-9223368966808692808>","<Resource#-9223368966791915593>"]
+> scene_entries = ["<Resource#-9223365221832085637>","<Resource#-9223365221815308422>","<Resource#-9223365221798531201>"]
 > player_scene = res://Player/PlayerScene.tscn
 > ColorRect (ColorRect)
 > > anchors_preset = 15
@@ -4005,7 +4393,7 @@ SceneManager (CanvasLayer)
 > > grow_vertical = 2
 > > color = (0.0, 0.0, 0.0, 0.0)
 > AnimationPlayer (AnimationPlayer)
-> > libraries = {"":"<AnimationLibrary#-9223368966724806723>"}
+> > libraries = {"":"<AnimationLibrary#-9223365221731422333>"}
 
 --- SCENE: res://tests/Chest.tscn ---
 Chest (StaticBody2D)
@@ -20611,6 +20999,16 @@ static func load_script_using_custom_warnings(path : String, warnings_dictionary
 
 	return s
 
+--- SCRIPT: res://Data/HideoutProgressionData.gd ---
+# res://data/HideoutProgressionData.gd
+class_name HideoutProgressionData
+extends Resource
+
+## The Gold cost for each upgrade. Element 0 is the cost to go from level 1 to 2, etc.
+@export var upgrade_costs: Array[int] = [100, 250]
+## The maximum level the hideout can reach.
+@export var max_level: int = 3
+
 --- SCRIPT: res://Data/MissionSaveState.gd ---
 # res://data/MissionSaveState.gd
 class_name MissionSaveState
@@ -20791,6 +21189,48 @@ func process_physics(delta: float) -> void:
 		# THE FIX: Emit the signal AND immediately change to an inert state.
 		EventBus.player_detected.emit()
 		state_machine.change_state("CaughtState")
+
+--- SCRIPT: res://Interactables/Campfire.gd ---
+# res://Interactables/Campfire/Campfire.gd
+extends StaticBody2D
+
+@onready var _interactable: Interactable = $Interactable
+
+func _ready() -> void:
+	assert(is_instance_valid(_interactable), "Campfire scene must have an Interactable child node.")
+	_interactable.interacted.connect(_on_interacted)
+
+	if OS.is_debug_build():
+		_verify_prompt_cost()
+
+func _on_interacted() -> void:
+	GameManager.try_upgrade_hideout()
+
+func _verify_prompt_cost() -> void:
+	if not is_instance_valid(GameManager.hideout_progression_data):
+		return
+
+	var current_level = GameManager.hideout_level
+	var max_level = GameManager.hideout_progression_data.max_level
+
+	if current_level < max_level:
+		var real_cost: int = GameManager.hideout_progression_data.upgrade_costs[current_level - 1]
+		var prompt_text: String = _interactable.prompt_message
+
+		var regex = RegEx.new()
+		regex.compile("(\\d+)")
+		var result = regex.search(prompt_text)
+
+		if result:
+			var text_cost = int(result.get_string())
+			if text_cost != real_cost:
+				# MODIFIED: Print a clear error and then pause the game.
+				printerr("BREAKPOINT: Campfire UI cost (%d) does not match the actual upgrade cost (%d). Update the prompt text or the variable in GameManager.tscn." % [text_cost, real_cost])
+				
+		else:
+			# MODIFIED: Print a clear error and then pause the game.
+			printerr("BREAKPOINT: Campfire prompt message does not contain a number to verify against the upgrade cost.")
+			
 
 --- SCRIPT: res://Interactables/Chest/Chest.gd ---
 # res://Interactables/Chest/Chest.gd
@@ -20974,68 +21414,50 @@ func update_visibility() -> void:
 		_interactable.monitoring = true
 		_interactable.get_node("CollisionShape2D").set_deferred("disabled", false)
 
---- SCRIPT: res://Levels/Hideout/Hideout.gd ---
-# res://Levels/Hideout.gd
-extends Control
+--- SCRIPT: res://Levels/Hideout.gd ---
+# res://Levels/Hideout/Hideout.gd
+extends Node2D
 
-# We need a reference to our new placeholder scene.
 @export var archer_placeholder_scene: PackedScene
 
-# --- Node References ---
-@onready var gold_label: Label = $ResourceDisplay/PanelContainer/HBoxContainer/GoldLabel
-@onready var villager_label: Label = $ResourceDisplay/PanelContainer/HBoxContainer/VillagerLabel
-@onready var archer_label: Label =$ResourceDisplay/PanelContainer/HBoxContainer/ArcherLabel
-@onready var train_archer_button: Button = $TrainArcherButton
-
-# A reference to the spawn location for our archers.
-@onready var archery_range: Node2D = owner.get_node("ArcheryRange")
+# --- Node References (Corrected Paths from Scene Root) ---
+@onready var gold_label: Label = $CanvasLayer/GUI/ResourceDisplay/PanelContainer/HBoxContainer/GoldLabel
+@onready var villager_label: Label = $CanvasLayer/GUI/ResourceDisplay/PanelContainer/HBoxContainer/VillagerLabel
+@onready var archer_label: Label = $CanvasLayer/GUI/ResourceDisplay/PanelContainer/HBoxContainer/ArcherLabel
+@onready var train_archer_button: Button = $CanvasLayer/GUI/TrainArcherButton
+@onready var archery_range: Node2D = $ArcheryRange
 
 
 func _ready() -> void:
-	# Connect button signals
 	train_archer_button.pressed.connect(_on_train_archer_button_pressed)
-	
-	
-	# Connect to the GameManager's signal to keep visuals and UI in sync.
 	GameManager.resources_updated.connect(update_visuals)
-	
-	# Update everything once at the start to reflect the loaded save data.
 	update_visuals()
 
 
-# This function now handles ALL UI and visual updates for the hideout.
 func update_visuals() -> void:
-	# --- Update UI Labels ---
+	# This function can be called by a signal before _ready() completes.
+	# We wait for the 'ready' signal to ensure all @onready vars are set.
+	if not is_node_ready(): # FIX: Use is_node_ready() for Godot 4.
+		await ready
+
 	gold_label.text = "Gold: " + str(GameManager.gold)
 	villager_label.text = "Villagers: " + str(GameManager.villagers)
 	archer_label.text = "Archers: " + str(GameManager.archers)
 	
-	# --- Update Button State ---
 	train_archer_button.disabled = not (GameManager.gold >= 10 and GameManager.villagers > 0)
 	
-	# --- Update Archer Placeholders ---
-	# First, clear any existing archers to prevent duplicates.
 	for child in archery_range.get_children():
 		child.queue_free()
 		
-	# Second, spawn one placeholder for each archer we have.
 	if archer_placeholder_scene:
 		for i in range(GameManager.archers):
 			var archer = archer_placeholder_scene.instantiate()
-			# Spread them out so they don't spawn on top of each other.
 			archer.position.x = i * 50 
 			archery_range.add_child(archer)
 
 
 func _on_train_archer_button_pressed() -> void:
-	# This button's only job is to request the upgrade.
-	# The GameManager will update the state, which will trigger our 'update_visuals'
-	# function via the 'resources_updated' signal.
 	EventBus.train_archer_requested.emit()
-
-
-func _on_start_mission_button_pressed() -> void:
-	EventBus.start_mission_requested.emit("village_outskirts")
 
 --- SCRIPT: res://Levels/Level.gd ---
 # res://Levels/Level.gd
@@ -21070,58 +21492,66 @@ extends Resource
 @export var vertical_lookahead_speed: float = 4.0 ## The speed at which the camera moves to the lookahead position.
 
 --- SCRIPT: res://Player/Data/PlayerStats.gd ---
+# res://Player/Data/PlayerStats.gd
 class_name PlayerStats
 extends Resource
 
 @export_group("Movement & Physics")
-@export var speed: float = 350.0
-@export var air_control_acceleration: float = 250.0
-@export var terminal_velocity: float = 750.0
-@export var acceleration_smoothness: float = 0.1
-@export var friction_smoothness: float = 0.3
+@export var speed: float = 350.0 ## The player's maximum horizontal running speed.
+@export var air_control_acceleration: float = 250.0 ## How quickly the player can change direction mid-air.
+@export var terminal_velocity: float = 750.0 ## The maximum downward speed when falling.
+@export var acceleration_smoothness: float = 0.1 ## How quickly the player reaches max speed. Lower is faster.
+@export var friction_smoothness: float = 0.3 ## How quickly the player stops. Lower is faster.
+@export var crouch_speed_multiplier: float = 0.5 ## The speed multiplier when crouching.
 
 @export_group("Jumping & Gravity")
-@export var jump_height: float = 120.0
-@export var time_to_apex: float = 0.5
-@export var fall_gravity: float = 2400.0
-@export var jump_cut_multiplier: float = 0.3
+@export var jump_height: float = 120.0 ## The height of a standard jump.
+@export var time_to_apex: float = 0.5 ## The time it takes to reach the peak of a jump.
+@export var fall_gravity: float = 2400.0 ## The gravity applied when falling.
+@export var jump_cut_multiplier: float = 0.3 ## The effect of releasing the jump button early.
 
-@export_group("Abilities")
-@export var glide_velocity: float = 300.0
-@export var blink_dash_enabled: bool = false
-@export var slide_duration: float = 0.4
-@export var standing_slide_speed: float = 375.0
-@export var slide_friction: float = 0.01
-@export var skid_duration: float = 0.25
-@export var skid_friction: float = 0.25
-@export var wall_slip_duration: float = 0.08
-@export var wall_slide_friction: float = 80.0
-@export var crouch_speed_multiplier: float = 0.5
-@export var wall_slide_jump_horizontal_velocity: float = 600.0
-@export var wall_slide_jump_vertical_velocity: float = -600.0
-@export var wall_stick_jump_horizontal_velocity: float = 900.0
-@export var wall_stick_jump_vertical_velocity: float = -400.0
-@export var dash_end_velocity_multiplier: float = 0.3
-@export var invisibility_duration: float = 2.0
-@export var invisibility_cooldown: float = 5.0
-@export var wall_kick_horizontal_velocity: float = 700.0 ## NEW: Horizontal speed of the kick-off.
-@export var wall_kick_vertical_velocity: float = -200.0 ## NEW: Small upward boost during kick-off.
-@export var wall_kick_duration: float = 0.25 ## NEW: How long the kick-off state lasts.
+@export_group("Dash")
+@export var dash_distance: float = 400.0 ## The fixed horizontal distance the dash covers.
+@export var dash_duration: float = 0.25 ## The time it takes to complete the dash.
+@export var dash_freeze_duration: float = 0.08 ## The short pause before the dash begins.
+@export var dash_end_velocity_multiplier: float = 0.3 ## The percentage of dash speed retained after the dash ends.
 
-@export_group("Game Feel & Timers")
-@export var coyote_time_duration: float = 0.2
-@export var wall_coyote_time_duration: float = 0.18
-@export var jump_buffer_duration: float = 0.1
-@export var dash_freeze_duration: float = 0.08
-@export var fall_zoom_delay: float = 0.3
-@export var wall_detach_hang_time: float = 0.2
-@export var wall_detach_gravity_scale: float = 0.5
+@export_group("Slide & Skid")
+@export var slide_duration: float = 0.4 ## How long the slide lasts.
+@export var standing_slide_speed: float = 375.0 ## The initial speed of a slide from a standstill.
+@export var slide_friction: float = 0.01 ## How quickly the slide slows down.
+@export var skid_duration: float = 0.25 ## The duration of the turn-around skid animation.
+@export var skid_friction: float = 0.25 ## How quickly the player stops during a skid.
+
+@export_group("Wall Movement")
+@export var wall_slip_duration: float = 0.08 ## The short pause before sticking to a wall.
+@export var wall_slide_friction: float = 80.0 ## The downward speed when sliding on a wall.
+@export var wall_slide_jump_horizontal_velocity: float = 600.0 ## The horizontal force of a normal wall jump.
+@export var wall_slide_jump_vertical_velocity: float = -600.0 ## The vertical force of a normal wall jump.
+@export var wall_stick_jump_horizontal_velocity: float = 900.0 ## The horizontal force of a jump from a wall stick.
+@export var wall_stick_jump_vertical_velocity: float = -400.0 ## The vertical force of a jump from a wall stick.
+@export var wall_kick_horizontal_velocity: float = 700.0 ## Horizontal speed of the wall kick-off ability.
+@export var wall_kick_vertical_velocity: float = -200.0 ## Small upward boost during a wall kick-off.
+@export var wall_kick_duration: float = 0.25 ## How long the wall kick-off state lasts.
+@export var wall_coyote_time_duration: float = 0.18 ## How long the player can still wall jump after leaving a wall.
+@export var wall_detach_hang_time: float = 0.2 ## A brief moment of reduced gravity after detaching from a wall.
+@export var wall_detach_gravity_scale: float = 0.5 ## The gravity multiplier during a wall detach.
+
+@export_group("Other Abilities")
+@export var glide_velocity: float = 300.0 ## The fixed downward speed while gliding.
+@export var invisibility_duration: float = 2.0 ## How long the invisibility lasts.
+@export var invisibility_cooldown: float = 5.0 ## The cooldown after using invisibility.
+@export var blink_dash_enabled: bool = false ## (Future) Flag to enable a different dash type.
+
+@export_group("Game Feel Timers")
+@export var coyote_time_duration: float = 0.2 ## How long the player can still jump after running off a ledge.
+@export var jump_buffer_duration: float = 0.1 ## How long a jump input is remembered before landing.
+@export var fall_zoom_delay: float = 0.3 ## The time before the camera considers a fall a 'long fall'.
 
 # --- Calculated Values ---
 var jump_velocity: float
 var jump_gravity: float
 var charged_jump_velocity: float
-
 
 func _init() -> void:
 	if time_to_apex > 0:
@@ -22454,18 +22884,24 @@ extends Node
 
 signal resources_updated
 signal checkpoint_set
+signal hideout_upgraded ## NEW: To announce a successful upgrade.
+
+@export var hideout_progression_data: HideoutProgressionData ## NEW: Link to our upgrade costs.
 
 # --- Resource-based State Management ---
 var session_state: MissionSaveState
 var checkpoint_state: MissionSaveState
 
-# --- Player Resources ---
+# --- Player Resources & Progress ---
 var gold: int = 0
 var villagers: int = 0
 var archers: int = 0
+var hideout_level: int = 1
+var wall_kick_unlocked: bool = false
+
+# --- Gameplay State ---
 var is_gameplay_active: bool = true
 var mission_objective_complete: bool = false
-var wall_kick_unlocked: bool = true ## NEW: Set to true to enable the ability for testing.
 
 const SAVE_FILE_PATH = "user://savegame.json"
 
@@ -22480,89 +22916,88 @@ func _ready() -> void:
 	EventBus.pause_toggled.connect(_on_pause_toggled)
 	EventBus.player_died.connect(_on_player_died)
 
-# --- Persistence API ---
+# NEW: The core logic for handling an upgrade attempt.
+func try_upgrade_hideout():
+	assert(is_instance_valid(hideout_progression_data), "HideoutProgressionData resource must be assigned to GameManager!")
+
+	if hideout_level >= hideout_progression_data.max_level:
+		print("DEBUG: Hideout is already at max level.")
+		return
+
+	# Array index is level - 1 (e.g., cost for level 2 is at index 0)
+	var cost = hideout_progression_data.upgrade_costs[hideout_level - 1]
+
+	if gold >= cost:
+		gold -= cost
+		hideout_level += 1
+		print("SUCCESS: Hideout upgraded to level ", hideout_level)
+		hideout_upgraded.emit()
+		save_game()
+	else:
+		print("FAILED: Not enough gold. Need %d, have %d" % [cost, gold])
+
+
+# ... (rest of the script is the same) ...
 func get_persistent_state(object_id: String) -> Dictionary:
 	if session_state and session_state.collected_objects.has(object_id):
 		return session_state.collected_objects[object_id]
-	# FIX: Return an empty dictionary instead of null to match the function's return type.
 	return {}
-
 func set_persistent_state(object_id: String, state: Dictionary) -> void:
 	if session_state:
 		session_state.collected_objects[object_id] = state
-
 func save_checkpoint_data() -> void:
 	if session_state:
 		checkpoint_state = session_state.duplicate(true)
 		DebugManager.log(DebugManager.Category.CHECKPOINT, "Checkpoint data saved.")
-
-# --- Event Handlers ---
 func _on_mission_started() -> void:
 	mission_objective_complete = false
 	session_state = MissionSaveState.new()
 	checkpoint_state = null
-
 func _on_player_died() -> void:
 	if checkpoint_state:
 		session_state = checkpoint_state.duplicate(true)
 		DebugManager.log(DebugManager.Category.GAME_STATE, "Session state restored from checkpoint.")
 	else:
-		# No checkpoint was hit, so start with a fresh state
 		session_state = MissionSaveState.new()
 		DebugManager.log(DebugManager.Category.GAME_STATE, "No checkpoint found. Starting with fresh session state.")
-
 	if not SceneManager.current_scene_key.is_empty():
 		SceneManager.change_scene(SceneManager.current_scene_key)
-
 func set_checkpoint(pos: Vector2) -> void:
 	if session_state:
 		session_state.checkpoint_position = pos
 	EventBus.checkpoint_set.emit(pos)
-
 func _on_gold_collected(amount: int) -> void:
 	gold += amount
-	print("Player received " + str(amount) + " gold. Total gold: " + str(gold))
 	save_game()
-
 func _on_villager_rescued() -> void:
 	villagers += 1
 	mission_objective_complete = true
-	print("Villager rescued! Total villagers: " + str(villagers))
 	save_game()
-
 func _on_train_archer_requested() -> void:
 	if gold >= 10 and villagers > 0:
 		gold -= 10
 		villagers -= 1
 		archers += 1
 		save_game()
-		print("Archer trained!")
-	else:
-		print("Cannot train archer. Not enough resources.")
-
 func _on_mission_objective_completed() -> void:
 	EventBus.mission_succeeded.emit()
-
 func _on_player_detected() -> void:
 	EventBus.mission_failed.emit()
-
 func _on_pause_toggled(is_paused: bool) -> void:
 	get_tree().paused = is_paused
 	is_gameplay_active = not is_paused
-
 func reset_game_data() -> void:
 	gold = 0
 	villagers = 0
 	archers = 0
+	hideout_level = 1
 	if FileAccess.file_exists(SAVE_FILE_PATH):
 		DirAccess.remove_absolute(SAVE_FILE_PATH)
 	resources_updated.emit()
-
 func save_game():
-	var save_data = {"gold": gold, "villagers": villagers, "archers": archers}
+	var save_data = { "gold": gold, "villagers": villagers, "archers": archers, "hideout_level": hideout_level }
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
 	file.store_string(JSON.stringify(save_data))
-
 func load_game():
 	if not FileAccess.file_exists(SAVE_FILE_PATH):
 		return
@@ -22573,6 +23008,7 @@ func load_game():
 		gold = data.get("gold", 0)
 		villagers = data.get("villagers", 0)
 		archers = data.get("archers", 0)
+		hideout_level = data.get("hideout_level", 1)
 		resources_updated.emit()
 
 --- SCRIPT: res://Singletons/InteractionManager.gd ---
@@ -22685,55 +23121,51 @@ func _ready() -> void:
 		else:
 			printerr("SceneManager: Invalid entry in scene_entries array.")
 
-	EventBus.new_game_requested.connect(func(): change_scene("hideout"))
-	EventBus.continue_game_requested.connect(func(): change_scene("hideout"))
-	EventBus.return_to_hideout_requested.connect(func(): change_scene("hideout"))
+	# MODIFIED: All hideout requests now go through our new helper function.
+	EventBus.new_game_requested.connect(_load_hideout_scene)
+	EventBus.continue_game_requested.connect(_load_hideout_scene)
+	EventBus.return_to_hideout_requested.connect(_load_hideout_scene)
+	
 	EventBus.start_mission_requested.connect(func(mission_key): change_scene(mission_key))
 
 
+# NEW: This function builds the scene key and calls change_scene.
+func _load_hideout_scene() -> void:
+	var hideout_key = "hideout_" + str(GameManager.hideout_level)
+	change_scene(hideout_key)
+
+
 func change_scene(scene_key: String) -> void:
+	# ... (rest of the script is the same) ...
 	current_scene_key = scene_key
-
 	DebugManager.log(DebugManager.Category.GAME_STATE, "Changing scene to: '%s'" % scene_key)
-
 	var ui_to_close = UIManager.close_current_ui()
 	if is_instance_valid(ui_to_close):
 		await ui_to_close.tree_exited
-
 	animation_player.play("fade_to_black")
 	await animation_player.animation_finished
-
 	var scene_to_load: PackedScene = _scene_map[scene_key]
 	get_tree().change_scene_to_packed(scene_to_load)
-
 	await get_tree().process_frame
-
 	_spawn_player()
-
 	animation_player.play("fade_from_black")
-
 
 func _spawn_player() -> void:
 	if not player_scene:
 		printerr("SceneManager Error: player_scene not set in Inspector!")
 		return
-
 	var current_scene = get_tree().current_scene
 	var spawn_point_node = current_scene.find_child("PlayerSpawnPoint", true, false)
-
 	if not is_instance_valid(spawn_point_node):
 		printerr("SceneManager Error: No PlayerSpawnPoint found in scene '", current_scene.name, "'")
 		return
-
 	var spawn_position: Vector2
-	# Prioritize the checkpoint over the default spawn point by checking the resource.
 	if GameManager.session_state and GameManager.session_state.checkpoint_position != Vector2.ZERO:
 		spawn_position = GameManager.session_state.checkpoint_position
 		DebugManager.log(DebugManager.Category.GAME_STATE, "Spawning player at checkpoint: " + str(spawn_position))
 	else:
 		spawn_position = spawn_point_node.global_position
 		DebugManager.log(DebugManager.Category.GAME_STATE, "Spawning player at default spawn point: " + str(spawn_position))
-
 	var player_instance = player_scene.instantiate()
 	player_instance.global_position = spawn_position
 	current_scene.add_child(player_instance)

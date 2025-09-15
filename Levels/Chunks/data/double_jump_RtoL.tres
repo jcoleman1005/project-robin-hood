@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ChunkData" load_steps=3 format=3 uid="uid://caihikr0a4vne"]
+
+[ext_resource type="Script" uid="uid://bb2qf5dmw57be" path="res://Levels/Chunks/ChunkData.gd" id="1_3f25i"]
+[ext_resource type="PackedScene" uid="uid://dig8oxqlso11x" path="res://Levels/Chunks/scenes/double_jump_bridge_RtoL.tscn" id="1_edou7"]
+
+[resource]
+script = ExtResource("1_3f25i")
+chunk_scene = ExtResource("1_edou7")
+category = 6
+difficulty = 1
+entry_tag = "floor_right"
+exit_tag = "floor_left"
+requires_double_jump = true
+requires_dash = false
+requires_wall_kick = false
+metadata/_custom_type_script = "uid://bb2qf5dmw57be"

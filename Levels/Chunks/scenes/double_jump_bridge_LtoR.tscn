@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=4 uid="uid://fjul2d38j3hd"]
+
+[ext_resource type="TileSet" uid="uid://dda5r1q7pyjvg" path="res://Levels/Tilesets/PrototypeTileset.tres" id="1_wp7c0"]
+
+[node name="double_jump_bridge_RtoL" type="Node2D"]
+
+[node name="entry" type="Marker2D" parent="."]
+
+[node name="exit" type="Marker2D" parent="."]
+position = Vector2(448, -64)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAAAAAAAAACAAEAAAAAAAEAAAACAAEAAAAAAAIAAAACAAEAAAAYAPz/AAACAAEAAAAYAP3/AAACAAEAAAAYAP7/AAACAAEAAAAYAP//AAACAAEAAAAZAPz/AAACAAEAAAAZAP3/AAACAAEAAAAZAP7/AAACAAEAAAAZAP//AAACAAEAAAAaAPz/AAACAAEAAAAaAP3/AAACAAEAAAAaAP7/AAACAAEAAAAaAP//AAACAAEAAAAbAPz/AAACAAEAAAAbAP3/AAACAAEAAAAbAP7/AAACAAEAAAAbAP//AAACAAEAAAAXAPz/AAABAAEAAAAXAP3/AAABAAEAAAAXAP7/AAABAAEAAAAXAP//AAABAAEAAAAWAP//AAABAAEAAAAWAP7/AAABAAEAAAAWAP3/AAABAAEAAAAWAPz/AAABAAEAAAA=")
+tile_set = ExtResource("1_wp7c0")

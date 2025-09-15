@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ck7t17mixid8s"]
+
+[ext_resource type="Script" uid="uid://cl3ed82hequh3" path="res://LevelGenerator.gd" id="1_uwi1s"]
+
+[node name="LevelGenerator" type="Node2D"]
+script = ExtResource("1_uwi1s")
+min_length = null
+max_length = null
+stealth_chunk_chance = 0.0
