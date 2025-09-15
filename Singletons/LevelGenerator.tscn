@@ -1,9 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://ck7t17mixid8s"]
+[gd_scene load_steps=4 format=3 uid="uid://ck7t17mixid8s"]
 
 [ext_resource type="Script" uid="uid://cl3ed82hequh3" path="res://LevelGenerator.gd" id="1_uwi1s"]
+[ext_resource type="PackedScene" uid="uid://x8baprwvbfbf" path="res://Levels/CameraBoundary.tscn" id="2_5dlr4"]
+[ext_resource type="PackedScene" uid="uid://wqts8wxwj0uc" path="res://World/KillZone.tscn" id="3_s27av"]
 
 [node name="LevelGenerator" type="Node2D"]
 script = ExtResource("1_uwi1s")
-min_length = null
-max_length = null
 stealth_chunk_chance = 0.0
+camera_boundary_scene = ExtResource("2_5dlr4")
+kill_zone_scene = ExtResource("3_s27av")

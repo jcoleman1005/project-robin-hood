@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Project Robin Hood"
-run/main_scene="uid://03n1pw5xok1b"
+run/main_scene="uid://c8yq465fd8xvt"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 

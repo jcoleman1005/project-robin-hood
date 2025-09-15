@@ -1,10 +1,9 @@
-[gd_scene load_steps=17 format=4 uid="uid://mel3m8hxjkn7"]
+[gd_scene load_steps=16 format=4 uid="uid://mel3m8hxjkn7"]
 
-[ext_resource type="Script" uid="uid://bwokaw21xgehg" path="res://Levels/Hideout/Hideout.gd" id="1_8oxr4"]
+[ext_resource type="Script" uid="uid://xdwlsxhjilvc" path="res://Levels/Hideout.gd" id="1_8oxr4"]
 [ext_resource type="Texture2D" uid="uid://bo5n6li5cftnt" path="res://assets/Backgrounds/Background/CloudsBack.png" id="1_sawwb"]
 [ext_resource type="Texture2D" uid="uid://0od24pieen6v" path="res://assets/Backgrounds/Background/CloudsFront.png" id="2_df04x"]
 [ext_resource type="Texture2D" uid="uid://28jg10505cuy" path="res://assets/Backgrounds/Background/BGBack.png" id="3_5ig2o"]
-[ext_resource type="PackedScene" uid="uid://dvmt8xfeyo1mq" path="res://Interactables/ArcherPlaceholder.tscn" id="3_ritec"]
 [ext_resource type="Texture2D" uid="uid://cg4hlay7ifynb" path="res://assets/Tilesets/Tileset3.png" id="3_udjjl"]
 [ext_resource type="Texture2D" uid="uid://bxjdpqxly44ls" path="res://assets/Backgrounds/Background/BGFront.png" id="4_47xqt"]
 [ext_resource type="PackedScene" uid="uid://gyisqiqdj8h6" path="res://UserInterface/DialogueBox.tscn" id="5_gfc8j"]
@@ -480,6 +479,7 @@ size = Vector2(1155, 529)
 
 [node name="Hideout" type="Node2D"]
 position = Vector2(56, -17)
+script = ExtResource("1_8oxr4")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 scale = Vector2(1.2, 1.2)
@@ -539,8 +539,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("5_mtroj")
-script = ExtResource("1_8oxr4")
-archer_placeholder_scene = ExtResource("3_ritec")
 
 [node name="ResourceDisplay" type="MarginContainer" parent="CanvasLayer/GUI"]
 layout_mode = 1

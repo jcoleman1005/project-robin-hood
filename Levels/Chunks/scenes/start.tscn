@@ -12,3 +12,6 @@ position = Vector2(48, 0)
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAAAAAAAAAABAAEAAAAAAAEAAAABAAEAAAAAAAIAAAABAAEAAAABAAAAAAABAAEAAAABAAEAAAABAAEAAAACAAAAAAABAAEAAAACAAEAAAABAAEAAAABAAIAAAABAAEAAAACAAIAAAABAAEAAAA=")
 tile_set = ExtResource("1_o4kse")
+
+[node name="PlayerSpawnPoint" type="Marker2D" parent="."]
+position = Vector2(24, -9)

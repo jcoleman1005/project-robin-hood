@@ -8,11 +8,11 @@ func _ready() -> void:
 
 func _on_area_entered(area: Area2D) -> void:
 	if area is Interactable:
-		print("DEBUG: Player - Entered area of: ", area.get_parent().name)
+		DebugManager.print_interaction_log("Entered area of: " + area.get_parent().name)
 		InteractionManager.register_interactable(area)
 
 
 func _on_area_exited(area: Area2D) -> void:
 	if area is Interactable:
-		print("DEBUG: Player - Exited area of: ", area.get_parent().name)
+		DebugManager.print_interaction_log("Exited area of: " + area.get_parent().name)
 		InteractionManager.unregister_interactable(area)

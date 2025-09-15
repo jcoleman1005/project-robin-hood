@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bw83jfe4rforx"]
+
+[ext_resource type="Script" uid="uid://c2aukp3qmqc1e" path="res://GeneratedLevelHost.gd" id="1_cpeu1"]
+
+[node name="GeneratedLevelHost" type="Node2D"]
+script = ExtResource("1_cpeu1")

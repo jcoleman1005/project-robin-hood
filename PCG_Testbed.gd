@@ -12,6 +12,6 @@ func _on_button_pressed() -> void:
 	if is_instance_valid(_generated_level):
 		_generated_level.queue_free()
 		
-	# Generate a new level and add it to the scene.
-	_generated_level = LevelGenerator.generate_level()
+	# FIX: Add 'await' because generate_level() is now a coroutine.
+	_generated_level = await LevelGenerator.generate_level()
 	add_child(_generated_level)
