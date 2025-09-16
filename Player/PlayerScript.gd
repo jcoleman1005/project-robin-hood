@@ -5,22 +5,17 @@ extends CharacterBody2D
 @export_group("VFX")
 @export var dash_start_vfx: VFXData
 
+# ... (enum, signals, constants, etc. are the same) ...
 enum States {IDLE, RUNNING, JUMPING, FALLING, GLIDING, ON_WALL, WALL_STICKING, DASHING, UNSTICKING, CROUCHING, LANDING, DASH_PREPARE, WALL_SLIP, SKIDDING, SLIDING, WALL_DETACH, WALL_KICK}
-
 signal long_fall_started
 signal long_fall_ended
 signal gliding_started
 signal gliding_ended
-
 const MAX_JUMPS = 2
-const DASH_SPEED = 1500.0
-const DASH_DURATION = 0.15
-const DASH_COOLDOWN = 0.5
 const WALL_STICK_DURATION = 2.0
 const JUMP_CHARGE_DURATION = 1.0
 const LANDING_DURATION = 0.15
 const COMBO_STATES: Array[String] = ["Jumping", "OnWall", "Dashing", "Sliding"]
-
 var current_jumps = 0
 var can_dash: bool = true
 var can_wall_stick: bool = true
@@ -33,7 +28,6 @@ var can_go_invisible: bool = true
 var last_wall_normal: Vector2
 var _combo_chain: Array[String] = []
 var _interact_held: bool = false
-
 @onready var state_machine = $StateMachine
 @onready var dash_timer = $Timers/DashTimer
 @onready var dash_cooldown_timer = $Timers/DashCooldownTimer
@@ -68,6 +62,7 @@ var _interact_held: bool = false
 @onready var dash_particles: GPUParticles2D = $DashParticles
 @onready var wall_kick_timer = $Timers/WallKickTimer
 
+# ... (_ready, _process, _physics_process are the same) ...
 func _ready():
 	assert(is_instance_valid(stats), "PlayerStats resource must be assigned to the Player in the Inspector!")
 	wall_kick_timer.timeout.connect(_on_wall_kick_timer_timeout)
@@ -92,34 +87,47 @@ func _ready():
 	combo_reset_timer.timeout.connect(_on_combo_reset_timer_timeout)
 	state_machine.state_changed.connect(_on_state_changed)
 	state_machine.call_deferred("initialize")
-
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("pause"):
 		EventBus.pause_menu_requested.emit()
-
 func _physics_process(_delta: float):
 	if not GameManager.is_gameplay_active:
 		return
 	if not is_instance_valid(stats):
 		return
-
 	velocity.y = min(velocity.y, stats.terminal_velocity)
 	_handle_global_inputs()
 	move_and_slide()
 
+
+func _on_dash_freeze_timer_timeout():
+	state_machine.change_state("Dashing")
+	var dash_direction = Vector2(1 if not animated_sprite.flip_h else -1, 0)
+
+	if is_instance_valid(dash_start_vfx):
+		vfx.play_effect(dash_start_vfx)
+
+	vfx.play_dash_effects(dash_particles)
+	
+	assert(stats.dash_duration > 0, "Dash Duration in PlayerStats cannot be zero.")
+	var dash_speed = stats.dash_distance / stats.dash_duration
+	
+	velocity.x = dash_direction.x * dash_speed
+	velocity.y = 0
+	dash_timer.start(stats.dash_duration)
+
+# ... (many functions are the same) ...
 func _handle_global_inputs():
 	if Input.is_action_just_pressed("dash") and can_dash:
 		state_machine.change_state("DashPrepare")
 	if Input.is_action_just_pressed("invisibility") and can_go_invisible:
 		_enter_invisibility()
-
 func enter_jump_state():
 	coyote_timer.stop()
 	fall_zoom_timer.stop()
 	set_standing_collision()
 	velocity.y = stats.jump_velocity
 	current_jumps += 1
-
 func wall_jump(wall_normal_override: Vector2 = Vector2.ZERO):
 	wall_stick_timer.stop()
 	wall_coyote_timer.stop()
@@ -132,100 +140,67 @@ func wall_jump(wall_normal_override: Vector2 = Vector2.ZERO):
 		velocity.x = wall_normal.x * stats.wall_slide_jump_horizontal_velocity
 	can_wall_stick = true
 	current_jumps = 1
-
 func _start_wall_coyote_time():
 	last_wall_normal = get_wall_normal()
 	wall_coyote_timer.start(stats.wall_coyote_time_duration)
 	wall_detach_timer.start(stats.wall_detach_hang_time)
 	can_wall_stick = true
 	fall_zoom_timer.start(stats.fall_zoom_delay)
-
 func is_head_clear() -> bool:
 	return not head_clearance_ray.is_colliding()
-
 func set_standing_collision():
 	standing_collision.disabled = false
 	crouching_collision.disabled = true
 	wall_slide_collision.disabled = true
-
 func set_crouching_collision():
 	standing_collision.disabled = true
 	crouching_collision.disabled = false
 	wall_slide_collision.disabled = true
-
 func set_wall_slide_collision():
 	standing_collision.disabled = true
 	crouching_collision.disabled = true
 	wall_slide_collision.disabled = false
-
 func _enter_invisibility():
 	is_invisible = true
 	can_go_invisible = false
 	invisibility_timer.start(stats.invisibility_duration)
 	invisibility_cooldown_timer.start(stats.invisibility_cooldown)
 	animated_sprite.modulate.a = 0.5
-
 func _on_dash_timer_timeout():
 	end_dash()
 	state_machine.change_state("Falling")
-
 func _on_dash_cooldown_timer_timeout():
 	can_dash = true
-
 func _on_wall_stick_timer_timeout():
 	if state_machine.current_state.name == "WallStickingState":
 		state_machine.change_state("OnWall")
-
 func _on_crouch_timer_timeout():
 	is_jump_charged = true
-
 func _on_coyote_timer_timeout():
 	if current_jumps == 0:
 		current_jumps = 1
-
 func _on_jump_buffer_timer_timeout():
 	jump_buffered = false
-
-func _on_dash_freeze_timer_timeout():
-	state_machine.change_state("Dashing")
-	var dash_direction = Vector2(1 if not animated_sprite.flip_h else -1, 0)
-
-	if is_instance_valid(dash_start_vfx):
-		vfx.play_effect(dash_start_vfx)
-
-	vfx.play_dash_effects(dash_particles)
-
-	velocity.x = dash_direction.x * DASH_SPEED
-	velocity.y = 0
-	dash_timer.start(DASH_DURATION)
-
 func _on_invisibility_timer_timeout():
 	is_invisible = false
 	animated_sprite.modulate.a = 1.0
-
 func _on_invisibility_cooldown_timer_timeout():
 	can_go_invisible = true
-
 func _on_land_timer_timeout():
 	if state_machine.current_state.name == "LandingState":
 		state_machine.change_state("Idle")
-
 func _on_fall_zoom_timer_timeout():
 	if not is_on_floor():
 		is_long_fall = true
 		long_fall_started.emit()
-
 func _on_wall_slip_timer_timeout():
 	if state_machine.current_state.name == "WallSlipState":
 		state_machine.change_state("WallSticking")
-
 func _on_skid_timer_timeout():
 	if state_machine.current_state.name == "SkiddingState":
 		state_machine.change_state("Running")
-
 func _on_wall_coyote_timer_timeout():
 	pass
-
 func _on_slide_timer_timeout():
 	if state_machine.current_state.name == "SlidingState":
 		if is_head_clear():
@@ -235,27 +210,24 @@ func _on_slide_timer_timeout():
 				state_machine.change_state("Idle")
 		else:
 			state_machine.change_state("Crouching")
-
 func _on_standing_slide_cooldown_timer_timeout():
 	can_standing_slide = true
-
 func _on_wall_detach_timer_timeout():
 	if state_machine.current_state.name == "WallDetachState":
 		state_machine.change_state("Falling")
-
 func _unhandled_input(event: InputEvent) -> void:
 	if not GameManager.is_gameplay_active: return
 	if event.is_action_pressed("interact_world"):
 		EventBus.interaction_started.emit()
 	elif event.is_action_released("interact_world"):
 		EventBus.interaction_cancelled.emit()
-
 func end_dash() -> void:
 	if state_machine.current_state.name != "DashingState":
 		return
 	vfx.stop_dash_effects(dash_particles)
-	dash_cooldown_timer.start(DASH_COOLDOWN)
-
+	# TODO: Add dash_cooldown to PlayerStats resource
+	var dash_cooldown = 0.5
+	dash_cooldown_timer.start(dash_cooldown)
 func _on_state_changed(new_state_name: String) -> void:
 	if new_state_name in COMBO_STATES:
 		combo_reset_timer.stop()
@@ -267,20 +239,17 @@ func _on_state_changed(new_state_name: String) -> void:
 func _add_move_to_combo(move_name: String) -> void:
 	combo_timer.start(1.0)
 	_combo_chain.append(move_name)
-
-	if DebugManager.show_combo_logs:
-		print("Combo Chain: ", _combo_chain)
+	
+	Loggie.info(str("Combo Chain: ", _combo_chain), "combo")
 
 	if _combo_chain.size() >= 3:
 		EventBus.flow_combo_success.emit()
-		if DebugManager.show_combo_logs:
-			print("--- FLOW COMBO SUCCESS! ---")
+		Loggie.info("--- FLOW COMBO SUCCESS! ---", "combo")
 
 func _reset_combo() -> void:
 	if not _combo_chain.is_empty():
 		_combo_chain.clear()
-		if DebugManager.show_combo_logs:
-			print("Combo Reset.")
+		Loggie.info("Combo Reset.", "combo")
 
 func _on_combo_timer_timeout() -> void:
 	_reset_combo()
@@ -293,6 +262,6 @@ func get_current_state_name() -> String:
 		return state_machine.current_state.name
 	return ""
 	
-func _on_wall_kick_timer_timeout() -> void: # ADD THIS ENTIRE FUNCTION
+func _on_wall_kick_timer_timeout() -> void:
 	if state_machine.current_state.name == "WallKickState":
 		state_machine.change_state("Falling")
