@@ -21,10 +21,10 @@ func initialize():
 func change_state(state_name: String):
 	var new_state_node_name = state_name + "State"
 
-	if current_state.name == new_state_node_name:
+	if current_state and current_state.name == new_state_node_name:
 		return
 	
-	DebugManager.print_player_state_log("Changing state from '%s' to '%s'" % [current_state.name, new_state_node_name])
+	Loggie.info("Changing state from '%s' to '%s'" % [current_state.name if current_state else "null", new_state_node_name], "player_state")
 	
 	if current_state:
 		current_state.exit()
@@ -35,7 +35,7 @@ func change_state(state_name: String):
 		current_state.enter()
 		state_changed.emit(state_name)
 	else:
-		printerr("State '" + new_state_node_name + "' not found in StateMachine.")
+		Loggie.error("State '" + new_state_node_name + "' not found in StateMachine.", "player_state")
 
 func _input(event: InputEvent):
 	if current_state:

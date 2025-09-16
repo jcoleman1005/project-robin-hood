@@ -26,7 +26,7 @@ func _process(delta: float) -> void:
 		
 		if _hold_progress >= duration:
 			var object_name = _current_interactable.get_parent().name
-			DebugManager.print_interaction_log("Interaction SUCCEEDED for '%s'." % object_name)
+			Loggie.info("Interaction SUCCEEDED for '%s'." % object_name, "interaction")
 			_current_interactable.perform_interaction()
 			EventBus.interaction_succeeded.emit()
 			_reset_hold_state()
@@ -39,11 +39,11 @@ func clear_interactable() -> void:
 func register_interactable(interactable: Interactable) -> void:
 	_current_interactable = interactable
 	show_prompt.emit(_current_interactable)
-	DebugManager.print_interaction_log("Registered '%s' as current interactable." % interactable.get_parent().name)
+	Loggie.info("Registered '%s' as current interactable." % interactable.get_parent().name, "interaction")
 
 func unregister_interactable(interactable: Interactable) -> void:
 	if _current_interactable == interactable:
-		DebugManager.print_interaction_log("Unregistered '%s'." % interactable.get_parent().name)
+		Loggie.info("Unregistered '%s'." % interactable.get_parent().name, "interaction")
 		_current_interactable = null
 		_reset_hold_state()
 		hide_prompt.emit()
@@ -51,11 +51,11 @@ func unregister_interactable(interactable: Interactable) -> void:
 func _on_interaction_started() -> void:
 	if is_instance_valid(_current_interactable):
 		_is_holding = true
-		DebugManager.print_interaction_log("Interaction hold STARTED.")
+		Loggie.info("Interaction hold STARTED.", "interaction")
 
 func _on_interaction_cancelled() -> void:
 	if _is_holding:
-		DebugManager.print_interaction_log("Interaction hold CANCELLED.")
+		Loggie.info("Interaction hold CANCELLED.", "interaction")
 	_reset_hold_state()
 
 func _reset_hold_state() -> void:

@@ -7,5 +7,5 @@ func _ready() -> void:
 
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
-		DebugManager.print_game_state_log("Player entered KillZone. Emitting player_died signal.")
+		Loggie.info("Player entered KillZone. Emitting player_died signal.", "game_state")
 		EventBus.player_died.emit()

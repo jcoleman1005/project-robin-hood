@@ -20,4 +20,4 @@ func _on_body_entered(body: Node) -> void:
 		checkpoint_activated.emit(respawn_pos)
 		GameManager.set_checkpoint(respawn_pos)
 		GameManager.save_checkpoint_data()
-		DebugManager.print_checkpoint_log("Checkpoint activated. Respawn at: " + str(respawn_pos))
+		Loggie.info("Checkpoint activated. Respawn at: " + str(respawn_pos), "checkpoint")

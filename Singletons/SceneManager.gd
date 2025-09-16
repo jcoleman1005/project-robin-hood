@@ -14,7 +14,7 @@ func _ready() -> void:
 		if entry and entry.scene and not entry.key.is_empty():
 			_scene_map[entry.key] = entry.scene
 		else:
-			printerr("SceneManager: Invalid entry in scene_entries array.")
+			Loggie.error("SceneManager: Invalid entry in scene_entries array.", "setup")
 
 	EventBus.new_game_requested.connect(_load_hideout_scene)
 	EventBus.continue_game_requested.connect(_load_hideout_scene)
@@ -29,7 +29,7 @@ func _load_hideout_scene() -> void:
 
 func change_scene(scene_key: String) -> void:
 	current_scene_key = scene_key
-	DebugManager.print_game_state_log("Changing scene to: '%s'" % scene_key)
+	Loggie.info("Changing scene to: '%s'" % scene_key, "game_state")
 	
 	var ui_to_close = UIManager.close_current_ui()
 	if is_instance_valid(ui_to_close):
@@ -54,24 +54,23 @@ func change_scene(scene_key: String) -> void:
 
 func _spawn_player() -> void:
 	if not player_scene:
-		printerr("SceneManager Error: player_scene not set in Inspector!")
+		Loggie.error("SceneManager Error: player_scene not set in Inspector!", "setup")
 		return
 
 	var current_scene = get_tree().current_scene
-	DebugManager.print_scene_children(current_scene)
 	
 	var spawn_point_node = current_scene.find_child("PlayerSpawnPoint", true, false)
 	if not is_instance_valid(spawn_point_node):
-		printerr("SceneManager Error: No PlayerSpawnPoint found in scene '", current_scene.name, "'")
+		Loggie.error("SceneManager Error: No PlayerSpawnPoint found in scene '%s'" % current_scene.name, "level")
 		return
 		
 	var spawn_position: Vector2
 	if GameManager.session_state and GameManager.session_state.checkpoint_position != Vector2.ZERO:
 		spawn_position = GameManager.session_state.checkpoint_position
-		DebugManager.print_game_state_log("Spawning player at checkpoint: " + str(spawn_position))
+		Loggie.info("Spawning player at checkpoint: " + str(spawn_position), "game_state")
 	else:
 		spawn_position = spawn_point_node.global_position
-		DebugManager.print_game_state_log("Spawning player at default spawn point: " + str(spawn_position))
+		Loggie.info("Spawning player at default spawn point: " + str(spawn_position), "game_state")
 		
 	var player_instance = player_scene.instantiate()
 	player_instance.global_position = spawn_position
