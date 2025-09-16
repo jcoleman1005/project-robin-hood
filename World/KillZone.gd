@@ -7,6 +7,5 @@ func _ready() -> void:
 
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
-		# This log will confirm our collision is working.
-		DebugManager.log(DebugManager.Category.GAME_STATE, "Player entered KillZone. Emitting player_died signal.")
+		Loggie.info("Player entered KillZone. Emitting player_died signal.", "game_state")
 		EventBus.player_died.emit()
