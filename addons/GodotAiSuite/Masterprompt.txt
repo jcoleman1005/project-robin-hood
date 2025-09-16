@@ -38,7 +38,6 @@ GameManager="*res://Singletons/game_manager.tscn"
 InteractionManager="*res://Singletons/InteractionManager.gd"
 UIManager="*res://UserInterface/UIManager.gd"
 SceneManager="*res://Singletons/SceneManager.tscn"
-DebugManager="*res://Singletons/DebugManager.gd"
 Loggie="*res://addons/loggie/loggie.gd"
 
 [display]
@@ -311,6 +310,258 @@ upgrade_costs = Array[int]([10, 250])
 max_level = 3
 metadata/_custom_type_script = "uid://cisjnutxkesm1"
 
+--- RESOURCE: res://Levels/Chunks/data/dash_basic_LtoR.tres ---
+[gd_resource type="Resource" script_class="ChunkData" load_steps=3 format=3 uid="uid://bxsypuxuvfb0k"]
+
+[ext_resource type="PackedScene" uid="uid://dgixa40r8x0lk" path="res://Levels/Chunks/scenes/dash_basic_LtoR.tscn" id="1_jxm84"]
+[ext_resource type="Script" uid="uid://bb2qf5dmw57be" path="res://Levels/Chunks/ChunkData.gd" id="1_qr7np"]
+
+[resource]
+script = ExtResource("1_qr7np")
+chunk_scene = ExtResource("1_jxm84")
+category = 2
+difficulty = 1
+entry_tag = &"floor_left"
+exit_tag = &"floor_right"
+requires_double_jump = false
+requires_dash = true
+requires_wall_kick = false
+metadata/_custom_type_script = "uid://bb2qf5dmw57be"
+
+--- RESOURCE: res://Levels/Chunks/data/dash_basic_RtoL.tres ---
+[gd_resource type="Resource" script_class="ChunkData" load_steps=3 format=3 uid="uid://owh3khm7hqbh"]
+
+[ext_resource type="PackedScene" uid="uid://b5bxqhwvfthvj" path="res://Levels/Chunks/scenes/dash_basic_RtoL.tscn" id="1_on88x"]
+[ext_resource type="Script" uid="uid://bb2qf5dmw57be" path="res://Levels/Chunks/ChunkData.gd" id="2_1kpef"]
+
+[resource]
+script = ExtResource("2_1kpef")
+chunk_scene = ExtResource("1_on88x")
+category = 2
+difficulty = 1
+entry_tag = "floor_right"
+exit_tag = "floor_left"
+requires_double_jump = false
+requires_dash = true
+requires_wall_kick = false
+metadata/_custom_type_script = "uid://bb2qf5dmw57be"
+
+--- RESOURCE: res://Levels/Chunks/data/dash_ceiling_LtoR.tres ---
+[gd_resource type="Resource" script_class="ChunkData" load_steps=3 format=3 uid="uid://br0fmx0q1oeh"]
+
+[ext_resource type="Script" uid="uid://bb2qf5dmw57be" path="res://Levels/Chunks/ChunkData.gd" id="1_rvyl4"]
+[ext_resource type="PackedScene" uid="uid://38qc7iiaj63g" path="res://Levels/Chunks/scenes/dash_ceiling.tscn" id="1_ylyjl"]
+
+[resource]
+script = ExtResource("1_rvyl4")
+chunk_scene = ExtResource("1_ylyjl")
+category = 2
+difficulty = 1
+entry_tag = &"floor_left"
+exit_tag = &"floor_right"
+requires_double_jump = false
+requires_dash = true
+requires_wall_kick = false
+metadata/_custom_type_script = "uid://bb2qf5dmw57be"
+
+--- RESOURCE: res://Levels/Chunks/data/dash_ceiling_RtoL.tres ---
+[gd_resource type="Resource" script_class="ChunkData" load_steps=3 format=3 uid="uid://beka47yem0gim"]
+
+[ext_resource type="Script" uid="uid://bb2qf5dmw57be" path="res://Levels/Chunks/ChunkData.gd" id="1_fnkdu"]
+[ext_resource type="PackedScene" uid="uid://ceh60uq25weu4" path="res://Levels/Chunks/scenes/dash_ceiling_RtoL.tscn" id="1_svoyb"]
+
+[resource]
+script = ExtResource("1_fnkdu")
+chunk_scene = ExtResource("1_svoyb")
+category = 2
+difficulty = 1
+entry_tag = "floor_right"
+exit_tag = "floor_left"
+requires_double_jump = false
+requires_dash = true
+requires_wall_kick = false
+metadata/_custom_type_script = "uid://bb2qf5dmw57be"
+
+--- RESOURCE: res://Levels/Chunks/data/double_jump_LtoR.tres ---
+[gd_resource type="Resource" script_class="ChunkData" load_steps=3 format=3 uid="uid://bfpy4141arj8y"]
+
+[ext_resource type="Script" uid="uid://bb2qf5dmw57be" path="res://Levels/Chunks/ChunkData.gd" id="1_088tl"]
+[ext_resource type="PackedScene" uid="uid://fjul2d38j3hd" path="res://Levels/Chunks/scenes/double_jump_bridge_LtoR.tscn" id="1_w4v6d"]
+
+[resource]
+script = ExtResource("1_088tl")
+chunk_scene = ExtResource("1_w4v6d")
+category = 6
+difficulty = 1
+entry_tag = "floor_left"
+exit_tag = "floor_right"
+requires_double_jump = true
+requires_dash = false
+requires_wall_kick = false
+metadata/_custom_type_script = "uid://bb2qf5dmw57be"
+
+--- RESOURCE: res://Levels/Chunks/data/double_jump_RtoL.tres ---
+[gd_resource type="Resource" script_class="ChunkData" load_steps=3 format=3 uid="uid://caihikr0a4vne"]
+
+[ext_resource type="Script" uid="uid://bb2qf5dmw57be" path="res://Levels/Chunks/ChunkData.gd" id="1_3f25i"]
+[ext_resource type="PackedScene" uid="uid://dig8oxqlso11x" path="res://Levels/Chunks/scenes/double_jump_bridge_RtoL.tscn" id="1_edou7"]
+
+[resource]
+script = ExtResource("1_3f25i")
+chunk_scene = ExtResource("1_edou7")
+category = 6
+difficulty = 1
+entry_tag = "floor_right"
+exit_tag = "floor_left"
+requires_double_jump = true
+requires_dash = false
+requires_wall_kick = false
+metadata/_custom_type_script = "uid://bb2qf5dmw57be"
+
+--- RESOURCE: res://Levels/Chunks/data/objective_simple.tres ---
+[gd_resource type="Resource" script_class="ChunkData" load_steps=3 format=3 uid="uid://yx7otclrmoko"]
+
+[ext_resource type="Script" uid="uid://bb2qf5dmw57be" path="res://Levels/Chunks/ChunkData.gd" id="1_00qg1"]
+[ext_resource type="PackedScene" uid="uid://ncd2or17hbfa" path="res://Levels/Chunks/scenes/objective_simple.tscn" id="1_ujc20"]
+
+[resource]
+script = ExtResource("1_00qg1")
+chunk_scene = ExtResource("1_ujc20")
+category = 1
+difficulty = 1
+entry_tag = "floor_left"
+exit_tag = "none"
+requires_double_jump = false
+requires_dash = false
+requires_wall_kick = false
+metadata/_custom_type_script = "uid://bb2qf5dmw57be"
+
+--- RESOURCE: res://Levels/Chunks/data/rhythm_bridge_long_LtoR.tres ---
+[gd_resource type="Resource" script_class="ChunkData" load_steps=3 format=3 uid="uid://duvw47d5p014y"]
+
+[ext_resource type="PackedScene" uid="uid://ctsuws0r66f6f" path="res://Levels/Chunks/scenes/rhythm_bridge_long.tscn" id="1_1v1wn"]
+[ext_resource type="Script" uid="uid://bb2qf5dmw57be" path="res://Levels/Chunks/ChunkData.gd" id="2_scjyn"]
+
+[resource]
+script = ExtResource("2_scjyn")
+chunk_scene = ExtResource("1_1v1wn")
+category = 2
+difficulty = 1
+entry_tag = "floor_left"
+exit_tag = "floor_right"
+requires_double_jump = false
+requires_dash = false
+requires_wall_kick = false
+metadata/_custom_type_script = "uid://bb2qf5dmw57be"
+
+--- RESOURCE: res://Levels/Chunks/data/rhythm_bridge_long_RtoL.tres ---
+[gd_resource type="Resource" script_class="ChunkData" load_steps=3 format=3 uid="uid://dd6jsemsv4cte"]
+
+[ext_resource type="PackedScene" uid="uid://ddoy3mwstmx28" path="res://Levels/Chunks/scenes/rhythm_bridge_long_RtoL.tscn" id="1_8u8ag"]
+[ext_resource type="Script" uid="uid://bb2qf5dmw57be" path="res://Levels/Chunks/ChunkData.gd" id="2_qehjd"]
+
+[resource]
+script = ExtResource("2_qehjd")
+chunk_scene = ExtResource("1_8u8ag")
+category = 2
+difficulty = 1
+entry_tag = "floor_right"
+exit_tag = "floor_left"
+requires_double_jump = false
+requires_dash = false
+requires_wall_kick = false
+metadata/_custom_type_script = "uid://bb2qf5dmw57be"
+
+--- RESOURCE: res://Levels/Chunks/data/rhythm_bridge_short_LtoR.tres ---
+[gd_resource type="Resource" script_class="ChunkData" load_steps=3 format=3 uid="uid://ispaewj68y0k"]
+
+[ext_resource type="PackedScene" uid="uid://c7qba0c0voooe" path="res://Levels/Chunks/scenes/rhythm_bridge_short.tscn" id="1_nfk57"]
+[ext_resource type="Script" uid="uid://bb2qf5dmw57be" path="res://Levels/Chunks/ChunkData.gd" id="2_68pd3"]
+
+[resource]
+script = ExtResource("2_68pd3")
+chunk_scene = ExtResource("1_nfk57")
+category = 2
+difficulty = 1
+entry_tag = "floor_left"
+exit_tag = "floor_right"
+requires_double_jump = false
+requires_dash = false
+requires_wall_kick = false
+metadata/_custom_type_script = "uid://bb2qf5dmw57be"
+
+--- RESOURCE: res://Levels/Chunks/data/rhythm_bridge_short_RtoL.tres ---
+[gd_resource type="Resource" script_class="ChunkData" load_steps=3 format=3 uid="uid://boixhdew1vwcb"]
+
+[ext_resource type="PackedScene" uid="uid://weiwc6fqeqdl" path="res://Levels/Chunks/scenes/rhythm_bridge_short_RtoL.tscn" id="1_0wywk"]
+[ext_resource type="Script" uid="uid://bb2qf5dmw57be" path="res://Levels/Chunks/ChunkData.gd" id="2_lgnig"]
+
+[resource]
+script = ExtResource("2_lgnig")
+chunk_scene = ExtResource("1_0wywk")
+category = 2
+difficulty = 1
+entry_tag = "floor_right"
+exit_tag = "floor_left"
+requires_double_jump = false
+requires_dash = false
+requires_wall_kick = false
+metadata/_custom_type_script = "uid://bb2qf5dmw57be"
+
+--- RESOURCE: res://Levels/Chunks/data/start_room_basic.tres ---
+[gd_resource type="Resource" script_class="ChunkData" load_steps=3 format=3 uid="uid://ek442tq34myw"]
+
+[ext_resource type="PackedScene" uid="uid://cbwdnggyuqijo" path="res://Levels/Chunks/scenes/start.tscn" id="1_0arop"]
+[ext_resource type="Script" uid="uid://bb2qf5dmw57be" path="res://Levels/Chunks/ChunkData.gd" id="1_fkrs2"]
+
+[resource]
+script = ExtResource("1_fkrs2")
+chunk_scene = ExtResource("1_0arop")
+category = 0
+difficulty = 1
+entry_tag = "floor_left"
+exit_tag = "floor_right"
+requires_double_jump = false
+requires_dash = false
+requires_wall_kick = false
+metadata/_custom_type_script = "uid://bb2qf5dmw57be"
+
+--- RESOURCE: res://Levels/Chunks/data/walljump_transition_LtoR.tres ---
+[gd_resource type="Resource" script_class="ChunkData" load_steps=3 format=3 uid="uid://dt52xs82fxtm0"]
+
+[ext_resource type="PackedScene" uid="uid://bjm0p0m7o3c5n" path="res://Levels/Chunks/scenes/Walljump_Transition_LtoR.tscn" id="1_g02sx"]
+[ext_resource type="Script" uid="uid://bb2qf5dmw57be" path="res://Levels/Chunks/ChunkData.gd" id="2_8mkkm"]
+
+[resource]
+script = ExtResource("2_8mkkm")
+chunk_scene = ExtResource("1_g02sx")
+category = 6
+difficulty = 1
+entry_tag = "floor_left"
+exit_tag = "floor_right"
+requires_double_jump = false
+requires_dash = false
+requires_wall_kick = false
+metadata/_custom_type_script = "uid://bb2qf5dmw57be"
+
+--- RESOURCE: res://Levels/Chunks/data/walljump_transition_RtoL.tres ---
+[gd_resource type="Resource" script_class="ChunkData" load_steps=3 format=3 uid="uid://b8vdv7aki6yte"]
+
+[ext_resource type="PackedScene" uid="uid://bn6k3xxa7kcxa" path="res://Levels/Chunks/scenes/Walljump_Transition_RtoL.tscn" id="1_d4qw5"]
+[ext_resource type="Script" uid="uid://bb2qf5dmw57be" path="res://Levels/Chunks/ChunkData.gd" id="2_fpskp"]
+
+[resource]
+script = ExtResource("2_fpskp")
+chunk_scene = ExtResource("1_d4qw5")
+category = 6
+difficulty = 1
+entry_tag = "floor_right"
+exit_tag = "floor_left"
+requires_double_jump = false
+requires_dash = false
+requires_wall_kick = false
+metadata/_custom_type_script = "uid://bb2qf5dmw57be"
+
 --- RESOURCE: res://Levels/Hideout/hideout_theme.tres ---
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://cindktpnsryh8"]
 
@@ -321,6 +572,571 @@ default_font = ExtResource("1_xj80g")
 Button/fonts/font = ExtResource("1_xj80g")
 Label/font_sizes/font_size = 25
 Label/fonts/font = ExtResource("1_xj80g")
+
+--- RESOURCE: res://Levels/Tilesets/PrototypeTileset.tres ---
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://dda5r1q7pyjvg"]
+
+[ext_resource type="Texture2D" uid="uid://7boya0t8eab4" path="res://assets/Tilesets/Tiles.png" id="1_n00kl"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_34cnw"]
+texture = ExtResource("1_n00kl")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+4:0/0 = 0
+4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+5:0/0 = 0
+5:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+8:0/0 = 0
+8:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+9:0/0 = 0
+9:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+10:0/0 = 0
+10:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+11:0/0 = 0
+11:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+12:0/0 = 0
+12:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+13:0/0 = 0
+13:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+16:0/0 = 0
+16:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+17:0/0 = 0
+17:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+18:0/0 = 0
+18:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+19:0/0 = 0
+19:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+20:0/0 = 0
+21:0/0 = 0
+24:0/0 = 0
+25:0/0 = 0
+0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:1/0 = 0
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:1/0 = 0
+3:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+4:1/0 = 0
+4:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+5:1/0 = 0
+5:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+8:1/0 = 0
+8:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+9:1/0 = 0
+9:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+10:1/0 = 0
+10:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+11:1/0 = 0
+11:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+12:1/0 = 0
+12:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+13:1/0 = 0
+13:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+16:1/0 = 0
+17:1/0 = 0
+18:1/0 = 0
+19:1/0 = 0
+20:1/0 = 0
+21:1/0 = 0
+22:1/0 = 0
+23:1/0 = 0
+24:1/0 = 0
+25:1/0 = 0
+0:2/0 = 0
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:2/0 = 0
+1:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:2/0 = 0
+2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:2/0 = 0
+3:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+4:2/0 = 0
+4:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+8:2/0 = 0
+8:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+9:2/0 = 0
+9:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+10:2/0 = 0
+10:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+11:2/0 = 0
+11:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+12:2/0 = 0
+12:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+16:2/0 = 0
+17:2/0 = 0
+18:2/0 = 0
+19:2/0 = 0
+20:2/0 = 0
+22:2/0 = 0
+23:2/0 = 0
+24:2/0 = 0
+25:2/0 = 0
+0:3/0 = 0
+0:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:3/0 = 0
+1:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:3/0 = 0
+2:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:3/0 = 0
+3:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+8:3/0 = 0
+8:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+9:3/0 = 0
+9:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+10:3/0 = 0
+10:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+11:3/0 = 0
+11:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+16:3/0 = 0
+17:3/0 = 0
+17:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+18:3/0 = 0
+19:3/0 = 0
+20:3/0 = 0
+21:3/0 = 0
+25:3/0 = 0
+2:4/0 = 0
+2:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, 0.528423, 8, 8, -8, 8)
+3:4/0 = 0
+3:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, 7.57799, 8, -8, 8, -8, -0.364566)
+4:4/0 = 0
+4:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 8, 7.45011, -7.47876, -8, -8)
+5:4/0 = 0
+5:4/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, 8, 8, -8, -8)
+10:4/0 = 0
+11:4/0 = 0
+12:4/0 = 0
+13:4/0 = 0
+16:4/0 = 0
+17:4/0 = 0
+18:4/0 = 0
+19:4/0 = 0
+20:4/0 = 0
+21:4/0 = 0
+22:4/0 = 0
+23:4/0 = 0
+24:4/0 = 0
+25:4/0 = 0
+0:5/0 = 0
+0:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, 0.260493, 8, 8, -8, 8)
+1:5/0 = 0
+1:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, -8, 8, 8, -8, 8, -8, -0.429813)
+2:5/0 = 0
+2:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:5/0 = 0
+3:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+4:5/0 = 0
+4:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+7:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+8:5/0 = 0
+9:5/0 = 0
+10:5/0 = 0
+10:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+11:5/0 = 0
+11:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+12:5/0 = 0
+12:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+13:5/0 = 0
+14:5/0 = 0
+15:5/0 = 0
+15:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+16:5/0 = 0
+17:5/0 = 0
+18:5/0 = 0
+19:5/0 = 0
+20:5/0 = 0
+21:5/0 = 0
+22:5/0 = 0
+23:5/0 = 0
+24:5/0 = 0
+25:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+4:6/0 = 0
+7:6/0 = 0
+8:6/0 = 0
+9:6/0 = 0
+12:6/0 = 0
+15:6/0 = 0
+16:6/0 = 0
+17:6/0 = 0
+18:6/0 = 0
+19:6/0 = 0
+20:6/0 = 0
+21:6/0 = 0
+22:6/0 = 0
+23:6/0 = 0
+24:6/0 = 0
+25:6/0 = 0
+0:7/0 = 0
+0:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:7/0 = 0
+1:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+4:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+5:7/0 = 0
+5:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+6:7/0 = 0
+7:7/0 = 0
+8:7/0 = 0
+8:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+9:7/0 = 0
+9:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+10:7/0 = 0
+11:7/0 = 0
+12:7/0 = 0
+12:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+13:7/0 = 0
+13:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+14:7/0 = 0
+15:7/0 = 0
+17:7/0 = 0
+18:7/0 = 0
+20:7/0 = 0
+21:7/0 = 0
+22:7/0 = 0
+23:7/0 = 0
+25:7/0 = 0
+0:8/0 = 0
+3:8/0 = 0
+4:8/0 = 0
+5:8/0 = 0
+8:8/0 = 0
+11:8/0 = 0
+12:8/0 = 0
+13:8/0 = 0
+16:8/0 = 0
+17:8/0 = 0
+18:8/0 = 0
+19:8/0 = 0
+20:8/0 = 0
+21:8/0 = 0
+22:8/0 = 0
+23:8/0 = 0
+24:8/0 = 0
+25:8/0 = 0
+0:9/0 = 0
+0:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:9/0 = 0
+2:9/0 = 0
+3:9/0 = 0
+3:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+4:9/0 = 0
+5:9/0 = 0
+6:9/0 = 0
+7:9/0 = 0
+7:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+8:9/0 = 0
+8:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+9:9/0 = 0
+10:9/0 = 0
+11:9/0 = 0
+11:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+12:9/0 = 0
+13:9/0 = 0
+14:9/0 = 0
+14:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+15:9/0 = 0
+15:9/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+16:9/0 = 0
+17:9/0 = 0
+18:9/0 = 0
+19:9/0 = 0
+20:9/0 = 0
+21:9/0 = 0
+22:9/0 = 0
+23:9/0 = 0
+24:9/0 = 0
+25:9/0 = 0
+0:10/0 = 0
+1:10/0 = 0
+6:10/0 = 0
+7:10/0 = 0
+8:10/0 = 0
+9:10/0 = 0
+14:10/0 = 0
+15:10/0 = 0
+16:10/0 = 0
+17:10/0 = 0
+18:10/0 = 0
+19:10/0 = 0
+20:10/0 = 0
+21:10/0 = 0
+25:10/0 = 0
+0:11/0 = 0
+1:11/0 = 0
+2:11/0 = 0
+3:11/0 = 0
+4:11/0 = 0
+5:11/0 = 0
+6:11/0 = 0
+7:11/0 = 0
+16:11/0 = 0
+17:11/0 = 0
+18:11/0 = 0
+19:11/0 = 0
+2:12/0 = 0
+3:12/0 = 0
+4:12/0 = 0
+5:12/0 = 0
+6:12/0 = 0
+16:12/0 = 0
+17:12/0 = 0
+18:12/0 = 0
+19:12/0 = 0
+0:13/0 = 0
+1:13/0 = 0
+2:13/0 = 0
+3:13/0 = 0
+4:13/0 = 0
+5:13/0 = 0
+6:13/0 = 0
+9:13/0 = 0
+10:13/0 = 0
+11:13/0 = 0
+12:13/0 = 0
+13:13/0 = 0
+14:13/0 = 0
+15:13/0 = 0
+16:13/0 = 0
+17:13/0 = 0
+18:13/0 = 0
+19:13/0 = 0
+20:13/0 = 0
+21:13/0 = 0
+0:14/0 = 0
+1:14/0 = 0
+2:14/0 = 0
+3:14/0 = 0
+4:14/0 = 0
+5:14/0 = 0
+6:14/0 = 0
+9:14/0 = 0
+10:14/0 = 0
+11:14/0 = 0
+12:14/0 = 0
+13:14/0 = 0
+14:14/0 = 0
+15:14/0 = 0
+16:14/0 = 0
+16:14/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+17:14/0 = 0
+17:14/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+18:14/0 = 0
+19:14/0 = 0
+20:14/0 = 0
+0:15/0 = 0
+1:15/0 = 0
+2:15/0 = 0
+3:15/0 = 0
+4:15/0 = 0
+5:15/0 = 0
+6:15/0 = 0
+9:15/0 = 0
+10:15/0 = 0
+11:15/0 = 0
+12:15/0 = 0
+13:15/0 = 0
+14:15/0 = 0
+15:15/0 = 0
+16:15/0 = 0
+16:15/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+17:15/0 = 0
+17:15/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+18:15/0 = 0
+0:16/0 = 0
+1:16/0 = 0
+2:16/0 = 0
+3:16/0 = 0
+4:16/0 = 0
+5:16/0 = 0
+6:16/0 = 0
+7:16/0 = 0
+8:16/0 = 0
+9:16/0 = 0
+10:16/0 = 0
+10:16/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+11:16/0 = 0
+11:16/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+12:16/0 = 0
+12:16/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+13:16/0 = 0
+13:16/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+14:16/0 = 0
+15:16/0 = 0
+16:16/0 = 0
+17:16/0 = 0
+18:16/0 = 0
+0:17/0 = 0
+1:17/0 = 0
+2:17/0 = 0
+3:17/0 = 0
+4:17/0 = 0
+5:17/0 = 0
+6:17/0 = 0
+7:17/0 = 0
+8:17/0 = 0
+15:17/0 = 0
+15:17/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+16:17/0 = 0
+16:17/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+17:17/0 = 0
+17:17/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+18:17/0 = 0
+18:17/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+19:17/0 = 0
+19:17/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+20:17/0 = 0
+20:17/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+21:17/0 = 0
+21:17/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:18/0 = 0
+1:18/0 = 0
+2:18/0 = 0
+3:18/0 = 0
+4:18/0 = 0
+5:18/0 = 0
+15:18/0 = 0
+15:18/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+16:18/0 = 0
+16:18/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+17:18/0 = 0
+17:18/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+18:18/0 = 0
+18:18/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+19:18/0 = 0
+19:18/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+20:18/0 = 0
+20:18/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:19/0 = 0
+1:19/0 = 0
+2:19/0 = 0
+3:19/0 = 0
+4:19/0 = 0
+5:19/0 = 0
+15:19/0 = 0
+15:19/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+16:19/0 = 0
+16:19/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+17:19/0 = 0
+17:19/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+18:19/0 = 0
+18:19/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:20/0 = 0
+0:20/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:20/0 = 0
+1:20/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:20/0 = 0
+2:20/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:20/0 = 0
+3:20/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+4:20/0 = 0
+15:20/0 = 0
+15:20/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+16:20/0 = 0
+16:20/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+17:20/0 = 0
+17:20/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+18:20/0 = 0
+18:20/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:21/0 = 0
+0:21/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:21/0 = 0
+1:21/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:21/0 = 0
+2:21/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:21/0 = 0
+3:21/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+4:21/0 = 0
+5:21/0 = 0
+6:21/0 = 0
+6:21/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+7:21/0 = 0
+7:21/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+8:21/0 = 0
+16:21/0 = 0
+17:21/0 = 0
+19:21/0 = 0
+20:21/0 = 0
+21:21/0 = 0
+0:22/0 = 0
+0:22/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:22/0 = 0
+1:22/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:22/0 = 0
+2:22/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:22/0 = 0
+3:22/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+4:22/0 = 0
+5:22/0 = 0
+16:22/0 = 0
+17:22/0 = 0
+19:22/0 = 0
+20:22/0 = 0
+0:23/0 = 0
+0:23/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:23/0 = 0
+1:23/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:23/0 = 0
+2:23/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+3:23/0 = 0
+3:23/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+4:23/0 = 0
+5:23/0 = 0
+5:23/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+6:23/0 = 0
+6:23/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+7:23/0 = 0
+7:23/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+8:23/0 = 0
+15:23/0 = 0
+16:23/0 = 0
+16:23/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+17:23/0 = 0
+17:23/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+18:23/0 = 0
+15:24/0 = 0
+16:24/0 = 0
+16:24/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+17:24/0 = 0
+17:24/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+18:24/0 = 0
+1:25/0 = 0
+16:25/0 = 0
+17:25/0 = 0
+19:25/0 = 0
+20:25/0 = 0
+21:25/0 = 0
+0:26/0 = 0
+1:26/0 = 0
+15:26/0 = 0
+16:26/0 = 0
+16:26/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+17:26/0 = 0
+17:26/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+18:26/0 = 0
+0:27/0 = 0
+1:27/0 = 0
+2:27/0 = 0
+0:28/0 = 0
+1:28/0 = 0
+
+[resource]
+physics_layer_0/collision_layer = 2
+sources/0 = SubResource("TileSetAtlasSource_34cnw")
 
 --- RESOURCE: res://pixel_theme.tres ---
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://bgx3prsgldcw2"]
@@ -339,19 +1155,19 @@ Label/fonts/font = ExtResource("1_ghajk")
 
 [resource]
 script = ExtResource("1_kqdxa")
-horizontal_deadzone = 500.0
-vertical_deadzone = 60.0
-smoothing_speed = 4.0
+horizontal_deadzone = 32.0
+vertical_deadzone = 48.0
+smoothing_speed = 6.0
 fall_speed_multiplier = 3.0
 look_offset = 75.0
-look_speed = 6.0
-lookahead_distance = 80.0
+look_speed = 4.0
+lookahead_distance = 100.0
 facing_offset = 50.0
-ledge_peek_offset = 50.0
+ledge_peek_offset = 80.0
 wall_slide_peek_offset = 100.0
 recenter_speed = 2.5
-upward_velocity_threshold = 100.0
-vertical_lookahead_amount = -100.0
+upward_velocity_threshold = 300.0
+vertical_lookahead_amount = -60.0
 vertical_lookahead_speed = 4.5
 metadata/_custom_type_script = "uid://cncohoeprijfe"
 
@@ -362,42 +1178,44 @@ metadata/_custom_type_script = "uid://cncohoeprijfe"
 
 [resource]
 script = ExtResource("1_byv2g")
-speed = 350.0
-air_control_acceleration = 250.0
-terminal_velocity = 750.0
-acceleration_smoothness = 0.1
-friction_smoothness = 0.3
-jump_height = 120.0
+speed = 280.0
+air_control_acceleration = 200.0
+terminal_velocity = 600.0
+acceleration_smoothness = 0.12
+friction_smoothness = 0.25
+crouch_speed_multiplier = 0.5
+jump_height = 128.0
 time_to_apex = 0.5
-fall_gravity = 2400.0
-jump_cut_multiplier = 0.3
-glide_velocity = 300.0
-blink_dash_enabled = false
-slide_duration = 0.4
-standing_slide_speed = 375.0
+fall_gravity = 2200.0
+jump_cut_multiplier = 0.35
+dash_distance = 400.0
+dash_duration = 0.25
+dash_freeze_duration = 0.08
+dash_end_velocity_multiplier = 0.3
+slide_duration = 0.35
+standing_slide_speed = 400.0
 slide_friction = 0.01
 skid_duration = 0.25
 skid_friction = 0.25
 wall_slip_duration = 0.08
 wall_slide_friction = 80.0
-crouch_speed_multiplier = 0.5
-wall_slide_jump_horizontal_velocity = 600.0
+wall_slide_jump_horizontal_velocity = 480.0
 wall_slide_jump_vertical_velocity = -600.0
 wall_stick_jump_horizontal_velocity = 900.0
 wall_stick_jump_vertical_velocity = -400.0
-dash_end_velocity_multiplier = 0.3
-invisibility_duration = 2.0
-invisibility_cooldown = 5.0
-wall_kick_horizontal_velocity = 1200.0
-wall_kick_vertical_velocity = -200.0
+wall_kick_horizontal_velocity = 1600.0
+wall_kick_vertical_velocity = -180.0
 wall_kick_duration = 0.25
-coyote_time_duration = 0.2
 wall_coyote_time_duration = 0.18
-jump_buffer_duration = 0.1
-dash_freeze_duration = 0.08
-fall_zoom_delay = 0.3
 wall_detach_hang_time = 0.2
 wall_detach_gravity_scale = 0.5
+glide_velocity = 300.0
+invisibility_duration = 2.0
+invisibility_cooldown = 5.0
+blink_dash_enabled = false
+coyote_time_duration = 0.18
+jump_buffer_duration = 0.12
+fall_zoom_delay = 0.3
 metadata/_custom_type_script = "uid://bx05fogp11uwl"
 
 --- RESOURCE: res://VFX/VFXData/dash_prepare.tres ---
@@ -597,7 +1415,7 @@ metadata/_custom_type_script = "uid://ctlafprqxjjv2"
 Enemy (CharacterBody2D)
 > script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.gd
 > scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
-> vision_renderer = VisionConeRenderer:<Polygon2D#4185395409078>
+> vision_renderer = VisionConeRenderer:<Polygon2D#3625422249907>
 > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > is_rotating = false
 > rotation_speed = 0.1
@@ -616,8 +1434,8 @@ Enemy (CharacterBody2D)
 > > ray_count = 100
 > > max_distance = 500.0
 > > collision_layer_mask = 2
-> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#4185428963539>
-> > write_polygon2d = VisionConeRenderer:<Polygon2D#4185395409078>
+> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3625455802770>
+> > write_polygon2d = VisionConeRenderer:<Polygon2D#3625422249907>
 > > debug_lines = false
 > > debug_shape = false
 > > minimum_recalculate_time_msec = 0
@@ -647,7 +1465,7 @@ example (Node2D)
 >   script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.gd
 >   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
 > > position = (1055.0, 97.0)
-> > vision_renderer = VisionConeRenderer:<Polygon2D#4186032943346>
+> > vision_renderer = VisionConeRenderer:<Polygon2D#3626059777729>
 > > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > > is_rotating = false
 > > rotation_speed = 0.1
@@ -666,8 +1484,8 @@ example (Node2D)
 >   > ray_count = 100
 >   > max_distance = 500.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#4186066497779>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#4186032943346>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3626093329611>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#3626059777729>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -703,7 +1521,7 @@ example (Node2D)
 >   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
 > > position = (301.0, 705.0)
 > > rotation = -1.57079994678497
-> > vision_renderer = VisionConeRenderer:<Polygon2D#4186217492727>
+> > vision_renderer = VisionConeRenderer:<Polygon2D#3626244319536>
 > > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > > is_rotating = true
 > > rotation_speed = 1.0
@@ -722,8 +1540,8 @@ example (Node2D)
 >   > ray_count = 50
 >   > max_distance = 700
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#4186251047137>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#4186217492727>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3626277886393>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#3626244319536>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -752,12 +1570,12 @@ example (Node2D)
 >   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
 > > position = (211.0, 130.0)
 > > rotation = -0.48296800255775
-> > vision_renderer = VisionConeRenderer:<Polygon2D#4186368487644>
+> > vision_renderer = VisionConeRenderer:<Polygon2D#3626395328485>
 > > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > > is_rotating = false
 > > rotation_speed = 1.0
 > > rotation_angle = 90
-> > move_on_path = PathFollow2D:<PathFollow2D#4185965834415>
+> > move_on_path = PathFollow2D:<PathFollow2D#3625992694157>
 > > movement_speed = 3.0
 >   CharacterRenderer (Polygon2D)
 >   > rotation = -1.57079994678497
@@ -772,8 +1590,8 @@ example (Node2D)
 >   > ray_count = 10
 >   > max_distance = 700
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#4186402042126>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#4186368487644>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3626428881328>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#3626395328485>
 >   > debug_lines = true
 >   > debug_shape = true
 >   > minimum_recalculate_time_msec = 250
@@ -912,8 +1730,8 @@ VisionCone2D (Node2D)
 > ray_count = 100
 > max_distance = 500.0
 > collision_layer_mask = 2
-> write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#4188029432063>
-> write_polygon2d = VisionConeRenderer:<Polygon2D#4187995877586>
+> write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3628056264980>
+> write_polygon2d = VisionConeRenderer:<Polygon2D#3628022716849>
 > debug_lines = false
 > debug_shape = false
 > minimum_recalculate_time_msec = 0
@@ -2074,7 +2892,7 @@ GutRunner (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 0
->           > resize_control = Normal:<Panel#4214034117040>
+>           > resize_control = Normal:<Panel#3654060976612>
 >           > vertical_resize = true
 >           SwitchModes (Button)
 >           > layout_mode = 2
@@ -2089,7 +2907,7 @@ GutRunner (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 1
->           > resize_control = Normal:<Panel#4214034117040>
+>           > resize_control = Normal:<Panel#3654060976612>
 >           > vertical_resize = true
 >           SidePad2 (CenterContainer)
 >           > custom_minimum_size = (2.0, 0.0)
@@ -2200,7 +3018,7 @@ GutRunner (Node2D)
 >               > layout_mode = 2
 >               > color = (1.0, 1.0, 1.0, 0.0)
 >               > orientation = 0
->               > resize_control = Compact:<Panel#4215510512150>
+>               > resize_control = Compact:<Panel#3655537371701>
 >               > vertical_resize = false
 >               SwitchModes (Button)
 >               > layout_mode = 2
@@ -2218,7 +3036,7 @@ GutRunner (Node2D)
 >               > layout_mode = 2
 >               > color = (1.0, 1.0, 1.0, 0.0)
 >               > orientation = 1
->               > resize_control = Compact:<Panel#4215510512150>
+>               > resize_control = Compact:<Panel#3655537371701>
 >               > vertical_resize = false
 >           RightMargin (CenterContainer)
 >           > custom_minimum_size = (5.0, 0.0)
@@ -2329,7 +3147,7 @@ Min (Panel)
 >         > layout_mode = 2
 >         > color = (1.0, 1.0, 1.0, 0.0)
 >         > orientation = 0
->         > resize_control = Min:<Panel#4219201499382>
+>         > resize_control = Min:<Panel#3659228333766>
 >         > vertical_resize = false
 >         SwitchModes (Button)
 >         > layout_mode = 2
@@ -2347,7 +3165,7 @@ Min (Panel)
 >         > layout_mode = 2
 >         > color = (1.0, 1.0, 1.0, 0.0)
 >         > orientation = 1
->         > resize_control = Min:<Panel#4219201499382>
+>         > resize_control = Min:<Panel#3659228333766>
 >         > vertical_resize = false
 >     RightMargin (CenterContainer)
 >     > custom_minimum_size = (5.0, 0.0)
@@ -2500,7 +3318,7 @@ Large (Panel)
 >     > layout_mode = 2
 >     > color = (1.0, 1.0, 1.0, 0.0)
 >     > orientation = 0
->     > resize_control = Large:<Panel#4221365760246>
+>     > resize_control = Large:<Panel#3661392594630>
 >     > vertical_resize = true
 >     SwitchModes (Button)
 >     > layout_mode = 2
@@ -2515,7 +3333,7 @@ Large (Panel)
 >     > layout_mode = 2
 >     > color = (1.0, 1.0, 1.0, 0.0)
 >     > orientation = 1
->     > resize_control = Large:<Panel#4221365760246>
+>     > resize_control = Large:<Panel#3661392594630>
 >     > vertical_resize = true
 >     SidePad2 (CenterContainer)
 >     > custom_minimum_size = (2.0, 0.0)
@@ -2978,7 +3796,7 @@ GutScene (Node2D)
 >       > layout_mode = 2
 >       > color = (1.0, 1.0, 1.0, 0.0)
 >       > orientation = 0
->       > resize_control = Normal:<Panel#4233059479791>
+>       > resize_control = Normal:<Panel#3673086314181>
 >       > vertical_resize = true
 >       SwitchModes (Button)
 >       > layout_mode = 2
@@ -2993,7 +3811,7 @@ GutScene (Node2D)
 >       > layout_mode = 2
 >       > color = (1.0, 1.0, 1.0, 0.0)
 >       > orientation = 1
->       > resize_control = Normal:<Panel#4233059479791>
+>       > resize_control = Normal:<Panel#3673086314181>
 >       > vertical_resize = true
 >       SidePad2 (CenterContainer)
 >       > custom_minimum_size = (2.0, 0.0)
@@ -3104,7 +3922,7 @@ GutScene (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 0
->           > resize_control = Compact:<Panel#4234535875089>
+>           > resize_control = Compact:<Panel#3674562734640>
 >           > vertical_resize = false
 >           SwitchModes (Button)
 >           > layout_mode = 2
@@ -3122,7 +3940,7 @@ GutScene (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 1
->           > resize_control = Compact:<Panel#4234535875089>
+>           > resize_control = Compact:<Panel#3674562734640>
 >           > vertical_resize = false
 >       RightMargin (CenterContainer)
 >       > custom_minimum_size = (5.0, 0.0)
@@ -3144,7 +3962,7 @@ UserFileViewer (Window)
 > FileDialog (FileDialog)
 > > access = 1
 > > show_hidden_files = true
->   @PopupMenu@32755 (PopupMenu)
+>   @PopupMenu@29450 (PopupMenu)
 > TextDisplay (ColorRect)
 > > anchors_preset = 15
 > > anchor_right = 1.0
@@ -3222,7 +4040,7 @@ UpdatePromptWindow (Panel)
 > offset_bottom = 0.02398679964244
 > grow_horizontal = 2
 > grow_vertical = 2
-> animator = AnimationPlayer:<AnimationPlayer#4252269392405>
+> animator = AnimationPlayer:<AnimationPlayer#3692296251956>
 > host_window_size = (1063.0, 672.0)
 > Notice (Control)
 > > unique_name_in_owner = true
@@ -3479,7 +4297,7 @@ UpdatePromptWindow (Panel)
 > AnimationPlayer (AnimationPlayer)
 > > unique_name_in_owner = true
 > > root_node = ../UpdateMonitor
-> > libraries = {"":"<AnimationLibrary#-9223367785743011367>"}
+> > libraries = {"":"<AnimationLibrary#-9223368345716151802>"}
 
 --- SCENE: res://Enemies/CustomVisionCone.tscn ---
 VisionConeArea (Area2D)
@@ -3527,7 +4345,7 @@ Guard (CharacterBody2D)
 > > collision_mask = 2
 > StateMachine (Node)
 >   script: res://Enemies/Guard/States/guard_state_machine.gd
-> > initial_state = PatrolState:<Node#4253745787327>
+> > initial_state = PatrolState:<Node#3693772646899>
 >   PatrolState (Node)
 >     script: res://Enemies/Guard/States/patrol_state.gd
 >   CaughtState (Node)
@@ -3539,8 +4357,8 @@ Guard (CharacterBody2D)
 > > ray_count = 30
 > > max_distance = 150.0
 > > collision_layer_mask = 2
-> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#4253829673404>
-> > write_polygon2d = VisionConeRenderer:<Polygon2D#4253796118958>
+> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3693856532976>
+> > write_polygon2d = VisionConeRenderer:<Polygon2D#3693822978531>
 > > debug_lines = false
 > > debug_shape = false
 > > minimum_recalculate_time_msec = 100
@@ -3639,7 +4457,7 @@ Prisoner (StaticBody2D)
 > > object_id = ""
 > > generate_new_id = false
 > AnimationPlayer (AnimationPlayer)
-> > libraries = {"":"<AnimationLibrary#-9223369830449462991>"}
+> > libraries = {"":"<AnimationLibrary#-9223369825818951358>"}
 
 --- SCENE: res://Interactables/RescuedVillager/RescuedVillager.tscn ---
 RescuedVillager (StaticBody2D)
@@ -3679,6 +4497,143 @@ CameraBoundary (Area2D)
 > groups = [&"camera_boundary"]
 > CollisionShape2D (CollisionShape2D)
 > > shape = res://Levels/CameraBoundary.tscn::RectangleShape2D_r8dwf
+
+--- SCENE: res://Levels/Chunks/scenes/dash_basic_LtoR.tscn ---
+dash_basic (Node2D)
+> scene: res://Levels/Chunks/scenes/dash_basic_LtoR.tscn
+> entry (Marker2D)
+> exit (Marker2D)
+> > position = (544.0, 0.0)
+> TileMapLayer (TileMapLayer)
+> > tile_set = res://Levels/Tilesets/PrototypeTileset.tres
+
+--- SCENE: res://Levels/Chunks/scenes/dash_basic_RtoL.tscn ---
+dash_basic (Node2D)
+> scene: res://Levels/Chunks/scenes/dash_basic_RtoL.tscn
+> entry (Marker2D)
+> exit (Marker2D)
+> > position = (-544.0, 0.0)
+> TileMapLayer (TileMapLayer)
+> > scale = (-1.0, 1.0)
+> > tile_set = res://Levels/Tilesets/PrototypeTileset.tres
+
+--- SCENE: res://Levels/Chunks/scenes/dash_ceiling.tscn ---
+dash_low_ceiling (Node2D)
+> scene: res://Levels/Chunks/scenes/dash_ceiling.tscn
+> entry (Marker2D)
+> exit (Marker2D)
+> > position = (480.0, 0.0)
+> TileMapLayer (TileMapLayer)
+> > tile_set = res://Levels/Tilesets/PrototypeTileset.tres
+
+--- SCENE: res://Levels/Chunks/scenes/dash_ceiling_RtoL.tscn ---
+dash_low_ceiling (Node2D)
+> scene: res://Levels/Chunks/scenes/dash_ceiling_RtoL.tscn
+> entry (Marker2D)
+> exit (Marker2D)
+> > position = (-496.0, 0.0)
+> TileMapLayer (TileMapLayer)
+> > scale = (-1.0, 1.0)
+> > tile_set = res://Levels/Tilesets/PrototypeTileset.tres
+
+--- SCENE: res://Levels/Chunks/scenes/double_jump_bridge_LtoR.tscn ---
+double_jump_bridge_RtoL (Node2D)
+> scene: res://Levels/Chunks/scenes/double_jump_bridge_LtoR.tscn
+> entry (Marker2D)
+> exit (Marker2D)
+> > position = (448.0, -64.0)
+> TileMapLayer (TileMapLayer)
+> > tile_set = res://Levels/Tilesets/PrototypeTileset.tres
+
+--- SCENE: res://Levels/Chunks/scenes/double_jump_bridge_RtoL.tscn ---
+double_jump_bridge_RtoL (Node2D)
+> scene: res://Levels/Chunks/scenes/double_jump_bridge_RtoL.tscn
+> entry (Marker2D)
+> exit (Marker2D)
+> > position = (-448.0, -64.0)
+> TileMapLayer (TileMapLayer)
+> > scale = (-1.0, 1.0)
+> > tile_set = res://Levels/Tilesets/PrototypeTileset.tres
+
+--- SCENE: res://Levels/Chunks/scenes/objective_simple.tscn ---
+objective_simple (Node2D)
+> scene: res://Levels/Chunks/scenes/objective_simple.tscn
+> entry (Marker2D)
+> TileMapLayer (TileMapLayer)
+> > tile_set = res://Levels/Tilesets/PrototypeTileset.tres
+
+--- SCENE: res://Levels/Chunks/scenes/rhythm_bridge_long.tscn ---
+rhythm_bridge_short (Node2D)
+> scene: res://Levels/Chunks/scenes/rhythm_bridge_long.tscn
+> entry (Marker2D)
+> exit (Marker2D)
+> > position = (368.0, 0.0)
+> TileMapLayer (TileMapLayer)
+> > tile_set = res://Levels/Tilesets/PrototypeTileset.tres
+
+--- SCENE: res://Levels/Chunks/scenes/rhythm_bridge_long_RtoL.tscn ---
+rhythm_bridge_long_RtoL (Node2D)
+> scene: res://Levels/Chunks/scenes/rhythm_bridge_long_RtoL.tscn
+> entry (Marker2D)
+> exit (Marker2D)
+> > position = (-368.0, 0.0)
+> TileMapLayer (TileMapLayer)
+> > scale = (-1.0, 1.0)
+> > tile_set = res://Levels/Tilesets/PrototypeTileset.tres
+
+--- SCENE: res://Levels/Chunks/scenes/rhythm_bridge_short.tscn ---
+rhythm_bridge_short (Node2D)
+> scene: res://Levels/Chunks/scenes/rhythm_bridge_short.tscn
+> entry (Marker2D)
+> exit (Marker2D)
+> > position = (272.0, 0.0)
+> TileMapLayer (TileMapLayer)
+> > tile_set = res://Levels/Tilesets/PrototypeTileset.tres
+
+--- SCENE: res://Levels/Chunks/scenes/rhythm_bridge_short_RtoL.tscn ---
+rhythm_bridge_short_RtoL (Node2D)
+> scene: res://Levels/Chunks/scenes/rhythm_bridge_short_RtoL.tscn
+> scale = (-1.0, 1.0)
+> entry (Marker2D)
+> exit (Marker2D)
+> > position = (272.0, 0.0)
+> TileMapLayer (TileMapLayer)
+> > tile_set = res://Levels/Tilesets/PrototypeTileset.tres
+
+--- SCENE: res://Levels/Chunks/scenes/start.tscn ---
+start (Node2D)
+> scene: res://Levels/Chunks/scenes/start.tscn
+> entry (Marker2D)
+> exit (Marker2D)
+> > position = (48.0, 0.0)
+> TileMapLayer (TileMapLayer)
+> > tile_set = res://Levels/Tilesets/PrototypeTileset.tres
+> PlayerSpawnPoint (Marker2D)
+> > position = (24.0, -9.0)
+
+--- SCENE: res://Levels/Chunks/scenes/Walljump_Transition_LtoR.tscn ---
+walljump_transition_RtoL (Node2D)
+> scene: res://Levels/Chunks/scenes/Walljump_Transition_LtoR.tscn
+> entry (Marker2D)
+> exit (Marker2D)
+> > position = (192.0, -192.0)
+> TileMapLayer (TileMapLayer)
+> > tile_set = res://Levels/Tilesets/PrototypeTileset.tres
+
+--- SCENE: res://Levels/Chunks/scenes/Walljump_Transition_RtoL.tscn ---
+walljump_transition_RtoL (Node2D)
+> scene: res://Levels/Chunks/scenes/Walljump_Transition_RtoL.tscn
+> entry (Marker2D)
+> exit (Marker2D)
+> > position = (-192.0, -176.0)
+> TileMapLayer (TileMapLayer)
+> > scale = (-1.0, 1.0)
+> > tile_set = res://Levels/Tilesets/PrototypeTileset.tres
+
+--- SCENE: res://Levels/GeneratedLevelHost.tscn ---
+GeneratedLevelHost (Node2D)
+> script: res://GeneratedLevelHost.gd
+> scene: res://Levels/GeneratedLevelHost.tscn
 
 --- SCENE: res://Levels/Hideout/Hideout.tscn ---
 Hideout (Node2D)
@@ -3841,7 +4796,7 @@ Hideout (Node2D)
 >     > shape = res://Interactables/Interactable.tscn::CircleShape2D_nuwr0
 
 --- SCENE: res://Levels/Hideout/Hideout_Level_1.tscn ---
-Hideout (Node2D)
+Hideout Level 1 (Node2D)
 > script: res://Levels/Hideout.gd
 > scene: res://Levels/Hideout/Hideout_Level_1.tscn
 > position = (56.0, -17.0)
@@ -3887,14 +4842,12 @@ Hideout (Node2D)
 >     > stretch_mode = 6
 > CanvasLayer (CanvasLayer)
 >   GUI (Control)
->     script: res://Levels/Hideout/Hideout_Level_1.tscn::GDScript_nptum
 >   > anchors_preset = 15
 >   > anchor_right = 1.0
 >   > anchor_bottom = 1.0
 >   > grow_horizontal = 2
 >   > grow_vertical = 2
 >   > theme = res://Levels/Hideout/hideout_theme.tres
->   > archer_placeholder_scene = res://Interactables/ArcherPlaceholder.tscn
 >     ResourceDisplay (MarginContainer)
 >     > layout_mode = 1
 >     > anchors_preset = 5
@@ -4017,14 +4970,14 @@ Hideout (Node2D)
 >   Interactable (Area2D)
 >     script: res://Interactables/Interactable.gd
 >     scene: res://Interactables/Interactable.tscn
->   > prompt_message = "Upgrade Hideout (10 Gold)"
+>   > prompt_message = "Upgrade Hideout (100 Gold)"
 >   > prompt_vertical_offset = -40.0
 >   > interaction_duration = 1.0
 >     CollisionShape2D (CollisionShape2D)
 >     > shape = res://Interactables/Interactable.tscn::CircleShape2D_nuwr0
 
 --- SCENE: res://Levels/Hideout/Hideout_Level_2.tscn ---
-Hideout (Node2D)
+Hideout Level 2 (Node2D)
 > script: res://Levels/Hideout.gd
 > scene: res://Levels/Hideout/Hideout_Level_2.tscn
 > position = (56.0, -17.0)
@@ -4069,14 +5022,12 @@ Hideout (Node2D)
 >     > stretch_mode = 6
 > CanvasLayer (CanvasLayer)
 >   GUI (Control)
->     script: res://Levels/Hideout.gd
 >   > anchors_preset = 15
 >   > anchor_right = 1.0
 >   > anchor_bottom = 1.0
 >   > grow_horizontal = 2
 >   > grow_vertical = 2
 >   > theme = res://Levels/Hideout/hideout_theme.tres
->   > archer_placeholder_scene = res://Interactables/ArcherPlaceholder.tscn
 >     ResourceDisplay (MarginContainer)
 >     > layout_mode = 1
 >     > anchors_preset = 5
@@ -4185,28 +5136,25 @@ Hideout (Node2D)
 >     CollisionShape2D (CollisionShape2D)
 >     > shape = res://Interactables/Interactable.tscn::CircleShape2D_nuwr0
 
---- SCENE: res://Levels/level_1.tscn ---
-Level 1 (TileMapLayer)
-> scene: res://Levels/level_1.tscn
-> position = (84.0, -74.0)
-> tile_set = res://Levels/level_1.tscn::TileSet_congi
-
---- SCENE: res://Levels/Level_Template.tscn ---
-Test Box (Node2D)
-> scene: res://Levels/Level_Template.tscn
-> TileMapLayer (TileMapLayer)
->   scene: res://Levels/TestBox.tscn
-> > tile_set = res://Levels/TestBox.tscn::TileSet_congi
-> Level 1 (TileMapLayer)
->   scene: res://Levels/level_1.tscn
-> > position = (17.0, 653.0)
-> > tile_set = res://Levels/Level_Template.tscn::TileSet_3mhv4
-> > collision_visibility_mode = 1
-
---- SCENE: res://Levels/TestBox.tscn ---
-TileMapLayer (TileMapLayer)
-> scene: res://Levels/TestBox.tscn
-> tile_set = res://Levels/TestBox.tscn::TileSet_congi
+--- SCENE: res://Levels/pcg_testbed.tscn ---
+PCG Testbed (Node2D)
+> script: res://PCG_Testbed.gd
+> scene: res://Levels/pcg_testbed.tscn
+> Button (Button)
+> > anchors_preset = 8
+> > anchor_left = 0.5
+> > anchor_top = 0.5
+> > anchor_right = 0.5
+> > anchor_bottom = 0.5
+> > offset_left = -62.5
+> > offset_top = -15.5
+> > offset_right = 62.5
+> > offset_bottom = 15.5
+> > grow_horizontal = 2
+> > grow_vertical = 2
+> > text = "Generate Level"
+> Camera2D (Camera2D)
+> > zoom = (0.25, 0.25)
 
 --- SCENE: res://Levels/VillageOutskirts.tscn ---
 VillageOutskirts (Node2D)
@@ -4324,7 +5272,7 @@ VillageOutskirts (Node2D)
 >   > collision_mask = 2
 >   StateMachine (Node)
 >     script: res://Enemies/Guard/States/guard_state_machine.gd
->   > initial_state = PatrolState:<Node#4277703652018>
+>   > initial_state = PatrolState:<Node#3723585759826>
 >     PatrolState (Node)
 >       script: res://Enemies/Guard/States/patrol_state.gd
 >     CaughtState (Node)
@@ -4336,8 +5284,8 @@ VillageOutskirts (Node2D)
 >   > ray_count = 30
 >   > max_distance = 150.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#4277787538103>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#4277753983665>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3723669645915>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#3723636091484>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 100
@@ -4385,7 +5333,7 @@ VillageOutskirts (Node2D)
 >   > collision_mask = 2
 >   StateMachine (Node)
 >     script: res://Enemies/Guard/States/guard_state_machine.gd
->   > initial_state = PatrolState:<Node#4277955310273>
+>   > initial_state = PatrolState:<Node#3723837418086>
 >     PatrolState (Node)
 >       script: res://Enemies/Guard/States/patrol_state.gd
 >     CaughtState (Node)
@@ -4397,8 +5345,8 @@ VillageOutskirts (Node2D)
 >   > ray_count = 30
 >   > max_distance = 150.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#4278039196357>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#4278005641922>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3723921304172>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#3723887749738>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 100
@@ -4446,7 +5394,7 @@ VillageOutskirts (Node2D)
 >   > collision_mask = 2
 >   StateMachine (Node)
 >     script: res://Enemies/Guard/States/guard_state_machine.gd
->   > initial_state = PatrolState:<Node#4278206968535>
+>   > initial_state = PatrolState:<Node#3724089076337>
 >     PatrolState (Node)
 >       script: res://Enemies/Guard/States/patrol_state.gd
 >     CaughtState (Node)
@@ -4458,8 +5406,8 @@ VillageOutskirts (Node2D)
 >   > ray_count = 30
 >   > max_distance = 150.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#4278290854620>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#4278257300186>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3724172962426>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#3724139407991>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 100
@@ -4526,7 +5474,7 @@ VillageOutskirts (Node2D)
 >   > object_id = ""
 >   > generate_new_id = false
 >   AnimationPlayer (AnimationPlayer)
->   > libraries = {"":"<AnimationLibrary#-9223369830449462991>"}
+>   > libraries = {"":"<AnimationLibrary#-9223369825818951358>"}
 
 --- SCENE: res://Levels/VillageOutskirtsTilelayer.tscn ---
 VillageOutskirtsTilelayer (TileMapLayer)
@@ -4555,7 +5503,7 @@ Player (CharacterBody2D)
 > > autoplay = "idle"
 > > offset = (0.0, -40.0)
 > AnimationPlayer (AnimationPlayer)
-> > libraries = {"":"<AnimationLibrary#-9223369861856412398>"}
+> > libraries = {"":"<AnimationLibrary#-9223369856840024796>"}
 > SlidingCollision (CollisionShape2D)
 > > position = (4.0, -3.0)
 > > disabled = true
@@ -4760,12 +5708,25 @@ GameManager (Node)
 > scene: res://Singletons/game_manager.tscn
 > hideout_progression_data = res://Data/hideout_upgrades.tres
 
+--- SCENE: res://Singletons/LevelGenerator.tscn ---
+LevelGenerator (Node2D)
+> script: res://Singletons/LevelGenerator.gd
+> scene: res://Singletons/LevelGenerator.tscn
+> min_length = 5
+> max_length = 8
+> stealth_chunk_chance = 0.0
+> verticality_chance = 0.3
+> reverse_direction_chance = 0.2
+> min_chunks_between_dashes = 2
+> camera_boundary_scene = res://Levels/CameraBoundary.tscn
+> kill_zone_scene = res://World/KillZone.tscn
+
 --- SCENE: res://Singletons/SceneManager.tscn ---
 SceneManager (CanvasLayer)
 > script: res://Singletons/SceneManager.gd
 > scene: res://Singletons/SceneManager.tscn
 > process_mode = 3
-> scene_entries = ["<Resource#-9223367754067627371>","<Resource#-9223367754050850154>","<Resource#-9223367754034072934>"]
+> scene_entries = ["<Resource#-9223368307950638529>","<Resource#-9223368307933861312>","<Resource#-9223368307917084095>","<Resource#-9223368307900306878>"]
 > player_scene = res://Player/PlayerScene.tscn
 > ColorRect (ColorRect)
 > > anchors_preset = 15
@@ -4773,9 +5734,10 @@ SceneManager (CanvasLayer)
 > > anchor_bottom = 1.0
 > > grow_horizontal = 2
 > > grow_vertical = 2
+> > mouse_filter = 2
 > > color = (0.0, 0.0, 0.0, 0.0)
 > AnimationPlayer (AnimationPlayer)
-> > libraries = {"":"<AnimationLibrary#-9223367753966964068>"}
+> > libraries = {"":"<AnimationLibrary#-9223368307833198008>"}
 
 --- SCENE: res://tests/Chest.tscn ---
 Chest (StaticBody2D)
@@ -4841,6 +5803,7 @@ FloatingText (Label)
 InteractionUI (Control)
 > script: res://UserInterface/InteractionUI.gd
 > scene: res://UserInterface/InteractionUI.tscn
+> visible = false
 > default_panel_color = (0.1765, 0.1765, 0.1765, 1.0)
 > fill_panel_color = (1.0, 1.0, 1.0, 1.0)
 > Panel (PanelContainer)
@@ -24659,6 +25622,28 @@ func process_physics(delta: float) -> void:
 		EventBus.player_detected.emit()
 		state_machine.change_state("CaughtState")
 
+--- SCRIPT: res://GeneratedLevelHost.gd ---
+# res://Levels/GeneratedLevelHost.gd
+extends Node2D
+
+signal level_generated
+
+func _ready() -> void:
+	# _ready() cannot be async, so we call a separate async function to do the work.
+	_build_level_and_emit_signal()
+
+func _build_level_and_emit_signal() -> void:
+	# First, we must 'await' the generator since it is a coroutine.
+	var generated_level = await LevelGenerator.generate_level()
+	add_child(generated_level)
+	
+	# NEW: Wait for one process frame. This is a safety measure to ensure
+	# all nodes in the generated level are fully registered in the scene tree.
+	await get_tree().process_frame
+	
+	# Now it's safe to announce that the level is ready.
+	level_generated.emit()
+
 --- SCRIPT: res://Interactables/Campfire.gd ---
 # res://Interactables/Campfire/Campfire.gd
 extends StaticBody2D
@@ -24763,7 +25748,7 @@ func _ready() -> void:
 
 func _on_interacted() -> void:
 	# Announce the user wants to start the mission.
-	EventBus.start_mission_requested.emit("village_outskirts")
+	EventBus.start_mission_requested.emit("procedural_mission")
 
 --- SCRIPT: res://Interactables/PersistenceComponent.gd ---
 # res://Interactables/PersistenceComponent.gd
@@ -24883,6 +25868,31 @@ func update_visibility() -> void:
 		_interactable.monitoring = true
 		_interactable.get_node("CollisionShape2D").set_deferred("disabled", false)
 
+--- SCRIPT: res://Levels/Chunks/ChunkData.gd ---
+# res://Levels/Chunks/ChunkData.gd
+class_name ChunkData
+extends Resource
+
+## The category of this chunk, used by the generator for path building.
+enum Category { START, END, TRAVERSAL, STEALTH, TRANSITION, SECRET, VERTICAL_TRAVERSAL }
+
+@export_group("Core Properties")
+@export var chunk_scene: PackedScene ## The .tscn file for this level chunk.
+@export var category: Category = Category.TRAVERSAL ## The type of chunk this is.
+@export var difficulty: int = 1 ## A general difficulty rating (e.g., 1-5).
+
+@export_group("Connection Points")
+## Tag describing the entry point, chosen from a predefined list.
+@export_enum("none", "floor_left", "floor_right", "wall_left", "wall_right", "ceiling_left", "ceiling_right") var entry_tag: String = "floor_left"
+## Tag describing the exit point, chosen from a predefined list.
+@export_enum("none", "floor_left", "floor_right", "wall_left", "wall_right", "ceiling_left", "ceiling_right") var exit_tag: String = "floor_right"
+
+@export_group("Requirements")
+## Flags for the generator to know which abilities are needed to clear this chunk.
+@export var requires_double_jump: bool = false
+@export var requires_dash: bool = false
+@export var requires_wall_kick: bool = false
+
 --- SCRIPT: res://Levels/Hideout.gd ---
 # res://Levels/Hideout/Hideout.gd
 extends Node2D
@@ -24928,14 +25938,24 @@ func update_visuals() -> void:
 func _on_train_archer_button_pressed() -> void:
 	EventBus.train_archer_requested.emit()
 
---- SCRIPT: res://Levels/level.gd ---
-# res://Levels/Level.gd
+--- SCRIPT: res://PCG_Testbed.gd ---
+# res://Levels/PCG_Testbed.gd
 extends Node2D
 
-# This script can be used for level-specific logic in the future,
-# but it no longer needs to handle global mission state signals.
+@onready var _button: Button = $Button
+var _generated_level: Node2D = null
+
 func _ready() -> void:
-	pass
+	_button.pressed.connect(_on_button_pressed)
+
+func _on_button_pressed() -> void:
+	# If a level already exists, remove it first.
+	if is_instance_valid(_generated_level):
+		_generated_level.queue_free()
+		
+	# FIX: Add 'await' because generate_level() is now a coroutine.
+	_generated_level = await LevelGenerator.generate_level()
+	add_child(_generated_level)
 
 --- SCRIPT: res://Player/Data/CameraStats.gd ---
 # res://Player/Data/CameraStats.gd
@@ -24961,58 +25981,66 @@ extends Resource
 @export var vertical_lookahead_speed: float = 4.0 ## The speed at which the camera moves to the lookahead position.
 
 --- SCRIPT: res://Player/Data/PlayerStats.gd ---
+# res://Player/Data/PlayerStats.gd
 class_name PlayerStats
 extends Resource
 
 @export_group("Movement & Physics")
-@export var speed: float = 350.0
-@export var air_control_acceleration: float = 250.0
-@export var terminal_velocity: float = 750.0
-@export var acceleration_smoothness: float = 0.1
-@export var friction_smoothness: float = 0.3
+@export var speed: float = 350.0 ## The player's maximum horizontal running speed.
+@export var air_control_acceleration: float = 250.0 ## How quickly the player can change direction mid-air.
+@export var terminal_velocity: float = 750.0 ## The maximum downward speed when falling.
+@export var acceleration_smoothness: float = 0.1 ## How quickly the player reaches max speed. Lower is faster.
+@export var friction_smoothness: float = 0.3 ## How quickly the player stops. Lower is faster.
+@export var crouch_speed_multiplier: float = 0.5 ## The speed multiplier when crouching.
 
 @export_group("Jumping & Gravity")
-@export var jump_height: float = 120.0
-@export var time_to_apex: float = 0.5
-@export var fall_gravity: float = 2400.0
-@export var jump_cut_multiplier: float = 0.3
+@export var jump_height: float = 120.0 ## The height of a standard jump.
+@export var time_to_apex: float = 0.5 ## The time it takes to reach the peak of a jump.
+@export var fall_gravity: float = 2400.0 ## The gravity applied when falling.
+@export var jump_cut_multiplier: float = 0.3 ## The effect of releasing the jump button early.
 
-@export_group("Abilities")
-@export var glide_velocity: float = 300.0
-@export var blink_dash_enabled: bool = false
-@export var slide_duration: float = 0.4
-@export var standing_slide_speed: float = 375.0
-@export var slide_friction: float = 0.01
-@export var skid_duration: float = 0.25
-@export var skid_friction: float = 0.25
-@export var wall_slip_duration: float = 0.08
-@export var wall_slide_friction: float = 80.0
-@export var crouch_speed_multiplier: float = 0.5
-@export var wall_slide_jump_horizontal_velocity: float = 600.0
-@export var wall_slide_jump_vertical_velocity: float = -600.0
-@export var wall_stick_jump_horizontal_velocity: float = 900.0
-@export var wall_stick_jump_vertical_velocity: float = -400.0
-@export var dash_end_velocity_multiplier: float = 0.3
-@export var invisibility_duration: float = 2.0
-@export var invisibility_cooldown: float = 5.0
-@export var wall_kick_horizontal_velocity: float = 700.0 ## NEW: Horizontal speed of the kick-off.
-@export var wall_kick_vertical_velocity: float = -200.0 ## NEW: Small upward boost during kick-off.
-@export var wall_kick_duration: float = 0.25 ## NEW: How long the kick-off state lasts.
+@export_group("Dash")
+@export var dash_distance: float = 400.0 ## The fixed horizontal distance the dash covers.
+@export var dash_duration: float = 0.25 ## The time it takes to complete the dash.
+@export var dash_freeze_duration: float = 0.08 ## The short pause before the dash begins.
+@export var dash_end_velocity_multiplier: float = 0.3 ## The percentage of dash speed retained after the dash ends.
 
-@export_group("Game Feel & Timers")
-@export var coyote_time_duration: float = 0.2
-@export var wall_coyote_time_duration: float = 0.18
-@export var jump_buffer_duration: float = 0.1
-@export var dash_freeze_duration: float = 0.08
-@export var fall_zoom_delay: float = 0.3
-@export var wall_detach_hang_time: float = 0.2
-@export var wall_detach_gravity_scale: float = 0.5
+@export_group("Slide & Skid")
+@export var slide_duration: float = 0.4 ## How long the slide lasts.
+@export var standing_slide_speed: float = 375.0 ## The initial speed of a slide from a standstill.
+@export var slide_friction: float = 0.01 ## How quickly the slide slows down.
+@export var skid_duration: float = 0.25 ## The duration of the turn-around skid animation.
+@export var skid_friction: float = 0.25 ## How quickly the player stops during a skid.
+
+@export_group("Wall Movement")
+@export var wall_slip_duration: float = 0.08 ## The short pause before sticking to a wall.
+@export var wall_slide_friction: float = 80.0 ## The downward speed when sliding on a wall.
+@export var wall_slide_jump_horizontal_velocity: float = 600.0 ## The horizontal force of a normal wall jump.
+@export var wall_slide_jump_vertical_velocity: float = -600.0 ## The vertical force of a normal wall jump.
+@export var wall_stick_jump_horizontal_velocity: float = 900.0 ## The horizontal force of a jump from a wall stick.
+@export var wall_stick_jump_vertical_velocity: float = -400.0 ## The vertical force of a jump from a wall stick.
+@export var wall_kick_horizontal_velocity: float = 700.0 ## Horizontal speed of the wall kick-off ability.
+@export var wall_kick_vertical_velocity: float = -200.0 ## Small upward boost during a wall kick-off.
+@export var wall_kick_duration: float = 0.25 ## How long the wall kick-off state lasts.
+@export var wall_coyote_time_duration: float = 0.18 ## How long the player can still wall jump after leaving a wall.
+@export var wall_detach_hang_time: float = 0.2 ## A brief moment of reduced gravity after detaching from a wall.
+@export var wall_detach_gravity_scale: float = 0.5 ## The gravity multiplier during a wall detach.
+
+@export_group("Other Abilities")
+@export var glide_velocity: float = 300.0 ## The fixed downward speed while gliding.
+@export var invisibility_duration: float = 2.0 ## How long the invisibility lasts.
+@export var invisibility_cooldown: float = 5.0 ## The cooldown after using invisibility.
+@export var blink_dash_enabled: bool = false ## (Future) Flag to enable a different dash type.
+
+@export_group("Game Feel Timers")
+@export var coyote_time_duration: float = 0.2 ## How long the player can still jump after running off a ledge.
+@export var jump_buffer_duration: float = 0.1 ## How long a jump input is remembered before landing.
+@export var fall_zoom_delay: float = 0.3 ## The time before the camera considers a fall a 'long fall'.
 
 # --- Calculated Values ---
 var jump_velocity: float
 var jump_gravity: float
 var charged_jump_velocity: float
-
 
 func _init() -> void:
 	if time_to_apex > 0:
@@ -25168,13 +26196,13 @@ func _ready() -> void:
 
 func _on_area_entered(area: Area2D) -> void:
 	if area is Interactable:
-		print("DEBUG: Player - Entered area of: ", area.get_parent().name)
+		Loggie.info("Entered area of: " + area.get_parent().name, "interaction")
 		InteractionManager.register_interactable(area)
 
 
 func _on_area_exited(area: Area2D) -> void:
 	if area is Interactable:
-		print("DEBUG: Player - Exited area of: ", area.get_parent().name)
+		Loggie.info("Exited area of: " + area.get_parent().name, "interaction")
 		InteractionManager.unregister_interactable(area)
 
 --- SCRIPT: res://Player/PlayerModularControl/AnimationController.gd ---
@@ -25244,22 +26272,17 @@ extends CharacterBody2D
 @export_group("VFX")
 @export var dash_start_vfx: VFXData
 
+# ... (enum, signals, constants, etc. are the same) ...
 enum States {IDLE, RUNNING, JUMPING, FALLING, GLIDING, ON_WALL, WALL_STICKING, DASHING, UNSTICKING, CROUCHING, LANDING, DASH_PREPARE, WALL_SLIP, SKIDDING, SLIDING, WALL_DETACH, WALL_KICK}
-
 signal long_fall_started
 signal long_fall_ended
 signal gliding_started
 signal gliding_ended
-
 const MAX_JUMPS = 2
-const DASH_SPEED = 1500.0
-const DASH_DURATION = 0.15
-const DASH_COOLDOWN = 0.5
 const WALL_STICK_DURATION = 2.0
 const JUMP_CHARGE_DURATION = 1.0
 const LANDING_DURATION = 0.15
 const COMBO_STATES: Array[String] = ["Jumping", "OnWall", "Dashing", "Sliding"]
-
 var current_jumps = 0
 var can_dash: bool = true
 var can_wall_stick: bool = true
@@ -25272,7 +26295,6 @@ var can_go_invisible: bool = true
 var last_wall_normal: Vector2
 var _combo_chain: Array[String] = []
 var _interact_held: bool = false
-
 @onready var state_machine = $StateMachine
 @onready var dash_timer = $Timers/DashTimer
 @onready var dash_cooldown_timer = $Timers/DashCooldownTimer
@@ -25307,6 +26329,7 @@ var _interact_held: bool = false
 @onready var dash_particles: GPUParticles2D = $DashParticles
 @onready var wall_kick_timer = $Timers/WallKickTimer
 
+# ... (_ready, _process, _physics_process are the same) ...
 func _ready():
 	assert(is_instance_valid(stats), "PlayerStats resource must be assigned to the Player in the Inspector!")
 	wall_kick_timer.timeout.connect(_on_wall_kick_timer_timeout)
@@ -25331,34 +26354,47 @@ func _ready():
 	combo_reset_timer.timeout.connect(_on_combo_reset_timer_timeout)
 	state_machine.state_changed.connect(_on_state_changed)
 	state_machine.call_deferred("initialize")
-
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("pause"):
 		EventBus.pause_menu_requested.emit()
-
 func _physics_process(_delta: float):
 	if not GameManager.is_gameplay_active:
 		return
 	if not is_instance_valid(stats):
 		return
-
 	velocity.y = min(velocity.y, stats.terminal_velocity)
 	_handle_global_inputs()
 	move_and_slide()
 
+
+func _on_dash_freeze_timer_timeout():
+	state_machine.change_state("Dashing")
+	var dash_direction = Vector2(1 if not animated_sprite.flip_h else -1, 0)
+
+	if is_instance_valid(dash_start_vfx):
+		vfx.play_effect(dash_start_vfx)
+
+	vfx.play_dash_effects(dash_particles)
+	
+	assert(stats.dash_duration > 0, "Dash Duration in PlayerStats cannot be zero.")
+	var dash_speed = stats.dash_distance / stats.dash_duration
+	
+	velocity.x = dash_direction.x * dash_speed
+	velocity.y = 0
+	dash_timer.start(stats.dash_duration)
+
+# ... (many functions are the same) ...
 func _handle_global_inputs():
 	if Input.is_action_just_pressed("dash") and can_dash:
 		state_machine.change_state("DashPrepare")
 	if Input.is_action_just_pressed("invisibility") and can_go_invisible:
 		_enter_invisibility()
-
 func enter_jump_state():
 	coyote_timer.stop()
 	fall_zoom_timer.stop()
 	set_standing_collision()
 	velocity.y = stats.jump_velocity
 	current_jumps += 1
-
 func wall_jump(wall_normal_override: Vector2 = Vector2.ZERO):
 	wall_stick_timer.stop()
 	wall_coyote_timer.stop()
@@ -25371,100 +26407,67 @@ func wall_jump(wall_normal_override: Vector2 = Vector2.ZERO):
 		velocity.x = wall_normal.x * stats.wall_slide_jump_horizontal_velocity
 	can_wall_stick = true
 	current_jumps = 1
-
 func _start_wall_coyote_time():
 	last_wall_normal = get_wall_normal()
 	wall_coyote_timer.start(stats.wall_coyote_time_duration)
 	wall_detach_timer.start(stats.wall_detach_hang_time)
 	can_wall_stick = true
 	fall_zoom_timer.start(stats.fall_zoom_delay)
-
 func is_head_clear() -> bool:
 	return not head_clearance_ray.is_colliding()
-
 func set_standing_collision():
 	standing_collision.disabled = false
 	crouching_collision.disabled = true
 	wall_slide_collision.disabled = true
-
 func set_crouching_collision():
 	standing_collision.disabled = true
 	crouching_collision.disabled = false
 	wall_slide_collision.disabled = true
-
 func set_wall_slide_collision():
 	standing_collision.disabled = true
 	crouching_collision.disabled = true
 	wall_slide_collision.disabled = false
-
 func _enter_invisibility():
 	is_invisible = true
 	can_go_invisible = false
 	invisibility_timer.start(stats.invisibility_duration)
 	invisibility_cooldown_timer.start(stats.invisibility_cooldown)
 	animated_sprite.modulate.a = 0.5
-
 func _on_dash_timer_timeout():
 	end_dash()
 	state_machine.change_state("Falling")
-
 func _on_dash_cooldown_timer_timeout():
 	can_dash = true
-
 func _on_wall_stick_timer_timeout():
 	if state_machine.current_state.name == "WallStickingState":
 		state_machine.change_state("OnWall")
-
 func _on_crouch_timer_timeout():
 	is_jump_charged = true
-
 func _on_coyote_timer_timeout():
 	if current_jumps == 0:
 		current_jumps = 1
-
 func _on_jump_buffer_timer_timeout():
 	jump_buffered = false
-
-func _on_dash_freeze_timer_timeout():
-	state_machine.change_state("Dashing")
-	var dash_direction = Vector2(1 if not animated_sprite.flip_h else -1, 0)
-
-	if is_instance_valid(dash_start_vfx):
-		vfx.play_effect(dash_start_vfx)
-
-	vfx.play_dash_effects(dash_particles)
-
-	velocity.x = dash_direction.x * DASH_SPEED
-	velocity.y = 0
-	dash_timer.start(DASH_DURATION)
-
 func _on_invisibility_timer_timeout():
 	is_invisible = false
 	animated_sprite.modulate.a = 1.0
-
 func _on_invisibility_cooldown_timer_timeout():
 	can_go_invisible = true
-
 func _on_land_timer_timeout():
 	if state_machine.current_state.name == "LandingState":
 		state_machine.change_state("Idle")
-
 func _on_fall_zoom_timer_timeout():
 	if not is_on_floor():
 		is_long_fall = true
 		long_fall_started.emit()
-
 func _on_wall_slip_timer_timeout():
 	if state_machine.current_state.name == "WallSlipState":
 		state_machine.change_state("WallSticking")
-
 func _on_skid_timer_timeout():
 	if state_machine.current_state.name == "SkiddingState":
 		state_machine.change_state("Running")
-
 func _on_wall_coyote_timer_timeout():
 	pass
-
 func _on_slide_timer_timeout():
 	if state_machine.current_state.name == "SlidingState":
 		if is_head_clear():
@@ -25474,27 +26477,24 @@ func _on_slide_timer_timeout():
 				state_machine.change_state("Idle")
 		else:
 			state_machine.change_state("Crouching")
-
 func _on_standing_slide_cooldown_timer_timeout():
 	can_standing_slide = true
-
 func _on_wall_detach_timer_timeout():
 	if state_machine.current_state.name == "WallDetachState":
 		state_machine.change_state("Falling")
-
 func _unhandled_input(event: InputEvent) -> void:
 	if not GameManager.is_gameplay_active: return
 	if event.is_action_pressed("interact_world"):
 		EventBus.interaction_started.emit()
 	elif event.is_action_released("interact_world"):
 		EventBus.interaction_cancelled.emit()
-
 func end_dash() -> void:
 	if state_machine.current_state.name != "DashingState":
 		return
 	vfx.stop_dash_effects(dash_particles)
-	dash_cooldown_timer.start(DASH_COOLDOWN)
-
+	# TODO: Add dash_cooldown to PlayerStats resource
+	var dash_cooldown = 0.5
+	dash_cooldown_timer.start(dash_cooldown)
 func _on_state_changed(new_state_name: String) -> void:
 	if new_state_name in COMBO_STATES:
 		combo_reset_timer.stop()
@@ -25506,20 +26506,17 @@ func _on_state_changed(new_state_name: String) -> void:
 func _add_move_to_combo(move_name: String) -> void:
 	combo_timer.start(1.0)
 	_combo_chain.append(move_name)
-
-	if DebugManager.show_combo_logs:
-		print("Combo Chain: ", _combo_chain)
+	
+	Loggie.info(str("Combo Chain: ", _combo_chain), "combo")
 
 	if _combo_chain.size() >= 3:
 		EventBus.flow_combo_success.emit()
-		if DebugManager.show_combo_logs:
-			print("--- FLOW COMBO SUCCESS! ---")
+		Loggie.info("--- FLOW COMBO SUCCESS! ---", "combo")
 
 func _reset_combo() -> void:
 	if not _combo_chain.is_empty():
 		_combo_chain.clear()
-		if DebugManager.show_combo_logs:
-			print("Combo Reset.")
+		Loggie.info("Combo Reset.", "combo")
 
 func _on_combo_timer_timeout() -> void:
 	_reset_combo()
@@ -25532,7 +26529,7 @@ func get_current_state_name() -> String:
 		return state_machine.current_state.name
 	return ""
 	
-func _on_wall_kick_timer_timeout() -> void: # ADD THIS ENTIRE FUNCTION
+func _on_wall_kick_timer_timeout() -> void:
 	if state_machine.current_state.name == "WallKickState":
 		state_machine.change_state("Falling")
 
@@ -26032,18 +27029,12 @@ func process_physics(_delta: float):
 class_name StateMachine
 extends Node
 
-## The starting state for the machine. Set this in the Inspector.
 @export var initial_state: NodePath
 signal state_changed(new_state_name: String)
 
 var current_state: State
 var states: Dictionary = {}
 
-# The _ready function is now empty.
-func _ready():
-	pass
-
-# This new function will be called by the Player after it's ready.
 func initialize():
 	for child in get_children():
 		if child is State:
@@ -26054,30 +27045,25 @@ func initialize():
 		current_state = get_node(initial_state)
 		current_state.enter()
 
-## Changes the active state.
 func change_state(state_name: String):
 	var new_state_node_name = state_name + "State"
 
-	# Don't change to the same state.
-	if current_state.name == new_state_node_name:
+	if current_state and current_state.name == new_state_node_name:
 		return
 	
-	DebugManager.log(DebugManager.Category.PLAYER_STATE, "Changing state from '%s' to '%s'" % [current_state.name, new_state_node_name])
+	Loggie.info("Changing state from '%s' to '%s'" % [current_state.name if current_state else "null", new_state_node_name], "player_state")
 	
-	# Call the exit function on the current state.
 	if current_state:
 		current_state.exit()
 	
-	# Find the new state in our dictionary.
 	var new_state = states.get(new_state_node_name)
 	if new_state:
 		current_state = new_state
 		current_state.enter()
 		state_changed.emit(state_name)
 	else:
-		printerr("State '" + new_state_node_name + "' not found in StateMachine.")
+		Loggie.error("State '" + new_state_node_name + "' not found in StateMachine.", "player_state")
 
-## Pass the engine callbacks to the active state.
 func _input(event: InputEvent):
 	if current_state:
 		current_state.process_input(event)
@@ -26246,66 +27232,6 @@ func process_physics(_delta):
 		player.wall_stick_timer.stop()
 		state_machine.change_state("Idle")
 
---- SCRIPT: res://Singletons/DebugManager.gd ---
-# res://Singletons/DebugManager.gd
-extends Node
-
-@export_group("Log Categories")
-@export var show_interaction_logs: bool = false
-@export var show_player_state_logs: bool = false
-@export var show_player_physics_logs: bool = false
-@export var show_game_state_logs: bool = false
-@export var show_checkpoint_logs: bool = false
-@export var show_combo_logs: bool = false ## NEW: Toggle for combo chain prints.
-
-@export_group("Camera Logs")
-@export var show_camera_logs_horizontal: bool = false
-@export var show_camera_logs_vertical: bool = false
-@export var show_camera_ledge_peek_logs: bool = false
-
-
-enum Category {
-	INTERACTION,
-	PLAYER_STATE,
-	PLAYER_PHYSICS,
-	GAME_STATE,
-	CHECKPOINT
-}
-
-func log(category: Category, message: String) -> void:
-	var should_log: bool = false
-	match category:
-		Category.INTERACTION:
-			should_log = show_interaction_logs
-		Category.PLAYER_STATE:
-			should_log = show_player_state_logs
-		Category.PLAYER_PHYSICS:
-			should_log = show_player_physics_logs
-		Category.GAME_STATE:
-			should_log = show_game_state_logs
-		Category.CHECKPOINT:
-			should_log = show_checkpoint_logs
-
-	if should_log:
-		print("[QA LOG]: ", message)
-
-
-func print_camera_log(player_x: float, target_x: float, diff: float, deadzone: float):
-	if show_camera_logs_horizontal:
-		var log_message = "PlayerX: %.1f | TargetX: %.1f | DiffX: %.1f | DeadzoneX: %.1f" % [player_x, target_x, diff, deadzone]
-		print("[QA LOG | CAMERA H]: ", log_message)
-
-
-func print_camera_log_vertical(player_y: float, target_y: float, diff: float, deadzone: float):
-	if show_camera_logs_vertical:
-		var log_message = "PlayerY: %.1f | TargetY: %.1f | DiffY: %.1f | DeadzoneY: %.1f" % [player_y, target_y, diff, deadzone]
-		print("[QA LOG | CAMERA V]: ", log_message)
-
-
-func print_ledge_peek_log(is_peeking: bool, reason: String):
-	if show_camera_ledge_peek_logs:
-		print("[QA LOG | LEDGE PEEK]: Peeking is %s. Reason: %s" % [is_peeking, reason])
-
 --- SCRIPT: res://Singletons/EventBus.gd ---
 # res://Singletons/EventBus.gd
 extends Node
@@ -26341,13 +27267,14 @@ signal continue_game_requested
 
 --- SCRIPT: res://Singletons/GameManager.gd ---
 # res://Singletons/GameManager.gd
+
 extends Node
 
 signal resources_updated
 signal checkpoint_set
-signal hideout_upgraded ## NEW: To announce a successful upgrade.
+signal hideout_upgraded
 
-@export var hideout_progression_data: HideoutProgressionData ## NEW: Link to our upgrade costs.
+@export var hideout_progression_data: HideoutProgressionData ## The resource file containing upgrade costs for the hideout.
 
 # --- Resource-based State Management ---
 var session_state: MissionSaveState
@@ -26377,99 +27304,130 @@ func _ready() -> void:
 	EventBus.pause_toggled.connect(_on_pause_toggled)
 	EventBus.player_died.connect(_on_player_died)
 
-# NEW: The core logic for handling an upgrade attempt.
-func try_upgrade_hideout():
+func try_upgrade_hideout() -> void:
 	assert(is_instance_valid(hideout_progression_data), "HideoutProgressionData resource must be assigned to GameManager!")
 
 	if hideout_level >= hideout_progression_data.max_level:
-		print("DEBUG: Hideout is already at max level.")
+		Loggie.info("Hideout is already at max level.", "hideout")
 		return
 
-	# Array index is level - 1 (e.g., cost for level 2 is at index 0)
-	var cost = hideout_progression_data.upgrade_costs[hideout_level - 1]
+	var cost_index = hideout_level - 1
+	if cost_index >= hideout_progression_data.upgrade_costs.size():
+		Loggie.error("Not enough upgrade cost entries in HideoutProgressionData.", "hideout")
+		return
+
+	var cost = hideout_progression_data.upgrade_costs[cost_index]
 
 	if gold >= cost:
 		gold -= cost
 		hideout_level += 1
-		print("SUCCESS: Hideout upgraded to level ", hideout_level)
+		Loggie.info("SUCCESS: Hideout upgraded to level %d" % hideout_level, "hideout")
 		hideout_upgraded.emit()
 		save_game()
 	else:
-		print("FAILED: Not enough gold. Need %d, have %d" % [cost, gold])
+		Loggie.info("FAILED: Not enough gold to upgrade. Need %d, have %d" % [cost, gold], "hideout")
 
 
-# ... (rest of the script is the same) ...
+# --- Persistence API ---
 func get_persistent_state(object_id: String) -> Dictionary:
 	if session_state and session_state.collected_objects.has(object_id):
 		return session_state.collected_objects[object_id]
 	return {}
+
 func set_persistent_state(object_id: String, state: Dictionary) -> void:
 	if session_state:
 		session_state.collected_objects[object_id] = state
+
 func save_checkpoint_data() -> void:
 	if session_state:
 		checkpoint_state = session_state.duplicate(true)
-		DebugManager.log(DebugManager.Category.CHECKPOINT, "Checkpoint data saved.")
+		Loggie.info("Checkpoint data saved.", "checkpoint")
+
+# --- Event Handlers ---
 func _on_mission_started() -> void:
 	mission_objective_complete = false
 	session_state = MissionSaveState.new()
 	checkpoint_state = null
+
 func _on_player_died() -> void:
 	if checkpoint_state:
 		session_state = checkpoint_state.duplicate(true)
-		DebugManager.log(DebugManager.Category.GAME_STATE, "Session state restored from checkpoint.")
+		Loggie.info("Session state restored from checkpoint.", "game_state")
 	else:
 		session_state = MissionSaveState.new()
-		DebugManager.log(DebugManager.Category.GAME_STATE, "No checkpoint found. Starting with fresh session state.")
+		Loggie.info("No checkpoint found. Starting with fresh session state.", "game_state")
+		
 	if not SceneManager.current_scene_key.is_empty():
 		SceneManager.change_scene(SceneManager.current_scene_key)
+
 func set_checkpoint(pos: Vector2) -> void:
 	if session_state:
 		session_state.checkpoint_position = pos
 	EventBus.checkpoint_set.emit(pos)
+
 func _on_gold_collected(amount: int) -> void:
 	gold += amount
 	save_game()
+
 func _on_villager_rescued() -> void:
 	villagers += 1
 	mission_objective_complete = true
 	save_game()
+
 func _on_train_archer_requested() -> void:
 	if gold >= 10 and villagers > 0:
 		gold -= 10
 		villagers -= 1
 		archers += 1
 		save_game()
+
 func _on_mission_objective_completed() -> void:
 	EventBus.mission_succeeded.emit()
+
 func _on_player_detected() -> void:
 	EventBus.mission_failed.emit()
+
 func _on_pause_toggled(is_paused: bool) -> void:
 	get_tree().paused = is_paused
 	is_gameplay_active = not is_paused
+
+# --- Save/Load System ---
 func reset_game_data() -> void:
 	gold = 0
 	villagers = 0
 	archers = 0
 	hideout_level = 1
+	wall_kick_unlocked = false
 	if FileAccess.file_exists(SAVE_FILE_PATH):
 		DirAccess.remove_absolute(SAVE_FILE_PATH)
 	resources_updated.emit()
+
 func save_game():
-	var save_data = { "gold": gold, "villagers": villagers, "archers": archers, "hideout_level": hideout_level }
+	var save_data = {
+		"gold": gold,
+		"villagers": villagers,
+		"archers": archers,
+		"hideout_level": hideout_level,
+		"wall_kick_unlocked": wall_kick_unlocked
+	}
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE)
 	file.store_string(JSON.stringify(save_data))
+	resources_updated.emit()
+
 func load_game():
 	if not FileAccess.file_exists(SAVE_FILE_PATH):
 		return
+		
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.READ)
 	var content = file.get_as_text()
 	var data = JSON.parse_string(content)
+	
 	if data:
 		gold = data.get("gold", 0)
 		villagers = data.get("villagers", 0)
 		archers = data.get("archers", 0)
 		hideout_level = data.get("hideout_level", 1)
+		wall_kick_unlocked = data.get("wall_kick_unlocked", false)
 		resources_updated.emit()
 
 --- SCRIPT: res://Singletons/InteractionManager.gd ---
@@ -26479,9 +27437,7 @@ extends Node
 signal show_prompt(interactable)
 signal hide_prompt
 
-
-# --- Internal State ---
-var _current_interactable: Interactable = null # Using the specific class name for type safety
+var _current_interactable: Interactable = null
 var _is_holding: bool = false
 var _hold_progress: float = 0.0
 
@@ -26494,24 +27450,16 @@ func _process(delta: float) -> void:
 	if _is_holding and is_instance_valid(_current_interactable):
 		_hold_progress += delta
 		
-		# THE KEY CHANGE IS HERE:
-		# 1. Get the duration from the specific object we are interacting with.
 		var duration = _current_interactable.interaction_duration
-		
-		# 2. Safety check to prevent division-by-zero errors if the duration is set to 0.
 		if duration <= 0:
-			duration = 0.01 # Allow for near-instant interaction
+			duration = 0.01
 
-		# 3. Calculate progress using the object's specific duration.
 		var progress_percentage = _hold_progress / duration
 		EventBus.interaction_progress_updated.emit(progress_percentage)
 		
-		DebugManager.log(DebugManager.Category.INTERACTION, "Hold progress: " + str(snapped(progress_percentage, 0.01)))
-		
-		# 4. Check for success using that same duration.
 		if _hold_progress >= duration:
 			var object_name = _current_interactable.get_parent().name
-			DebugManager.log(DebugManager.Category.INTERACTION, "Interaction SUCCEEDED for '%s'." % object_name)
+			Loggie.info("Interaction SUCCEEDED for '%s'." % object_name, "interaction")
 			_current_interactable.perform_interaction()
 			EventBus.interaction_succeeded.emit()
 			_reset_hold_state()
@@ -26524,11 +27472,11 @@ func clear_interactable() -> void:
 func register_interactable(interactable: Interactable) -> void:
 	_current_interactable = interactable
 	show_prompt.emit(_current_interactable)
-	DebugManager.log(DebugManager.Category.INTERACTION, "Registered '%s' as current interactable." % interactable.get_parent().name)
+	Loggie.info("Registered '%s' as current interactable." % interactable.get_parent().name, "interaction")
 
 func unregister_interactable(interactable: Interactable) -> void:
 	if _current_interactable == interactable:
-		DebugManager.log(DebugManager.Category.INTERACTION, "Unregistered '%s'." % interactable.get_parent().name)
+		Loggie.info("Unregistered '%s'." % interactable.get_parent().name, "interaction")
 		_current_interactable = null
 		_reset_hold_state()
 		hide_prompt.emit()
@@ -26536,11 +27484,11 @@ func unregister_interactable(interactable: Interactable) -> void:
 func _on_interaction_started() -> void:
 	if is_instance_valid(_current_interactable):
 		_is_holding = true
-		DebugManager.log(DebugManager.Category.INTERACTION, "Interaction hold STARTED.")
+		Loggie.info("Interaction hold STARTED.", "interaction")
 
 func _on_interaction_cancelled() -> void:
 	if _is_holding:
-		DebugManager.log(DebugManager.Category.INTERACTION, "Interaction hold CANCELLED.")
+		Loggie.info("Interaction hold CANCELLED.", "interaction")
 	_reset_hold_state()
 
 func _reset_hold_state() -> void:
@@ -26549,6 +27497,243 @@ func _reset_hold_state() -> void:
 	_is_holding = false
 	_hold_progress = 0.0
 	EventBus.interaction_progress_updated.emit(0.0)
+
+--- SCRIPT: res://Singletons/LevelGenerator.gd ---
+# res://Singletons/LevelGenerator.gd
+class_name LevelGenerator
+extends Node2D
+
+const CHUNK_DATA_PATH = "res://Levels/Chunks/data"
+
+@export_group("Generator Settings")
+@export_range(2, 50) var min_length: int = 5
+@export_range(2, 50) var max_length: int = 8
+@export_range(0.0, 1.0) var stealth_chunk_chance: float = 0.25
+@export_range(0.0, 1.0) var verticality_chance: float = 0.3
+@export_range(0.0, 1.0) var reverse_direction_chance: float = 0.2
+@export var min_chunks_between_dashes: int = 2
+
+@export_group("Scene Dependencies")
+@export var camera_boundary_scene: PackedScene
+@export var kill_zone_scene: PackedScene
+
+var _chunks_by_category: Dictionary = {
+	ChunkData.Category.START: [] as Array[ChunkData],
+	ChunkData.Category.END: [] as Array[ChunkData],
+	ChunkData.Category.TRAVERSAL: [] as Array[ChunkData],
+	ChunkData.Category.STEALTH: [] as Array[ChunkData],
+	ChunkData.Category.TRANSITION: [] as Array[ChunkData],
+	ChunkData.Category.SECRET: [] as Array[ChunkData],
+	ChunkData.Category.VERTICAL_TRAVERSAL: [] as Array[ChunkData],
+}
+var _level_root: Node2D = null
+@onready var _debug_font = load("res://UserInterface/8bitlimr.ttf")
+
+# ... (_ready, _process, _draw are the same) ...
+func _ready():
+	_load_all_chunk_data()
+func _process(_delta: float) -> void:
+	if Loggie and Loggie.settings.show_chunk_boundaries and is_instance_valid(_level_root):
+		queue_redraw()
+func _draw() -> void:
+	if not (Loggie and Loggie.settings.show_chunk_boundaries and is_instance_valid(_level_root)):
+		return
+	for chunk in _level_root.get_children():
+		if not chunk is Node2D: continue
+		var entry: Marker2D = chunk.get_node_or_null("entry")
+		if is_instance_valid(entry):
+			draw_circle(entry.global_position, 8, Color.RED)
+			draw_string(_debug_font, entry.global_position + Vector2(10, 0), "ENTRY", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color.RED)
+		var exit: Marker2D = chunk.get_node_or_null("exit")
+		if is_instance_valid(exit):
+			draw_circle(exit.global_position, 8, Color.BLUE)
+			draw_string(_debug_font, exit.global_position + Vector2(10, 0), "EXIT", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color.BLUE)
+
+
+func _load_all_chunk_data() -> void:
+	var dir = DirAccess.open(CHUNK_DATA_PATH)
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if not dir.current_is_dir() and file_name.ends_with(".tres"):
+				var chunk_data: ChunkData = load(CHUNK_DATA_PATH.path_join(file_name))
+				if is_instance_valid(chunk_data):
+					_chunks_by_category[chunk_data.category].append(chunk_data)
+			file_name = dir.get_next()
+	else:
+		Loggie.error("Could not open chunk data path: " + CHUNK_DATA_PATH, "proc_gen")
+
+func generate_level() -> Node2D:
+	if is_instance_valid(_level_root):
+		_level_root.queue_free()
+		
+	_level_root = Node2D.new()
+	_level_root.name = "GeneratedLevel"
+	
+	var length = randi_range(min_length, max_length)
+	Loggie.info("--- Starting Level Generation (Length: %d) ---" % length, "proc_gen")
+	
+	var last_chunk: Dictionary = {"instance": null, "data": null}
+	var chunks_since_last_dash = min_chunks_between_dashes
+	
+	last_chunk = _add_random_chunk(_level_root, ChunkData.Category.START, last_chunk, chunks_since_last_dash)
+	if is_instance_valid(last_chunk.data) and last_chunk.data.requires_dash:
+		chunks_since_last_dash = 0
+	
+	for i in range(length):
+		if not is_instance_valid(last_chunk.instance):
+			Loggie.warn("Halting generation, previous chunk was invalid or had no exit.", "proc_gen")
+			break
+
+		var category_to_spawn: int
+		if randf() < verticality_chance:
+			category_to_spawn = ChunkData.Category.VERTICAL_TRAVERSAL
+		elif randf() < reverse_direction_chance:
+			category_to_spawn = ChunkData.Category.TRANSITION
+		elif randf() < stealth_chunk_chance:
+			category_to_spawn = ChunkData.Category.STEALTH
+		else:
+			category_to_spawn = ChunkData.Category.TRAVERSAL
+		
+		var next_chunk = _add_random_chunk(_level_root, category_to_spawn, last_chunk, chunks_since_last_dash)
+		
+		if not is_instance_valid(next_chunk.instance) or next_chunk.instance == last_chunk.instance:
+			Loggie.info("... Falling back to TRAVERSAL chunk.", "proc_gen")
+			next_chunk = _add_random_chunk(_level_root, ChunkData.Category.TRAVERSAL, last_chunk, chunks_since_last_dash)
+		
+		last_chunk = next_chunk
+		
+		if is_instance_valid(last_chunk.data):
+			if last_chunk.data.requires_dash:
+				chunks_since_last_dash = 0
+			else:
+				chunks_since_last_dash += 1
+
+	if is_instance_valid(last_chunk.instance):
+		_add_random_chunk(_level_root, ChunkData.Category.END, last_chunk, chunks_since_last_dash)
+	
+	await get_tree().process_frame
+	var level_bounds = _calculate_level_bounds(_level_root)
+	if level_bounds.size != Vector2.ZERO:
+		_add_camera_boundary(_level_root, level_bounds)
+		_add_killzone(_level_root, level_bounds)
+	
+	Loggie.info("--- Level Generation Complete ---", "proc_gen")
+	return _level_root
+
+func _get_compatible_tag(exit_tag: String) -> String:
+	# ... (same)
+	if exit_tag.ends_with("_right"): return exit_tag.replace("_right", "_left")
+	if exit_tag.ends_with("_left"): return exit_tag.replace("_left", "_right")
+	if exit_tag.ends_with("_top"): return exit_tag.replace("_top", "_bottom")
+	if exit_tag.ends_with("_bottom"): return exit_tag.replace("_bottom", "_top")
+	return "none"
+
+func _add_random_chunk(parent: Node, category: int, previous_chunk: Dictionary, chunks_since_last_dash: int) -> Dictionary:
+	var all_chunks_in_category: Array[ChunkData] = _chunks_by_category.get(category, [])
+	var compatible_chunks: Array[ChunkData] = []
+	if previous_chunk.data == null:
+		compatible_chunks = all_chunks_in_category
+	else:
+		var required_entry_tag = _get_compatible_tag(previous_chunk.data.exit_tag)
+		var log_msg = "... Seeking [%s] chunk with entry tag: <%s>" % [ChunkData.Category.keys()[category], required_entry_tag]
+		if chunks_since_last_dash < min_chunks_between_dashes:
+			log_msg += " (Excluding Dash Chunks)"
+		Loggie.info(log_msg, "proc_gen")
+		
+		for chunk_data in all_chunks_in_category:
+			if chunk_data.entry_tag == required_entry_tag:
+				if chunk_data.requires_dash and chunks_since_last_dash < min_chunks_between_dashes:
+					continue
+				compatible_chunks.append(chunk_data)
+	if compatible_chunks.is_empty():
+		Loggie.warn("No compatible chunks found for category: " + ChunkData.Category.keys()[category], "proc_gen")
+		return {"instance": previous_chunk.instance, "data": previous_chunk.data}
+		
+	var chosen_chunk_data: ChunkData = compatible_chunks.pick_random()
+	var chunk_instance = chosen_chunk_data.chunk_scene.instantiate()
+	
+	var category_name_str = ChunkData.Category.keys()[category]
+	var scene_path = chosen_chunk_data.chunk_scene.resource_path
+	var log_message = "Placing [%s] chunk: %s | Entry: <%s> | Exit: <%s>" % [category_name_str, scene_path.get_file(), chosen_chunk_data.entry_tag, chosen_chunk_data.exit_tag]
+	if chosen_chunk_data.requires_dash: log_message += " [REQUIRES DASH]"
+	Loggie.info(log_message, "proc_gen")
+	
+	chunk_instance.name = chosen_chunk_data.chunk_scene.resource_path.get_file().get_basename() + "_" + str(randi())
+	parent.add_child(chunk_instance)
+	
+	if is_instance_valid(previous_chunk.instance):
+		var previous_exit_marker = previous_chunk.instance.get_node_or_null("exit")
+		if not is_instance_valid(previous_exit_marker): return {"instance": null, "data": null}
+		var entry_marker: Marker2D = chunk_instance.get_node_or_null("entry")
+		if not is_instance_valid(entry_marker):
+			Loggie.error("Chunk " + scene_path + " is missing an 'entry' marker.", "proc_gen")
+			chunk_instance.queue_free()
+			return {"instance": null, "data": null}
+		
+		chunk_instance.global_position = previous_exit_marker.global_position - entry_marker.position
+		
+		var align_log = "... Alignment: Prev Exit at %s, New Entry at %s" % [previous_exit_marker.global_position.round(), entry_marker.global_position.round()]
+		Loggie.info(align_log, "proc_gen")
+
+	if chosen_chunk_data.exit_tag == "none":
+		return {"instance": chunk_instance, "data": null}
+		
+	return {"instance": chunk_instance, "data": chosen_chunk_data}
+
+func _calculate_level_bounds(level_node: Node2D) -> Rect2:
+	# ... (same)
+	var combined_rect: Rect2
+	var first = true
+	for chunk in level_node.get_children():
+		var tilemap = _find_child_by_type(chunk, "TileMap") as TileMap
+		if is_instance_valid(tilemap):
+			var used_rect = tilemap.get_used_rect()
+			var global_pos_start = tilemap.to_global(tilemap.map_to_local(used_rect.position))
+			var global_pos_end = tilemap.to_global(tilemap.map_to_local(used_rect.end))
+			var rect_global = Rect2(global_pos_start, (global_pos_end - global_pos_start))
+			if first:
+				combined_rect = rect_global
+				first = false
+			else:
+				combined_rect = combined_rect.merge(rect_global)
+	return combined_rect
+
+func _add_camera_boundary(level_node: Node2D, bounds: Rect2) -> void:
+	# ... (same)
+	if not is_instance_valid(camera_boundary_scene): return
+	var boundary = camera_boundary_scene.instantiate()
+	level_node.add_child(boundary)
+	var shape = RectangleShape2D.new()
+	var padded_bounds = bounds.grow(100) # Add padding
+	shape.size = padded_bounds.size
+	var collision_shape = boundary.get_node("CollisionShape2D")
+	collision_shape.shape = shape
+	boundary.global_position = padded_bounds.position
+	Loggie.info("Added CameraBoundary at %s with size %s" % [padded_bounds.position.round(), padded_bounds.size.round()], "proc_gen")
+
+func _add_killzone(level_node: Node2D, bounds: Rect2) -> void:
+	# ... (same)
+	if not is_instance_valid(kill_zone_scene): return
+	var killzone = kill_zone_scene.instantiate()
+	level_node.add_child(killzone)
+	var shape = RectangleShape2D.new()
+	shape.size = Vector2(bounds.size.x + 2000, 200) 
+	var collision_shape = killzone.get_node("CollisionShape2D")
+	collision_shape.shape = shape
+	killzone.global_position = Vector2(bounds.get_center().x - shape.size.x / 2, bounds.end.y + 200)
+	Loggie.info("Added KillZone below level.", "proc_gen")
+
+func _find_child_by_type(node: Node, type: String) -> Node:
+	# ... (same)
+	for child in node.get_children():
+		if child.get_class() == type:
+			return child
+		var found = _find_child_by_type(child, type)
+		if is_instance_valid(found):
+			return found
+	return null
 
 --- SCRIPT: res://Singletons/SceneEntry.gd ---
 # res://Singletons/SceneEntry.gd
@@ -26580,53 +27765,64 @@ func _ready() -> void:
 		if entry and entry.scene and not entry.key.is_empty():
 			_scene_map[entry.key] = entry.scene
 		else:
-			printerr("SceneManager: Invalid entry in scene_entries array.")
+			Loggie.error("SceneManager: Invalid entry in scene_entries array.", "setup")
 
-	# MODIFIED: All hideout requests now go through our new helper function.
 	EventBus.new_game_requested.connect(_load_hideout_scene)
 	EventBus.continue_game_requested.connect(_load_hideout_scene)
 	EventBus.return_to_hideout_requested.connect(_load_hideout_scene)
-	
 	EventBus.start_mission_requested.connect(func(mission_key): change_scene(mission_key))
 
 
-# NEW: This function builds the scene key and calls change_scene.
 func _load_hideout_scene() -> void:
 	var hideout_key = "hideout_" + str(GameManager.hideout_level)
 	change_scene(hideout_key)
 
 
 func change_scene(scene_key: String) -> void:
-	# ... (rest of the script is the same) ...
 	current_scene_key = scene_key
-	DebugManager.log(DebugManager.Category.GAME_STATE, "Changing scene to: '%s'" % scene_key)
+	Loggie.info("Changing scene to: '%s'" % scene_key, "game_state")
+	
 	var ui_to_close = UIManager.close_current_ui()
 	if is_instance_valid(ui_to_close):
 		await ui_to_close.tree_exited
+		
 	animation_player.play("fade_to_black")
 	await animation_player.animation_finished
+
 	var scene_to_load: PackedScene = _scene_map[scene_key]
 	get_tree().change_scene_to_packed(scene_to_load)
+	
 	await get_tree().process_frame
-	_spawn_player()
+	
+	var new_scene = get_tree().current_scene
+	if new_scene.has_signal("level_generated"):
+		new_scene.level_generated.connect(_spawn_player, CONNECT_ONE_SHOT)
+	else:
+		_spawn_player()
+	
 	animation_player.play("fade_from_black")
+
 
 func _spawn_player() -> void:
 	if not player_scene:
-		printerr("SceneManager Error: player_scene not set in Inspector!")
+		Loggie.error("SceneManager Error: player_scene not set in Inspector!", "setup")
 		return
+
 	var current_scene = get_tree().current_scene
+	
 	var spawn_point_node = current_scene.find_child("PlayerSpawnPoint", true, false)
 	if not is_instance_valid(spawn_point_node):
-		printerr("SceneManager Error: No PlayerSpawnPoint found in scene '", current_scene.name, "'")
+		Loggie.error("SceneManager Error: No PlayerSpawnPoint found in scene '%s'" % current_scene.name, "level")
 		return
+		
 	var spawn_position: Vector2
 	if GameManager.session_state and GameManager.session_state.checkpoint_position != Vector2.ZERO:
 		spawn_position = GameManager.session_state.checkpoint_position
-		DebugManager.log(DebugManager.Category.GAME_STATE, "Spawning player at checkpoint: " + str(spawn_position))
+		Loggie.info("Spawning player at checkpoint: " + str(spawn_position), "game_state")
 	else:
 		spawn_position = spawn_point_node.global_position
-		DebugManager.log(DebugManager.Category.GAME_STATE, "Spawning player at default spawn point: " + str(spawn_position))
+		Loggie.info("Spawning player at default spawn point: " + str(spawn_position), "game_state")
+		
 	var player_instance = player_scene.instantiate()
 	player_instance.global_position = spawn_position
 	current_scene.add_child(player_instance)
@@ -27226,11 +28422,11 @@ func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
 		assert(is_instance_valid(_respawn_marker), "RespawnPoint NodePath must be set on Checkpoint in the editor.")
 		var respawn_pos: Vector2 = _respawn_marker.global_position
-
+		
 		checkpoint_activated.emit(respawn_pos)
 		GameManager.set_checkpoint(respawn_pos)
 		GameManager.save_checkpoint_data()
-		DebugManager.log(DebugManager.Category.CHECKPOINT, "Checkpoint activated. Respawn at: " + str(respawn_pos))
+		Loggie.info("Checkpoint activated. Respawn at: " + str(respawn_pos), "checkpoint")
 
 --- SCRIPT: res://World/ExitZone.gd ---
 # res://World/exit_zone.gd
@@ -27260,8 +28456,7 @@ func _ready() -> void:
 
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player"):
-		# This log will confirm our collision is working.
-		DebugManager.log(DebugManager.Category.GAME_STATE, "Player entered KillZone. Emitting player_died signal.")
+		Loggie.info("Player entered KillZone. Emitting player_died signal.", "game_state")
 		EventBus.player_died.emit()
 --- END OF CODEBASE ---
 
