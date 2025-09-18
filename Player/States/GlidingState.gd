@@ -14,8 +14,8 @@ func exit() -> void:
 func process_physics(_delta: float) -> void:
 	var input_x: float = Input.get_axis("left", "right")
 
-	player.velocity.y = player.stats.glide_velocity
-	player.velocity.x = move_toward(player.velocity.x, input_x * player.stats.speed, 150)
+	player.velocity.y = player.stats.special_glide_velocity
+	player.velocity.x = move_toward(player.velocity.x, input_x * player.stats.core_speed, 150)
 
 	if player.is_on_floor():
 		state_machine.change_state("Landing")
@@ -28,4 +28,4 @@ func process_physics(_delta: float) -> void:
 			state_machine.change_state("Jumping")
 		else:
 			player.jump_buffered = true
-			player.jump_buffer_timer.start(player.stats.jump_buffer_duration)
+			player.jump_buffer_timer.start(player.stats.feel_jump_buffer_duration)

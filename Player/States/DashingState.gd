@@ -6,7 +6,7 @@ func enter() -> void:
 
 
 func process_physics(_delta: float) -> void:
-	if not player.stats.blink_dash_enabled and player.is_on_wall():
+	if not player.stats.dash_is_blink and player.is_on_wall():
 		# If we hit a wall, do the cleanup...
 		player.end_dash()
 		# ...and then transition directly to the OnWallState.

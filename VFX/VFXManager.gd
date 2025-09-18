@@ -2,7 +2,8 @@
 extends Node2D
 
 @onready var player: CharacterBody2D = get_parent() as CharacterBody2D
-@onready var camera: Camera2D = player.get_node("PlayerCamera")
+@onready var camera_noise_emitter: PhantomCameraNoiseEmitter2D = get_parent().find_child("DashNoiseEmitter")
+
 
 # --- Generic, Resource-Based Function for one-shot effects ---
 func play_effect(vfx_data: VFXData) -> void:
@@ -19,7 +20,9 @@ func play_effect(vfx_data: VFXData) -> void:
 		spawn_pos = spawn_marker.global_position
 	else:
 		spawn_pos = player.global_position
+
 	effect.scale = vfx_data.scale
+
 	if vfx_data.flip_h_with_player:
 		var direction = -1.0 if player.animated_sprite.flip_h else 1.0
 		effect.flip_h = player.animated_sprite.flip_h
@@ -30,16 +33,18 @@ func play_effect(vfx_data: VFXData) -> void:
 		effect.flip_h = wall_normal.x < 0
 	else:
 		spawn_pos += vfx_data.position_offset
+
 	effect.global_position = spawn_pos
+
 	if vfx_data.rotate_with_wall_normal and player.is_on_wall():
 		var wall_normal = player.get_wall_normal()
 		effect.rotation_degrees = -90 if wall_normal.x > 0 else 90
 	else:
 		effect.rotation_degrees = vfx_data.rotation_degrees
-		
-	# --- NEW: Generic Camera Punch Logic ---
+
+	# --- NEW: Generic Camera Shake Logic ---
 	if vfx_data.camera_punch_intensity > 0.0:
-		_trigger_camera_punch(vfx_data.camera_punch_intensity)
+		_trigger_camera_shake(vfx_data.camera_punch_intensity)
 
 	# --- Play ---
 	if effect.has_method("play_effect"):
@@ -48,22 +53,24 @@ func play_effect(vfx_data: VFXData) -> void:
 
 # --- Specific Functions for Sustained Effects (like Dash) ---
 func play_dash_effects(particles: GPUParticles2D) -> void:
-	if not is_instance_valid(particles): return
-	# The camera punch is no longer triggered here.
+	if not is_instance_valid(particles):
+		return
+		
 	var dash_direction = Vector2(1 if not player.animated_sprite.flip_h else -1, 0)
 	particles.scale.x = dash_direction.x
 	particles.emitting = true
 
+
 func stop_dash_effects(particles: GPUParticles2D) -> void:
-	if not is_instance_valid(particles): return
+	if not is_instance_valid(particles):
+		return
 	particles.emitting = false
 	particles.scale.x = 1
 
-func _trigger_camera_punch(intensity: float) -> void:
-	if not is_instance_valid(camera):
+func _trigger_camera_shake(intensity: float) -> void:
+	if not is_instance_valid(camera_noise_emitter):
 		return
-	var tween = create_tween().set_trans(Tween.TRANS_QUAD)
-	# Use the intensity from the VFXData resource.
-	var zoomed_in_vec = camera.zoom * (1.0 + intensity)
-	tween.tween_property(camera, "zoom", zoomed_in_vec, 0.1).set_ease(Tween.EASE_OUT)
-	tween.tween_property(camera, "zoom", camera.zoom, 0.1).set_ease(Tween.EASE_IN)
+		
+	if is_instance_valid(camera_noise_emitter.noise):
+		camera_noise_emitter.noise.amplitude = 30.0 * intensity
+		camera_noise_emitter.emit()
