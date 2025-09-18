@@ -10,8 +10,7 @@ func exit() -> void:
 	player.wall_slip_timer.stop()
 
 func process_physics(delta: float) -> void:
-	# Use stats resource for physics values
-	player.velocity.y = move_toward(player.velocity.y, player.stats.wall_slide_friction, player.stats.fall_gravity * delta)
+	player.velocity.y = move_toward(player.velocity.y, player.stats.wall_slide_friction, player.stats.jump_fall_gravity * delta)
 	player.velocity.x = -player.get_wall_normal().x * 5.0
 
 	if player.wall_slip_timer.is_stopped():

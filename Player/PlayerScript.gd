@@ -2,15 +2,15 @@
 extends CharacterBody2D
 
 @export var stats: PlayerStats
+@export var facing_camera_offset: float = 80.0 ## How far the camera shifts left/right based on facing direction.
+
 @export_group("VFX")
 @export var dash_start_vfx: VFXData
 
-# ... (enum, signals, constants, etc. are the same) ...
 enum States {IDLE, RUNNING, JUMPING, FALLING, GLIDING, ON_WALL, WALL_STICKING, DASHING, UNSTICKING, CROUCHING, LANDING, DASH_PREPARE, WALL_SLIP, SKIDDING, SLIDING, WALL_DETACH, WALL_KICK}
-signal long_fall_started
-signal long_fall_ended
-signal gliding_started
-signal gliding_ended
+
+var fall_start_y: float = 0.0
+
 const MAX_JUMPS = 2
 const WALL_STICK_DURATION = 2.0
 const JUMP_CHARGE_DURATION = 1.0
@@ -22,7 +22,6 @@ var can_wall_stick: bool = true
 var can_standing_slide: bool = true
 var is_jump_charged: bool = false
 var jump_buffered: bool = false
-var is_long_fall: bool = false
 var is_invisible: bool = false
 var can_go_invisible: bool = true
 var last_wall_normal: Vector2
@@ -34,36 +33,37 @@ var _interact_held: bool = false
 @onready var wall_stick_timer = $Timers/WallStickTimer
 @onready var standing_collision = $StandingCollision
 @onready var crouching_collision = $CrouchingCollision
-@onready var wall_slide_collision = $WallSlideCollision
+@onready var wall_slide_collision = $ WallSlideCollision
 @onready var crouch_timer = $Timers/CrouchTimer
 @onready var land_timer = $Timers/LandTimer
 @onready var coyote_timer = $Timers/CoyoteTimer
 @onready var jump_buffer_timer = $Timers/JumpBufferTimer
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var dash_freeze_timer = $Timers/DashFreezeTimer
-@onready var fall_zoom_timer = $Timers/FallZoomTimer
 @onready var wall_slip_timer = $Timers/WallSlipTimer
 @onready var skid_timer = $Timers/SkidTimer
 @onready var wall_coyote_timer = $Timers/WallCoyoteTimer
 @onready var slide_timer = $Timers/SlideTimer
 @onready var standing_slide_cooldown_timer = $Timers/StandingSlideCooldownTimer
-@onready var head_clearance_ray = $HeadClearanceRaycast
+@onready var head_clearance_ray = $Raycasts/HeadClearanceRaycast
 @onready var animation_controller = $AnimationController
 @onready var vfx = $VFX
 @onready var wall_detach_timer = $Timers/WallDetachTimer
 @onready var invisibility_timer = $Timers/InvisibilityTimer
 @onready var invisibility_cooldown_timer = $Timers/InvisibilityCooldownTimer
-@onready var wall_check_ray_right: RayCast2D = $WallCheckRayRight
-@onready var wall_check_ray_left: RayCast2D = $WallCheckRayLeft
+@onready var wall_check_ray_right: RayCast2D = $Raycasts/WallCheckRayRight
+@onready var wall_check_ray_left: RayCast2D = $Raycasts/WallCheckRayLeft
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var combo_timer: Timer = $Timers/ComboTimer
 @onready var combo_reset_timer: Timer = $Timers/ComboResetTimer
-@onready var ground_ray: RayCast2D = $GroundRay
+@onready var ground_ray: RayCast2D = $Raycasts/GroundRay
 @onready var dash_particles: GPUParticles2D = $DashParticles
 @onready var wall_kick_timer = $Timers/WallKickTimer
+@onready var phantom_camera: PhantomCamera2D = $PhantomCamera2D
+@onready var landing_shake_emitter: PhantomCameraNoiseEmitter2D = $LandingShakeEmitter
 
-# ... (_ready, _process, _physics_process are the same) ...
-func _ready():
+
+func _ready() -> void:
 	assert(is_instance_valid(stats), "PlayerStats resource must be assigned to the Player in the Inspector!")
 	wall_kick_timer.timeout.connect(_on_wall_kick_timer_timeout)
 	dash_timer.timeout.connect(_on_dash_timer_timeout)
@@ -74,7 +74,6 @@ func _ready():
 	coyote_timer.timeout.connect(_on_coyote_timer_timeout)
 	jump_buffer_timer.timeout.connect(_on_jump_buffer_timer_timeout)
 	dash_freeze_timer.timeout.connect(_on_dash_freeze_timer_timeout)
-	fall_zoom_timer.timeout.connect(_on_fall_zoom_timer_timeout)
 	wall_slip_timer.timeout.connect(_on_wall_slip_timer_timeout)
 	skid_timer.timeout.connect(_on_skid_timer_timeout)
 	wall_coyote_timer.timeout.connect(_on_wall_coyote_timer_timeout)
@@ -87,47 +86,62 @@ func _ready():
 	combo_reset_timer.timeout.connect(_on_combo_reset_timer_timeout)
 	state_machine.state_changed.connect(_on_state_changed)
 	state_machine.call_deferred("initialize")
+
+
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("pause"):
 		EventBus.pause_menu_requested.emit()
-func _physics_process(_delta: float):
+
+
+func _physics_process(delta: float):
 	if not GameManager.is_gameplay_active:
 		return
 	if not is_instance_valid(stats):
 		return
-	velocity.y = min(velocity.y, stats.terminal_velocity)
+	velocity.y = min(velocity.y, stats.jump_terminal_velocity)
 	_handle_global_inputs()
+	_update_camera_facing_offset(delta)
 	move_and_slide()
+
+
+func _update_camera_facing_offset(delta: float) -> void:
+	if not is_instance_valid(phantom_camera):
+		return
+	var target_offset_x = facing_camera_offset
+	if animated_sprite.flip_h:
+		target_offset_x *= -1
+	var target_offset_y = phantom_camera.follow_offset.y
+	var target_offset = Vector2(target_offset_x, target_offset_y)
+	phantom_camera.follow_offset = phantom_camera.follow_offset.lerp(target_offset, delta * 8.0)
 
 
 func _on_dash_freeze_timer_timeout():
 	state_machine.change_state("Dashing")
 	var dash_direction = Vector2(1 if not animated_sprite.flip_h else -1, 0)
-
 	if is_instance_valid(dash_start_vfx):
 		vfx.play_effect(dash_start_vfx)
-
 	vfx.play_dash_effects(dash_particles)
-	
 	assert(stats.dash_duration > 0, "Dash Duration in PlayerStats cannot be zero.")
 	var dash_speed = stats.dash_distance / stats.dash_duration
-	
 	velocity.x = dash_direction.x * dash_speed
 	velocity.y = 0
 	dash_timer.start(stats.dash_duration)
 
-# ... (many functions are the same) ...
+
 func _handle_global_inputs():
 	if Input.is_action_just_pressed("dash") and can_dash:
 		state_machine.change_state("DashPrepare")
 	if Input.is_action_just_pressed("invisibility") and can_go_invisible:
 		_enter_invisibility()
+
+
 func enter_jump_state():
 	coyote_timer.stop()
-	fall_zoom_timer.stop()
 	set_standing_collision()
 	velocity.y = stats.jump_velocity
 	current_jumps += 1
+
+
 func wall_jump(wall_normal_override: Vector2 = Vector2.ZERO):
 	wall_stick_timer.stop()
 	wall_coyote_timer.stop()
@@ -140,67 +154,100 @@ func wall_jump(wall_normal_override: Vector2 = Vector2.ZERO):
 		velocity.x = wall_normal.x * stats.wall_slide_jump_horizontal_velocity
 	can_wall_stick = true
 	current_jumps = 1
+
+
 func _start_wall_coyote_time():
 	last_wall_normal = get_wall_normal()
-	wall_coyote_timer.start(stats.wall_coyote_time_duration)
+	wall_coyote_timer.start(stats.feel_wall_coyote_time_duration)
 	wall_detach_timer.start(stats.wall_detach_hang_time)
 	can_wall_stick = true
-	fall_zoom_timer.start(stats.fall_zoom_delay)
+
+
 func is_head_clear() -> bool:
 	return not head_clearance_ray.is_colliding()
+
+
 func set_standing_collision():
 	standing_collision.disabled = false
 	crouching_collision.disabled = true
 	wall_slide_collision.disabled = true
+
+
 func set_crouching_collision():
 	standing_collision.disabled = true
 	crouching_collision.disabled = false
 	wall_slide_collision.disabled = true
+
+
 func set_wall_slide_collision():
 	standing_collision.disabled = true
 	crouching_collision.disabled = true
 	wall_slide_collision.disabled = false
+
+
 func _enter_invisibility():
 	is_invisible = true
 	can_go_invisible = false
-	invisibility_timer.start(stats.invisibility_duration)
-	invisibility_cooldown_timer.start(stats.invisibility_cooldown)
+	invisibility_timer.start(stats.special_invisibility_duration)
+	invisibility_cooldown_timer.start(stats.special_invisibility_cooldown)
 	animated_sprite.modulate.a = 0.5
+
+
 func _on_dash_timer_timeout():
 	end_dash()
 	state_machine.change_state("Falling")
+
+
 func _on_dash_cooldown_timer_timeout():
 	can_dash = true
+
+
 func _on_wall_stick_timer_timeout():
 	if state_machine.current_state.name == "WallStickingState":
 		state_machine.change_state("OnWall")
+
+
 func _on_crouch_timer_timeout():
 	is_jump_charged = true
+
+
 func _on_coyote_timer_timeout():
 	if current_jumps == 0:
 		current_jumps = 1
+
+
 func _on_jump_buffer_timer_timeout():
 	jump_buffered = false
+
+
 func _on_invisibility_timer_timeout():
 	is_invisible = false
 	animated_sprite.modulate.a = 1.0
+
+
 func _on_invisibility_cooldown_timer_timeout():
 	can_go_invisible = true
+
+
 func _on_land_timer_timeout():
 	if state_machine.current_state.name == "LandingState":
 		state_machine.change_state("Idle")
-func _on_fall_zoom_timer_timeout():
-	if not is_on_floor():
-		is_long_fall = true
-		long_fall_started.emit()
+
+
 func _on_wall_slip_timer_timeout():
 	if state_machine.current_state.name == "WallSlipState":
 		state_machine.change_state("WallSticking")
+
+
 func _on_skid_timer_timeout():
 	if state_machine.current_state.name == "SkiddingState":
 		state_machine.change_state("Running")
+
+
 func _on_wall_coyote_timer_timeout():
 	pass
+
+
 func _on_slide_timer_timeout():
 	if state_machine.current_state.name == "SlidingState":
 		if is_head_clear():
@@ -210,24 +257,34 @@ func _on_slide_timer_timeout():
 				state_machine.change_state("Idle")
 		else:
 			state_machine.change_state("Crouching")
+
+
 func _on_standing_slide_cooldown_timer_timeout():
 	can_standing_slide = true
+
+
 func _on_wall_detach_timer_timeout():
 	if state_machine.current_state.name == "WallDetachState":
 		state_machine.change_state("Falling")
+
+
 func _unhandled_input(event: InputEvent) -> void:
-	if not GameManager.is_gameplay_active: return
+	if not GameManager.is_gameplay_active:
+		return
 	if event.is_action_pressed("interact_world"):
 		EventBus.interaction_started.emit()
 	elif event.is_action_released("interact_world"):
 		EventBus.interaction_cancelled.emit()
+
+
 func end_dash() -> void:
 	if state_machine.current_state.name != "DashingState":
 		return
 	vfx.stop_dash_effects(dash_particles)
-	# TODO: Add dash_cooldown to PlayerStats resource
 	var dash_cooldown = 0.5
 	dash_cooldown_timer.start(dash_cooldown)
+
+
 func _on_state_changed(new_state_name: String) -> void:
 	if new_state_name in COMBO_STATES:
 		combo_reset_timer.stop()
@@ -236,32 +293,37 @@ func _on_state_changed(new_state_name: String) -> void:
 	elif new_state_name in ["Idle", "Running"]:
 		combo_reset_timer.start(1.5)
 
+
 func _add_move_to_combo(move_name: String) -> void:
 	combo_timer.start(1.0)
 	_combo_chain.append(move_name)
-	
 	Loggie.info(str("Combo Chain: ", _combo_chain), "combo")
 
 	if _combo_chain.size() >= 3:
 		EventBus.flow_combo_success.emit()
 		Loggie.info("--- FLOW COMBO SUCCESS! ---", "combo")
 
+
 func _reset_combo() -> void:
 	if not _combo_chain.is_empty():
 		_combo_chain.clear()
 		Loggie.info("Combo Reset.", "combo")
 
+
 func _on_combo_timer_timeout() -> void:
 	_reset_combo()
 
+
 func _on_combo_reset_timer_timeout() -> void:
 	_reset_combo()
+
 
 func get_current_state_name() -> String:
 	if state_machine and is_instance_valid(state_machine.current_state):
 		return state_machine.current_state.name
 	return ""
-	
+
+
 func _on_wall_kick_timer_timeout() -> void:
 	if state_machine.current_state.name == "WallKickState":
 		state_machine.change_state("Falling")

@@ -19,10 +19,10 @@ func exit() -> void:
 
 func process_physics(delta: float) -> void:
 	var input_x: float = Input.get_axis("left", "right")
-	var gravity: float = player.stats.jump_gravity if player.velocity.y < 0 else player.stats.fall_gravity
+	var gravity: float = player.stats.jump_gravity if player.velocity.y < 0 else player.stats.jump_fall_gravity
 
 	player.velocity.y += gravity * delta
-	player.velocity.x = move_toward(player.velocity.x, input_x * player.stats.speed, player.stats.air_control_acceleration)
+	player.velocity.x = move_toward(player.velocity.x, input_x * player.stats.core_speed, player.stats.jump_air_control_acceleration)
 
 	if player.is_on_wall():
 		if not (sign(player.get_wall_normal().x) == sign(input_x)):

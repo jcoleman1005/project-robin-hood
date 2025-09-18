@@ -37,7 +37,7 @@ func process_physics(delta: float) -> void:
 		state_machine.change_state("Falling")
 		return
 
-	player.velocity.y = move_toward(player.velocity.y, player.stats.wall_slide_friction, player.stats.fall_gravity * delta)
+	player.velocity.y = move_toward(player.velocity.y, player.stats.wall_slide_friction, player.stats.jump_fall_gravity * delta)
 	player.velocity.x = -wall_normal.x * 5.0
 
 	if Input.is_action_pressed("shift") and player.can_wall_stick:

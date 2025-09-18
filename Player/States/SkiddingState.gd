@@ -4,7 +4,7 @@ extends State
 @export var skid_vfx: VFXData
 
 func enter() -> void:
-	player.skid_timer.start(player.stats.skid_duration)
+	player.skid_timer.start(player.stats.ground_skid_duration)
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.SKIDDING, player.velocity, Vector2.ZERO, -input_x)
 
@@ -15,8 +15,7 @@ func exit() -> void:
 	player.skid_timer.stop()
 
 func process_physics(_delta: float) -> void:
-	# Use stats resource for physics values
-	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.skid_friction)
+	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.ground_skid_friction)
 	
 	if player.skid_timer.is_stopped():
 		state_machine.change_state("Running")
