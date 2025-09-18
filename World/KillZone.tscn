@@ -9,3 +9,7 @@ script = ExtResource("1_seo6l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_c8hpk")
+
+[node name="LeftEdge" type="Marker2D" parent="."]
+
+[node name="RightEdge" type="Marker2D" parent="."]

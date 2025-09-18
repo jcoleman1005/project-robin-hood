@@ -23,6 +23,7 @@ InteractionManager="*res://Singletons/InteractionManager.gd"
 UIManager="*res://UserInterface/UIManager.gd"
 SceneManager="*res://Singletons/SceneManager.tscn"
 Loggie="*res://addons/loggie/loggie.gd"
+LevelGenerator="*res://Singletons/LevelGenerator.tscn"
 
 [display]
 

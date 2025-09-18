@@ -1,3 +1,12 @@
+Architecture] Implemented core procedural level generator using data-driven ChunkData resources.
+[Feature] Level generator now tracks recently used chunks to improve level variety and implements difficulty ramping.
+[Feature] Added in-editor debug visualization for generated level chunks, including metadata text.
+[Technical] Added configuration validation to the LevelGenerator to prevent crashes from invalid Inspector settings.
+[Refactor] Exposed generation seed and layout padding as Inspector properties for improved testing and tuning.
+[Refactor] Decoupled KillZone from LevelGenerator; KillZone is now a self-sizing scene responsible for its own shape.
+[Refactor] Removed CameraBoundary generation from the LevelGenerator pending a future camera system refactor.
+[Bugfix] Resolved multiple crashes and incorrect sizing calculations in the LevelGenerator related to node lifecycle and coordinate space transforms.
+[Bugfix] Fixed camera failing to center on the player at the start of procedurally generated levels.
 [Architecture] Designed and implemented a scalable system for tiered Hideout upgrades.
 [Feature] Implemented the first Hideout upgrade mechanic, allowing players to spend Gold to visually improve the base.
 [Feature] Camera now has a velocity-based vertical lookahead for improved visibility during upward movement.

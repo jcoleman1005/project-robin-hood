@@ -608,4 +608,17 @@ shape = SubResource("RectangleShape2D_df04x")
 [node name="MissionBoard" parent="." instance=ExtResource("12_5ig2o")]
 position = Vector2(1002, 742)
 
+[node name="Interactable" parent="MissionBoard" index="2"]
+prompt_message = "Generated Mission"
+
+[node name="MissionBoard2" parent="." instance=ExtResource("12_5ig2o")]
+position = Vector2(787, 742)
+
+[node name="Interactable" parent="MissionBoard2" index="2"]
+prompt_message = "Village Outskirts"
+
 [editable path="CameraBoundary"]
+[editable path="MissionBoard"]
+[editable path="MissionBoard/Interactable"]
+[editable path="MissionBoard2"]
+[editable path="MissionBoard2/Interactable"]

@@ -612,7 +612,18 @@ position = Vector2(523.5, 519.5)
 shape = SubResource("RectangleShape2D_df04x")
 
 [node name="MissionBoard" parent="." instance=ExtResource("12_tvxtd")]
+position = Vector2(728, 739)
+scene_selection = "procedural_mission"
+
+[node name="Interactable" parent="MissionBoard" index="2"]
+prompt_message = "Start level generator"
+
+[node name="MissionBoard2" parent="." instance=ExtResource("12_tvxtd")]
 position = Vector2(1002, 742)
+scene_selection = "village_outskirts"
+
+[node name="Interactable" parent="MissionBoard2" index="2"]
+prompt_message = "Village Outskirts"
 
 [node name="Campfire" parent="." instance=ExtResource("13_drx3b")]
 position = Vector2(469, 717)
@@ -625,5 +636,9 @@ shape = SubResource("RectangleShape2D_nptum")
 prompt_message = "Upgrade Hideout (100 Gold)"
 
 [editable path="CameraBoundary"]
+[editable path="MissionBoard"]
+[editable path="MissionBoard/Interactable"]
+[editable path="MissionBoard2"]
+[editable path="MissionBoard2/Interactable"]
 [editable path="Campfire"]
 [editable path="Campfire/Interactable"]

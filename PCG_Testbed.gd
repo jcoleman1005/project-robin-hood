@@ -8,10 +8,9 @@ func _ready() -> void:
 	_button.pressed.connect(_on_button_pressed)
 
 func _on_button_pressed() -> void:
-	# If a level already exists, remove it first.
 	if is_instance_valid(_generated_level):
 		_generated_level.queue_free()
 		
-	# FIX: Add 'await' because generate_level() is now a coroutine.
+	# FIX: Call the function on the global LevelGenerator instance, not the class.
 	_generated_level = await LevelGenerator.generate_level()
 	add_child(_generated_level)

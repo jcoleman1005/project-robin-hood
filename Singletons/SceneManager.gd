@@ -30,25 +30,25 @@ func _load_hideout_scene() -> void:
 func change_scene(scene_key: String) -> void:
 	current_scene_key = scene_key
 	Loggie.info("Changing scene to: '%s'" % scene_key, "game_state")
-	
+
 	var ui_to_close = UIManager.close_current_ui()
 	if is_instance_valid(ui_to_close):
 		await ui_to_close.tree_exited
-		
+
 	animation_player.play("fade_to_black")
 	await animation_player.animation_finished
 
 	var scene_to_load: PackedScene = _scene_map[scene_key]
 	get_tree().change_scene_to_packed(scene_to_load)
-	
+
 	await get_tree().process_frame
-	
+
 	var new_scene = get_tree().current_scene
 	if new_scene.has_signal("level_generated"):
 		new_scene.level_generated.connect(_spawn_player, CONNECT_ONE_SHOT)
 	else:
 		_spawn_player()
-	
+
 	animation_player.play("fade_from_black")
 
 
@@ -58,20 +58,30 @@ func _spawn_player() -> void:
 		return
 
 	var current_scene = get_tree().current_scene
-	
-	var spawn_point_node = current_scene.find_child("PlayerSpawnPoint", true, false)
-	if not is_instance_valid(spawn_point_node):
-		Loggie.error("SceneManager Error: No PlayerSpawnPoint found in scene '%s'" % current_scene.name, "level")
-		return
-		
 	var spawn_position: Vector2
+
+	# Check for a saved checkpoint first.
 	if GameManager.session_state and GameManager.session_state.checkpoint_position != Vector2.ZERO:
 		spawn_position = GameManager.session_state.checkpoint_position
 		Loggie.info("Spawning player at checkpoint: " + str(spawn_position), "game_state")
 	else:
-		spawn_position = spawn_point_node.global_position
+		# Get the spawn position from the current scene. This now works for all scene types.
+		if current_scene.has_method("find_child"): # Check if it's a Node
+			var spawn_point_node = current_scene.find_child("PlayerSpawnPoint", true, false)
+			if is_instance_valid(spawn_point_node):
+				spawn_position = spawn_point_node.global_position
+			# The GeneratedLevelHost now exposes this directly.
+			elif "spawn_position" in current_scene:
+				spawn_position = current_scene.spawn_position
+			else:
+				Loggie.error("SceneManager Error: No PlayerSpawnPoint or spawn_position found in scene '%s'" % current_scene.name, "level")
+				return
+		else:
+			Loggie.error("SceneManager Error: current_scene is not a valid Node.", "level")
+			return
+
 		Loggie.info("Spawning player at default spawn point: " + str(spawn_position), "game_state")
-		
+
 	var player_instance = player_scene.instantiate()
 	player_instance.global_position = spawn_position
 	current_scene.add_child(player_instance)
