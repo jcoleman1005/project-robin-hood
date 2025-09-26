@@ -1,4 +1,4 @@
-[gd_scene load_steps=133 format=3 uid="uid://bqep4lh77amxw"]
+[gd_scene load_steps=146 format=3 uid="uid://bqep4lh77amxw"]
 
 [ext_resource type="Script" uid="uid://322jte5qhr8v" path="res://Player/PlayerScript.gd" id="1_mom48"]
 [ext_resource type="Texture2D" uid="uid://oj5uoalybhj8" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_CrouchFull.png" id="2_74o77"]
@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://bomc15r00h2cg" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_WallSlide.png" id="8_ux3fp"]
 [ext_resource type="Texture2D" uid="uid://cnhq51f0wfyrq" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_TurnAround.png" id="9_4tc8y"]
 [ext_resource type="Texture2D" uid="uid://basbndd34xt0r" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_SlideFull.png" id="10_owe82"]
+[ext_resource type="Texture2D" uid="uid://cfjano1ab80bd" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_WallClimbNoMovement.png" id="11_33v33"]
 [ext_resource type="Texture2D" uid="uid://cf3njahs2xwo0" path="res://assets/CharacterSprites/Knight_Colour1/NoOutline/120x80_PNGSheets/_SlideTransitionEnd.png" id="11_fpl1g"]
 [ext_resource type="Script" uid="uid://dpc5pbhgi3tc0" path="res://VFX/VFXManager.gd" id="16_pwdtq"]
 [ext_resource type="Script" uid="uid://immuou635t6o" path="res://Player/PlayerModularControl/AnimationController.gd" id="17_5nnq8"]
@@ -46,6 +47,8 @@
 [ext_resource type="Resource" uid="uid://ci5d3pjnftf5n" path="res://VFX/VFXData/skid_puff.tres" id="38_i2cyd"]
 [ext_resource type="Script" uid="uid://ca66boe0kxm6n" path="res://Player/States/WallKickState.gd" id="44_4kalu"]
 [ext_resource type="Resource" uid="uid://c23a6ftkf8xfr" path="res://VFX/VFXData/wall_kick_vfx.tres" id="45_buwl4"]
+[ext_resource type="Script" uid="uid://rxja2xdqmvc" path="res://Player/States/LedgeGrabState.gd" id="47_jrx7x"]
+[ext_resource type="Script" uid="uid://dnbi1fwv1tnp8" path="res://Player/LedgeClimbState.gd" id="48_w6d02"]
 [ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="49_hllk6"]
 [ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="50_5kffk"]
 [ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="51_iqs0c"]
@@ -186,6 +189,38 @@ region = Rect2(0, 0, 120, 80)
 [sub_resource type="AtlasTexture" id="AtlasTexture_gymyn"]
 atlas = ExtResource("5_4tc8y")
 region = Rect2(120, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o5ntp"]
+atlas = ExtResource("11_33v33")
+region = Rect2(0, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bpu7q"]
+atlas = ExtResource("11_33v33")
+region = Rect2(120, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vx856"]
+atlas = ExtResource("11_33v33")
+region = Rect2(240, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s08a8"]
+atlas = ExtResource("11_33v33")
+region = Rect2(360, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rjujo"]
+atlas = ExtResource("11_33v33")
+region = Rect2(480, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vk6sl"]
+atlas = ExtResource("11_33v33")
+region = Rect2(600, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1k8dy"]
+atlas = ExtResource("11_33v33")
+region = Rect2(720, 0, 120, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhd0d"]
+atlas = ExtResource("7_fpl1g")
+region = Rect2(0, 0, 120, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i0dkv"]
 atlas = ExtResource("8_owe82")
@@ -439,6 +474,40 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_o5ntp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bpu7q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vx856")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s08a8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rjujo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vk6sl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1k8dy")
+}],
+"loop": true,
+"name": &"ledge_climb",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhd0d")
+}],
+"loop": true,
+"name": &"ledge_hang",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_i0dkv")
 }, {
 "duration": 1.0,
@@ -595,6 +664,30 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(-8, -13)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimatedSprite2D:animation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"ledge_hang"]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(20, -30)]
 }
 
 [sub_resource type="Animation" id="Animation_jy1ce"]
@@ -789,11 +882,57 @@ tracks/1/keys = {
 "values": [Vector2(1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_uo1uh"]
+resource_name = "ledge_climb"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(20, -30)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"ledge_climb"]
+}
+
+[sub_resource type="Animation" id="Animation_e83tt"]
+resource_name = "ledge_hang"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"ledge_hang"]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ac1bf"]
 _data = {
 &"RESET": SubResource("Animation_vbs5d"),
 &"jump_stretch": SubResource("Animation_jy1ce"),
 &"land_squish": SubResource("Animation_mrmde"),
+&"ledge_climb": SubResource("Animation_uo1uh"),
+&"ledge_hang": SubResource("Animation_e83tt"),
 &"wall_slide_offset_left": SubResource("Animation_yxgpa"),
 &"wall_slide_offset_right": SubResource("Animation_ac1bf"),
 &"wall_stick_offset_left": SubResource("Animation_g2mjx"),
@@ -853,6 +992,7 @@ transition = 1
 ease = 2
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
+position = Vector2(20, -30)
 rotation = -0.00456183
 collision_mask = 2
 script = ExtResource("1_mom48")
@@ -862,7 +1002,6 @@ dash_start_vfx = ExtResource("3_i2cyd")
 
 [node name="StandingCollision" type="CollisionShape2D" parent="."]
 position = Vector2(1.886, -15)
-scale = Vector2(1, 1)
 shape = SubResource("CapsuleShape2D_vbs5d")
 metadata/_edit_group_ = true
 
@@ -876,7 +1015,6 @@ metadata/_edit_group_ = true
 [node name="WallSlideCollision" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2(3.504, -15)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_epaal")
 disabled = true
 metadata/_edit_group_ = true
@@ -884,8 +1022,8 @@ metadata/_edit_group_ = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(5, 3)
 sprite_frames = SubResource("SpriteFrames_pwdtq")
-animation = &"wall slide"
-autoplay = "idle"
+animation = &"ledge_hang"
+autoplay = "ledge_climb"
 offset = Vector2(0, -40)
 metadata/_edit_group_ = true
 
@@ -899,36 +1037,38 @@ libraries = {
 [node name="WallCheckRayRight" type="RayCast2D" parent="Raycasts"]
 position = Vector2(3.76353, -15.0173)
 rotation = -0.00456183
-scale = Vector2(1, 1)
 target_position = Vector2(20, 0)
 
 [node name="WallCheckRayLeft" type="RayCast2D" parent="Raycasts"]
 position = Vector2(2.77854, -15.0128)
 rotation = -0.00456183
-scale = Vector2(1, 1)
 target_position = Vector2(-20, 0)
 
 [node name="GroundRay" type="RayCast2D" parent="Raycasts"]
 position = Vector2(2.7725, -40.0131)
 rotation = -0.00456183
-scale = Vector2(1, 1)
 target_position = Vector2(-0.17847, 48.9995)
 collision_mask = 2
 
 [node name="LedgeRay" type="RayCast2D" parent="Raycasts"]
 position = Vector2(22.8173, -40.1045)
 rotation = -0.00456183
-scale = Vector2(1, 1)
 target_position = Vector2(-0.219206, 48.1044)
 collision_mask = 2
 
 [node name="HeadClearanceRaycast" type="RayCast2D" parent="Raycasts"]
 position = Vector2(1.81755, -15.0084)
 rotation = -0.00456183
-scale = Vector2(1, 1)
 target_position = Vector2(0.109488, -23.9998)
 collision_mask = 2
 metadata/_edit_group_ = true
+
+[node name="LedgeDetectorWall" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(20, -35)
+collision_mask = 2
+
+[node name="LedgeDetectorLedge" type="RayCast2D" parent="Raycasts"]
+target_position = Vector2(20, -45)
 
 [node name="Timers" type="Node" parent="." groups=["timers"]]
 
@@ -1118,6 +1258,12 @@ script = ExtResource("35_yxgpa")
 script = ExtResource("44_4kalu")
 wall_kick_vfx = ExtResource("45_buwl4")
 
+[node name="LedgeGrabState" type="Node" parent="StateMachine"]
+script = ExtResource("47_jrx7x")
+
+[node name="LedgeClimbState" type="Node" parent="StateMachine"]
+script = ExtResource("48_w6d02")
+
 [node name="PlayerInteraction" type="Area2D" parent="."]
 visible = false
 position = Vector2(1.85311, 26.0089)
@@ -1149,6 +1295,7 @@ position = Vector2(-8, -13)
 
 [node name="PhantomCamera2D" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
 top_level = true
+position = Vector2(20, -30)
 script = ExtResource("50_5kffk")
 priority = 10
 follow_mode = 5
@@ -1165,14 +1312,12 @@ noise_emitter_layer = 1
 metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
 [node name="DashNoiseEmitter" type="Node2D" parent="."]
-scale = Vector2(1, 1)
 script = ExtResource("52_iqs0c")
 noise = ExtResource("53_kh4fv")
 duration = 0.15
 decay_time = 0.2
 
 [node name="LandingShakeEmitter" type="Node2D" parent="."]
-scale = Vector2(1, 1)
 script = ExtResource("52_iqs0c")
 noise = ExtResource("54_kh4fv")
 duration = 0.05

@@ -2,16 +2,206 @@
 
 You will be provided with a comprehensive dump of the Godot project context, structured as follows. You must parse, understand, and use this context to inform all your responses.
 
-*   **`2. Project Context`**: The technical project dump, including:
-    *   `2.1. Project Settings`
-    *   `2.2. Resource Files`
-    *   `2.3. Scene Structures`
-    *   `2.4. Codebase`
+*   **`2. GDD`**: The Game Design Document.
+*   **`3. DevLog`**: A log of implemented features and changes.
+*   **`4. Project Context`**: The technical project dump, including:
+    *   `4.1. Project Settings`
+    *   `4.2. Resource Files`
+    *   `4.3. Scene Structures`
+    *   `4.4. Codebase`
 
 ---
-### **2. Project Context**
+### **2. GDD**
 
-#### **2.1. Project Settings**
+Game Design Document: Project Robin Hood
+
+
+Version: 3.1 (Studio Director’s Draft)
+Date: September 7, 2025
+1. Executive Summary
+   1. Game Title: Project Robin Hood
+   2. Genre: 2D Stealth/Infiltration Platformer
+   3. Logline: A skilled knight must complete tense, non-combat stealth missions to rescue villagers and gather resources, using them to build a thriving hideout and ultimately reclaim the land from a corrupt regime.
+   4. Core Question (Vertical Slice): "Is the core gameplay loop of completing a tense stealth/infiltration mission to strategically upgrade a home base a fun and repeatable experience?"
+2. Gameplay
+   1. Core Gameplay Loop
+	  1. The gameplay is divided into two distinct phases: Missions and Hideout Management.
+	  2. Prepare: At the Hideout, the player views their resources, upgrades, and available missions before choosing to embark.
+	  3. Infiltrate (The Mission): The player enters a non-linear 2D level with a primary objective. The focus is on stealth, evasion, and traversal.
+	  4. Return: Upon completing the objective, the player must exit the level to return to the Hideout. If detected by a guard, the Alarm State is triggered. This forces the player into a frantic escape where they must decide on the fly whether to flee with the resources they have or risk everything to complete the primary objective.
+	  5. Upgrade (The Hideout): In the Hideout, the player spends resources to unlock new abilities and expansions.
+   2. Player Experience & Game Feel
+	  1. Tension: During missions, the player should feel like a vulnerable but highly skilled infiltrator. Guards are a significant threat, and evasion is paramount.
+	  2. Empowerment: The player's movement controller is fluid and precise. Mastery of movement is the key to success.
+	  3. Reward: Returning to the Hideout and seeing it grow provides a powerful sense of accomplishment.
+	  4. Game Feel: Flow State Stealth: The game's stealth is not about slow, patient waiting. It is about speed, momentum, and improvisation. The player should feel like a skilled ghost, stringing together fluid movements to create an unbroken "flow" through the level. Success should feel like a perfectly executed acrobatic performance. For example, the player could string together a wall-slide, a kick-off, and a dash to "acrobatically" bypass a guard patrol without ever stopping.
+3. Core Mechanics
+   1. Player Controller
+	  1. The player character, "The Knight," is controlled by a node-based state machine.
+	  2. Core Abilities: Run, Jump (Double), Wall Slide/Jump, Dash, Interact, Crouch/Slide.
+   2. Stealth System
+	  1. Guard AI: Guards patrol set paths and have a visible cone of vision.
+	  2. Detection: The vision cone changes color from white to yellow to red when the player is in a guard's line of sight. When fully red, it triggers the Alarm State.
+   3. Alarm State
+	  1. Concept: A high-stakes failure condition that transforms a stealth failure into a climactic escape sequence.
+	  2. Trigger: The moment a Guard's detection meter is completely filled.
+	  3. Feedback: Instantaneous and overwhelming audio/visual feedback (alarm sound, chase music, screen flash).
+	  4. Rules:
+		 * Objective: The primary goal becomes "Escape to the original entrance!" All other objectives (like "Rescue the Villager") remain active and can be attempted at extreme risk
+		 * Guard Behavior: [Planned] All Guards enter a "Hunter" state: they abandon patrols, gain a speed boost, and relentlessly pursue the player.
+		 * Stakes: Success (reaching the start zone) means keeping all collected resources. The failure condition is a Guard's detection meter becoming completely filled. This triggers the player_detected event, leading to a MissionFailedScreen that prompts a return to the Hideout. Upon returning to the Hideout, any progress saved at a checkpoint is lost, and the mission is reset. The "touch and lose gold" mechanic is planned for a future implementation.
+   4. Hold interaction
+	  1. Concept: To interact with key objects like chests or prisoners, the player must press and hold the interact button for a set duration.
+	  2. Mechanic: A UI element appears showing the hold progress. If the button is released before the hold is complete, the progress resets. The duration can be set per-interactable object. This system is managed globally by the InteractionManager.
+   5. Checkpoints & Hazards
+	  1. Concept: Checkpoints provide players with a respawn point within a mission, saving their progress on key objectives. This system works in tandem with environmental hazards (falls, spikes, traps), which act as an immediate failure condition that resets the player to their last checkpoint.
+	  2. Checkpoint Mechanic: 
+		 * Activation: The player activates a checkpoint by entering its area.
+		 * Progress Saving: Upon activation, the state of all "persistent" objects in the level is saved. This includes opened chests, rescued prisoners, unlocked doors, etc. The player's location at the checkpoint is also saved as the new respawn point.
+	  3. Hazard Mechanic:
+		 * Lethal Areas: Certain level areas are instantly lethal to the player.
+		 * Mechanic: These areas are defined by a KillZone scene. Upon entering a KillZone, the player_died event is immediately triggered.
+		 * Consequence: The GameManager reloads the level, restoring the state of all persistent objects from the last activated checkpoint and placing the player at that checkpoint's respawn point. If no checkpoint has been activated, the player is returned to the mission's starting spawn point.
+4. Progression Systems
+   1. [Planned] Specialist NPCs
+	  1. Concept: The growth of the Hideout is driven by rescuing and recruiting key Specialist NPCs who unlock major new gameplay systems.
+	  2. Recruitment Flow:
+		 * The Lead: The player discovers a specialist's location via the Opportunity Deck system.
+		 * The Rescue: The player undertakes a unique mission to save the specialist.
+		 * The Foundation: The rescued Specialist appears in the Hideout but requires a specific building to begin work.
+		 * The Reward: Once the building is constructed, the specialist becomes active, unlocking their upgrade tree.
+   2. [Planned] The Opportunity Deck
+	  1. Concept: A controlled randomization system ( like a "deck of cards") that generates mission variety and special rescue missions between runs.
+	  2. Rules:
+		 * Gating: Event "cards" are added to the deck when the player achieves specific milestones.
+		 * Save-Scum Proof: The "draw" from the deck occurs upon returning to the Hideout, locking in the next mission's state before the player can save.
+		 * Forgiveness: Failed special missions have a "pity timer" and an increased probability of reappearing.
+   3. Key Building: The Scout's Lookout
+	  1. Concept: The central hub for the Intel progression pillar, required to unlock mission variety and new areas.
+	  2. Functions & Upgrades:
+		 * Level 1: Unlocks the Opportunity Deck and the "Lead Scout" NPC.
+		 * Provides "Mission Intel": For special missions like Specialist Rescues, a one-sentence tactical clue is displayed on the mission selection screen, preparing the player for the unique challenge ahead.
+		 * Level 2: Unlocks the next major gameplay area and adds more complex modifiers to the deck.
+		 * Level 3: Increases the number of mission choices on the Mission Board.
+5. Level Design Concepts:
+   1. Introductory Cinematics: Key puzzle rooms or unique missions will begin with a short, non-interactive, scripted camera pan. The purpose of this is to introduce the core elements of a challenge to the player in a non-verbal way, guiding their attention to the objective, the primary obstacle, and the potential solution.
+6. Art & Sound
+   1. Art Pillars The visual direction of Project Robin Hood is guided by three core principles:
+	  1. Clarity Above All (Flow-State Readability): The primary function of the art is to serve the "Flow State Stealth" gameplay. Every visual element—from the texture of a floor tile to the silhouette of a guard—must prioritize instant readability to support fast-paced, acrobatic traversal and tactical assessment. If a choice must be made between aesthetic detail and gameplay clarity, clarity always wins.
+	  2. Narrative Dichotomy (Desperate vs. Hopeful): The art will be a primary tool for telling the story of struggle and recovery. There will be a stark, deliberate contrast between the oppressive, tense atmosphere of the Missions and the warm, growing vitality of the Hideout. This visual shift reinforces the core gameplay loop and the player's emotional journey.
+	  3. Vibrant Desolation: The world is moody and oppressed, not dead. The mission environments will pair a dark, desaturated base with sharp, vibrant accent colors. These accents will be used sparingly and deliberately to draw the player's eye to points of interaction, danger, and objective, creating a visually striking and highly functional aesthetic.
+   2. Visual References & Inspirations The following projects serve as reference points for specific elements of our art style:
+	  1. Character Animation & Fluidity: Katana ZERO, Celeste. The goal is to achieve a similar level of expressive, fluid animation that makes movement feel responsive and powerful.
+	  2. Environmental Readability & Silhouettes: Dead Cells. Reference for its clear distinction between foreground gameplay layers and background parallax, and for how character and enemy silhouettes pop against their environments.
+	  3. Atmosphere & Color: Hollow Knight (for its moody, desolate world punctuated by unique biome palettes), Cyberpunk 2077 Edgerunners animation (for its use of sharp, high-saturation accent colors against dark backdrops).
+   3. Color Philosophy Color will be used systematically to communicate mood and gameplay information.
+	  1. Mission Palette: Dominated by a cool, desaturated color scheme (deep blues, slate grays, muted earth tones) to create a sense of tension and oppression. All interactive threats (guard optics, trap triggers, alarm indicators) will use a single, reserved high-saturation accent color (e.g., a sharp, "toxic" yellow) for immediate identification.
+	  2. Hideout Palette: Dominated by a warm, more saturated color scheme (wood tones, soft golds, verdant greens). As the player upgrades the hideout, its color vibrancy and the complexity of its lighting will increase, providing a visual reward for progression.
+   4. Key Asset Direction
+	  1. The Knight (Player Character): Must have an iconic and athletic silhouette. Animation is the top priority; it must sell the "acrobatic performance" fantasy. The color scheme should contrast well with both the Mission and Hideout palettes.
+	  2. The Regime (Enemies): Silhouettes should be uniform and oppressive, clearly distinct from the player's agile frame. They will incorporate the "threat" accent color in key areas (e.g., visors, power sources) to clearly communicate their facing and alert status.
+	  3. Environments: Architecture will feel grounded and believable but will be constructed to create clear paths and arenas for the "Flow State" platforming. Visual language will be consistent: navigable surfaces will be visually quiet, while traversal opportunities (like climbable walls) and hazards will be clearly marked.
+	  4. UI/UX: During missions, the UI will be minimalist and diegetic where possible to maximize screen real estate and immersion. In the Hideout, menus can be more stylized and thematic, reflecting the handcrafted nature of the resistance.
+   5. Vertical Slice Art Goals 
+	  1. The "grey-boxing" phase will be succeeded by a "Color-Boxing" phase. The objective is to implement a first-pass version of the Mission Palette on the simple placeholder shapes. The initial player and Guard sprites will be created and tested against this colored environment to validate our core principle of Clarity Above All.
+7. Technical Details
+   1. Engine: Godot 4.2.2
+   2. Viewport: The game is rendered to a low-resolution 640x360 viewport, with canvas items scaled to fit the screen.
+   3. Architecture: Decoupled system using global singleton managers (GameManager, SceneManager, UIManager, EventBus).
+   4. Save/Load: Game state is saved to a JSON file.
+8. Idea Parking Lot / Post-Production Features
+This section serves as a backlog of approved but unscheduled ideas for future development.
+   5. New Player Abilities (Potential Quartermaster Unlocks)
+	  1. Wall Kick: A horizontal kick-off from a wall-slide. This can influence downward vertical movement to add challenge and break up monotony.
+	  2. Bash Traversal: An advanced ability to launch off enemies or specific environmental points.
+	  3. Grappling Hook: A traversal tool for latching onto and swinging from specific anchor points.
+	  4. Hookshot: A traversal tool that pulls the player directly towards a latched surface.
+	  5. Invisibility, Glide Advanced traversal and stealth options.
+	  6. Rapid Override Enhancements: Upgrades to the QTE sequence (more time, shorter sequence).
+   6. New Hideout & Progression Systems
+	  1. Treasury & Gold Cap: An economic system that introduces a limit to how much Gold the player can hold.
+	  2. Full Dialogue System: A system for interactive conversations with NPCs.
+   7. Major Systems & Expansions
+	  1. Advanced Guard AI: Expansion of AI to include audio detection and a "Suspicious" state.
+	  2. Playable Rescuers: A major expansion where the player controls a recruit to rescue a captured Knight. (DLC/Sequel scope).
+	  3. Metroidvania World Structure: A fundamental shift to an interconnected world. (Sequel scope).
+   8. System Evolution: Advanced Flow State ("Acrobat" System)
+* Concept: An expansion of the "Flow State Feedback" system that introduces scoring and mechanical rewards for performing long, complex movement combos, inspired by games like Tony Hawk's Pro Skater.
+* Potential Features:
+   * Visible Combo UI: A non-intrusive UI element that displays the current combo chain (e.g., "Wall Slide > Jump > Dash") and a score multiplier.
+   * Resource Bonus: Successfully completed combos could grant a multiplier to any Gold collected while the combo is active, directly rewarding skillful play with faster progression.
+   * Combo Extenders: New, advanced abilities (unlocked via the Quartermaster) designed to maintain a combo chain. The most crucial would be a "Ground Slide" that allows the player to maintain their combo state for a short time on flat ground, analogous to a THPS Manual.
+   9. Contextual Interaction: Rapid Override Sequence
+	  1. Concept: During the Alarm State, "hold-to-interact" mechanics on major objectives are replaced with a Quick-Time Event.
+	  2. Mechanic: A short, randomized sequence of multiple directional inputs (3 for chests and 5 for prisoners)  appears on-screen.
+	  3. Execution: The player must correctly input the sequence within a 1.5-second time limit.
+	  4. Failure: An incorrect input or expired timer puts the interaction on a short cooldown.
+
+---
+### **3. DevLog**
+
+[Feature] Implemented new 'Wall Kick-Off' ability, an unlockable horizontal movement skill for crossing large gaps.
+[Refactor] Wall Kick-Off is now triggered from the 'Wall Stick' state, making it a more deliberate, skill-based maneuver.
+[Feature] Added dash VFX (particle trail, puff, and tunable camera punch) to the Wall Kick-Off for visual consistency.
+[Bugfix] Fixed an issue where the Prisoner would not disappear after being rescued.
+[Refactor] Added a procedural fade-out animation to the Prisoner rescue sequence for better visual feedback.
+[Architecture] Refactored the VFX system to be data-driven using a custom VFXData resource.
+[Feature] VFXData resource now supports playback speed and contextual rotation, allowing for reversed and wall-oriented effects.
+[Feature] Added one-shot VFX for dash, slide, and skid actions.
+[Refactor] Improved jump and land animations (stretch/squish) to be driven by AnimationPlayer for better game feel.
+[Bugfix] Fixed input priority allowing slide actions to correctly override the standard landing state when initiated mid-air.
+[Bugfix] Resolved visual artifacts with wall slide and landing effects, ensuring they are correctly positioned and oriented.
+[Bugfix] Fixed various crashes related to null references uncovered during the refactor.
+[Technical] Introduced assert() statements as a best practice for defensive coding to catch missing Inspector assignments.
+[Feature] Implemented checkpoint respawn system; player now respawns at the last activated checkpoint upon death.
+[Architecture] Refactored the mission save state system to use a custom MissionSaveState resource, improving data structure and enabling editor-based setup.
+[Feature] Added an in-editor tool to the PersistenceComponent to automatically generate unique object IDs.
+[Refactor] Improved checkpoint workflow by adding a dedicated Marker2D for precise player respawn placement.
+[Bugfix] Resolved parser errors related to singleton class_name conflicts and incorrect typed function returns.
+[Refactor] Unified RescuedVillager to use the standard Interactable component, fixing a crash.
+[Refactor] Unified Chest to use the standard Interactable component.
+[Refactor] Moved pause input handling from PauseMenu to PlayerScript.
+[Feature] Implemented QuitButton functionality in the PauseMenu.
+[Refactor] Moved PlayerCamera into PlayerScene to create a self-contained prefab.
+[Refactor] Removed hard-coded PauseMenu from level scene to rely on UIManager.
+[Refactor] Simplified the interaction system to use direct calls to InteractionManager.
+[Bugfix] Connected interaction signal in Prisoner script.
+[Refactor] Converted all remaining gameplay and UI calls to use the EventBus.
+[Architecture] Completed implementation of the global Event Bus system.
+[Refactor] Decoupled PlayerCamera from the player's state machine using signals.
+[Refactor] Replaced all hard-coded scene paths with exported PackedScene variables in the SceneManager.
+[Refactor] Removed obsolete signals and constants to resolve script warnings.
+[Refactor] Updated all player state scripts to use the PlayerStats resource.
+[Feature] Implemented a global, event-based dialogue system.
+[Refactor] Updated RescuedVillager to use the new dialogue system.
+[Refactor] Centralized interaction prompt management under the UIManager.
+[Bugfix] Fixed interaction prompt not appearing by connecting it to the InteractionManager's signals.
+[Refactor] Updated mission end screens to use the EventBus for unpausing.
+[Feature] Implement parallax background for levels to create visual depth.
+[Feature] Add interactable Mission Board to Hideout, removing the old UI button.
+[Feature] Implement "jump squat" and "stretch" animations for a more responsive feel.
+[Feature] Add dust puff particle effects for jump, land, wall slide, and wall jump actions.
+[Feature] Implement a "killzone" and respawn system for when the player falls out of a level.
+[Feature] Add joypad/controller support for all UI menus.
+[Refactor] Greatly improve camera system with vertical platform settling, jump deadzone, and ledge look-down.
+[Refactor] Refactor Guard's vision cone to use a self-contained, multi-raycast component inspired by an addon.
+[Refactor] Make all UI scenes responsive to the new low-resolution pixel art viewport.
+[Refactor] Create unique Theme resources for Hideout and in-mission UI to allow for different font sizes.
+[Refactor] Update AnimationController with a clearer match-based structure to prevent animation flip bugs.
+[Refactor] Create a centralized end_dash() function to properly clean up particles and cooldowns.
+[Bugfix] Fix issue where LedgeCheckRay and sprite would not flip correctly on the Guard.
+[Bugfix] Resolve Convex decomposing failed! error by using rotation instead of negative scale to flip the vision cone.
+[Bugfix] Fix one-frame animation flip glitch when jumping into a wall.
+[Bugfix] Fix issue where jump_squat animation would loop indefinitely.
+[Bugfix] Fix visual gap between player and wall during wall slide by using AnimationPlayer to offset the sprite.
+[Bugfix] Resolve input loop where closing a dialogue box would immediately re-trigger an interaction.
+[Bugfix] Fix various UI bugs related to the new pixel art viewport and layout containers.
+[Bugfix] Fix bug where slide could not be triggered from a landing state.
+
+---
+### **4. Project Context**
+
+#### **4.1. Project Settings**
 
 --- START OF PROJECT SETTINGS ---
 ; Engine configuration file.
@@ -175,7 +365,7 @@ renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 --- END OF PROJECT SETTINGS ---
 
-#### **2.2. Resource Files**
+#### **4.2. Resource Files**
 
 --- START OF RESOURCE FILES ---
 --- RESOURCE: res://addons/gut/gui/GutSceneTheme.tres ---
@@ -595,43 +785,64 @@ metadata/_custom_type_script = "uid://cncohoeprijfe"
 
 [resource]
 script = ExtResource("1_byv2g")
-speed = 350.0
-air_control_acceleration = 250.0
-terminal_velocity = 750.0
-acceleration_smoothness = 0.1
-friction_smoothness = 0.3
+core_speed = 350.0
+core_acceleration_smoothness = 0.1
+core_friction_smoothness = 0.3
+core_crouch_speed_multiplier = 0.5
 jump_height = 120.0
-time_to_apex = 0.5
-fall_gravity = 2400.0
+jump_time_to_apex = 0.5
 jump_cut_multiplier = 0.3
-glide_velocity = 300.0
-blink_dash_enabled = false
-slide_duration = 0.4
-standing_slide_speed = 375.0
-slide_friction = 0.01
-skid_duration = 0.25
-skid_friction = 0.25
-wall_slip_duration = 0.08
+jump_fall_gravity = 2400.0
+jump_terminal_velocity = 750.0
+jump_air_control_acceleration = 250.0
+dash_is_blink = false
+dash_distance = 300.0
+dash_duration = 0.2
+dash_end_velocity_multiplier = 0.3
+ground_crouch_speed_multiplier = 0.5
+ground_slide_duration = 0.4
+ground_standing_slide_speed = 375.0
+ground_slide_friction = 0.01
+ground_skid_duration = 0.25
+ground_skid_friction = 0.25
 wall_slide_friction = 80.0
-crouch_speed_multiplier = 0.5
+wall_slip_duration = 0.08
+wall_kick_duration = 0.25
+wall_kick_horizontal_velocity = 1200.0
+wall_kick_vertical_velocity = -200.0
 wall_slide_jump_horizontal_velocity = 600.0
 wall_slide_jump_vertical_velocity = -600.0
 wall_stick_jump_horizontal_velocity = 900.0
 wall_stick_jump_vertical_velocity = -400.0
-dash_end_velocity_multiplier = 0.3
-invisibility_duration = 2.0
-invisibility_cooldown = 5.0
-wall_kick_horizontal_velocity = 1200.0
-wall_kick_vertical_velocity = -200.0
-wall_kick_duration = 0.25
-coyote_time_duration = 0.2
-wall_coyote_time_duration = 0.18
-jump_buffer_duration = 0.1
-dash_freeze_duration = 0.08
-fall_zoom_delay = 0.3
 wall_detach_hang_time = 0.2
 wall_detach_gravity_scale = 0.5
+special_glide_velocity = 300.0
+special_invisibility_duration = 2.0
+special_invisibility_cooldown = 5.0
+feel_coyote_time_duration = 0.2
+feel_wall_coyote_time_duration = 0.18
+feel_jump_buffer_duration = 0.1
+feel_dash_freeze_duration = 0.08
+feel_long_fall_distance = 250.0
 metadata/_custom_type_script = "uid://bx05fogp11uwl"
+
+--- RESOURCE: res://VFX/VFXData/camera_shake_noise.tres ---
+[gd_resource type="Resource" script_class="PhantomCameraNoise2D" load_steps=2 format=3 uid="uid://bdconx48mscmh"]
+
+[ext_resource type="Script" uid="uid://dimvdouy8g0sv" path="res://addons/phantom_camera/scripts/resources/phantom_camera_noise_2d.gd" id="1_yk2s4"]
+
+[resource]
+script = ExtResource("1_yk2s4")
+amplitude = 30.0
+frequency = 25.0
+randomize_noise_seed = 1
+noise_seed = 840
+positional_noise = true
+rotational_noise = true
+positional_multiplier_x = 1.0
+positional_multiplier_y = 1.0
+rotational_multiplier = 0.02
+metadata/_custom_type_script = "uid://dimvdouy8g0sv"
 
 --- RESOURCE: res://VFX/VFXData/dash_prepare.tres ---
 [gd_resource type="Resource" script_class="VFXData" load_steps=3 format=3 uid="uid://ccg8jgat5rg5m"]
@@ -716,6 +927,24 @@ rotation_degrees = 0.0
 scale = Vector2(1, 1)
 camera_punch_intensity = 0.0
 metadata/_custom_type_script = "uid://ctlafprqxjjv2"
+
+--- RESOURCE: res://VFX/VFXData/long_fall_shake.tres ---
+[gd_resource type="Resource" script_class="PhantomCameraNoise2D" load_steps=2 format=3 uid="uid://8mq0qdbo4xi1"]
+
+[ext_resource type="Script" uid="uid://dimvdouy8g0sv" path="res://addons/phantom_camera/scripts/resources/phantom_camera_noise_2d.gd" id="1_7nxu6"]
+
+[resource]
+script = ExtResource("1_7nxu6")
+amplitude = 50.0
+frequency = 40.0
+randomize_noise_seed = 1
+noise_seed = 0
+positional_noise = true
+rotational_noise = false
+positional_multiplier_x = 1.0
+positional_multiplier_y = 1.0
+rotational_multiplier = 1.0
+metadata/_custom_type_script = "uid://dimvdouy8g0sv"
 
 --- RESOURCE: res://VFX/VFXData/skid_puff.tres ---
 [gd_resource type="Resource" script_class="VFXData" load_steps=3 format=3 uid="uid://ci5d3pjnftf5n"]
@@ -823,14 +1052,14 @@ camera_punch_intensity = 0.0
 metadata/_custom_type_script = "uid://ctlafprqxjjv2"
 --- END OF RESOURCE FILES ---
 
-#### **2.3. Scene Structures**
+#### **4.3. Scene Structures**
 
 --- START OF SCENE STRUCTURES ---
 --- SCENE: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn ---
 Enemy (CharacterBody2D)
 > script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.gd
 > scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
-> vision_renderer = VisionConeRenderer:<Polygon2D#6347089344099>
+> vision_renderer = VisionConeRenderer:<Polygon2D#3997322799306>
 > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > is_rotating = false
 > rotation_speed = 0.1
@@ -849,8 +1078,8 @@ Enemy (CharacterBody2D)
 > > ray_count = 100
 > > max_distance = 500.0
 > > collision_layer_mask = 2
-> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#6347122900500>
-> > write_polygon2d = VisionConeRenderer:<Polygon2D#6347089344099>
+> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3997356366202>
+> > write_polygon2d = VisionConeRenderer:<Polygon2D#3997322799306>
 > > debug_lines = false
 > > debug_shape = false
 > > minimum_recalculate_time_msec = 0
@@ -880,7 +1109,7 @@ example (Node2D)
 >   script: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.gd
 >   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
 > > position = (1055.0, 97.0)
-> > vision_renderer = VisionConeRenderer:<Polygon2D#6347726878255>
+> > vision_renderer = VisionConeRenderer:<Polygon2D#3997960317921>
 > > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > > is_rotating = false
 > > rotation_speed = 0.1
@@ -899,8 +1128,8 @@ example (Node2D)
 >   > ray_count = 100
 >   > max_distance = 500.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#6347760432727>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#6347726878255>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3997993900423>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#3997960317921>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -936,7 +1165,7 @@ example (Node2D)
 >   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
 > > position = (301.0, 705.0)
 > > rotation = -1.57079994678497
-> > vision_renderer = VisionConeRenderer:<Polygon2D#6347911427675>
+> > vision_renderer = VisionConeRenderer:<Polygon2D#3998144881328>
 > > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > > is_rotating = true
 > > rotation_speed = 1.0
@@ -955,8 +1184,8 @@ example (Node2D)
 >   > ray_count = 50
 >   > max_distance = 700
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#6347944983769>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#6347911427675>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3998178435758>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#3998144881328>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 0
@@ -985,12 +1214,12 @@ example (Node2D)
 >   scene: res://addons/godot-vision-cone-main/addons/vision_cone_2d/examples/enemy.tscn
 > > position = (211.0, 130.0)
 > > rotation = -0.48296800255775
-> > vision_renderer = VisionConeRenderer:<Polygon2D#6348062420647>
+> > vision_renderer = VisionConeRenderer:<Polygon2D#3998295876265>
 > > alert_color = (0.6, 0.2706, 0.2471, 0.3686)
 > > is_rotating = false
 > > rotation_speed = 1.0
 > > rotation_angle = 90
-> > move_on_path = PathFollow2D:<PathFollow2D#6347659769386>
+> > move_on_path = PathFollow2D:<PathFollow2D#3997893237119>
 > > movement_speed = 3.0
 >   CharacterRenderer (Polygon2D)
 >   > rotation = -1.57079994678497
@@ -1005,8 +1234,8 @@ example (Node2D)
 >   > ray_count = 10
 >   > max_distance = 700
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#6348095976066>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#6348062420647>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3998329430695>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#3998295876265>
 >   > debug_lines = true
 >   > debug_shape = true
 >   > minimum_recalculate_time_msec = 250
@@ -1145,8 +1374,8 @@ VisionCone2D (Node2D)
 > ray_count = 100
 > max_distance = 500.0
 > collision_layer_mask = 2
-> write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#6349740144214>
-> write_polygon2d = VisionConeRenderer:<Polygon2D#6349706589754>
+> write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#3999956834693>
+> write_polygon2d = VisionConeRenderer:<Polygon2D#3999923280258>
 > debug_lines = false
 > debug_shape = false
 > minimum_recalculate_time_msec = 0
@@ -2307,7 +2536,7 @@ GutRunner (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 0
->           > resize_control = Normal:<Panel#6375744830713>
+>           > resize_control = Normal:<Panel#4025961520174>
 >           > vertical_resize = true
 >           SwitchModes (Button)
 >           > layout_mode = 2
@@ -2322,7 +2551,7 @@ GutRunner (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 1
->           > resize_control = Normal:<Panel#6375744830713>
+>           > resize_control = Normal:<Panel#4025961520174>
 >           > vertical_resize = true
 >           SidePad2 (CenterContainer)
 >           > custom_minimum_size = (2.0, 0.0)
@@ -2433,7 +2662,7 @@ GutRunner (Node2D)
 >               > layout_mode = 2
 >               > color = (1.0, 1.0, 1.0, 0.0)
 >               > orientation = 0
->               > resize_control = Compact:<Panel#6377221225776>
+>               > resize_control = Compact:<Panel#4027437915263>
 >               > vertical_resize = false
 >               SwitchModes (Button)
 >               > layout_mode = 2
@@ -2451,7 +2680,7 @@ GutRunner (Node2D)
 >               > layout_mode = 2
 >               > color = (1.0, 1.0, 1.0, 0.0)
 >               > orientation = 1
->               > resize_control = Compact:<Panel#6377221225776>
+>               > resize_control = Compact:<Panel#4027437915263>
 >               > vertical_resize = false
 >           RightMargin (CenterContainer)
 >           > custom_minimum_size = (5.0, 0.0)
@@ -2562,7 +2791,7 @@ Min (Panel)
 >         > layout_mode = 2
 >         > color = (1.0, 1.0, 1.0, 0.0)
 >         > orientation = 0
->         > resize_control = Min:<Panel#6380912211561>
+>         > resize_control = Min:<Panel#4031128888005>
 >         > vertical_resize = false
 >         SwitchModes (Button)
 >         > layout_mode = 2
@@ -2580,7 +2809,7 @@ Min (Panel)
 >         > layout_mode = 2
 >         > color = (1.0, 1.0, 1.0, 0.0)
 >         > orientation = 1
->         > resize_control = Min:<Panel#6380912211561>
+>         > resize_control = Min:<Panel#4031128888005>
 >         > vertical_resize = false
 >     RightMargin (CenterContainer)
 >     > custom_minimum_size = (5.0, 0.0)
@@ -2733,7 +2962,7 @@ Large (Panel)
 >     > layout_mode = 2
 >     > color = (1.0, 1.0, 1.0, 0.0)
 >     > orientation = 0
->     > resize_control = Large:<Panel#6383076472425>
+>     > resize_control = Large:<Panel#4033293148869>
 >     > vertical_resize = true
 >     SwitchModes (Button)
 >     > layout_mode = 2
@@ -2748,7 +2977,7 @@ Large (Panel)
 >     > layout_mode = 2
 >     > color = (1.0, 1.0, 1.0, 0.0)
 >     > orientation = 1
->     > resize_control = Large:<Panel#6383076472425>
+>     > resize_control = Large:<Panel#4033293148869>
 >     > vertical_resize = true
 >     SidePad2 (CenterContainer)
 >     > custom_minimum_size = (2.0, 0.0)
@@ -3211,7 +3440,7 @@ GutScene (Node2D)
 >       > layout_mode = 2
 >       > color = (1.0, 1.0, 1.0, 0.0)
 >       > orientation = 0
->       > resize_control = Normal:<Panel#6394770193505>
+>       > resize_control = Normal:<Panel#4044986868416>
 >       > vertical_resize = true
 >       SwitchModes (Button)
 >       > layout_mode = 2
@@ -3226,7 +3455,7 @@ GutScene (Node2D)
 >       > layout_mode = 2
 >       > color = (1.0, 1.0, 1.0, 0.0)
 >       > orientation = 1
->       > resize_control = Normal:<Panel#6394770193505>
+>       > resize_control = Normal:<Panel#4044986868416>
 >       > vertical_resize = true
 >       SidePad2 (CenterContainer)
 >       > custom_minimum_size = (2.0, 0.0)
@@ -3337,7 +3566,7 @@ GutScene (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 0
->           > resize_control = Compact:<Panel#6396246588682>
+>           > resize_control = Compact:<Panel#4046463278202>
 >           > vertical_resize = false
 >           SwitchModes (Button)
 >           > layout_mode = 2
@@ -3355,7 +3584,7 @@ GutScene (Node2D)
 >           > layout_mode = 2
 >           > color = (1.0, 1.0, 1.0, 0.0)
 >           > orientation = 1
->           > resize_control = Compact:<Panel#6396246588682>
+>           > resize_control = Compact:<Panel#4046463278202>
 >           > vertical_resize = false
 >       RightMargin (CenterContainer)
 >       > custom_minimum_size = (5.0, 0.0)
@@ -3377,7 +3606,7 @@ UserFileViewer (Window)
 > FileDialog (FileDialog)
 > > access = 1
 > > show_hidden_files = true
->   @PopupMenu@34243 (PopupMenu)
+>   @PopupMenu@27896 (PopupMenu)
 > TextDisplay (ColorRect)
 > > anchors_preset = 15
 > > anchor_right = 1.0
@@ -3455,7 +3684,7 @@ UpdatePromptWindow (Panel)
 > offset_bottom = 0.02398679964244
 > grow_horizontal = 2
 > grow_vertical = 2
-> animator = AnimationPlayer:<AnimationPlayer#6413980106033>
+> animator = AnimationPlayer:<AnimationPlayer#4064196795518>
 > host_window_size = (1063.0, 672.0)
 > Notice (Control)
 > > unique_name_in_owner = true
@@ -3712,7 +3941,7 @@ UpdatePromptWindow (Panel)
 > AnimationPlayer (AnimationPlayer)
 > > unique_name_in_owner = true
 > > root_node = ../UpdateMonitor
-> > libraries = {"":"<AnimationLibrary#-9223365624032304061>"}
+> > libraries = {"":"<AnimationLibrary#-9223367973815608240>"}
 
 --- SCENE: res://addons/phantom_camera/examples/example_scenes/2D/2d_example_scene.tscn ---
 ExampleScene2D2 (Node2D)
@@ -3855,7 +4084,7 @@ ExampleScene2D2 (Node2D)
 >   > priority_override = false
 >   > priority = 10
 >   > follow_mode = 2
->   > follow_target = PlayerVisuals:<Node2D#6420036679251>
+>   > follow_target = PlayerVisuals:<Node2D#4070253369729>
 >   > follow_targets = []
 >   > zoom = (1.5, 1.5)
 >   > snap_to_pixel = false
@@ -4163,7 +4392,7 @@ ExampleScene2D (Node2D)
 >   > priority_override = false
 >   > priority = 5
 >   > follow_mode = 5
->   > follow_target = PlayerVisuals:<Node2D#6424314871378>
+>   > follow_target = PlayerVisuals:<Node2D#4074531560656>
 >   > follow_targets = []
 >   > zoom = (2.0, 2.0)
 >   > snap_to_pixel = false
@@ -4481,7 +4710,7 @@ ExampleScene2D (Node2D)
 > > priority_override = false
 > > priority = 10
 > > follow_mode = 3
-> > follow_targets = ["GroupNPCSprite:<Sprite2D#6428760831584>","PlayerVisuals:<Node2D#6428827940372>"]
+> > follow_targets = ["GroupNPCSprite:<Sprite2D#4078977523008>","PlayerVisuals:<Node2D#4079044631867>"]
 > > zoom = (1.5, 1.5)
 > > snap_to_pixel = false
 > > frame_preview = true
@@ -4805,9 +5034,9 @@ ExampleScene2D (Node2D)
 > > priority_override = false
 > > priority = 10
 > > follow_mode = 4
-> > follow_target = PlayerVisuals:<Node2D#6433290681961>
+> > follow_target = PlayerVisuals:<Node2D#4083507371125>
 > > follow_targets = []
-> > follow_path = Path2D:<Path2D#6433223572607>
+> > follow_path = Path2D:<Path2D#4083440262259>
 > > zoom = (1.5, 1.5)
 > > snap_to_pixel = false
 > > frame_preview = true
@@ -5254,7 +5483,7 @@ ExampleScene2D (Node2D)
 > > priority_override = false
 > > priority = 5
 > > follow_mode = 2
-> > follow_target = PlayerVisuals:<Node2D#6437635980568>
+> > follow_target = PlayerVisuals:<Node2D#4087852670018>
 > > follow_targets = []
 > > zoom = (2.0, 2.0)
 > > snap_to_pixel = false
@@ -5539,7 +5768,7 @@ ExampleScene2D (Node2D)
 >   > priority_override = false
 >   > priority = 5
 >   > follow_mode = 2
->   > follow_target = PlayerVisuals:<Node2D#6442568475758>
+>   > follow_target = PlayerVisuals:<Node2D#4092785171662>
 >   > follow_targets = []
 >   > zoom = (1.0, 1.0)
 >   > snap_to_pixel = false
@@ -5724,7 +5953,7 @@ ExampleScene2D (Node2D)
 > > position = (393.0, -40.0)
 > > collision_layer = 2
 > > collision_mask = 2
-> > area_pcam = PhantomCamera2D:<Node2D#6442887248984>
+> > area_pcam = PhantomCamera2D:<Node2D#4093103938749>
 >   CollisionShape2D (CollisionShape2D)
 >   > position = (0.0, -40.0)
 >   > shape = res://addons/phantom_camera/examples/example_scenes/2D/2d_tweening_example_scene.tscn::RectangleShape2D_tgk1y
@@ -5786,7 +6015,7 @@ ExampleScene2D (Node2D)
 > > position = (649.0, -135.0)
 > > collision_layer = 2
 > > collision_mask = 2
-> > area_pcam = PhantomCamera2D:<Node2D#6443038244110>
+> > area_pcam = PhantomCamera2D:<Node2D#4093254933685>
 >   CollisionShape2D (CollisionShape2D)
 >   > position = (0.0, -40.0)
 >   > shape = res://addons/phantom_camera/examples/example_scenes/2D/2d_tweening_example_scene.tscn::RectangleShape2D_clm0y
@@ -5851,7 +6080,7 @@ ExampleScene2D (Node2D)
 > > position = (1136.0, -38.0)
 > > collision_layer = 2
 > > collision_mask = 2
-> > area_pcam = PhantomCamera2D:<Node2D#6443172461664>
+> > area_pcam = PhantomCamera2D:<Node2D#4093389151406>
 >   CollisionShape2D (CollisionShape2D)
 >   > position = (0.0, -42.0)
 >   > shape = res://addons/phantom_camera/examples/example_scenes/2D/2d_tweening_example_scene.tscn::RectangleShape2D_uka0w
@@ -6199,7 +6428,7 @@ Root (Node2D)
 >   > priority_override = false
 >   > priority = 10
 >   > follow_mode = 2
->   > follow_target = CharacterBody2D:<CharacterBody2D#6449229037148>
+>   > follow_target = CharacterBody2D:<CharacterBody2D#4099445726425>
 >   > follow_targets = []
 >   > zoom = (1.5, 1.5)
 >   > snap_to_pixel = false
@@ -6515,7 +6744,7 @@ Root (Node2D)
 >   > priority_override = false
 >   > priority = 5
 >   > follow_mode = 5
->   > follow_target = CharacterBody2D:<CharacterBody2D#6453507225174>
+>   > follow_target = CharacterBody2D:<CharacterBody2D#4103723915653>
 >   > follow_targets = []
 >   > zoom = (2.0, 2.0)
 >   > snap_to_pixel = false
@@ -6842,7 +7071,7 @@ Root (Node2D)
 > > priority_override = false
 > > priority = 10
 > > follow_mode = 3
-> > follow_targets = ["CharacterBody2D:<CharacterBody2D#6458020298344>","GroupNPCSprite:<Sprite2D#6458003520637>"]
+> > follow_targets = ["CharacterBody2D:<CharacterBody2D#4108236987510>","GroupNPCSprite:<Sprite2D#4108220210292>"]
 > > zoom = (1.5, 1.5)
 > > snap_to_pixel = false
 > > frame_preview = true
@@ -7174,9 +7403,9 @@ Root (Node2D)
 > > priority_override = false
 > > priority = 10
 > > follow_mode = 4
-> > follow_target = CharacterBody2D:<CharacterBody2D#6462483037239>
+> > follow_target = CharacterBody2D:<CharacterBody2D#4112699727174>
 > > follow_targets = []
-> > follow_path = Path2D:<Path2D#6462466258532>
+> > follow_path = Path2D:<Path2D#4112682949960>
 > > zoom = (1.5, 1.5)
 > > snap_to_pixel = false
 > > frame_preview = true
@@ -7626,7 +7855,7 @@ ExampleScene2D (Node2D)
 > > priority_override = false
 > > priority = 5
 > > follow_mode = 2
-> > follow_target = CharacterBody2D:<CharacterBody2D#6466778005123>
+> > follow_target = CharacterBody2D:<CharacterBody2D#4116994694366>
 > > follow_targets = []
 > > zoom = (2.0, 2.0)
 > > snap_to_pixel = false
@@ -7930,7 +8159,7 @@ Root (Node2D)
 >   > priority_override = false
 >   > priority = 10
 >   > follow_mode = 2
->   > follow_target = CharacterBody2D:<CharacterBody2D#6471676950102>
+>   > follow_target = CharacterBody2D:<CharacterBody2D#4121893640581>
 >   > follow_targets = []
 >   > zoom = (1.5, 1.5)
 >   > snap_to_pixel = false
@@ -8258,7 +8487,7 @@ Root (Node2D)
 >   > priority_override = false
 >   > priority = 5
 >   > follow_mode = 2
->   > follow_target = CharacterBody2D:<CharacterBody2D#6476106135076>
+>   > follow_target = CharacterBody2D:<CharacterBody2D#4126322826401>
 >   > follow_targets = []
 >   > zoom = (1.0, 1.0)
 >   > snap_to_pixel = false
@@ -8443,7 +8672,7 @@ Root (Node2D)
 > > position = (393.0, -40.0)
 > > collision_layer = 2
 > > collision_mask = 2
-> > area_pcam = PhantomCamera2D:<Node2D#6476475235349>
+> > area_pcam = PhantomCamera2D:<Node2D#4126691925125>
 >   CollisionShape2D (CollisionShape2D)
 >   > position = (0.0, -40.0)
 >   > shape = res://addons/phantom_camera/examples/example_scenes/2D-4.3/2d_tweening_example_scene.tscn::RectangleShape2D_tgk1y
@@ -8505,7 +8734,7 @@ Root (Node2D)
 > > position = (649.0, -135.0)
 > > collision_layer = 2
 > > collision_mask = 2
-> > area_pcam = PhantomCamera2D:<Node2D#6476626230437>
+> > area_pcam = PhantomCamera2D:<Node2D#4126842920079>
 >   CollisionShape2D (CollisionShape2D)
 >   > position = (0.0, -40.0)
 >   > shape = res://addons/phantom_camera/examples/example_scenes/2D-4.3/2d_tweening_example_scene.tscn::RectangleShape2D_clm0y
@@ -8570,7 +8799,7 @@ Root (Node2D)
 > > position = (1136.0, -38.0)
 > > collision_layer = 2
 > > collision_mask = 2
-> > area_pcam = PhantomCamera2D:<Node2D#6476760448147>
+> > area_pcam = PhantomCamera2D:<Node2D#4126977137813>
 >   CollisionShape2D (CollisionShape2D)
 >   > position = (0.0, -42.0)
 >   > shape = res://addons/phantom_camera/examples/example_scenes/2D-4.3/2d_tweening_example_scene.tscn::RectangleShape2D_uka0w
@@ -8673,7 +8902,7 @@ Root (Node3D)
 >   > priority_override = false
 >   > priority = 10
 >   > follow_mode = 2
->   > follow_target = PlayerVisual:<Node3D#6479612568653>
+>   > follow_target = PlayerVisual:<Node3D#4129829264479>
 >   > follow_targets = []
 >   > look_at_mode = 0
 >   > look_at_targets = []
@@ -8824,7 +9053,7 @@ Root (Node3D)
 >     script: res://addons/phantom_camera/examples/scripts/3D/3d_trigger_area.gd
 >   > transform = [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (3.0, -0.45, -0.9)]
 >   > priority = 5
->   > area_pcam = NorthRoomPhantomCamera3D:<Node3D#6479931342142>
+>   > area_pcam = NorthRoomPhantomCamera3D:<Node3D#4130148031594>
 >     CollisionShape3D (CollisionShape3D)
 >     > transform = [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.6, 0.0, -0.4)]
 >     > shape = res://addons/phantom_camera/examples/example_scenes/3D/3d_example_scene.tscn::BoxShape3D_wcrbb
@@ -8869,7 +9098,7 @@ Root (Node3D)
 >     script: res://addons/phantom_camera/examples/scripts/3D/3d_trigger_area.gd
 >   > transform = [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (3.00003, -0.454982, 3.00572)]
 >   > priority = 5
->   > area_pcam = EntryRoomPhantomCamera3D:<Node3D#6479998449181>
+>   > area_pcam = EntryRoomPhantomCamera3D:<Node3D#4130215140694>
 >     CollisionShape3D (CollisionShape3D)
 >     > transform = [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.3, 0.0, 0.2)]
 >     > shape = res://addons/phantom_camera/examples/example_scenes/3D/3d_example_scene.tscn::BoxShape3D_ctyr8
@@ -8914,7 +9143,7 @@ Root (Node3D)
 >     script: res://addons/phantom_camera/examples/scripts/3D/3d_trigger_area.gd
 >   > transform = [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (3.0, -0.45, 6.7)]
 >   > priority = 5
->   > area_pcam = SouthRoomPhantomCamera3D:<Node3D#6480065559651>
+>   > area_pcam = SouthRoomPhantomCamera3D:<Node3D#4130282249577>
 >     CollisionShape3D (CollisionShape3D)
 >     > transform = [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.6, 0.0, 0.1)]
 >     > shape = res://addons/phantom_camera/examples/example_scenes/3D/3d_example_scene.tscn::BoxShape3D_ua072
@@ -9014,7 +9243,7 @@ Root (Node3D)
 >   > priority_override = false
 >   > priority = 0
 >   > follow_mode = 5
->   > follow_target = PlayerVisual:<Node3D#6482179489034>
+>   > follow_target = PlayerVisual:<Node3D#4132396178554>
 >   > follow_targets = []
 >   > look_at_mode = 0
 >   > look_at_targets = []
@@ -9164,7 +9393,7 @@ Node3D (Node3D)
 >   > priority_override = false
 >   > priority = 5
 >   > follow_mode = 1
->   > follow_target = PlayerVisual:<Node3D#6483555221109>
+>   > follow_target = PlayerVisual:<Node3D#4133771910280>
 >   > follow_targets = []
 >   > look_at_mode = 0
 >   > look_at_targets = []
@@ -9360,7 +9589,7 @@ Node3D (Node3D)
 >   > priority_override = false
 >   > priority = 5
 >   > follow_mode = 3
->   > follow_targets = ["PlayerCharacterBody3D2:<CharacterBody3D#6485132279089>","PlayerMeshInstance3D:<MeshInstance3D#6485283274370>","PlayerMeshInstance3D2:<MeshInstance3D#6485300051400>"]
+>   > follow_targets = ["PlayerCharacterBody3D2:<CharacterBody3D#4135348968574>","PlayerMeshInstance3D:<MeshInstance3D#4135499963526>","PlayerMeshInstance3D2:<MeshInstance3D#4135516740700>"]
 >   > look_at_mode = 0
 >   > look_at_targets = []
 >   > tween_resource = res://addons/phantom_camera/examples/resources/tween/player_phantom_camera_3d_tween.tres
@@ -9501,7 +9730,7 @@ Root (Node3D)
 > > priority_override = false
 > > priority = 10
 > > follow_mode = 2
-> > follow_target = PlayerVisual:<Node3D#6486860332303>
+> > follow_target = PlayerVisual:<Node3D#4137077021817>
 > > follow_targets = []
 > > look_at_mode = 0
 > > look_at_targets = []
@@ -9558,9 +9787,9 @@ Root (Node3D)
 >   > priority_override = false
 >   > priority = 2
 >   > follow_mode = 4
->   > follow_target = PlayerVisual:<Node3D#6486860332303>
+>   > follow_target = PlayerVisual:<Node3D#4137077021817>
 >   > follow_targets = []
->   > follow_path = FollowPath:<Path3D#6486944218369>
+>   > follow_path = FollowPath:<Path3D#4137160907901>
 >   > look_at_mode = 0
 >   > look_at_targets = []
 >   > tween_resource = res://addons/phantom_camera/examples/example_scenes/3D/3d_follow_path_example_scene.tscn::Resource_01tho
@@ -9598,7 +9827,7 @@ Root (Node3D)
 >     script: res://addons/phantom_camera/examples/scripts/3D/path_follow.gd
 >   > transform = [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-0.04204, -0.45, -6.73666)]
 >   > priority = 5
->   > path_pcam = PathPhantomCamera3D:<Node3D#6486910664325>
+>   > path_pcam = PathPhantomCamera3D:<Node3D#4137127353479>
 >     CollisionShape3D (CollisionShape3D)
 >     > shape = res://addons/phantom_camera/examples/example_scenes/3D/3d_follow_path_example_scene.tscn::BoxShape3D_aovgi
 >       NPCInteractionZoneMesh (MeshInstance3D)
@@ -9612,9 +9841,9 @@ Root (Node3D)
 >   > priority_override = false
 >   > priority = 2
 >   > follow_mode = 4
->   > follow_target = PlayerVisual:<Node3D#6486860332303>
+>   > follow_target = PlayerVisual:<Node3D#4137077021817>
 >   > follow_targets = []
->   > follow_path = FollowPath2:<Path3D#6487044881975>
+>   > follow_path = FollowPath2:<Path3D#4137261571132>
 >   > look_at_mode = 0
 >   > look_at_targets = []
 >   > tween_resource = res://addons/phantom_camera/examples/example_scenes/3D/3d_follow_path_example_scene.tscn::Resource_01tho
@@ -9652,7 +9881,7 @@ Root (Node3D)
 >     script: res://addons/phantom_camera/examples/scripts/3D/path_follow.gd
 >   > transform = [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-0.04204, 0.0, -13.7367)]
 >   > priority = 5
->   > path_pcam = PathPhantomCamera3D2:<Node3D#6487011327441>
+>   > path_pcam = PathPhantomCamera3D2:<Node3D#4137228016749>
 >     CollisionShape3D (CollisionShape3D)
 >     > shape = res://addons/phantom_camera/examples/example_scenes/3D/3d_follow_path_example_scene.tscn::BoxShape3D_ctnqu
 >       NPCInteractionZoneMesh (MeshInstance3D)
@@ -9749,7 +9978,7 @@ Node3D2 (Node3D)
 >   > priority_override = false
 >   > priority = 10
 >   > follow_mode = 2
->   > follow_target = PlayerVisual:<Node3D#6488504493133>
+>   > follow_target = PlayerVisual:<Node3D#4138721188959>
 >   > follow_targets = []
 >   > look_at_mode = 0
 >   > look_at_targets = []
@@ -9889,7 +10118,7 @@ Root (Node3D)
 > > priority_override = false
 > > priority = 10
 > > follow_mode = 6
-> > follow_target = PlayerVisual:<Node3D#6490366770624>
+> > follow_target = PlayerVisual:<Node3D#4140583460071>
 > > follow_targets = []
 > > look_at_mode = 0
 > > look_at_targets = []
@@ -9929,7 +10158,7 @@ Root (Node3D)
 > > priority_override = false
 > > priority = 0
 > > follow_mode = 6
-> > follow_target = PlayerVisual:<Node3D#6490366770624>
+> > follow_target = PlayerVisual:<Node3D#4140583460071>
 > > follow_targets = []
 > > look_at_mode = 0
 > > look_at_targets = []
@@ -10142,7 +10371,7 @@ Root (Node3D)
 > > priority_override = false
 > > priority = 10
 > > follow_mode = 6
-> > follow_target = PlayerVisual:<Node3D#6491708947713>
+> > follow_target = PlayerVisual:<Node3D#4141925637245>
 > > follow_targets = []
 > > look_at_mode = 0
 > > look_at_targets = []
@@ -10181,7 +10410,7 @@ Root (Node3D)
 > > priority_override = false
 > > priority = 0
 > > follow_mode = 6
-> > follow_target = PlayerVisual:<Node3D#6491708947713>
+> > follow_target = PlayerVisual:<Node3D#4141925637245>
 > > follow_targets = []
 > > look_at_mode = 0
 > > look_at_targets = []
@@ -10353,7 +10582,7 @@ Root (Node3D)
 > > follow_mode = 0
 > > follow_targets = []
 > > look_at_mode = 2
-> > look_at_target = PlayerVisual:<Node3D#6493403446728>
+> > look_at_target = PlayerVisual:<Node3D#4143620136028>
 > > look_at_targets = []
 > > tween_resource = res://addons/phantom_camera/examples/example_scenes/3D/3d_look_at_example_scene.tscn::Resource_pwcgo
 > > tween_on_load = false
@@ -10548,7 +10777,7 @@ Root (Node3D)
 > > priority_override = false
 > > priority = 10
 > > follow_mode = 2
-> > follow_target = PlayerCharacterBody3D:<CharacterBody3D#6495014059653>
+> > follow_target = PlayerCharacterBody3D:<CharacterBody3D#4145230748807>
 > > follow_targets = []
 > > look_at_mode = 0
 > > look_at_targets = []
@@ -10670,7 +10899,7 @@ Root (Node3D)
 > > priority_override = false
 > > priority = 3
 > > follow_mode = 2
-> > follow_target = PlayerVisual:<Node3D#6496909878349>
+> > follow_target = PlayerVisual:<Node3D#4147126574175>
 > > follow_targets = []
 > > look_at_mode = 0
 > > look_at_targets = []
@@ -10725,7 +10954,7 @@ Root (Node3D)
 >     EntryRoomTrigger (Area3D)
 >       script: res://addons/phantom_camera/examples/scripts/3D/3d_trigger_area.gd
 >     > priority = 5
->     > area_pcam = PhantomCamera3D:<Node3D#6497044102789>
+>     > area_pcam = PhantomCamera3D:<Node3D#4147260791943>
 >       CollisionShape3D (CollisionShape3D)
 >       > shape = res://addons/phantom_camera/examples/example_scenes/3D/3d_tweening_example_scene.tscn::BoxShape3D_j6fha
 >       NPCInteractionZoneMesh (MeshInstance3D)
@@ -10778,7 +11007,7 @@ Root (Node3D)
 >     EntryRoomTrigger (Area3D)
 >       script: res://addons/phantom_camera/examples/scripts/3D/3d_trigger_area.gd
 >     > priority = 5
->     > area_pcam = PhantomCamera3D:<Node3D#6497161542753>
+>     > area_pcam = PhantomCamera3D:<Node3D#4147378217664>
 >       CollisionShape3D (CollisionShape3D)
 >       > shape = res://addons/phantom_camera/examples/example_scenes/3D/3d_tweening_example_scene.tscn::BoxShape3D_j6fha
 >       NPCInteractionZoneMesh (MeshInstance3D)
@@ -10831,7 +11060,7 @@ Root (Node3D)
 >     EntryRoomTrigger (Area3D)
 >       script: res://addons/phantom_camera/examples/scripts/3D/3d_trigger_area.gd
 >     > priority = 5
->     > area_pcam = PhantomCamera3D:<Node3D#6497278981660>
+>     > area_pcam = PhantomCamera3D:<Node3D#4147495673176>
 >       CollisionShape3D (CollisionShape3D)
 >       > shape = res://addons/phantom_camera/examples/example_scenes/3D/3d_tweening_example_scene.tscn::BoxShape3D_j6fha
 >       NPCInteractionZoneMesh (MeshInstance3D)
@@ -10884,7 +11113,7 @@ Root (Node3D)
 >     EntryRoomTrigger (Area3D)
 >       script: res://addons/phantom_camera/examples/scripts/3D/3d_trigger_area.gd
 >     > priority = 5
->     > area_pcam = PhantomCamera3D:<Node3D#6497396422106>
+>     > area_pcam = PhantomCamera3D:<Node3D#4147613113573>
 >       CollisionShape3D (CollisionShape3D)
 >       > shape = res://addons/phantom_camera/examples/example_scenes/3D/3d_tweening_example_scene.tscn::BoxShape3D_j6fha
 >       NPCInteractionZoneMesh (MeshInstance3D)
@@ -11028,7 +11257,7 @@ Root (Node3D)
 >   > priority_override = false
 >   > priority = 10
 >   > follow_mode = 2
->   > follow_target = PlayerCharacterBody3D:<CharacterBody3D#6500516984345>
+>   > follow_target = PlayerCharacterBody3D:<CharacterBody3D#4150733675857>
 >   > follow_targets = []
 >   > look_at_mode = 0
 >   > look_at_targets = []
@@ -11179,7 +11408,7 @@ Root (Node3D)
 >     script: res://addons/phantom_camera/examples/scripts/3D/3d_trigger_area.gd
 >   > transform = [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (3.0, -0.45, -0.9)]
 >   > priority = 5
->   > area_pcam = NorthRoomPhantomCamera3D:<Node3D#6500902862142>
+>   > area_pcam = NorthRoomPhantomCamera3D:<Node3D#4151119551594>
 >     CollisionShape3D (CollisionShape3D)
 >     > transform = [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.6, 0.0, -0.4)]
 >     > shape = res://addons/phantom_camera/examples/example_scenes/3D-4.4/3d_example_scene.tscn::BoxShape3D_wcrbb
@@ -11224,7 +11453,7 @@ Root (Node3D)
 >     script: res://addons/phantom_camera/examples/scripts/3D/3d_trigger_area.gd
 >   > transform = [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (3.00003, -0.454982, 3.00572)]
 >   > priority = 5
->   > area_pcam = EntryRoomPhantomCamera3D:<Node3D#6500969969181>
+>   > area_pcam = EntryRoomPhantomCamera3D:<Node3D#4151186660694>
 >     CollisionShape3D (CollisionShape3D)
 >     > transform = [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.3, 0.0, 0.2)]
 >     > shape = res://addons/phantom_camera/examples/example_scenes/3D-4.4/3d_example_scene.tscn::BoxShape3D_ctyr8
@@ -11269,7 +11498,7 @@ Root (Node3D)
 >     script: res://addons/phantom_camera/examples/scripts/3D/3d_trigger_area.gd
 >   > transform = [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (3.0, -0.45, 6.7)]
 >   > priority = 5
->   > area_pcam = SouthRoomPhantomCamera3D:<Node3D#6501037079651>
+>   > area_pcam = SouthRoomPhantomCamera3D:<Node3D#4151253769577>
 >     CollisionShape3D (CollisionShape3D)
 >     > transform = [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (0.6, 0.0, 0.1)]
 >     > shape = res://addons/phantom_camera/examples/example_scenes/3D-4.4/3d_example_scene.tscn::BoxShape3D_ua072
@@ -11370,7 +11599,7 @@ Root (Node3D)
 >   > priority_override = false
 >   > priority = 0
 >   > follow_mode = 5
->   > follow_target = PlayerCharacterBody3D:<CharacterBody3D#6503100677668>
+>   > follow_target = PlayerCharacterBody3D:<CharacterBody3D#4153317366860>
 >   > follow_targets = []
 >   > look_at_mode = 0
 >   > look_at_targets = []
@@ -11522,7 +11751,7 @@ Node3D (Node3D)
 >   > priority_override = false
 >   > priority = 5
 >   > follow_mode = 1
->   > follow_target = PlayerCharacterBody3D:<CharacterBody3D#6504493186609>
+>   > follow_target = PlayerCharacterBody3D:<CharacterBody3D#4154709875798>
 >   > follow_targets = []
 >   > look_at_mode = 0
 >   > look_at_targets = []
@@ -11720,7 +11949,7 @@ Node3D (Node3D)
 >   > priority_override = false
 >   > priority = 5
 >   > follow_mode = 3
->   > follow_targets = ["PlayerCharacterBody3D:<CharacterBody3D#6506321903051>","PlayerMeshInstance3D:<MeshInstance3D#6506472897835>","PlayerMeshInstance3D2:<MeshInstance3D#6506489675199>"]
+>   > follow_targets = ["PlayerCharacterBody3D:<CharacterBody3D#4156538592387>","PlayerMeshInstance3D:<MeshInstance3D#4156689587302>","PlayerMeshInstance3D2:<MeshInstance3D#4156706364507>"]
 >   > look_at_mode = 0
 >   > look_at_targets = []
 >   > tween_resource = res://addons/phantom_camera/examples/resources/tween/player_phantom_camera_3d_tween.tres
@@ -11862,7 +12091,7 @@ Root (Node3D)
 > > priority_override = false
 > > priority = 10
 > > follow_mode = 2
-> > follow_target = PlayerCharacterBody3D2:<CharacterBody3D#6508184173821>
+> > follow_target = PlayerCharacterBody3D2:<CharacterBody3D#4158417640499>
 > > follow_targets = []
 > > look_at_mode = 0
 > > look_at_targets = []
@@ -11919,9 +12148,9 @@ Root (Node3D)
 >   > priority_override = false
 >   > priority = 2
 >   > follow_mode = 4
->   > follow_target = PlayerCharacterBody3D2:<CharacterBody3D#6508184173821>
+>   > follow_target = PlayerCharacterBody3D2:<CharacterBody3D#4158417640499>
 >   > follow_targets = []
->   > follow_path = FollowPath:<Path3D#6508335169157>
+>   > follow_path = FollowPath:<Path3D#4158568635527>
 >   > look_at_mode = 0
 >   > look_at_targets = []
 >   > tween_resource = res://addons/phantom_camera/examples/example_scenes/3D-4.4/3d_follow_path_example_scene.tscn::Resource_01tho
@@ -11959,7 +12188,7 @@ Root (Node3D)
 >     script: res://addons/phantom_camera/examples/scripts/3D/path_follow.gd
 >   > transform = [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-0.04204, -0.45, -6.73666)]
 >   > priority = 5
->   > path_pcam = PathPhantomCamera3D:<Node3D#6508301614337>
+>   > path_pcam = PathPhantomCamera3D:<Node3D#4158535081085>
 >     CollisionShape3D (CollisionShape3D)
 >     > shape = res://addons/phantom_camera/examples/example_scenes/3D-4.4/3d_follow_path_example_scene.tscn::BoxShape3D_aovgi
 >       NPCInteractionZoneMesh (MeshInstance3D)
@@ -11973,9 +12202,9 @@ Root (Node3D)
 >   > priority_override = false
 >   > priority = 2
 >   > follow_mode = 4
->   > follow_target = PlayerCharacterBody3D2:<CharacterBody3D#6508184173821>
+>   > follow_target = PlayerCharacterBody3D2:<CharacterBody3D#4158417640499>
 >   > follow_targets = []
->   > follow_path = FollowPath2:<Path3D#6508435831835>
+>   > follow_path = FollowPath2:<Path3D#4158669298798>
 >   > look_at_mode = 0
 >   > look_at_targets = []
 >   > tween_resource = res://addons/phantom_camera/examples/example_scenes/3D-4.4/3d_follow_path_example_scene.tscn::Resource_01tho
@@ -12013,7 +12242,7 @@ Root (Node3D)
 >     script: res://addons/phantom_camera/examples/scripts/3D/path_follow.gd
 >   > transform = [X: (1.0, 0.0, 0.0), Y: (0.0, 1.0, 0.0), Z: (0.0, 0.0, 1.0), O: (-0.04204, 0.0, -13.7367)]
 >   > priority = 5
->   > path_pcam = PathPhantomCamera3D2:<Node3D#6508402277505>
+>   > path_pcam = PathPhantomCamera3D2:<Node3D#4158635744369>
 >     CollisionShape3D (CollisionShape3D)
 >     > shape = res://addons/phantom_camera/examples/example_scenes/3D-4.4/3d_follow_path_example_scene.tscn::BoxShape3D_ctnqu
 >       NPCInteractionZoneMesh (MeshInstance3D)
@@ -12111,7 +12340,7 @@ Node3D2 (Node3D)
 >   > priority_override = false
 >   > priority = 10
 >   > follow_mode = 2
->   > follow_target = PlayerCharacterBody3D:<CharacterBody3D#6509845118077>
+>   > follow_target = PlayerCharacterBody3D:<CharacterBody3D#4160078584948>
 >   > follow_targets = []
 >   > look_at_mode = 0
 >   > look_at_targets = []
@@ -12251,7 +12480,7 @@ Root (Node3D)
 > > priority_override = false
 > > priority = 10
 > > follow_mode = 6
-> > follow_target = PlayerCharacterBody3D:<CharacterBody3D#6511724166165>
+> > follow_target = PlayerCharacterBody3D:<CharacterBody3D#4161957633157>
 > > follow_targets = []
 > > look_at_mode = 0
 > > look_at_targets = []
@@ -12291,7 +12520,7 @@ Root (Node3D)
 > > priority_override = false
 > > priority = 0
 > > follow_mode = 6
-> > follow_target = PlayerCharacterBody3D:<CharacterBody3D#6511724166165>
+> > follow_target = PlayerCharacterBody3D:<CharacterBody3D#4161957633157>
 > > follow_targets = []
 > > look_at_mode = 0
 > > look_at_targets = []
@@ -12504,7 +12733,7 @@ Root2 (Node3D)
 > > priority_override = false
 > > priority = 10
 > > follow_mode = 6
-> > follow_target = PlayerCharacterBody3D:<CharacterBody3D#6513083120667>
+> > follow_target = PlayerCharacterBody3D:<CharacterBody3D#4163316587630>
 > > follow_targets = []
 > > look_at_mode = 0
 > > look_at_targets = []
@@ -12543,7 +12772,7 @@ Root2 (Node3D)
 > > priority_override = false
 > > priority = 0
 > > follow_mode = 6
-> > follow_target = PlayerCharacterBody3D:<CharacterBody3D#6513083120667>
+> > follow_target = PlayerCharacterBody3D:<CharacterBody3D#4163316587630>
 > > follow_targets = []
 > > look_at_mode = 0
 > > look_at_targets = []
@@ -12716,7 +12945,7 @@ Root (Node3D)
 > > follow_mode = 0
 > > follow_targets = []
 > > look_at_mode = 2
-> > look_at_target = PlayerCharacterBody3D2:<CharacterBody3D#6514794396797>
+> > look_at_target = PlayerCharacterBody3D2:<CharacterBody3D#4165027863668>
 > > look_at_targets = []
 > > tween_resource = res://addons/phantom_camera/examples/example_scenes/3D-4.4/3d_look_at_example_scene.tscn::Resource_pwcgo
 > > tween_on_load = false
@@ -12912,7 +13141,7 @@ Root2 (Node3D)
 > > priority_override = false
 > > priority = 10
 > > follow_mode = 2
-> > follow_target = PlayerCharacterBody3D:<CharacterBody3D#6516438564429>
+> > follow_target = PlayerCharacterBody3D:<CharacterBody3D#4166672030774>
 > > follow_targets = []
 > > look_at_mode = 0
 > > look_at_targets = []
@@ -13035,7 +13264,7 @@ Root (Node3D)
 > > priority_override = false
 > > priority = 3
 > > follow_mode = 2
-> > follow_target = PlayerCharacterBody3D:<CharacterBody3D#6518284057729>
+> > follow_target = PlayerCharacterBody3D:<CharacterBody3D#4168517524593>
 > > follow_targets = []
 > > look_at_mode = 0
 > > look_at_targets = []
@@ -13091,7 +13320,7 @@ Root (Node3D)
 >     EntryRoomTrigger (Area3D)
 >       script: res://addons/phantom_camera/examples/scripts/3D/3d_trigger_area.gd
 >     > priority = 5
->     > area_pcam = PhantomCamera3D:<Node3D#6518485384538>
+>     > area_pcam = PhantomCamera3D:<Node3D#4168718851156>
 >       CollisionShape3D (CollisionShape3D)
 >       > shape = res://addons/phantom_camera/examples/example_scenes/3D-4.4/3d_tweening_example_scene.tscn::BoxShape3D_j6fha
 >       NPCInteractionZoneMesh (MeshInstance3D)
@@ -13144,7 +13373,7 @@ Root (Node3D)
 >     EntryRoomTrigger (Area3D)
 >       script: res://addons/phantom_camera/examples/scripts/3D/3d_trigger_area.gd
 >     > priority = 5
->     > area_pcam = PhantomCamera3D:<Node3D#6518602823193>
+>     > area_pcam = PhantomCamera3D:<Node3D#4168836291921>
 >       CollisionShape3D (CollisionShape3D)
 >       > shape = res://addons/phantom_camera/examples/example_scenes/3D-4.4/3d_tweening_example_scene.tscn::BoxShape3D_j6fha
 >       NPCInteractionZoneMesh (MeshInstance3D)
@@ -13197,7 +13426,7 @@ Root (Node3D)
 >     EntryRoomTrigger (Area3D)
 >       script: res://addons/phantom_camera/examples/scripts/3D/3d_trigger_area.gd
 >     > priority = 5
->     > area_pcam = PhantomCamera3D:<Node3D#6518720265480>
+>     > area_pcam = PhantomCamera3D:<Node3D#4168953732219>
 >       CollisionShape3D (CollisionShape3D)
 >       > shape = res://addons/phantom_camera/examples/example_scenes/3D-4.4/3d_tweening_example_scene.tscn::BoxShape3D_j6fha
 >       NPCInteractionZoneMesh (MeshInstance3D)
@@ -13250,7 +13479,7 @@ Root (Node3D)
 >     EntryRoomTrigger (Area3D)
 >       script: res://addons/phantom_camera/examples/scripts/3D/3d_trigger_area.gd
 >     > priority = 5
->     > area_pcam = PhantomCamera3D:<Node3D#6518837704154>
+>     > area_pcam = PhantomCamera3D:<Node3D#4169071172837>
 >       CollisionShape3D (CollisionShape3D)
 >       > shape = res://addons/phantom_camera/examples/example_scenes/3D-4.4/3d_tweening_example_scene.tscn::BoxShape3D_j6fha
 >       NPCInteractionZoneMesh (MeshInstance3D)
@@ -13466,7 +13695,7 @@ EditorPanel (VBoxContainer)
 > > icon = res://addons/phantom_camera/icons/phantom_camera_updater_panel_icon.svg
 >   HTTPRequest (HTTPRequest)
 >   > unique_name_in_owner = true
->     @Timer@34381 (Timer)
+>     @Timer@28034 (Timer)
 >     > one_shot = true
 >   DownloadDialog (AcceptDialog)
 >   > unique_name_in_owner = true
@@ -13496,7 +13725,7 @@ EditorPanel (VBoxContainer)
 >     > grow_vertical = 2
 >       DownloadHTTPRequest (HTTPRequest)
 >       > unique_name_in_owner = true
->         @Timer@34388 (Timer)
+>         @Timer@28041 (Timer)
 >         > one_shot = true
 >         Timer (Timer)
 >         > one_shot = true
@@ -13916,7 +14145,7 @@ DownloadUpdatePanel (Control)
 > grow_vertical = 2
 > DownloadHTTPRequest (HTTPRequest)
 > > unique_name_in_owner = true
->   @Timer@34445 (Timer)
+>   @Timer@28098 (Timer)
 >   > one_shot = true
 >   Timer (Timer)
 >   > one_shot = true
@@ -14044,7 +14273,7 @@ UpdateButton (Button)
 > icon = res://addons/phantom_camera/icons/phantom_camera_updater_panel_icon.svg
 > HTTPRequest (HTTPRequest)
 > > unique_name_in_owner = true
->   @Timer@34463 (Timer)
+>   @Timer@28116 (Timer)
 >   > one_shot = true
 > DownloadDialog (AcceptDialog)
 > > unique_name_in_owner = true
@@ -14074,7 +14303,7 @@ UpdateButton (Button)
 >   > grow_vertical = 2
 >     DownloadHTTPRequest (HTTPRequest)
 >     > unique_name_in_owner = true
->       @Timer@34470 (Timer)
+>       @Timer@28123 (Timer)
 >       > one_shot = true
 >       Timer (Timer)
 >       > one_shot = true
@@ -14594,7 +14823,7 @@ Guard (CharacterBody2D)
 > > collision_mask = 2
 > StateMachine (Node)
 >   script: res://Enemies/Guard/States/guard_state_machine.gd
-> > initial_state = PatrolState:<Node#6543600876823>
+> > initial_state = PatrolState:<Node#4193834343544>
 >   PatrolState (Node)
 >     script: res://Enemies/Guard/States/patrol_state.gd
 >   CaughtState (Node)
@@ -14606,8 +14835,8 @@ Guard (CharacterBody2D)
 > > ray_count = 30
 > > max_distance = 150.0
 > > collision_layer_mask = 2
-> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#6543684763191>
-> > write_polygon2d = VisionConeRenderer:<Polygon2D#6543651208647>
+> > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#4193918229564>
+> > write_polygon2d = VisionConeRenderer:<Polygon2D#4193884675165>
 > > debug_lines = false
 > > debug_shape = false
 > > minimum_recalculate_time_msec = 100
@@ -14706,7 +14935,7 @@ Prisoner (StaticBody2D)
 > > object_id = ""
 > > generate_new_id = false
 > AnimationPlayer (AnimationPlayer)
-> > libraries = {"":"<AnimationLibrary#-9223369823252037334>"}
+> > libraries = {"":"<AnimationLibrary#-9223369821473652422>"}
 
 --- SCENE: res://Interactables/RescuedVillager/RescuedVillager.tscn ---
 RescuedVillager (StaticBody2D)
@@ -15391,7 +15620,7 @@ VillageOutskirts (Node2D)
 >   > collision_mask = 2
 >   StateMachine (Node)
 >     script: res://Enemies/Guard/States/guard_state_machine.gd
->   > initial_state = PatrolState:<Node#6567558741012>
+>   > initial_state = PatrolState:<Node#4217792207980>
 >     PatrolState (Node)
 >       script: res://Enemies/Guard/States/patrol_state.gd
 >     CaughtState (Node)
@@ -15403,8 +15632,8 @@ VillageOutskirts (Node2D)
 >   > ray_count = 30
 >   > max_distance = 150.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#6567642627330>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#6567609066556>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#4217876094184>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#4217842539754>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 100
@@ -15452,7 +15681,7 @@ VillageOutskirts (Node2D)
 >   > collision_mask = 2
 >   StateMachine (Node)
 >     script: res://Enemies/Guard/States/guard_state_machine.gd
->   > initial_state = PatrolState:<Node#6567810399396>
+>   > initial_state = PatrolState:<Node#4218043866258>
 >     PatrolState (Node)
 >       script: res://Enemies/Guard/States/patrol_state.gd
 >     CaughtState (Node)
@@ -15464,8 +15693,8 @@ VillageOutskirts (Node2D)
 >   > ray_count = 30
 >   > max_distance = 150.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#6567894285459>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#6567860731041>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#4218127752341>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#4218094197907>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 100
@@ -15513,7 +15742,7 @@ VillageOutskirts (Node2D)
 >   > collision_mask = 2
 >   StateMachine (Node)
 >     script: res://Enemies/Guard/States/guard_state_machine.gd
->   > initial_state = PatrolState:<Node#6568062057902>
+>   > initial_state = PatrolState:<Node#4218295524511>
 >     PatrolState (Node)
 >       script: res://Enemies/Guard/States/patrol_state.gd
 >     CaughtState (Node)
@@ -15525,8 +15754,8 @@ VillageOutskirts (Node2D)
 >   > ray_count = 30
 >   > max_distance = 150.0
 >   > collision_layer_mask = 2
->   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#6568145943648>
->   > write_polygon2d = VisionConeRenderer:<Polygon2D#6568112389751>
+>   > write_collision_polygon = VisionConeCollider:<CollisionPolygon2D#4218379410606>
+>   > write_polygon2d = VisionConeRenderer:<Polygon2D#4218345856167>
 >   > debug_lines = false
 >   > debug_shape = false
 >   > minimum_recalculate_time_msec = 100
@@ -15593,7 +15822,7 @@ VillageOutskirts (Node2D)
 >   > object_id = ""
 >   > generate_new_id = false
 >   AnimationPlayer (AnimationPlayer)
->   > libraries = {"":"<AnimationLibrary#-9223369823252037334>"}
+>   > libraries = {"":"<AnimationLibrary#-9223369821473652422>"}
 
 --- SCENE: res://Levels/VillageOutskirtsTilelayer.tscn ---
 VillageOutskirtsTilelayer (TileMapLayer)
@@ -15614,15 +15843,8 @@ Player (CharacterBody2D)
 > rotation = -0.00456182984635
 > collision_mask = 2
 > stats = res://Player/Data/player_stats.tres
+> facing_camera_offset = 100.0
 > dash_start_vfx = res://VFX/VFXData/dash_start.tres
-> AnimatedSprite2D (AnimatedSprite2D)
-> > position = (5.0, 3.0)
-> > sprite_frames = res://Player/PlayerScene.tscn::SpriteFrames_pwdtq
-> > animation = wall slide
-> > autoplay = "idle"
-> > offset = (0.0, -40.0)
-> AnimationPlayer (AnimationPlayer)
-> > libraries = {"":"<AnimationLibrary#-9223369854608655093>"}
 > StandingCollision (CollisionShape2D)
 > > position = (1.886, -15.0)
 > > shape = res://Player/PlayerScene.tscn::CapsuleShape2D_vbs5d
@@ -15636,10 +15858,38 @@ Player (CharacterBody2D)
 > > position = (3.504, -15.0)
 > > shape = res://Player/PlayerScene.tscn::RectangleShape2D_epaal
 > > disabled = true
-> HeadClearanceRaycast (RayCast2D)
-> > position = (1.886, -15.0)
-> > target_position = (0.109488, -23.9998)
-> > collision_mask = 2
+> AnimatedSprite2D (AnimatedSprite2D)
+> > position = (5.0, 3.0)
+> > sprite_frames = res://Player/PlayerScene.tscn::SpriteFrames_pwdtq
+> > animation = wall slide
+> > autoplay = "idle"
+> > offset = (0.0, -40.0)
+> AnimationPlayer (AnimationPlayer)
+> > libraries = {"":"<AnimationLibrary#-9223369852779938527>"}
+> Raycasts (Node2D)
+>   WallCheckRayRight (RayCast2D)
+>   > position = (3.76353, -15.0173)
+>   > rotation = -0.00456182984635
+>   > target_position = (20.0, 0.0)
+>   WallCheckRayLeft (RayCast2D)
+>   > position = (2.77854, -15.0128)
+>   > rotation = -0.00456182984635
+>   > target_position = (-20.0, 0.0)
+>   GroundRay (RayCast2D)
+>   > position = (2.7725, -40.0131)
+>   > rotation = -0.00456182984635
+>   > target_position = (-0.17847, 48.9995)
+>   > collision_mask = 2
+>   LedgeRay (RayCast2D)
+>   > position = (22.8173, -40.1045)
+>   > rotation = -0.00456182984635
+>   > target_position = (-0.219206, 48.1044)
+>   > collision_mask = 2
+>   HeadClearanceRaycast (RayCast2D)
+>   > position = (1.81755, -15.0084)
+>   > rotation = -0.00456182984635
+>   > target_position = (0.109488, -23.9998)
+>   > collision_mask = 2
 > Timers (Node)
 >   groups = [&"timers"]
 >   SlowMoTimer (Timer)
@@ -15795,11 +16045,10 @@ Player (CharacterBody2D)
 >   CollisionShape2D (CollisionShape2D)
 >   > shape = res://Player/PlayerScene.tscn::CircleShape2D_5x2q4
 > PlayerCamera (Camera2D)
->   script: res://Player/PlayerCamera.gd
 > > physics_interpolation_mode = 1
-> > position = (19.99979, 0.091236)
 > > rotation = 0.00456182984635
-> > stats = res://Player/Data/default_camera_stats.tres
+> > ignore_rotation = false
+> > editor_draw_limits = true
 >   CameraZoomResetTimer (Timer)
 >   PhantomCameraHost (Node)
 >     script: res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd
@@ -15807,20 +16056,6 @@ Player (CharacterBody2D)
 >   > process_physics_priority = 300
 >   > host_layers = 1
 >   > interpolation_mode = 0
-> WallCheckRayRight (RayCast2D)
-> > position = (3.832, -15.0)
-> > target_position = (20.0, 0.0)
-> WallCheckRayLeft (RayCast2D)
-> > position = (2.847, -15.0)
-> > target_position = (-20.0, 0.0)
-> GroundRay (RayCast2D)
-> > position = (2.955, -40.0)
-> > target_position = (-0.17847, 48.9995)
-> > collision_mask = 2
-> LedgeRay (RayCast2D)
-> > position = (23.0, -40.0)
-> > target_position = (-0.219206, 48.1044)
-> > collision_mask = 2
 > FootSpawner (Marker2D)
 > > position = (0.792, 0.0)
 > WallSlideSpawner (Marker2D)
@@ -15828,11 +16063,10 @@ Player (CharacterBody2D)
 > PhantomCamera2D (Node2D)
 >   script: res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd
 > > top_level = true
-> > position = (20.0, 0.0)
 > > priority_override = false
 > > priority = 10
 > > follow_mode = 5
-> > follow_target = Player:<CharacterBody2D#6570058544698>
+> > follow_target = Player:<CharacterBody2D#4220292012418>
 > > follow_targets = []
 > > zoom = (1.0, 1.0)
 > > snap_to_pixel = true
@@ -15841,9 +16075,9 @@ Player (CharacterBody2D)
 > > tween_on_load = true
 > > inactive_update_mode = 0
 > > host_layers = 1
-> > follow_offset = (20.0, 0.0)
+> > follow_offset = (0.0, 0.0)
 > > follow_damping = true
-> > follow_damping_value = (0.5, 0.5)
+> > follow_damping_value = (0.075, 0.1)
 > > follow_axis_lock = 0
 > > rotate_with_target = false
 > > rotation_offset = 0.0
@@ -15853,9 +16087,9 @@ Player (CharacterBody2D)
 > > auto_zoom_min = 1.0
 > > auto_zoom_max = 5.0
 > > auto_zoom_margin = (0.0, 0.0, 0.0, 0.0)
-> > dead_zone_width = 0.5
-> > dead_zone_height = 0.6
-> > show_viewfinder_in_play = true
+> > dead_zone_width = 0.25
+> > dead_zone_height = 0.4
+> > show_viewfinder_in_play = false
 > > draw_limits = true
 > > limit_left = -10000000
 > > limit_top = -10000000
@@ -15863,8 +16097,26 @@ Player (CharacterBody2D)
 > > limit_bottom = 10000000
 > > limit_target = 
 > > limit_margin = (0, 0, 0, 0)
-> > _preview_noise = true
-> > noise_emitter_layer = 0
+> > _preview_noise = false
+> > noise_emitter_layer = 1
+> DashNoiseEmitter (Node2D)
+>   script: res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_noise_emitter_2d.gd
+> > noise = res://VFX/VFXData/camera_shake_noise.tres
+> > preview = false
+> > continuous = false
+> > growth_time = 0.0
+> > duration = 0.15
+> > decay_time = 0.2
+> > noise_emitter_layer = 1
+> LandingShakeEmitter (Node2D)
+>   script: res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_noise_emitter_2d.gd
+> > noise = res://VFX/VFXData/long_fall_shake.tres
+> > preview = false
+> > continuous = false
+> > growth_time = 0.0
+> > duration = 0.05
+> > decay_time = 0.2
+> > noise_emitter_layer = 1
 
 --- SCENE: res://Singletons/game_manager.tscn ---
 GameManager (Node)
@@ -15877,7 +16129,7 @@ SceneManager (CanvasLayer)
 > script: res://Singletons/SceneManager.gd
 > scene: res://Singletons/SceneManager.tscn
 > process_mode = 3
-> scene_entries = ["<Resource#-9223365464145430957>","<Resource#-9223365464128651669>","<Resource#-9223365464111874783>"]
+> scene_entries = ["<Resource#-9223367813811299967>","<Resource#-9223367813794522050>","<Resource#-9223367813777744832>"]
 > player_scene = res://Player/PlayerScene.tscn
 > ColorRect (ColorRect)
 > > anchors_preset = 15
@@ -15887,7 +16139,7 @@ SceneManager (CanvasLayer)
 > > grow_vertical = 2
 > > color = (0.0, 0.0, 0.0, 0.0)
 > AnimationPlayer (AnimationPlayer)
-> > libraries = {"":"<AnimationLibrary#-9223365464044765882>"}
+> > libraries = {"":"<AnimationLibrary#-9223367813710635962>"}
 
 --- SCENE: res://tests/Chest.tscn ---
 Chest (StaticBody2D)
@@ -16171,7 +16423,7 @@ KillZone (Area2D)
 > > shape = res://World/KillZone.tscn::RectangleShape2D_c8hpk
 --- END OF SCENE STRUCTURES ---
 
-#### **2.4. Codebase**
+#### **4.4. Codebase**
 
 --- START OF CODEBASE ---
 --- SCRIPT: res://addons/godot-vision-cone-main/addons/vision_cone_2d/cone_editor_helper.gd ---
@@ -47218,23 +47470,31 @@ extends StaticBody2D
 
 @onready var _interactable: Interactable = $Interactable
 @onready var _persistence_component: PersistenceComponent = $PersistenceComponent
-@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D ## NEW: Add reference to the sprite
-@onready var animation_player = $AnimationPlayer
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
 func _ready() -> void:
 	_interactable.interacted.connect(_on_interactable_interacted)
 
+
 func _on_interactable_interacted() -> void:
-	# NEW: Play the rescued animation and wait for it to finish.
+	# Disable further interactions immediately.
+	_interactable.set_deferred("monitoring", false)
+
 	animation_player.play("rescued")
-	await animated_sprite.animation_finished
-	
+	await animation_player.animation_finished
+
 	EventBus.villager_rescued.emit()
 	_persistence_component.mark_collected({"is_rescued": true})
+
+	# ADDED: Remove the entire prisoner node from the scene.
+	queue_free()
+
 
 # This function is called by the PersistenceComponent if the prisoner has saved data.
 func _apply_persistent_state(state: Dictionary) -> void:
 	if state.get("is_rescued", false):
-		# If this prisoner was already rescued, remove them from the scene.
+		# If this prisoner was already rescued, remove them from the scene on load.
 		queue_free()
 
 --- SCRIPT: res://Interactables/RescuedVillager/RescuedVillager.gd ---
@@ -47356,62 +47616,94 @@ extends Resource
 class_name PlayerStats
 extends Resource
 
-@export_group("Movement & Physics")
-@export var speed: float = 350.0
-@export var air_control_acceleration: float = 250.0
-@export var terminal_velocity: float = 750.0
-@export var acceleration_smoothness: float = 0.1
-@export var friction_smoothness: float = 0.3
+# ==============================================================================
+# CORE MOVEMENT & PHYSICS
+# ==============================================================================
+@export_group("Core Movement & Physics")
+@export var core_speed: float = 350.0 ## The player's maximum horizontal speed on the ground. Higher = faster.
+@export var core_acceleration_smoothness: float = 0.1 ## How quickly the player reaches max speed. Lower = snappier, Higher = more 'floaty'.
+@export var core_friction_smoothness: float = 0.3 ## How quickly the player stops when there is no input. Lower = stops faster, Higher = more slippery.
+@export var core_crouch_speed_multiplier: float = 0.5 ## A multiplier applied to the base speed when crouching. 0.5 = half speed.
 
+# ==============================================================================
+# JUMPING & GRAVITY
+# ==============================================================================
 @export_group("Jumping & Gravity")
-@export var jump_height: float = 120.0
-@export var time_to_apex: float = 0.5
-@export var fall_gravity: float = 2400.0
-@export var jump_cut_multiplier: float = 0.3
+@export var jump_height: float = 120.0 ## The maximum height of a standard jump in pixels. Higher = jumps higher.
+@export var jump_time_to_apex: float = 0.5 ## Time to reach the peak of the jump. Determines jump gravity. Shorter = faster, snappier jump.
+@export var jump_cut_multiplier: float = 0.3 ## The factor by which upward velocity is reduced when jump is released early. 0.5 = cuts half the remaining speed.
+@export var jump_fall_gravity: float = 2400.0 ## Gravity applied when falling. Higher = falls faster.
+@export var jump_terminal_velocity: float = 750.0 ## Maximum downward speed. Higher = faster max fall speed.
+@export var jump_air_control_acceleration: float = 250.0 ## How quickly the player can change direction mid-air. Higher = more responsive.
 
-@export_group("Abilities")
-@export var glide_velocity: float = 300.0
-@export var blink_dash_enabled: bool = false
-@export var slide_duration: float = 0.4
-@export var standing_slide_speed: float = 375.0
-@export var slide_friction: float = 0.01
-@export var skid_duration: float = 0.25
-@export var skid_friction: float = 0.25
-@export var wall_slip_duration: float = 0.08
-@export var wall_slide_friction: float = 80.0
-@export var crouch_speed_multiplier: float = 0.5
-@export var wall_slide_jump_horizontal_velocity: float = 600.0
-@export var wall_slide_jump_vertical_velocity: float = -600.0
-@export var wall_stick_jump_horizontal_velocity: float = 900.0
-@export var wall_stick_jump_vertical_velocity: float = -400.0
-@export var dash_end_velocity_multiplier: float = 0.3
-@export var invisibility_duration: float = 2.0
-@export var invisibility_cooldown: float = 5.0
-@export var wall_kick_horizontal_velocity: float = 700.0 ## NEW: Horizontal speed of the kick-off.
-@export var wall_kick_vertical_velocity: float = -200.0 ## NEW: Small upward boost during kick-off.
-@export var wall_kick_duration: float = 0.25 ## NEW: How long the kick-off state lasts.
+# ==============================================================================
+# DASHING
+# ==============================================================================
+@export_group("Dashing")
+@export var dash_is_blink: bool = false ## If true, dash is an instant teleport. If false, it's a high-speed movement over time.
+@export var dash_distance: float = 300.0 ## The distance covered by a dash in pixels. Higher = dashes further.
+@export var dash_duration: float = 0.2 ## The time to complete a dash, in seconds. Lower = faster dash.
+@export var dash_end_velocity_multiplier: float = 0.3 ## A multiplier for horizontal speed after a dash ends. 0.3 = retains 30% of dash speed.
 
-@export_group("Game Feel & Timers")
-@export var coyote_time_duration: float = 0.2
-@export var wall_coyote_time_duration: float = 0.18
-@export var jump_buffer_duration: float = 0.1
-@export var dash_freeze_duration: float = 0.08
-@export var fall_zoom_delay: float = 0.3
-@export var wall_detach_hang_time: float = 0.2
-@export var wall_detach_gravity_scale: float = 0.5
+# ==============================================================================
+# GROUND ACTIONS
+# ==============================================================================
+@export_group("Ground Actions")
+@export var ground_crouch_speed_multiplier: float = 0.5 ## A multiplier for speed when crouching. 0.5 = half speed.
+@export var ground_slide_duration: float = 0.4 ## The minimum duration of a slide in seconds. Higher = longer mandatory slide.
+@export var ground_standing_slide_speed: float = 375.0 ## The initial horizontal speed when sliding from a standstill. Higher = faster start.
+@export var ground_slide_friction: float = 0.01 ## How quickly speed is lost during a slide. Lower = slides further.
+@export var ground_skid_duration: float = 0.25 ## The duration of the skid animation when changing direction abruptly. Higher = longer skid.
+@export var ground_skid_friction: float = 0.25 ## How much the player slows down during a skid. Higher = more speed is lost.
 
-# --- Calculated Values ---
+# ==============================================================================
+# WALL MOVEMENT
+# ==============================================================================
+@export_group("Wall Movement")
+@export var wall_slide_friction: float = 80.0 ## The downward speed when sliding on a wall. Lower = slides down faster.
+@export var wall_slip_duration: float = 0.08 ## Time spent in the 'slip' state before sticking to a wall. Higher = longer before stick.
+@export var wall_kick_duration: float = 0.25 ## How long the horizontal push from a wall kick lasts. Higher = longer push.
+@export var wall_kick_horizontal_velocity: float = 1200.0 ## The horizontal speed of the wall kick. Higher = kicks off much further.
+@export var wall_kick_vertical_velocity: float = -200.0 ## The vertical boost from a wall kick (negative is up). Higher magnitude = more upward boost.
+@export var wall_slide_jump_horizontal_velocity: float = 600.0 ## Horizontal speed when jumping off a sliding wall. Higher = jumps further from wall.
+@export var wall_slide_jump_vertical_velocity: float = -600.0 ## Vertical speed when jumping off a sliding wall (negative is up). Higher magnitude = jumps higher.
+@export var wall_stick_jump_horizontal_velocity: float = 900.0 ## The horizontal speed when jumping from a stuck wall position. Higher = powerful leap from wall.
+@export var wall_stick_jump_vertical_velocity: float = -400.0 ## The vertical speed when jumping from a stuck wall position (negative is up).
+@export var wall_detach_hang_time: float = 0.2 ## How long the player 'hangs' in the air after detaching from a wall. Higher = more hang time.
+@export var wall_detach_gravity_scale: float = 0.5 ## A multiplier for gravity during the wall detach hang time. 0.5 = half gravity.
+
+# ==============================================================================
+# SPECIAL ABILITIES
+# ==============================================================================
+@export_group("Special Abilities")
+@export var special_glide_velocity: float = 300.0 ## The constant downward speed while gliding. Lower = slower descent.
+@export var special_invisibility_duration: float = 2.0 ## How long the invisibility effect lasts, in seconds. Higher = longer duration.
+@export var special_invisibility_cooldown: float = 5.0 ## The time before invisibility can be used again, in seconds. Higher = longer cooldown.
+
+# ==============================================================================
+# TUNING & GAME FEEL TIMERS
+# ==============================================================================
+@export_group("Tuning & Game Feel Timers")
+@export var feel_coyote_time_duration: float = 0.2 ## How long the player can still jump after walking off a ledge, in seconds. Higher = more lenient.
+@export var feel_wall_coyote_time_duration: float = 0.18 ## How long the player can still wall-jump after leaving a wall, in seconds. Higher = more lenient.
+@export var feel_jump_buffer_duration: float = 0.1 ## How early the player can press jump before landing and still have it register, in seconds. Higher = more lenient.
+@export var feel_dash_freeze_duration: float = 0.08 ## The brief pause before the dash begins, in seconds. Higher = longer pause.
+@export var feel_long_fall_distance: float = 250.0 ## The vertical distance in pixels the player must fall to trigger a hard landing shake. Higher = longer fall needed.
+
+
+# --- Calculated Values (Not exposed in Inspector) ---
 var jump_velocity: float
 var jump_gravity: float
 var charged_jump_velocity: float
 
 
 func _init() -> void:
-	if time_to_apex > 0:
-		jump_gravity = (2 * jump_height) / (time_to_apex * time_to_apex)
-		jump_velocity = -jump_gravity * time_to_apex
+	if jump_time_to_apex > 0:
+		jump_gravity = (2 * jump_height) / (jump_time_to_apex * jump_time_to_apex)
+		jump_velocity = -jump_gravity * jump_time_to_apex
 		charged_jump_velocity = jump_velocity * 1.5
 	else:
+		# Provide safe fallbacks if time_to_apex is zero to avoid division errors
 		jump_gravity = 1200.0
 		jump_velocity = -600.0
 		charged_jump_velocity = -900.0
@@ -47436,22 +47728,21 @@ var _current_offset: Vector2 = Vector2.ZERO
 func _ready() -> void:
 	_player = get_parent()
 	assert(is_instance_valid(_player), "PlayerCamera must be a child of a valid player node.")
-	
 	global_position = _player.global_position
 	_target_position = _player.global_position
 	_last_known_ground_y = _player.global_position.y
-
 	call_deferred("_setup_level_limits")
 
 
 func _setup_level_limits() -> void:
 	var boundary_nodes = get_tree().get_nodes_in_group("camera_boundary")
-	if boundary_nodes.is_empty(): return
+	if boundary_nodes.is_empty():
+		return
 
 	var boundary_area: Area2D = boundary_nodes[0]
 	var shape_node: CollisionShape2D = boundary_area.get_node("CollisionShape2D")
 	var global_rect: Rect2 = shape_node.get_global_transform() * shape_node.shape.get_rect()
-	
+
 	self.limit_left = int(global_rect.position.x)
 	self.limit_top = int(global_rect.position.y)
 	self.limit_right = int(global_rect.end.x)
@@ -47459,24 +47750,24 @@ func _setup_level_limits() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if not is_instance_valid(_player) or not is_instance_valid(stats): 
+	if not is_instance_valid(_player) or not is_instance_valid(stats):
 		return
-	
+
 	var facing_direction = 1.0 if not _player.animated_sprite.flip_h else -1.0
 	var horizontal_offset = 0.0
 	var move_input = Input.get_axis("left", "right")
-	
+
 	if move_input != 0:
 		horizontal_offset = move_input * nvl(stats.lookahead_distance, 120.0)
 	else:
 		horizontal_offset = facing_direction * nvl(stats.facing_offset, 50.0)
-	
+
 	var base_target_x = _player.global_position.x + horizontal_offset
 	var base_target_y = _calculate_stable_vertical_target()
+
 	_target_position = Vector2(base_target_x, base_target_y)
-	
 	_update_dynamic_offset(delta)
-	
+
 	var final_target = _target_position + _current_offset
 	var smoothing = nvl(stats.smoothing_speed, 6.0)
 	self.global_position = self.global_position.lerp(final_target, delta * smoothing)
@@ -47485,33 +47776,32 @@ func _physics_process(delta: float) -> void:
 func _update_dynamic_offset(delta: float) -> void:
 	var diff = self.global_position - _target_position
 	var target_offset = Vector2.ZERO
-	
+
 	if diff.x > stats.horizontal_deadzone:
 		target_offset.x = diff.x - stats.horizontal_deadzone
 	elif diff.x < -stats.horizontal_deadzone:
 		target_offset.x = diff.x + stats.horizontal_deadzone
-	
+		
 	if _player.velocity.y < -stats.upward_velocity_threshold:
 		target_offset.y = stats.vertical_lookahead_amount
 		_current_offset = _current_offset.lerp(target_offset, delta * stats.vertical_lookahead_speed)
-		return 
-	
+		return
+
 	if diff.y > stats.vertical_deadzone:
 		target_offset.y = diff.y - stats.vertical_deadzone
 	elif diff.y < -stats.vertical_deadzone:
 		target_offset.y = diff.y + stats.vertical_deadzone
-
+		
 	if _player.velocity.y > 200:
 		target_offset.y = lerp(target_offset.y, diff.y, delta * stats.smoothing_speed * stats.fall_speed_multiplier)
 
 	var current_player_state = _player.get_current_state_name()
-	
 	if current_player_state == "OnWallState":
 		target_offset.y = stats.wall_slide_peek_offset
 	else:
 		var look_input = Input.get_axis("up", "down")
 		target_offset.y += look_input * stats.look_offset
-	
+		
 	_current_offset = _current_offset.lerp(target_offset, delta * stats.look_speed)
 
 
@@ -47520,15 +47810,16 @@ func _calculate_stable_vertical_target() -> float:
 	# First, correctly position the ledge ray based on player facing direction.
 	var facing_direction = 1.0 if not _player.animated_sprite.flip_h else -1.0
 	_ledge_ray.position.x = abs(_ledge_ray.position.x) * facing_direction
-	
-	# The one condition to check for a peek is if the player is on the floor AND the ledge ray is not touching anything.
+
+	# The one condition to check for a peek is if the player is
+	# on the floor AND the ledge ray is not touching anything.
 	var is_at_ledge = _player.is_on_floor() and not _ledge_ray.is_colliding()
 
 	if is_at_ledge:
 		# If we are at a ledge, find the ground position and return the peek offset.
 		if _ground_ray.is_colliding():
 			_last_known_ground_y = _ground_ray.get_collision_point().y
-			return _last_known_ground_y + stats.ledge_peek_offset
+		return _last_known_ground_y + stats.ledge_peek_offset
 
 	# --- DEFAULT BEHAVIOR (If not at a ledge) ---
 	# If on the floor, update the last known ground position.
@@ -47542,7 +47833,6 @@ func _calculate_stable_vertical_target() -> float:
 		return _last_known_ground_y
 	else:
 		return _player.global_position.y - (stats.vertical_deadzone * sign(vertical_diff))
-
 
 func nvl(value, if_null):
 	if value == null:
@@ -47572,76 +47862,69 @@ func _on_area_exited(area: Area2D) -> void:
 --- SCRIPT: res://Player/PlayerModularControl/AnimationController.gd ---
 extends Node2D
 
-# Get a reference to the AnimatedSprite2D node, which is a sibling of this node.
 @onready var animated_sprite = get_parent().get_node("AnimatedSprite2D")
-# -- A variable to hold a reference to the main player script --
 var player
 
-# --- Get the parent reference when the node is ready ---
 func _ready():
-	# We get the parent node so we can access its "States" enum
 	player = get_parent()
 
-# This is the main public function that our player script will call every frame.
-# It needs to know the player's current state, velocity, and wall normal to make decisions.
 func update_animation(current_state, current_velocity, wall_normal, input_direction_x):
-	# This new structure is much clearer. We handle special cases first.
+	var animation_to_play = ""
+	
 	match current_state:
 		player.States.ON_WALL, player.States.WALL_SLIP:
-			animated_sprite.play("wall slide")
-			# Flip is based on the wall's direction, not input.
+			animation_to_play = "wall slide"
 			animated_sprite.flip_h = wall_normal.x < 0
-
 		player.States.WALL_STICKING:
-			animated_sprite.play("wall hang")
-			# This flip logic makes the player face away from the wall.
+			animation_to_play = "wall hang"
 			animated_sprite.flip_h = wall_normal.x > 0
-
-		# The default case handles all other "normal" states.
 		_:
-			# First, determine the animation to play.
 			match current_state:
 				player.States.IDLE:
-					animated_sprite.play("idle")
+					animation_to_play = "idle"
 				player.States.RUNNING:
-					animated_sprite.play("run")
+					animation_to_play = "run"
 				player.States.JUMPING:
-					animated_sprite.play("jump")
+					animation_to_play = "jump"
 				player.States.FALLING, player.States.WALL_DETACH:
-					animated_sprite.play("fall")
+					animation_to_play = "fall"
 				player.States.LANDING, player.States.DASH_PREPARE:
-					animated_sprite.play("crouch")
+					animation_to_play = "crouch"
 				player.States.SKIDDING:
-					animated_sprite.play("turn")
+					animation_to_play = "turn"
 				player.States.SLIDING:
-					animated_sprite.play("slide")
+					animation_to_play = "slide"
 				player.States.DASHING:
-					animated_sprite.play("jump") # Or a dedicated dash animation
+					animation_to_play = "jump"
 				player.States.CROUCHING:
 					if abs(current_velocity.x) > 10:
-						animated_sprite.play("crouch walk")
+						animation_to_play = "crouch walk"
 					else:
-						animated_sprite.play("crouch")
-			# Second, for all these normal states, flip the sprite based on input.
+						animation_to_play = "crouch"
+
 			if input_direction_x > 0:
 				animated_sprite.flip_h = false
 			elif input_direction_x < 0:
 				animated_sprite.flip_h = true
+	
+	if animation_to_play != "":
+		animated_sprite.play(animation_to_play)
+		
 
 --- SCRIPT: res://Player/PlayerScript.gd ---
 # PlayerScript.gd
 extends CharacterBody2D
 
 @export var stats: PlayerStats
+@export var facing_camera_offset: float = 80.0 ## How far the camera shifts left/right based on facing direction.
+
 @export_group("VFX")
 @export var dash_start_vfx: VFXData
 
-# ... (enum, signals, constants, etc. are the same) ...
 enum States {IDLE, RUNNING, JUMPING, FALLING, GLIDING, ON_WALL, WALL_STICKING, DASHING, UNSTICKING, CROUCHING, LANDING, DASH_PREPARE, WALL_SLIP, SKIDDING, SLIDING, WALL_DETACH, WALL_KICK}
-signal long_fall_started
-signal long_fall_ended
-signal gliding_started
-signal gliding_ended
+
+var fall_start_y: float = 0.0
+
 const MAX_JUMPS = 2
 const WALL_STICK_DURATION = 2.0
 const JUMP_CHARGE_DURATION = 1.0
@@ -47653,7 +47936,6 @@ var can_wall_stick: bool = true
 var can_standing_slide: bool = true
 var is_jump_charged: bool = false
 var jump_buffered: bool = false
-var is_long_fall: bool = false
 var is_invisible: bool = false
 var can_go_invisible: bool = true
 var last_wall_normal: Vector2
@@ -47665,36 +47947,37 @@ var _interact_held: bool = false
 @onready var wall_stick_timer = $Timers/WallStickTimer
 @onready var standing_collision = $StandingCollision
 @onready var crouching_collision = $CrouchingCollision
-@onready var wall_slide_collision = $WallSlideCollision
+@onready var wall_slide_collision = $ WallSlideCollision
 @onready var crouch_timer = $Timers/CrouchTimer
 @onready var land_timer = $Timers/LandTimer
 @onready var coyote_timer = $Timers/CoyoteTimer
 @onready var jump_buffer_timer = $Timers/JumpBufferTimer
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var dash_freeze_timer = $Timers/DashFreezeTimer
-@onready var fall_zoom_timer = $Timers/FallZoomTimer
 @onready var wall_slip_timer = $Timers/WallSlipTimer
 @onready var skid_timer = $Timers/SkidTimer
 @onready var wall_coyote_timer = $Timers/WallCoyoteTimer
 @onready var slide_timer = $Timers/SlideTimer
 @onready var standing_slide_cooldown_timer = $Timers/StandingSlideCooldownTimer
-@onready var head_clearance_ray = $HeadClearanceRaycast
+@onready var head_clearance_ray = $Raycasts/HeadClearanceRaycast
 @onready var animation_controller = $AnimationController
 @onready var vfx = $VFX
 @onready var wall_detach_timer = $Timers/WallDetachTimer
 @onready var invisibility_timer = $Timers/InvisibilityTimer
 @onready var invisibility_cooldown_timer = $Timers/InvisibilityCooldownTimer
-@onready var wall_check_ray_right: RayCast2D = $WallCheckRayRight
-@onready var wall_check_ray_left: RayCast2D = $WallCheckRayLeft
+@onready var wall_check_ray_right: RayCast2D = $Raycasts/WallCheckRayRight
+@onready var wall_check_ray_left: RayCast2D = $Raycasts/WallCheckRayLeft
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var combo_timer: Timer = $Timers/ComboTimer
 @onready var combo_reset_timer: Timer = $Timers/ComboResetTimer
-@onready var ground_ray: RayCast2D = $GroundRay
+@onready var ground_ray: RayCast2D = $Raycasts/GroundRay
 @onready var dash_particles: GPUParticles2D = $DashParticles
 @onready var wall_kick_timer = $Timers/WallKickTimer
+@onready var phantom_camera: PhantomCamera2D = $PhantomCamera2D
+@onready var landing_shake_emitter: PhantomCameraNoiseEmitter2D = $LandingShakeEmitter
 
-# ... (_ready, _process, _physics_process are the same) ...
-func _ready():
+
+func _ready() -> void:
 	assert(is_instance_valid(stats), "PlayerStats resource must be assigned to the Player in the Inspector!")
 	wall_kick_timer.timeout.connect(_on_wall_kick_timer_timeout)
 	dash_timer.timeout.connect(_on_dash_timer_timeout)
@@ -47705,7 +47988,6 @@ func _ready():
 	coyote_timer.timeout.connect(_on_coyote_timer_timeout)
 	jump_buffer_timer.timeout.connect(_on_jump_buffer_timer_timeout)
 	dash_freeze_timer.timeout.connect(_on_dash_freeze_timer_timeout)
-	fall_zoom_timer.timeout.connect(_on_fall_zoom_timer_timeout)
 	wall_slip_timer.timeout.connect(_on_wall_slip_timer_timeout)
 	skid_timer.timeout.connect(_on_skid_timer_timeout)
 	wall_coyote_timer.timeout.connect(_on_wall_coyote_timer_timeout)
@@ -47718,47 +48000,62 @@ func _ready():
 	combo_reset_timer.timeout.connect(_on_combo_reset_timer_timeout)
 	state_machine.state_changed.connect(_on_state_changed)
 	state_machine.call_deferred("initialize")
+
+
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("pause"):
 		EventBus.pause_menu_requested.emit()
-func _physics_process(_delta: float):
+
+
+func _physics_process(delta: float):
 	if not GameManager.is_gameplay_active:
 		return
 	if not is_instance_valid(stats):
 		return
-	velocity.y = min(velocity.y, stats.terminal_velocity)
+	velocity.y = min(velocity.y, stats.jump_terminal_velocity)
 	_handle_global_inputs()
+	_update_camera_facing_offset(delta)
 	move_and_slide()
+
+
+func _update_camera_facing_offset(delta: float) -> void:
+	if not is_instance_valid(phantom_camera):
+		return
+	var target_offset_x = facing_camera_offset
+	if animated_sprite.flip_h:
+		target_offset_x *= -1
+	var target_offset_y = phantom_camera.follow_offset.y
+	var target_offset = Vector2(target_offset_x, target_offset_y)
+	phantom_camera.follow_offset = phantom_camera.follow_offset.lerp(target_offset, delta * 8.0)
 
 
 func _on_dash_freeze_timer_timeout():
 	state_machine.change_state("Dashing")
 	var dash_direction = Vector2(1 if not animated_sprite.flip_h else -1, 0)
-
 	if is_instance_valid(dash_start_vfx):
 		vfx.play_effect(dash_start_vfx)
-
 	vfx.play_dash_effects(dash_particles)
-	
 	assert(stats.dash_duration > 0, "Dash Duration in PlayerStats cannot be zero.")
 	var dash_speed = stats.dash_distance / stats.dash_duration
-	
 	velocity.x = dash_direction.x * dash_speed
 	velocity.y = 0
 	dash_timer.start(stats.dash_duration)
 
-# ... (many functions are the same) ...
+
 func _handle_global_inputs():
 	if Input.is_action_just_pressed("dash") and can_dash:
 		state_machine.change_state("DashPrepare")
 	if Input.is_action_just_pressed("invisibility") and can_go_invisible:
 		_enter_invisibility()
+
+
 func enter_jump_state():
 	coyote_timer.stop()
-	fall_zoom_timer.stop()
 	set_standing_collision()
 	velocity.y = stats.jump_velocity
 	current_jumps += 1
+
+
 func wall_jump(wall_normal_override: Vector2 = Vector2.ZERO):
 	wall_stick_timer.stop()
 	wall_coyote_timer.stop()
@@ -47771,67 +48068,100 @@ func wall_jump(wall_normal_override: Vector2 = Vector2.ZERO):
 		velocity.x = wall_normal.x * stats.wall_slide_jump_horizontal_velocity
 	can_wall_stick = true
 	current_jumps = 1
+
+
 func _start_wall_coyote_time():
 	last_wall_normal = get_wall_normal()
-	wall_coyote_timer.start(stats.wall_coyote_time_duration)
+	wall_coyote_timer.start(stats.feel_wall_coyote_time_duration)
 	wall_detach_timer.start(stats.wall_detach_hang_time)
 	can_wall_stick = true
-	fall_zoom_timer.start(stats.fall_zoom_delay)
+
+
 func is_head_clear() -> bool:
 	return not head_clearance_ray.is_colliding()
+
+
 func set_standing_collision():
 	standing_collision.disabled = false
 	crouching_collision.disabled = true
 	wall_slide_collision.disabled = true
+
+
 func set_crouching_collision():
 	standing_collision.disabled = true
 	crouching_collision.disabled = false
 	wall_slide_collision.disabled = true
+
+
 func set_wall_slide_collision():
 	standing_collision.disabled = true
 	crouching_collision.disabled = true
 	wall_slide_collision.disabled = false
+
+
 func _enter_invisibility():
 	is_invisible = true
 	can_go_invisible = false
-	invisibility_timer.start(stats.invisibility_duration)
-	invisibility_cooldown_timer.start(stats.invisibility_cooldown)
+	invisibility_timer.start(stats.special_invisibility_duration)
+	invisibility_cooldown_timer.start(stats.special_invisibility_cooldown)
 	animated_sprite.modulate.a = 0.5
+
+
 func _on_dash_timer_timeout():
 	end_dash()
 	state_machine.change_state("Falling")
+
+
 func _on_dash_cooldown_timer_timeout():
 	can_dash = true
+
+
 func _on_wall_stick_timer_timeout():
 	if state_machine.current_state.name == "WallStickingState":
 		state_machine.change_state("OnWall")
+
+
 func _on_crouch_timer_timeout():
 	is_jump_charged = true
+
+
 func _on_coyote_timer_timeout():
 	if current_jumps == 0:
 		current_jumps = 1
+
+
 func _on_jump_buffer_timer_timeout():
 	jump_buffered = false
+
+
 func _on_invisibility_timer_timeout():
 	is_invisible = false
 	animated_sprite.modulate.a = 1.0
+
+
 func _on_invisibility_cooldown_timer_timeout():
 	can_go_invisible = true
+
+
 func _on_land_timer_timeout():
 	if state_machine.current_state.name == "LandingState":
 		state_machine.change_state("Idle")
-func _on_fall_zoom_timer_timeout():
-	if not is_on_floor():
-		is_long_fall = true
-		long_fall_started.emit()
+
+
 func _on_wall_slip_timer_timeout():
 	if state_machine.current_state.name == "WallSlipState":
 		state_machine.change_state("WallSticking")
+
+
 func _on_skid_timer_timeout():
 	if state_machine.current_state.name == "SkiddingState":
 		state_machine.change_state("Running")
+
+
 func _on_wall_coyote_timer_timeout():
 	pass
+
+
 func _on_slide_timer_timeout():
 	if state_machine.current_state.name == "SlidingState":
 		if is_head_clear():
@@ -47841,24 +48171,34 @@ func _on_slide_timer_timeout():
 				state_machine.change_state("Idle")
 		else:
 			state_machine.change_state("Crouching")
+
+
 func _on_standing_slide_cooldown_timer_timeout():
 	can_standing_slide = true
+
+
 func _on_wall_detach_timer_timeout():
 	if state_machine.current_state.name == "WallDetachState":
 		state_machine.change_state("Falling")
+
+
 func _unhandled_input(event: InputEvent) -> void:
-	if not GameManager.is_gameplay_active: return
+	if not GameManager.is_gameplay_active:
+		return
 	if event.is_action_pressed("interact_world"):
 		EventBus.interaction_started.emit()
 	elif event.is_action_released("interact_world"):
 		EventBus.interaction_cancelled.emit()
+
+
 func end_dash() -> void:
 	if state_machine.current_state.name != "DashingState":
 		return
 	vfx.stop_dash_effects(dash_particles)
-	# TODO: Add dash_cooldown to PlayerStats resource
 	var dash_cooldown = 0.5
 	dash_cooldown_timer.start(dash_cooldown)
+
+
 func _on_state_changed(new_state_name: String) -> void:
 	if new_state_name in COMBO_STATES:
 		combo_reset_timer.stop()
@@ -47867,32 +48207,37 @@ func _on_state_changed(new_state_name: String) -> void:
 	elif new_state_name in ["Idle", "Running"]:
 		combo_reset_timer.start(1.5)
 
+
 func _add_move_to_combo(move_name: String) -> void:
 	combo_timer.start(1.0)
 	_combo_chain.append(move_name)
-	
 	Loggie.info(str("Combo Chain: ", _combo_chain), "combo")
 
 	if _combo_chain.size() >= 3:
 		EventBus.flow_combo_success.emit()
 		Loggie.info("--- FLOW COMBO SUCCESS! ---", "combo")
 
+
 func _reset_combo() -> void:
 	if not _combo_chain.is_empty():
 		_combo_chain.clear()
 		Loggie.info("Combo Reset.", "combo")
 
+
 func _on_combo_timer_timeout() -> void:
 	_reset_combo()
 
+
 func _on_combo_reset_timer_timeout() -> void:
 	_reset_combo()
+
 
 func get_current_state_name() -> String:
 	if state_machine and is_instance_valid(state_machine.current_state):
 		return state_machine.current_state.name
 	return ""
-	
+
+
 func _on_wall_kick_timer_timeout() -> void:
 	if state_machine.current_state.name == "WallKickState":
 		state_machine.change_state("Falling")
@@ -47914,19 +48259,19 @@ func exit() -> void:
 
 
 func process_physics(_delta: float) -> void:
-	# THE ROBUST FIX: We are only truly "falling" if we are not on the floor
-	# AND we have downward vertical velocity. This prevents the one-frame flicker.
+	# Only transition to falling if we are ACTUALLY falling (airborne and moving down).
 	if not player.is_on_floor() and player.velocity.y > 0:
 		state_machine.change_state("Falling")
-		return
+		return # <-- ADDED: Stop processing after state change
 
 	var input_x: float = Input.get_axis("left", "right")
 
-	var target_velocity_x = input_x * player.stats.speed * player.stats.crouch_speed_multiplier
-	player.velocity.x = lerp(player.velocity.x, target_velocity_x, player.stats.acceleration_smoothness)
+	var target_velocity_x = input_x * player.stats.ground_crouch_speed_multiplier
+	player.velocity.x = lerp(player.velocity.x, target_velocity_x, player.stats.core_acceleration_smoothness)
 	
 	if Input.is_action_just_pressed("slide") and player.can_standing_slide:
 		state_machine.change_state("Sliding")
+		return # <-- ADDED: Stop processing after state change
 	elif Input.is_action_just_pressed("jump"):
 		if player.is_head_clear():
 			if player.is_jump_charged:
@@ -47935,11 +48280,18 @@ func process_physics(_delta: float) -> void:
 				player.velocity.y = player.stats.jump_velocity
 			player.current_jumps = 1
 			state_machine.change_state("Jumping")
+			return # <-- ADDED: Stop processing after state change
 	
 	elif not Input.is_action_pressed("down"):
 		if player.is_head_clear():
-			state_machine.change_state("Idle")
+			if input_x != 0:
+				state_machine.change_state("Running")
+				return # <-- ADDED: Stop processing after state change
+			else:
+				state_machine.change_state("Idle")
+				return # <-- ADDED: Stop processing after state change
 			
+	# This line will now only be reached if no state change occurs.
 	player.animation_controller.update_animation(
 		player.States.CROUCHING, player.velocity, Vector2.ZERO, input_x
 	)
@@ -47953,7 +48305,7 @@ func enter() -> void:
 
 
 func process_physics(_delta: float) -> void:
-	if not player.stats.blink_dash_enabled and player.is_on_wall():
+	if not player.stats.dash_is_blink and player.is_on_wall():
 		# If we hit a wall, do the cleanup...
 		player.end_dash()
 		# ...and then transition directly to the OnWallState.
@@ -47969,7 +48321,7 @@ extends State
 func enter():
 	player.can_dash = false
 	player.velocity = Vector2.ZERO
-	player.dash_freeze_timer.start(player.stats.dash_freeze_duration)
+	player.dash_freeze_timer.start(player.stats.feel_dash_freeze_duration)
 
 	if dash_prepare_vfx:
 		player.vfx.play_effect(dash_prepare_vfx)
@@ -47988,35 +48340,30 @@ extends State
 @export var wall_jump_vfx: VFXData
 
 func enter() -> void:
+	player.fall_start_y = player.global_position.y
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.FALLING, player.velocity, Vector2.ZERO, input_x)
 
 func process_physics(delta: float) -> void:
 	var input_x: float = Input.get_axis("left", "right")
 
-	# Physics logic
 	if not player.is_on_floor():
-		player.velocity.y += player.stats.fall_gravity * delta
-	player.velocity.x = move_toward(player.velocity.x, input_x * player.stats.speed, player.stats.air_control_acceleration)
+		player.velocity.y += player.stats.jump_fall_gravity * delta
+	player.velocity.x = move_toward(player.velocity.x, input_x * player.stats.core_speed, player.stats.jump_air_control_acceleration)
 
-	# --- Check for transitions ---
 	if Input.is_action_pressed("up"):
 		state_machine.change_state("Gliding")
 		return
-
-	# --- FIX: Check for slide input on landing ---
 	elif player.is_on_floor():
 		if Input.is_action_pressed("slide"):
 			state_machine.change_state("Sliding")
 		else:
 			state_machine.change_state("Landing")
 		return
-
 	elif player.is_on_wall():
 		if not (sign(player.get_wall_normal().x) == sign(input_x)):
 			state_machine.change_state("OnWall")
 			return
-
 	elif Input.is_action_just_pressed("jump"):
 		if player.wall_check_ray_right.is_colliding():
 			player.wall_jump(Vector2(-1, 0))
@@ -48042,7 +48389,7 @@ func process_physics(delta: float) -> void:
 			return
 		else:
 			player.jump_buffered = true
-			player.jump_buffer_timer.start(player.stats.jump_buffer_duration)
+			player.jump_buffer_timer.start(player.stats.feel_jump_buffer_duration)
 
 	player.animation_controller.update_animation(player.States.FALLING, player.velocity, Vector2.ZERO, input_x)
 
@@ -48063,8 +48410,8 @@ func exit() -> void:
 func process_physics(_delta: float) -> void:
 	var input_x: float = Input.get_axis("left", "right")
 
-	player.velocity.y = player.stats.glide_velocity
-	player.velocity.x = move_toward(player.velocity.x, input_x * player.stats.speed, 150)
+	player.velocity.y = player.stats.special_glide_velocity
+	player.velocity.x = move_toward(player.velocity.x, input_x * player.stats.core_speed, 150)
 
 	if player.is_on_floor():
 		state_machine.change_state("Landing")
@@ -48077,19 +48424,20 @@ func process_physics(_delta: float) -> void:
 			state_machine.change_state("Jumping")
 		else:
 			player.jump_buffered = true
-			player.jump_buffer_timer.start(player.stats.jump_buffer_duration)
+			player.jump_buffer_timer.start(player.stats.feel_jump_buffer_duration)
 
 --- SCRIPT: res://Player/States/Idle.gd ---
 # IdleState.gd
 extends State
 
 func enter() -> void:
+	
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.IDLE, player.velocity, Vector2.ZERO, input_x)
 
 
 func process_physics(_delta: float) -> void:
-	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.friction_smoothness)
+	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.core_friction_smoothness)
 	
 	var input_x: float = Input.get_axis("left", "right")
 	
@@ -48102,8 +48450,7 @@ func process_physics(_delta: float) -> void:
 	elif input_x != 0:
 		state_machine.change_state("Running")
 	elif not player.is_on_floor():
-		player.coyote_timer.start(player.stats.coyote_time_duration)
-		player.fall_zoom_timer.start(player.stats.fall_zoom_delay)
+		player.coyote_timer.start(player.stats.feel_coyote_time_duration)
 		state_machine.change_state("Falling")
 
 --- SCRIPT: res://Player/States/JumpingState.gd ---
@@ -48128,10 +48475,10 @@ func exit() -> void:
 
 func process_physics(delta: float) -> void:
 	var input_x: float = Input.get_axis("left", "right")
-	var gravity: float = player.stats.jump_gravity if player.velocity.y < 0 else player.stats.fall_gravity
+	var gravity: float = player.stats.jump_gravity if player.velocity.y < 0 else player.stats.jump_fall_gravity
 
 	player.velocity.y += gravity * delta
-	player.velocity.x = move_toward(player.velocity.x, input_x * player.stats.speed, player.stats.air_control_acceleration)
+	player.velocity.x = move_toward(player.velocity.x, input_x * player.stats.core_speed, player.stats.jump_air_control_acceleration)
 
 	if player.is_on_wall():
 		if not (sign(player.get_wall_normal().x) == sign(input_x)):
@@ -48154,14 +48501,13 @@ extends State
 
 func enter() -> void:
 	player.current_jumps = 0
-	if player.is_long_fall:
-		player.is_long_fall = false
-		player.long_fall_ended.emit()
+	
+	var fall_distance = player.global_position.y - player.fall_start_y
+	if fall_distance >= player.stats.feel_long_fall_distance:
+		player.landing_shake_emitter.emit()
 
-	# Play the squish animation from the AnimationPlayer.
 	player.animation_player.play("land_squish")
 
-	# Simultaneously, play the crouch animation on the AnimatedSprite2D.
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.LANDING, player.velocity, Vector2.ZERO, input_x)
 
@@ -48172,14 +48518,13 @@ func exit() -> void:
 	pass
 
 func process_physics(_delta: float) -> void:
-	# The state transition is handled by the "land_squish" animation's Call Method Track.
 	if Input.is_action_just_pressed("jump") or player.jump_buffered:
 		player.jump_buffered = false
 		player.jump_buffer_timer.stop()
 		state_machine.change_state("Jumping")
 		return
 
-	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.friction_smoothness)
+	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.core_friction_smoothness)
 
 --- SCRIPT: res://Player/States/OnWallState.gd ---
 # res://Player/States/OnWallState.gd
@@ -48221,7 +48566,7 @@ func process_physics(delta: float) -> void:
 		state_machine.change_state("Falling")
 		return
 
-	player.velocity.y = move_toward(player.velocity.y, player.stats.wall_slide_friction, player.stats.fall_gravity * delta)
+	player.velocity.y = move_toward(player.velocity.y, player.stats.wall_slide_friction, player.stats.jump_fall_gravity * delta)
 	player.velocity.x = -wall_normal.x * 5.0
 
 	if Input.is_action_pressed("shift") and player.can_wall_stick:
@@ -48245,31 +48590,29 @@ func _on_particle_timer_timeout() -> void:
 extends State
 
 func enter() -> void:
+	
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.RUNNING, player.velocity, Vector2.ZERO, input_x)
 
 func process_physics(_delta: float) -> void:
 	var input_x: float = Input.get_axis("left", "right")
 
-	# THE FIX: Check for the slide input before checking for a skid.
 	if Input.is_action_just_pressed("slide"):
 		state_machine.change_state("Sliding")
 		return
 
-	# --- Original Logic ---
 	if input_x != 0 and sign(input_x) != sign(player.velocity.x) and abs(player.velocity.x) > 100:
 		state_machine.change_state("Skidding")
 		return
 
-	player.velocity.x = lerp(player.velocity.x, input_x * player.stats.speed, player.stats.acceleration_smoothness)
+	player.velocity.x = lerp(player.velocity.x, input_x * player.stats.core_speed, player.stats.core_acceleration_smoothness)
 
 	if input_x == 0:
 		state_machine.change_state("Idle")
 	elif Input.is_action_just_pressed("jump"):
 		state_machine.change_state("Jumping")
 	elif not player.is_on_floor():
-		player.coyote_timer.start(player.stats.coyote_time_duration)
-		player.fall_zoom_timer.start(player.stats.fall_zoom_delay)
+		player.coyote_timer.start(player.stats.feel_coyote_time_duration)
 		state_machine.change_state("Falling")
 
 --- SCRIPT: res://Player/States/SkiddingState.gd ---
@@ -48279,7 +48622,7 @@ extends State
 @export var skid_vfx: VFXData
 
 func enter() -> void:
-	player.skid_timer.start(player.stats.skid_duration)
+	player.skid_timer.start(player.stats.ground_skid_duration)
 	var input_x: float = Input.get_axis("left", "right")
 	player.animation_controller.update_animation(player.States.SKIDDING, player.velocity, Vector2.ZERO, -input_x)
 
@@ -48290,8 +48633,7 @@ func exit() -> void:
 	player.skid_timer.stop()
 
 func process_physics(_delta: float) -> void:
-	# Use stats resource for physics values
-	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.skid_friction)
+	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.ground_skid_friction)
 	
 	if player.skid_timer.is_stopped():
 		state_machine.change_state("Running")
@@ -48305,13 +48647,12 @@ extends State
 @export var slide_vfx: VFXData
 
 func enter() -> void:
-	player.slide_timer.start(player.stats.slide_duration)
+	player.slide_timer.start(player.stats.ground_slide_duration)
 	player.set_crouching_collision()
 
-	# Check if this is a standing slide and apply cooldown if necessary.
 	if abs(player.velocity.x) < 10.0:
 		var direction = 1.0 if not player.animated_sprite.flip_h else -1.0
-		player.velocity.x = player.stats.standing_slide_speed * direction
+		player.velocity.x = player.stats.ground_standing_slide_speed * direction
 		
 		player.can_standing_slide = false
 		player.standing_slide_cooldown_timer.start(1.0)
@@ -48330,36 +48671,25 @@ func exit() -> void:
 
 
 func process_physics(_delta: float) -> void:
-	# --- Apply friction and handle falling off ledges ---
-	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.slide_friction)
+	player.velocity.x = lerp(player.velocity.x, 0.0, player.stats.ground_slide_friction)
 	if not player.ground_ray.is_colliding():
 		state_machine.change_state("Falling")
 		return
 
-	# --- Determine if the player WANTS to or SHOULD stop sliding ---
 	var wants_to_exit_slide = Input.is_action_just_released("slide")
 	var must_exit_slide = player.slide_timer.is_stopped()
 
-	# --- Handle Jumping out of a slide ---
-	# A player can always try to jump out of a slide.
 	if Input.is_action_just_pressed("jump"):
-		# But only if their head is clear.
 		if player.is_head_clear():
 			state_machine.change_state("Jumping")
-		# If head is not clear, the jump input is ignored and we continue sliding.
 		return
 
-	# --- Handle Exiting the slide by stopping or timer timeout ---
 	if wants_to_exit_slide or must_exit_slide:
-		# We can only exit the slide if the player's head is clear.
 		if player.is_head_clear():
-			# If head is clear, transition to the appropriate state based on input.
 			if Input.is_action_pressed("down"):
 				state_machine.change_state("Crouching")
 			else:
 				state_machine.change_state("Idle")
-		# If head is NOT clear, we do nothing and let the slide continue,
-		# effectively extending it until the player emerges from the tunnel.
 
 --- SCRIPT: res://Player/States/State.gd ---
 # State.gd
@@ -48445,11 +48775,10 @@ func enter() -> void:
 
 func process_physics(delta: float) -> void:
 	var last_dash_direction: Vector2 = Vector2(1 if not player.animated_sprite.flip_h else -1, 0)
-	# Use stats resource for physics values
-	player.global_position -= last_dash_direction * player.stats.speed * delta
+	player.global_position -= last_dash_direction * player.stats.core_speed * delta
 
 	if not player.test_move(player.transform, Vector2.ZERO):
-		player.velocity = -last_dash_direction * player.stats.speed * player.stats.dash_end_velocity_multiplier
+		player.velocity = -last_dash_direction * player.stats.core_speed * player.stats.dash_end_velocity_multiplier
 		player.dash_cooldown_timer.start(player.DASH_COOLDOWN)
 		state_machine.change_state("Falling")
 
@@ -48464,9 +48793,8 @@ func enter() -> void:
 func process_physics(delta: float) -> void:
 	var input_x: float = Input.get_axis("left", "right")
 	
-	# Use stats resource for physics values
-	player.velocity.y += player.stats.fall_gravity * player.stats.wall_detach_gravity_scale * delta
-	player.velocity.x = move_toward(player.velocity.x, input_x * player.stats.speed, player.stats.air_control_acceleration)
+	player.velocity.y += player.stats.jump_fall_gravity * player.stats.wall_detach_gravity_scale * delta
+	player.velocity.x = move_toward(player.velocity.x, input_x * player.stats.core_speed, player.stats.jump_air_control_acceleration)
 	
 	if Input.is_action_just_pressed("jump"):
 		if not player.wall_coyote_timer.is_stopped():
@@ -48475,7 +48803,7 @@ func process_physics(delta: float) -> void:
 			state_machine.change_state("Falling")
 		else:
 			player.jump_buffered = true
-			player.jump_buffer_timer.start(player.stats.jump_buffer_duration)
+			player.jump_buffer_timer.start(player.stats.feel_jump_buffer_duration)
 	elif player.wall_detach_timer.is_stopped():
 		state_machine.change_state("Falling")
 
@@ -48489,36 +48817,27 @@ func enter() -> void:
 	var wall_normal = player.get_wall_normal()
 	var input_x = Input.get_axis("left", "right")
 	
-	# Apply the horizontal and vertical kick-off velocities from our stats resource
 	player.velocity.x = wall_normal.x * player.stats.wall_kick_horizontal_velocity
 	player.velocity.y = player.stats.wall_kick_vertical_velocity
 	
-	# Start the timer that will end this state
 	player.wall_kick_timer.start(player.stats.wall_kick_duration)
 	
-	# --- NEW: Add VFX and Animations ---
-	# Set the player's animation pose to the "jump" animation, same as the dash.
 	player.animation_controller.update_animation(player.States.DASHING, player.velocity, wall_normal, input_x)
 	
-	# Play the initial kick-off puff effect using our new resource.
 	if is_instance_valid(wall_kick_vfx):
 		player.vfx.play_effect(wall_kick_vfx)
 	
-	# Start the sustained dash particle trail.
 	player.vfx.play_dash_effects(player.dash_particles)
 
 
 func process_physics(delta: float) -> void:
-	# Apply gravity while in the kick-off state
-	player.velocity.y += player.stats.fall_gravity * delta
+	player.velocity.y += player.stats.jump_fall_gravity * delta
 	
-	# Transition to FallingState if we hit a ceiling
 	if player.is_on_ceiling():
 		state_machine.change_state("Falling")
 
 
 func exit() -> void:
-	# --- NEW: Stop the particle trail when the state ends. ---
 	player.vfx.stop_dash_effects(player.dash_particles)
 	player.wall_kick_timer.stop()
 
@@ -48535,8 +48854,7 @@ func exit() -> void:
 	player.wall_slip_timer.stop()
 
 func process_physics(delta: float) -> void:
-	# Use stats resource for physics values
-	player.velocity.y = move_toward(player.velocity.y, player.stats.wall_slide_friction, player.stats.fall_gravity * delta)
+	player.velocity.y = move_toward(player.velocity.y, player.stats.wall_slide_friction, player.stats.jump_fall_gravity * delta)
 	player.velocity.x = -player.get_wall_normal().x * 5.0
 
 	if player.wall_slip_timer.is_stopped():
@@ -49464,7 +49782,8 @@ extends Resource
 extends Node2D
 
 @onready var player: CharacterBody2D = get_parent() as CharacterBody2D
-@onready var camera: Camera2D = player.get_node("PlayerCamera")
+@onready var camera_noise_emitter: PhantomCameraNoiseEmitter2D = get_parent().find_child("DashNoiseEmitter")
+
 
 # --- Generic, Resource-Based Function for one-shot effects ---
 func play_effect(vfx_data: VFXData) -> void:
@@ -49481,7 +49800,9 @@ func play_effect(vfx_data: VFXData) -> void:
 		spawn_pos = spawn_marker.global_position
 	else:
 		spawn_pos = player.global_position
+
 	effect.scale = vfx_data.scale
+
 	if vfx_data.flip_h_with_player:
 		var direction = -1.0 if player.animated_sprite.flip_h else 1.0
 		effect.flip_h = player.animated_sprite.flip_h
@@ -49492,16 +49813,18 @@ func play_effect(vfx_data: VFXData) -> void:
 		effect.flip_h = wall_normal.x < 0
 	else:
 		spawn_pos += vfx_data.position_offset
+
 	effect.global_position = spawn_pos
+
 	if vfx_data.rotate_with_wall_normal and player.is_on_wall():
 		var wall_normal = player.get_wall_normal()
 		effect.rotation_degrees = -90 if wall_normal.x > 0 else 90
 	else:
 		effect.rotation_degrees = vfx_data.rotation_degrees
-		
-	# --- NEW: Generic Camera Punch Logic ---
+
+	# --- NEW: Generic Camera Shake Logic ---
 	if vfx_data.camera_punch_intensity > 0.0:
-		_trigger_camera_punch(vfx_data.camera_punch_intensity)
+		_trigger_camera_shake(vfx_data.camera_punch_intensity)
 
 	# --- Play ---
 	if effect.has_method("play_effect"):
@@ -49510,25 +49833,27 @@ func play_effect(vfx_data: VFXData) -> void:
 
 # --- Specific Functions for Sustained Effects (like Dash) ---
 func play_dash_effects(particles: GPUParticles2D) -> void:
-	if not is_instance_valid(particles): return
-	# The camera punch is no longer triggered here.
+	if not is_instance_valid(particles):
+		return
+		
 	var dash_direction = Vector2(1 if not player.animated_sprite.flip_h else -1, 0)
 	particles.scale.x = dash_direction.x
 	particles.emitting = true
 
+
 func stop_dash_effects(particles: GPUParticles2D) -> void:
-	if not is_instance_valid(particles): return
+	if not is_instance_valid(particles):
+		return
 	particles.emitting = false
 	particles.scale.x = 1
 
-func _trigger_camera_punch(intensity: float) -> void:
-	if not is_instance_valid(camera):
+func _trigger_camera_shake(intensity: float) -> void:
+	if not is_instance_valid(camera_noise_emitter):
 		return
-	var tween = create_tween().set_trans(Tween.TRANS_QUAD)
-	# Use the intensity from the VFXData resource.
-	var zoomed_in_vec = camera.zoom * (1.0 + intensity)
-	tween.tween_property(camera, "zoom", zoomed_in_vec, 0.1).set_ease(Tween.EASE_OUT)
-	tween.tween_property(camera, "zoom", camera.zoom, 0.1).set_ease(Tween.EASE_IN)
+		
+	if is_instance_valid(camera_noise_emitter.noise):
+		camera_noise_emitter.noise.amplitude = 30.0 * intensity
+		camera_noise_emitter.emit()
 
 --- SCRIPT: res://World/Checkpoint.gd ---
 # res://World/Checkpoint.gd
