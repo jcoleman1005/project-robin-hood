@@ -7,7 +7,7 @@ extends CharacterBody2D
 @export_group("VFX")
 @export var dash_start_vfx: VFXData
 
-enum States {IDLE, RUNNING, JUMPING, FALLING, GLIDING, ON_WALL, WALL_STICKING, DASHING, UNSTICKING, CROUCHING, LANDING, DASH_PREPARE, WALL_SLIP, SKIDDING, SLIDING, WALL_DETACH, WALL_KICK}
+enum States {IDLE, RUNNING, JUMPING, FALLING, GLIDING, ON_WALL, WALL_STICKING, DASHING, UNSTICKING, CROUCHING, LANDING, DASH_PREPARE, WALL_SLIP, SKIDDING, SLIDING, WALL_DETACH, WALL_KICK, LEDGE_GRAB, LEDGE_CLIMB}
 
 var fall_start_y: float = 0.0
 
@@ -16,6 +16,7 @@ const WALL_STICK_DURATION = 2.0
 const JUMP_CHARGE_DURATION = 1.0
 const LANDING_DURATION = 0.15
 const COMBO_STATES: Array[String] = ["Jumping", "OnWall", "Dashing", "Sliding"]
+
 var current_jumps = 0
 var can_dash: bool = true
 var can_wall_stick: bool = true
@@ -27,13 +28,14 @@ var can_go_invisible: bool = true
 var last_wall_normal: Vector2
 var _combo_chain: Array[String] = []
 var _interact_held: bool = false
+
 @onready var state_machine = $StateMachine
 @onready var dash_timer = $Timers/DashTimer
 @onready var dash_cooldown_timer = $Timers/DashCooldownTimer
 @onready var wall_stick_timer = $Timers/WallStickTimer
 @onready var standing_collision = $StandingCollision
 @onready var crouching_collision = $CrouchingCollision
-@onready var wall_slide_collision = $ WallSlideCollision
+@onready var wall_slide_collision = $WallSlideCollision
 @onready var crouch_timer = $Timers/CrouchTimer
 @onready var land_timer = $Timers/LandTimer
 @onready var coyote_timer = $Timers/CoyoteTimer
@@ -61,10 +63,13 @@ var _interact_held: bool = false
 @onready var wall_kick_timer = $Timers/WallKickTimer
 @onready var phantom_camera: PhantomCamera2D = $PhantomCamera2D
 @onready var landing_shake_emitter: PhantomCameraNoiseEmitter2D = $LandingShakeEmitter
+@onready var ledge_detector_wall: RayCast2D = $Raycasts/LedgeDetectorWall
+@onready var ledge_detector_ledge: RayCast2D = $Raycasts/LedgeDetectorLedge
 
 
 func _ready() -> void:
 	assert(is_instance_valid(stats), "PlayerStats resource must be assigned to the Player in the Inspector!")
+
 	wall_kick_timer.timeout.connect(_on_wall_kick_timer_timeout)
 	dash_timer.timeout.connect(_on_dash_timer_timeout)
 	dash_cooldown_timer.timeout.connect(_on_dash_cooldown_timer_timeout)
@@ -84,6 +89,7 @@ func _ready() -> void:
 	invisibility_cooldown_timer.timeout.connect(_on_invisibility_cooldown_timer_timeout)
 	combo_timer.timeout.connect(_on_combo_timer_timeout)
 	combo_reset_timer.timeout.connect(_on_combo_reset_timer_timeout)
+
 	state_machine.state_changed.connect(_on_state_changed)
 	state_machine.call_deferred("initialize")
 
@@ -98,6 +104,7 @@ func _physics_process(delta: float):
 		return
 	if not is_instance_valid(stats):
 		return
+
 	velocity.y = min(velocity.y, stats.jump_terminal_velocity)
 	_handle_global_inputs()
 	_update_camera_facing_offset(delta)
@@ -107,9 +114,11 @@ func _physics_process(delta: float):
 func _update_camera_facing_offset(delta: float) -> void:
 	if not is_instance_valid(phantom_camera):
 		return
+
 	var target_offset_x = facing_camera_offset
 	if animated_sprite.flip_h:
 		target_offset_x *= -1
+
 	var target_offset_y = phantom_camera.follow_offset.y
 	var target_offset = Vector2(target_offset_x, target_offset_y)
 	phantom_camera.follow_offset = phantom_camera.follow_offset.lerp(target_offset, delta * 8.0)
@@ -120,7 +129,8 @@ func _on_dash_freeze_timer_timeout():
 	var dash_direction = Vector2(1 if not animated_sprite.flip_h else -1, 0)
 	if is_instance_valid(dash_start_vfx):
 		vfx.play_effect(dash_start_vfx)
-	vfx.play_dash_effects(dash_particles)
+		vfx.play_dash_effects(dash_particles)
+
 	assert(stats.dash_duration > 0, "Dash Duration in PlayerStats cannot be zero.")
 	var dash_speed = stats.dash_distance / stats.dash_duration
 	velocity.x = dash_direction.x * dash_speed
@@ -131,6 +141,7 @@ func _on_dash_freeze_timer_timeout():
 func _handle_global_inputs():
 	if Input.is_action_just_pressed("dash") and can_dash:
 		state_machine.change_state("DashPrepare")
+
 	if Input.is_action_just_pressed("invisibility") and can_go_invisible:
 		_enter_invisibility()
 
@@ -145,13 +156,16 @@ func enter_jump_state():
 func wall_jump(wall_normal_override: Vector2 = Vector2.ZERO):
 	wall_stick_timer.stop()
 	wall_coyote_timer.stop()
+
 	var wall_normal = wall_normal_override if wall_normal_override != Vector2.ZERO else get_wall_normal()
+
 	if Input.is_action_pressed("shift") and can_wall_stick:
 		velocity.y = stats.wall_stick_jump_vertical_velocity
 		velocity.x = wall_normal.x * stats.wall_stick_jump_horizontal_velocity
 	else:
 		velocity.y = stats.wall_slide_jump_vertical_velocity
 		velocity.x = wall_normal.x * stats.wall_slide_jump_horizontal_velocity
+
 	can_wall_stick = true
 	current_jumps = 1
 
@@ -271,6 +285,7 @@ func _on_wall_detach_timer_timeout():
 func _unhandled_input(event: InputEvent) -> void:
 	if not GameManager.is_gameplay_active:
 		return
+
 	if event.is_action_pressed("interact_world"):
 		EventBus.interaction_started.emit()
 	elif event.is_action_released("interact_world"):
@@ -280,6 +295,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func end_dash() -> void:
 	if state_machine.current_state.name != "DashingState":
 		return
+
 	vfx.stop_dash_effects(dash_particles)
 	var dash_cooldown = 0.5
 	dash_cooldown_timer.start(dash_cooldown)
@@ -298,7 +314,6 @@ func _add_move_to_combo(move_name: String) -> void:
 	combo_timer.start(1.0)
 	_combo_chain.append(move_name)
 	Loggie.info(str("Combo Chain: ", _combo_chain), "combo")
-
 	if _combo_chain.size() >= 3:
 		EventBus.flow_combo_success.emit()
 		Loggie.info("--- FLOW COMBO SUCCESS! ---", "combo")

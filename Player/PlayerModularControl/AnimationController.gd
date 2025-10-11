@@ -3,12 +3,14 @@ extends Node2D
 @onready var animated_sprite = get_parent().get_node("AnimatedSprite2D")
 var player
 
+
 func _ready():
 	player = get_parent()
 
+
 func update_animation(current_state, current_velocity, wall_normal, input_direction_x):
 	var animation_to_play = ""
-	
+
 	match current_state:
 		player.States.ON_WALL, player.States.WALL_SLIP:
 			animation_to_play = "wall slide"
@@ -16,6 +18,10 @@ func update_animation(current_state, current_velocity, wall_normal, input_direct
 		player.States.WALL_STICKING:
 			animation_to_play = "wall hang"
 			animated_sprite.flip_h = wall_normal.x > 0
+		player.States.LEDGE_GRAB:
+			animation_to_play = "ledge_hang"
+		player.States.LEDGE_CLIMB:
+			animation_to_play = "ledge_climb"
 		_:
 			match current_state:
 				player.States.IDLE:
@@ -44,7 +50,6 @@ func update_animation(current_state, current_velocity, wall_normal, input_direct
 				animated_sprite.flip_h = false
 			elif input_direction_x < 0:
 				animated_sprite.flip_h = true
-	
-	if animation_to_play != "":
+
+	if animation_to_play != "" and animated_sprite.animation != animation_to_play:
 		animated_sprite.play(animation_to_play)
-		
