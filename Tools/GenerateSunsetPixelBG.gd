@@ -10,13 +10,11 @@ const LOW_H: int = 180
 func _run() -> void:
 	DirAccess.make_dir_recursive_absolute("res://assets/Backgrounds/Sunset")
 	var img: Image = Image.create(LOW_W, LOW_H, false, Image.FORMAT_RGBA8)
-	img.lock()
 	_paint_gradient(img)
 	_paint_sun(img, Vector2(LOW_W / 2.0, int(LOW_H * 0.62)), 22)
 	_paint_clouds(img, 7, 123456)
 	_paint_hills(img, 0.80, Color(0.24, 0.12, 0.34, 1.0), 8.0, 0.018, 0.042)
 	_paint_hills(img, 0.88, Color(0.34, 0.16, 0.46, 1.0), 12.0, 0.026, 0.053)
-	img.unlock()
 	img.resize(TARGET_W, TARGET_H, Image.INTERPOLATE_NEAREST)
 	var ok: bool = img.save_png(OUT_PATH) == OK
 	if ok:
@@ -62,7 +60,7 @@ func _paint_hills(img: Image, base_h: float, col: Color, amp: float, f1: float, 
 			img.set_pixel(x, y, col)
 
 func _paint_clouds(img: Image, count: int, seed: int) -> void:
-	var rng := RandomNumberGenerator.new()
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = seed
 	var w: int = img.get_width()
 	var h: int = img.get_height()
