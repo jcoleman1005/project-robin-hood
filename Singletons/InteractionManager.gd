@@ -14,6 +14,11 @@ func _ready() -> void:
 	EventBus.mission_started.connect(clear_interactable)
 
 func _process(delta: float) -> void:
+	# If the current interactable becomes invalid or disabled, clear it.
+	if is_instance_valid(_current_interactable) and not _current_interactable.enabled:
+		clear_interactable()
+		return
+
 	if _is_holding and is_instance_valid(_current_interactable):
 		_hold_progress += delta
 		
@@ -32,11 +37,17 @@ func _process(delta: float) -> void:
 			_reset_hold_state()
 
 func clear_interactable() -> void:
+	if _current_interactable == null:
+		return
 	_current_interactable = null
 	hide_prompt.emit()
 	_reset_hold_state()
 
 func register_interactable(interactable: Interactable) -> void:
+	# Don't register if the interactable is disabled.
+	if not interactable.enabled:
+		return
+		
 	_current_interactable = interactable
 	show_prompt.emit(_current_interactable)
 	Loggie.info("Registered '%s' as current interactable." % interactable.get_parent().name, "interaction")
