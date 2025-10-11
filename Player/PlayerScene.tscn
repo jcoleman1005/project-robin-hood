@@ -848,9 +848,7 @@ radius = 26.0749
 
 [sub_resource type="Resource" id="Resource_kh4fv"]
 script = ExtResource("51_iqs0c")
-duration = 1.0
 transition = 1
-ease = 2
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 rotation = -0.00456183
@@ -862,7 +860,6 @@ dash_start_vfx = ExtResource("3_i2cyd")
 
 [node name="StandingCollision" type="CollisionShape2D" parent="."]
 position = Vector2(1.886, -15)
-scale = Vector2(1, 1)
 shape = SubResource("CapsuleShape2D_vbs5d")
 metadata/_edit_group_ = true
 
@@ -876,7 +873,6 @@ metadata/_edit_group_ = true
 [node name="WallSlideCollision" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2(3.504, -15)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_epaal")
 disabled = true
 metadata/_edit_group_ = true
@@ -899,33 +895,28 @@ libraries = {
 [node name="WallCheckRayRight" type="RayCast2D" parent="Raycasts"]
 position = Vector2(3.76353, -15.0173)
 rotation = -0.00456183
-scale = Vector2(1, 1)
 target_position = Vector2(20, 0)
 
 [node name="WallCheckRayLeft" type="RayCast2D" parent="Raycasts"]
 position = Vector2(2.77854, -15.0128)
 rotation = -0.00456183
-scale = Vector2(1, 1)
 target_position = Vector2(-20, 0)
 
 [node name="GroundRay" type="RayCast2D" parent="Raycasts"]
 position = Vector2(2.7725, -40.0131)
 rotation = -0.00456183
-scale = Vector2(1, 1)
 target_position = Vector2(-0.17847, 48.9995)
 collision_mask = 2
 
 [node name="LedgeRay" type="RayCast2D" parent="Raycasts"]
 position = Vector2(22.8173, -40.1045)
 rotation = -0.00456183
-scale = Vector2(1, 1)
 target_position = Vector2(-0.219206, 48.1044)
 collision_mask = 2
 
 [node name="HeadClearanceRaycast" type="RayCast2D" parent="Raycasts"]
 position = Vector2(1.81755, -15.0084)
 rotation = -0.00456183
-scale = Vector2(1, 1)
 target_position = Vector2(0.109488, -23.9998)
 collision_mask = 2
 metadata/_edit_group_ = true
@@ -1129,7 +1120,7 @@ shape = SubResource("CircleShape2D_5x2q4")
 [node name="PlayerCamera" type="Camera2D" parent="."]
 physics_interpolation_mode = 1
 rotation = 0.00456183
-scale = Vector2(1, 1)
+scale = Vector2(1.0000001, 1.0000001)
 ignore_rotation = false
 editor_draw_limits = true
 
@@ -1165,14 +1156,12 @@ noise_emitter_layer = 1
 metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
 
 [node name="DashNoiseEmitter" type="Node2D" parent="."]
-scale = Vector2(1, 1)
 script = ExtResource("52_iqs0c")
 noise = ExtResource("53_kh4fv")
 duration = 0.15
 decay_time = 0.2
 
 [node name="LandingShakeEmitter" type="Node2D" parent="."]
-scale = Vector2(1, 1)
 script = ExtResource("52_iqs0c")
 noise = ExtResource("54_kh4fv")
 duration = 0.05
