@@ -3,15 +3,19 @@ extends StaticBody2D
 
 @onready var _interactable: Interactable = $Interactable
 @onready var _persistence_component: PersistenceComponent = $PersistenceComponent
-@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D ## NEW: Add reference to the sprite
-@onready var animation_player = $AnimationPlayer
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
+
 func _ready() -> void:
 	_interactable.interacted.connect(_on_interactable_interacted)
 
 func _on_interactable_interacted() -> void:
-	# NEW: Play the rescued animation and wait for it to finish.
 	animation_player.play("rescued")
-	await animated_sprite.animation_finished
+	await animation_player.animation_finished
+	
+	animated_sprite.hide()
+	collision_shape.disabled = true
 	
 	EventBus.villager_rescued.emit()
 	_persistence_component.mark_collected({"is_rescued": true})
